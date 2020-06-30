@@ -37,7 +37,7 @@ CMD  ["R", "-e", "funcampR::launch_learn(port=3838,host='0.0.0.0')"]
 docker run -p 80:3838 git-registry.lab.sspcloud.fr/funcamp-r/funcamp-r-grimoire
 ```
 
-## Launch a tutorial Choisir le support à proposer :
+## Launch a tutorial
 
 Launch a random tutorial :
 

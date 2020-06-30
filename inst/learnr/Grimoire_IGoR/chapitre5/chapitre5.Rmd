@@ -1,0 +1,284 @@
+---
+title: "Chapitre 5 - De l'ambroisie et des graphiques"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(parsons)
+library(dplyr)
+library(ggformula)
+livre_ambroisie <- diamonds %>% 
+  filter(color == "D" | color == "J") %>%
+  mutate(taste = cut) %>%
+  mutate(puissance = round((carat)^2+4,digits=2)) %>%
+  mutate(prix = round(price/100,digits=0))  %>%
+  filter(puissance < 12, puissance > 6) %>%
+  mutate(age = round((puissance)^(5)/1000),digits=0) %>%
+  mutate(ivresse = round((puissance)^(3)/10,digits = 0)) %>%
+  filter(prix<3*age,prix>0.5*age) %>%
+  sample_n(100) %>%
+  select(prix='prix',puissance='puissance',age='age',saveur='taste',ivresse="ivresse") %>%
+  mutate(saveur=recode(saveur,"Fair"="Sympathique", "Good"="Bon", "Very Good"="Très bon", "Premium"="Délicieux", "Ideal"="Extatique"))
+
+livre_ambroisie_df <- as.data.frame(livre_ambroisie)
+
+```
+
+
+## Veuillez confirmer votre identité
+
+Afin de s'assurer de votre identité, le cuistot Batreb vous lance un défi: percer les mystères de l'ivresse liée à l'ambroisie, une liqueur produite depuis des temps ancestraux dans le royaume de Statis. Pour ce faire, vous allez apprendre un nouvel ensemble de sortilèges, que l'on peut réunir dans une même famille magique : les sortilèges **ggformula**. Ces sortilèges permettent de réaliser différents types de graphiques de manière simplifiée, comme l'indique leur nom de famille : **"gg" pour grammaire des graphiques et "formula" pour les formules.**
+
+
+## Des formules magiques pour faire des graphiques
+
+
+<span style="color:#18AC3E;font-size:16px">**Les recettes de grammaire de graphiques**</span>
+
+Chaque graphique est associé à un sortilège, chaque sortilège à des ingrédients, et cet ensemble est appelé grammaire des graphiques.
+
+Tous les sortilèges des graphiques commencent par le nom de code `gf_`. Par exemple :
+
+- pour faire un graphique de points, le sortilège est `gf_point()`;   
+- pour faire une courbe il y a `gf_line()`;
+- pour faire un diagramme en barre ce sera `gf_bar()`.  
+
+Il y a bien d'autres sortilèges sur les graphiques que vous découvrirez dans la famille magique ggformula.
+
+<span style="color:#18AC3E;font-size:16px">**Les ingrédients**</span>
+
+Pour réussir la recette de grammaire d'un graphique, il ne faut pas oublier d'ingrédients :
+
+- Le premier est essentiel, il sert à dire ce que l'on veut représenter.
+- Les autres ingrédients servent à agrémenter la recette (changer la couleur, ajouter un titre et plus encore). Nous verrons plus tard quelques exemples.  
+
+Revenons pour le moment à notre ingrédient  essentiel. Pour maîtriser ce nouveau sortilège, nous allons représenter des informations relatives aux bouteilles d'ambroisie produites dans le royaume de Statis. Le bon Batreb a goûté 100 liqueurs d'ambroisie différentes (rien que cela), et pour chacune, il a consigné quelques informations... Ce riche (et spiritueux) savoir se trouve répertorié dans le fichier `livre_ambroisie`, dont voici le contenu :
+
+```{r, collapse = TRUE, echo=FALSE, eval=FALSE}
+head(livre_ambroisie,5)
+```
+
+```{r, collapse = TRUE, echo=FALSE, eval=T}
+head(livre_ambroisie_df,5)
+```
+
+Le fichier `livre_ambroisie` comprend ainsi, pour chaque observation (chaque liqueur consommée) les informations suivantes : 
+
+- le `prix` de la bouteille d'ambroisie bue par Batreb - prix exprimé dans la monnaie locale de statis, qui s'appelle des kopeks si vous voulez le savoir...
+
+- la `puissance` de la liqueur, comparable au nombre de degré d'une boisson alcoolisée 
+
+- l' `age` de la liqueur, c'est-à-dire depuis combien de temps elle murit. Certains bouteilles d'ambroisie ont plusieurs siècles !
+
+- la `saveur`, qui correspond à l'appréciation portée par Batreb sur la liqueur consommée. 
+
+- l' `ivresse`, mesurée dans une échelle bien particulière : le nombre de hoquets de Batreb dans l'heure qui suit la consommation.
+
+Cherchons d'abord à représenter ce qui détermine le prix d'une liqueur d'ambroisie. Chaque bouteille de liqueur goûtée par Batreb sera représentée par un point en utilisant le sortilège `gf_point`. Il reste alors à préciser, pour chaque point, les informations à croiser. Par exemple, pour représenter le prix en fonction de la puissance des liqueurs d'ambroisie, le sortilège s'écrira :
+
+```{r t1, collapse = TRUE, echo=TRUE, eval=FALSE}
+# Représenter le nuage de points
+# présentant le prix en fonction de la puissance
+gf_point(prix ~ puissance)
+
+```
+
+Ah non, zut, ça ne peut pas marcher ! Il faut d'abord indiquer que le sortilège s'applique sur le fichier élaboré, cuite après cuite, par Batreb, soit sur `livre_ambroisie`. Reprenons ce que nous avons appris avec le pipe `%>%` : "je prends le fichier `livre_ambroisie` puis je lui applique le sortilège `gf_point` ", soit :
+
+```{r t1b, collapse = TRUE}
+# Représenter le nuage de points
+# présentant le prix en fonction de la puissance
+livre_ambroisie %>% gf_point(prix ~ puissance)
+
+```
+
+Le nuage de points semble indiquer une relation (quoique bruitée) entre la puissance d'une liqueur et le prix de la bouteille, les deux variables progressant de pair.
+
+Ce graphique est un premier exemple d'illustration produite avec un sortilège de la famille ggformula. Mais ne vous inquiétez pas, nous allons savoir rapidement comment faire de beaux graphiques pas comme ceux de Sassos ;-)
+ 
+<span style="color:#18AC3E;font-size:16px">**L'opérateur ~ **</span>
+  
+Au fait, à quoi sert le symbole `~` dans le sortilège précédent ?
+  
+L'opérateur `~` (tilde de son petit nom) se lit `en fonction de`. Par convention, dans un graphique on trace l'ordonnée (`y`) en fonction de l'abscisse (`x`). Donc l'écriture `prix ~ puissance` correspond à un graphique où la variable `prix` est en ordonnée et la variable `puissance` est en abscisse.
+
+Traçons maintenant le nuage de point représentant les liqueurs d'ambroisie en croisant le *prix en fonction de l'âge de la liqueur*, j'écris la formule magique `prix ~ age` en utilisant le sortilège `gf_point()`.
+
+```{r t1c, collapse = TRUE}
+# Représenter le nuage de points
+# présentant le prix en fonction de l'âge de la liqueur
+livre_ambroisie %>% gf_point(prix ~ age)
+
+```
+
+De nouveau, une relation se dessine entre les deux variables, tout en présentant une certaine dispersion. D'ailleurs, la forme globale du nuage est assez similaire à la précédente. Voilà qui invite à étudier de plus près la liaison entre puissance et âge, qui semblent très liées...
+
+## Votre premier graphique (magique)
+
+À vous de pratiquer, en croisant cette fois puissance et âge des liqueurs d'ambroisie. 
+
+```{r ok-chapitre5-etape1,exercise=TRUE}
+# Créez le nuage de points à partir du fichier livre_ambroisie
+# croisant la puissance et l'âge sous forme de nuage de points
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape1-solution}
+# Créez le graphique à partir du fichier livre_ambroisie
+# croisant la puissance et l'âge sous forme de nuage de points
+livre_ambroisie %>% gf_point(puissance ~ age)
+
+# Fin de l'exercice
+``` 
+ 
+Ce nuage de points présente une relation bien établie entre la puissance d'une liqueur, et son ancienneté : plus la liqueur compte d'années (voire de siècles), puis son intensité sera élevée... Comme quoi, la patience est toujours récompensée ! La forme de la relation est de type logarithmique : la puissance croît d'abord fortement avec l'âge, puis de moins en moins. 
+
+ 
+## 1001 graphiques
+ 
+Il y a bien des subtilités pour démultiplier les possibilités graphiques des sortilèges ggformula : en variant le sortilège (donc le type de graphique) ou en variant les ingrédients.
+
+Essayons un autre type de graphique, en traçant la courbe qui lie la puissance de la liqueur à son âge : c'est la même relation que celle représentée précédemment, mais en changeant le type d'illustration. Le sortilège `gf_line()` sera ainsi utilisé :
+
+
+```{r t2, collapse = TRUE}
+# Tracer la courbe présentant le lien 
+# entre la puissance de la liqueur et son âge
+livre_ambroisie %>% gf_line(puissance ~ age)
+
+```
+
+Prenons un autre exemple, en traçant un diagramme en barre représentant le nombre de liqueurs d'ambroisie selon leur saveur.
+
+```{r t3a, collapse = TRUE}
+# Représenter sous forme de barres
+# le nombre d'observations (de bouteille de liqueurs) selon leur saveur
+livre_ambroisie %>%  gf_bar( ~ saveur)
+
+```
+
+Notez deux particularités :
+
+- tout d'abord, c'est le sortilège `gf_bar()` qui a été utilisé cette fois, pour spécifier le type de graphique
+
+- ensuite, la partie à gauche du symbole `~` n'a pas été renseignée. Cela signifie que nous cherchons à représenter toutes les observations du fichier `livre_ambroisie` (en l'occurrence, des bouteilles de liqueur d'ambroisie) selon une variable, la `saveur`. Cela permet *in fine* de compter le nombre de bouteilles de liqueur d'ambroisie selon les différentes modalités de la variable `saveur`.
+
+Il est aussi possible de changer l'orientation du graphique, pour avoir des barres horizontales, avec le sortilège `gf_barh()`. 
+
+```{r t3b, collapse = TRUE}
+# Représenter sous forme de barres horizontales
+# le nombre d'observations (de bouteille de liqueurs) selon leur saveur
+livre_ambroisie %>%  gf_barh( ~ saveur)
+
+```
+
+<span style="color:#18AC3E;font-size:16px">**Les ingrédients exhausteurs de goût**</span>
+
+Les graphiques ggformula peuvent être enrichis et voir leur sapidité augmentée par quelques ingrédients supplémentaires. Découvrons-les ensemble en reprenant le graphique avec la courbe liant puissance et âge de la liqueur, que nous allons "customizer" (terme non reconnu par l'Académie des Lettres de Statis) 
+
+L'ingrédient `title` permet par exemple d'ajouter un titre : 
+
+```{r t4, collapse = TRUE}
+livre_ambroisie %>%  
+ gf_line(puissance ~ age,
+         title = "Puissance de la liqueur selon son âge (hips !)")
+
+```
+
+Notez ici que, comme le sortilège peut comporter de nombreux ingrédients, nous allons dorénavant les appeler par leur nom consciencieusement, ici : `title = `. 
+
+Pour changer la couleur, il faudra ajouter l'ingrédient `color =`:
+  
+```{r t5, collapse = TRUE}
+livre_ambroisie %>%  
+ gf_line(puissance ~ age, 
+         title = "Puissance de la liqueur selon son âge (hips !)",
+         color = "red")
+
+```
+
+La couleur doit être précisée dans la langue de Shakespeare, et rédigée entre guillemets (comme ` "red" ` dans l'exemple). Un ensemble de termes anglais faisant référence à des couleurs est renseigné par défaut dans R, certains très classiques (red, green, blue...) d'autres plus originaux (comme tomato, moccasin, peachpuff...). Vous découvrirez plus tard comment choisir très exactement la couleur de votre choix, dans les plus infimes nuances (pour reproduire la couleur lie-de-vin, par exemple ?)
+
+
+Essayez vous-même de faire varier le titre et la couleur pour le graphique en courbe reliant l'ivresse de Batreb et la puissance de la liqueur.
+
+```{r ok-chapitre5-etape2,exercise=TRUE}
+# Représenter la courbe présentant le lien 
+# entre la puissance de la liqueur et son âge
+# en ajoutant un titre et une couleur
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape2-solution}
+# Représenter la courbe présentant le lien 
+# entre la puissance de la liqueur et son âge
+# en ajoutant un titre et une couleur
+livre_ambroisie %>% 
+  gf_line(puissance ~ age, title = "Boire un petit coup c'est agréable...", color = "tomato")
+
+# Fin de l'exercice
+``` 
+
+
+## À consommer avec modération
+
+Il est temps désormais de répondre à la question posée par Batreb : *Quelle est (hips!) la puissance d'une liqueur d'ambroisie (hips!) qui me fait franchir le seuil (hips!) fatidique des 100 hoquets par heure ?*. Le fichier `livre_ambroisie` contient deux variables pour répondre à cette question :
+
+- la variable `ivresse` indique le nombre de hoquets que Batreb a eu dans l'heure qui suit la consommation d'une liqueur d'ambroisie.
+- la variable `puissance` indique l'intensité de la liqueur d'ambroisie en degré. 
+
+Pour répondre à Batreb, il vous faudra élaborer un graphique croisant l'ivresse et la puissance puis lire sur le graphique à quel degré de puissance l'ivresse dépasse le seuil de 100 hoquets
+
+```{r ok-chapitre5-etape3,exercise=TRUE}
+# Créez le graphique avec gf_line
+# et lire à quelle puissance l'ivresse dépasse le seuil de 100
+
+
+# Fin de l'exercice
+``` 
+
+
+```{r ok-chapitre5-etape3-solution}
+# Créez le graphique avec gf_line
+# et lire à quelle puissance l'ivresse dépasse le seuil de 100
+livre_ambroisie %>% 
+  gf_line(ivresse ~ puissance, title = "Attention à l'abus d'ambroisie...")
+# Fin de l'exercice
+``` 
+
+ Vous avez trouvé ? Vérifiez votre résultat dans le quiz. 
+ 
+```{r ok-chapitre5-quiz1,echo=FALSE}
+question("A partir de quelle puissance d'ambroisie Batreb franchit le seuil des 100 hoquets par heure ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("6"),
+answer("8"),
+answer("10",correct=TRUE),
+answer("jamais"),
+correct="Félicitations, c'est la bonne réponse (hips!)"
+)
+
+``` 
+ 
+Vous pouvez désormais reporter la bonne réponse dans le jeu **icaRius** et reprendre votre partie !
+
+**Version 0.9.1**

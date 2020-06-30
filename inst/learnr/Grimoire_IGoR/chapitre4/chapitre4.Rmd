@@ -1,0 +1,223 @@
+---
+title: "Chapitre 4 - Conjuguer pour mieux cultiver - ou plutôt, pour mieux calculer..."
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(parsons)
+library(knitr)
+library(rio)
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(skimr)
+
+file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Tellus.ods"),
+          to = "recensement_agricole_statia_Tellus.ods")
+file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Galia.ods"),
+          to = "recensement_agricole_statia_Galia.ods")
+
+
+```
+
+```{r prepare-data}
+# relative path to data from "local random repo" of learnr exercise
+fichier_tellus<-import("../../../recensement_agricole_statia_Tellus.ods")
+fichier_galia<-import("../../../recensement_agricole_statia_Galia.ods")
+```
+
+## Apprenons à conjuguer les sortilèges
+
+Un bon mage est appelé à évoquer de multiples sortilèges, qu'il va combiner pour accroître son pouvoir. De même, dans la langue des Runes, les sortilèges peuvent se conjuguer les uns les autres, c'est-à-dire être associés dans un ordre qui vous permettra d'obtenir l'effet escompté. La conjugaison des sortilèges se fonde sur un étonnant symbole : le **pipe** (prononcez "paille-peu"), représenté par les lettres `%>%`. On l'invoque en juxtaposant %, > et % côte-à-côte. 
+
+```{r image2, echo=FALSE, fig.cap="", out.width = '8%', fig.align='center'}
+knitr::include_graphics("images/symbole_pipe.png")
+```
+
+**Le pipe** est un opérateur qui facilite l'enchaînement de sortilèges sur un fichier de données. Le signe **%>%** peut être lu comme **"ensuite".**  Ainsi, si on utilise cet opérateur :
+
+```{r, collapse = TRUE, eval=FALSE, echo=TRUE}
+skim(mon_fichier)
+# EST EQUIVALENT A :
+mon_fichier %>% skim()
+```
+
+Le sortilège se trouvant immédiatement à la droite du %>% utilise comme objet en entrée l'élement se trouvant à la gauche du %>%. En langue vernaculaire, cela donne: **"Je prends mon fichier de données et ensuite je calcule les indicateurs statistiques sur l'ensemble des variables de ce fichier."**
+<p>
+<p>
+On peut également choisir de ne s'intéresser qu'à une seule des variables du fichier comme nous l'avions fait au chapitre précédent :
+
+```{r, collapse = TRUE, eval=FALSE, echo=TRUE}
+skim(mon_fichier,nom_variable)
+# EST EQUIVALENT A :
+mon_fichier %>% skim(nom_variable)
+```
+
+Si on traduit, cela donne: **"Je prends mon fichier de données et ensuite je calcule les indicateurs statistiques sur la variable selectionnée dans ce fichier"**
+
+## Un peu de pratique...
+ 
+Continuons l'exploitation du fichier des fermiers Tellus et Galia avec le sortilège `skim()` : 
+
+```{r ok-chapitre4-etape1,exercise=TRUE, exercise.setup = "prepare-data"}
+# Le livre de récolte est déjà chargé, avec le nom fichier_tellus
+
+# En utilisant le %>% et le sortilège skim(), 
+# calculer les statistiques descriptives sur toutes les variables 
+
+
+# fin de l'exercice
+``` 
+
+```{r ok-chapitre4-etape1-solution}
+# Le livre de récolte est déjà chargé, avec le nom fichier_tellus
+
+# En utilisant le %>% et le sortilège skim(), 
+# calculer les statistiques descriptives sur toutes les variables 
+fichier_tellus %>% skim()
+
+# fin de l'exercice
+``` 
+
+Et maintenant passons au fichier du fermier Galia :
+
+```{r ok-chapitre4-etape2,exercise=TRUE, exercise.setup = "prepare-data"}
+# Le livre de récolte est déjà chargé, avec le nom fichier_galia
+
+# En utilisant le %>% et le sortilège skim(), 
+# calculer les statistiques descriptives sur la variable Litres
+
+
+# fin de l'exercice
+``` 
+ 
+
+```{r ok-chapitre4-etape2-solution}
+# Le livre de récolte est déjà chargé, avec le nom fichier_galia
+
+# En utilisant le %>% et le sortilège skim(), 
+# calculer les statistiques descriptives sur la variable Litres
+fichier_galia %>% skim(Litres)
+
+# fin de l'exercice
+```  
+ 
+ 
+## Le secret de Galia ?
+
+Grace à Icarius, le conflit est résolu, et l'humble Galia est désormais reconnu comme le meilleur cultivateur de Mandragore. Tous sont maintenant curieux de connaitre le sortilège utilisé par Galia pour y arriver. Utiliserait-il les produits de la magie noire (qu'on appelle les biotues dans le monde agricole de Statia) ? 
+
+*"Vous n'y êtes pas, chers compagnons. Voyons, il est temps pour moi de partager ma recette avec vous".* 
+
+Dans le monde de Statia, le pipe permet de produire des enchainements de sortilèges... comme de composer toutes les étapes d'une recette. Mais attention : pour qu'une recette soit un succès, encore faut-il suivre les étapes dans le bon ordre. Il en va de même pour un bon sortilège...
+
+Imaginez Sylvain, un cuisinier du dimanche qui veut faire du pain, voilà la recette telle qu'il la trouvera sur maRmiton, la célèbre bibliothèque de cuisine : *prends la farine, ensuite ajoute le sel, ensuite ajoute la levure, ensuite ajoute l'eau, ensuite mélange le tout, ensuite laisse reposer la pate réalisée, enfin met au four pendant 13 minutes à 240°C.*
+
+En langage des Runes, la même recette s'écrira de la façon suivante :
+
+```{r,eval = F, echo=TRUE}
+farine %>% 
+  ajouter(sel) %>% 
+  ajouter(levure) %>% 
+  ajouter(eau) %>% 
+  melanger() %>% 
+  laisser_reposer() %>% 
+  mettre_au_four(température = 240°C,temps = 13minutes)
+```
+
+Le sortilège invoqué dans le langage des Runes comme une transcription littérale de la recette moyennant l'utilisation du `%>%`
+
+## De l'art de bien cultiver sa Mandragore...
+
+Vous avez compris la magie du pipe ? A vous de jouer !
+
+Tellus a bien fourni son secret, mais dans le désordre. Recomposons les étapes comme il convient. Voici quelques indices :
+
+- Une conjugaison de sortilèges doit d'abord commencer par l'objet sur lequel débute l'enchainement de sortilèges. Ici, l'objet par tout commence, c'est le champ dans lequel on cultive la Mandragore...
+
+- N'oubliez pas : Galia n'utilise pas de magie noire, donc pas de biotues
+
+- Ne vous laissez pas embrouiller par le terrible SaSSoS et sa langue serpentine - pas de `set` ou de `run` dans la langue des Runes.
+
+- Le meilleur moment pour arroser une terre, c'est quand elle vient d'être labourée puis semée.
+
+- Les coccinelles sont les amies des Mandragore, c'est bien connu !
+
+- Les coccinelles aiment que la terre soit humide...
+
+- A la toute fin, il n'y a plus qu'à récolter...
+
+Saurez-vous remettre les étapes dans l'ordre ?
+
+
+```{r ok-chapitre4-quiz}
+question_parsons(
+  initial = c(
+    "champ %>%",
+    "data champ;set champ;run;",
+    "semer() %>%",
+    "arroser() %>%",
+    "ajouter(coccinelles) %>%",
+    "labourer() %>%",
+    "ajouter(biotues) %>%",
+    "recolter()"
+  ),
+  pass_if(
+    c(
+    "champ %>%",
+    "labourer() %>%",
+    "semer() %>%",
+    "arroser() %>%",
+    "ajouter(coccinelles) %>%",
+    "recolter()"
+    ),
+    message = "Bravo vous êtes des champions de la culture de la mandragore! Rentrez le code 777 dans le jeu icaRius pour continuer l'aventure"
+  ),
+    pass_if(
+    c(
+    "champ %>%",
+    "labourer() %>%",
+    "semer() %>%",
+    "ajouter(coccinelles) %>%",
+    "arroser() %>%",
+    "recolter()"
+    ),
+    message = "Bravo vous êtes des champions de la culture de la mandragore! Rentrez le code 777 dans le jeu icaRius pour continuer l'aventure"
+  ),
+    pass_if(
+    c(
+    "champ %>%",
+    "labourer() %>%",
+    "ajouter(coccinelles) %>%",
+    "semer() %>%",
+    "arroser() %>%",
+    "recolter()"
+    ),
+    message = "Bravo vous êtes des champions de la culture de la mandragore! Rentrez le code 777 dans le jeu icaRius pour continuer l'aventure"
+  ),
+  fail_if(
+    ~length(.) < 2,
+    message = "Inclure au moins deux verbes"
+  ),
+  fail_if(
+    ~{.[1] != "champ %>%"},
+    message = "Votre solution doit commencer par 'champ %>%'"
+  )
+)
+```
+
+ Vous avez trouvé ? L'exercice ci-dessus vous apportera **la réponse à reporter dans le jeu icaRius** 
+ 
+ version 0.9.1

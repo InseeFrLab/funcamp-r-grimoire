@@ -1,0 +1,235 @@
+---
+title: "Chapitre 3 - des sortilèges statistiques pour bien cultiver la Mandragore "
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+library(rio)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Tellus.ods"),
+          to = "recensement_agricole_statia_Tellus.ods")
+file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Galia.ods"),
+          to = "recensement_agricole_statia_Galia.ods")
+
+```
+
+
+```{r prepare-data}
+# relative path to data from "local random repo" of learnr exercise
+fichier_tellus<-import("../../../recensement_agricole_statia_Tellus.ods")
+fichier_galia<-import("../../../recensement_agricole_statia_Galia.ods")
+```
+
+
+
+## Le sortilège : un outil précieux au service d'Icarius
+
+Pour avancer dans son aventure, Icarius dispose de son précieux grimoire, qu'il a pu alimenter au fur et à mesure de ses rencontres avec des mages dans les villages précédents. Ce grimoire renferme une multitude de sortilèges - appelés **fonctions** dans le langage des Runes - permettant chacun d'accomplir une tâche bien spécifique. Nous avons, dans le chapitre précédent, fait la découverte de quelques sortilèges : `import()`, pour charger des données dans R ; `names()`, `nrow()` et `head()` pour décrire un jeu de données.
+
+Nous allons, dans ce chapitre, un découvrir un peu plus sur les sortilèges, et tant que nous y sommes, produire des statistiques grâce à cette magie !
+
+Dans le monde des Runes, un sortilège est identifié par **son nom suivi de parenthèses** :`nomsortilege()`. A l'intérieur des parenthèses, sont précisés les ingrédients utiles à la confection du sortilège. Pas d'inquiétude, une aide intégrée dans R permet de connaître la liste des ingrédients que l'on peut renseigner pour chaque sortilège.
+
+Si plusieurs ingrédients sont nécessaires, ces derniers sont séparés par une virgule:
+
+```{r, collapse = TRUE, eval=FALSE}
+# Application d'un sortilège   
+nomsortilege(ingredient1, ingredient2,...,ingredientN)
+
+```
+
+
+## Des statistiques descriptives grâce au sortilège "skim"
+
+Parmi les sortilèges utiles, on retrouve `skim()` qui est dédié aux statistiques descriptives. 
+
+Il permet de visualiser des statistiques fondamentales (moyenne, médiane...) sur l'ensemble des variables d'un fichier de données. Mais également le nombre de valeurs manquantes, le nombre de valeurs uniques... et même un mini histogramme qui symbolise la distribution de la variable. Il a d'autres avantages encore, que vous découvrirez sans doute un jour dans votre quête...
+
+Essayons sur un fichier factice que nous allons construire de toutes pièces et que nous allons appeler `mon_fichier` : il se compose de deux variables `ma_variable_1` et `ma_variable_2`. Chacune de ces variables contient une suite de valeurs
+
+```{r,  echo=FALSE}
+mon_fichier <- data.frame("ma_variable_1" = c(10,9,13,18,7,12), "ma_variable_2" = c(35,29,43,26,34,31))
+```
+
+
+```{r, collapse = TRUE, echo=FALSE,eval=T, message = FALSE}
+# Ouverture du chapitre skimr
+library(skimr)
+```
+
+Appliquons le sortilège `skim()` au fichier :
+```{r, collapse = FALSE}
+# Appel du sortilège skim() sur le fichier mon_fichier   
+skim(mon_fichier)
+```
+
+Les résultats du sortilège se présentent de telle façon que **les statistiques essentielles** sont regroupées sur une même ligne pour chaque variable. On y retrouve :
+
+- la moyenne (*Mean*), la valeur minimale (*p0*) et la valeur maximale (*p100*)
+- la médiane (*p50*), qui détermine le seuil séparant les valeurs en deux parties égales, une moitié des valeurs qui sont toutes inférieures ou égales à la médiane et l'autre moitié des valeurs, qui sont toutes supérieures ou égales à la médiane
+- le premier quartile (*p25*) et le troisième quartile (*p75*). Le premier quartile est le niveau pour lequel 25% des valeurs de la variable sont inférieures ou égales à ce seuil. Le troisième quartile est le niveau pour lequel 25% des valeurs de la variable sont supérieures ou égales à ce seuil.  
+
+Tout ceci parce que ces termes font référence à des "moments" d'une distribution, aussi appelés des percentiles (d'où la lettre p). La médiane est donc le 50e percentile, le 1er quartile est le 25e percentile, etc. 
+
+
+Le sortilège `skim()` dispose d'un paramètre complémentaire, assez pratique : il permet de **choisir facilement sur quelle(s) variable(s) l'on souhaite calculer les statistiques** - et pas nécessairement sur toutes les variables d'un fichier. Il suffit pour cela de préciser le nom de la (ou des) variable(s) qui vous intéresse, comme un ingrédient particulier du sortilège :
+
+
+```{r, collapse = FALSE}
+# Appel du sortilège skim() sur le fichier mon_fichier et la variable ma_variable_1  
+skim(mon_fichier,ma_variable_1)
+``` 
+
+
+## À vous de jouer : l'exploitation du fermier Tellus
+
+Au sein du village de GrissGrass, les deux fermiers Galia et Tellus cultivent la mandragore, une plante dont le jus a des pouvoirs magiques... Le fermier Galia, petit homme frêle et fort âgé, ou le fermier Tellus, robuste gaillard qui joue les gros bras : lequel des deux obtient le meilleur rendement en jus de mandragore ? Qui des deux sait réellement cultiver cette plante ? <p>
+
+Le chef du village remet à icaRius les livres de récolte de chacun des fermiers...Les chiffres vont bientôt parler! Et si icaRius trouve la bonne réponse, il gagnera un filtre de Mandragore, un élément essentiel pour la suite de sa quête.
+
+Voici l'énigme à résoudre : <span style="color:#18AC3E;font-size:16px">**"En moyenne, sur les 10 dernières années, quelle exploitation a donné le plus de jus de Mandragore ?"**</span>.
+
+
+**Commençons par exploiter le fichier du fermier Tellus:** 
+```{r ok-chapitre3-etape1,exercise=TRUE, exercise.setup = "prepare-data"}
+# Le livre de récolte est déjà chargé avec le nom : fichier_tellus
+# Afficher le contenu du fichier dans R en tapant son nom.
+
+
+# Fin de l'exercice
+``` 
+ 
+
+```{r ok-chapitre3-etape1-solution}
+# Le livre de récolte est déjà chargé avec le nom : fichier_tellus
+# Afficher le contenu du fichier dans R en tapant son nom.
+fichier_tellus
+
+# Fin de l'exercice
+``` 
+
+Le livre de récolte comprend cinq variables : le nom de l'exploitation (répété sur chaque ligne, ici 'Tellus'), l'année de la récolte (variable `An`), le nombre de plants de Mandragore cultivés (variable `Plants`), le nombre de feuilles de Mandragore collectées (variable `Feuilles`) et enfin le nombre de litres de jus de Mandragore (variable `Litres`). Chaque ligne du fichier représente une année de collecte ; il y a au total 10 lignes pour 10 années de récolte. Par exemple, en l'an 1013, l'exploitation de Tellus comptait 51 plants et a collecté 510 feuilles, produisant in fine 36 litres de jus de Mandragore. 
+
+Utilisons maintenant notre sortilège `skim()` pour calculer la production moyenne de jus de Mandragore sur les 10 années allant de l'an 1011 à l'an 1020.
+
+```{r ok-chapitre3-etape2,exercise=TRUE, exercise.setup = "prepare-data"}
+# Le livre de récolte est déjà chargé avec le nom : fichier_tellus
+# Calculer les statistiques descriptives sur le fichier 
+# en utilisant le sortilège skim() 
+
+
+# fin de l'exercice
+``` 
+ 
+
+```{r ok-chapitre3-etape2-solution}
+# Le livre de récolte est déjà chargé avec le nom : fichier_tellus
+# Calculer les statistiques descriptives sur le fichier 
+# en utilisant le sortilège skim() 
+skim(fichier_tellus)
+
+# fin de l'exercice
+``` 
+
+## À vous de jouer : l'exploitation du fermier Galia
+
+Utilisons ce même sortilège `skim()` pour étudier le livre de récolte du fermier Galia.
+
+```{r ok-chapitre3-etape3,exercise=TRUE, exercise.setup = "prepare-data"}
+# Le livre de récolte est déjà chargé avec le nom : fichier_galia
+# Afficher le contenu du fichier dans R
+
+
+# Fin de l'exercice
+``` 
+ 
+
+```{r ok-chapitre3-etape3-solution}
+# Le livre de récolte est déjà chargé avec le nom : fichier_galia
+# Afficher le contenu du fichier dans R
+fichier_galia
+
+# Fin de l'exercice
+``` 
+
+Le livre de récolte du fermier Galia est tenu tout comme celui du fermier Tellus : mêmes variables, même nombre d'enregistrements. Puisque nous nous intéressons précisément à la production moyenne en litres de filtre de Mandragore, sélectionnons de suite la variable `Litres` en lui appliquant le sortilège `skim()`
+
+```{r ok-chapitre3-etape4,exercise=TRUE, exercise.setup = "prepare-data"}
+# Le livre de récolte est déjà chargé avec le nom : fichier_galia
+# Calculer les statistiques descriptives pour la variable 'Litres' du fichier 
+
+
+# fin de l'exercice
+``` 
+ 
+
+```{r ok-chapitre3-etape4-solution}
+# Le livre de récolte est déjà chargé avec le nom : fichier_galia
+# Calculer les statistiques descriptives pour la variable 'Litres' du fichier 
+skim(fichier_galia,Litres)
+
+# fin de l'exercice
+``` 
+
+
+
+## La ferme la plus productive en Mandragore ?
+
+Au fait, revenons à la question posée par le chef du village : "En moyenne, sur les 10 dernières années, quelle exploitation a donné le plus de jus de Mandragore ?" Reprenez les résultats obtenus avec votre sortilège `skim()` pour comparer les moyennes des deux exploitations...
+
+
+```{r ok-chapitre3-quiz1,echo=FALSE}
+question("La production moyenne de Tellus et de Galia sont, respectivement, de :",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("38,6 et 41,2"),
+answer("33,9 et 36,6",correct=TRUE),
+answer("41,2 et 38,5"),
+correct="Félicitations, la réponse à donner au chef du village est donc : Galia (avec un G majuscule)"
+)
+
+```   
+ 
+Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius**. Le tutoriel était trop facile ? Vous pouvez aussi répondre au quiz bonus ci-dessous si vous le souhaitez. 
+ 
+><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle sur la distribution des variables - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+>Les deux exploitations ont une production moyenne différente : la valeur `mean` de la variable Litres dans les résultats du sortilège `skim()` donne en effet une moyenne respective de 33,9 litres et 36,5 litres pour les exploitations de Tellus et Galia. 
+>
+>Au delà de cette moyenne, le sortilège `skim()` révèle des caractéristiques très différentes entre les deux exploitations. Quelle proposition parmi les suivantes est fausse ? Aidez-vous des résultats obtenus avec skim pour les deux exploitations...
+>
+>```{r ok-chapitre3-quiz2,echo=FALSE}
+question("Quiz bonus - quelle assertion est fausse ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("L'exploitation de Galia présente la production la plus régulière, quand celle de Tellus est très irrégulière"),
+answer("L'exploitation de Galia a enregistré la production maximale sur une année donnée",correct=TRUE),
+answer("L'exploitaton de Tellus a enregistré la production minimale sur une année donnée"),
+correct="Félicitations, c'est la bonne réponse pour ce quiz bonus. La première proposition est juste : l'écart-type pour Galia est de 2,55 contre 8,63 pour Tellus (voir variable `sd`). La troisième proposition est également juste : la production minimale enregistrée par Tellus est de 22, contre 33 pour Galia (voir variable `p0`). Enfin, la deuxième proposition est erronée : la production maximale enregistrée par Galia est de 41, mais elle atteint 44 pour Tellus (voir variable `p100`)"
+)
+```   
+></font></p></details>
+
+ 
+**Fin du chapitre 3 >> reprenez la partie d'Icarius !!!**
+
+*(version du chapitre : 0.9.1)*

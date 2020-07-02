@@ -273,10 +273,10 @@ answer("Le pays du soleil éternel	"),
 answer("La terre d’Or"),
 answer("Le territoire des Hauts",correct=TRUE),
 answer("La bonne réponse n'est pas dans les propositions"),
-correct="Félicitations, vous avez trouvé le bon royaume, l'aventure peut continuer!"
+correct="Félicitations, vous avez trouvé le bon royaume. Rentrez le code 59 dans le jeu icaRius pour continuer l'aventure!"
 )
 ```   
 
 **Fin du chapitre 6  >>  reprenez la partie d'Icarius**
 
-**Version 0.9.1**
+**Version 0.9.2**

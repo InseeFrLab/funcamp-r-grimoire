@@ -253,7 +253,7 @@ incorrect="Retente ta chance",
 answer("Daisy"),
 answer("Poupoule"),
 answer("Kokot",correct=TRUE),
-correct="Félicitations, vous avez reconstitué le livre de compte et trouvé la meilleure poule pondeuse, l'aventure peut continuer!"
+correct="Félicitations, vous avez reconstitué le livre de compte et trouvé la meilleure poule pondeuse. Renseignez la réponse Kokot (avec un K majuscule) dans le jeu pour continuer l'aventure !"
 )
 
 ```   
@@ -262,4 +262,4 @@ Vous avez trouvé ? **Reportez le nom de la meilleure poule pondeuse dans le jeu
 
 **Fin du chapitre 2 >> reprenez la partie d'Icarius !!!**
 
-*(version du chapitre : 0.9.1)*
+*(version du chapitre : 0.9.2)*

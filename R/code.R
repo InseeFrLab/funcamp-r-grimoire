@@ -52,3 +52,16 @@ launch_learn <- function(file=sample(tous_les_programmes(),1),port=3838,host='0.
 rmarkdown::run(file = file,
   shiny_args = list(port = port,host=host,launch.browser=FALSE))
 }
+
+#' Lance un support learnr en local avec lancement du browser pour contourner un firewall
+#'
+#' @param file file to deploy
+#' @param port port to use
+#'
+#' @export
+#'
+launch_learn_local <- function(file=sample(tous_les_programmes(),1),port=3838,host='0.0.0.0'){
+  message(file)
+rmarkdown::run(file = file,
+  shiny_args = list(port = port,host=host,launch.browser=TRUE))
+}

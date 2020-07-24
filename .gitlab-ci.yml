@@ -6,8 +6,7 @@ image: r-base
 
 test:
   script:
-    - R -e 'install.packages(c("dplyr", "purrr", "testthat","tidyverse", "rmarkdown", "stringr", "learnr", "ggplot2",
-  "ggformula", "parsons", "rio", "knitr", "readr", "readODS", "babynames", "skimr", "shinyAce"))'
+    - R -e 'install.packages(c("dplyr", "purrr", "testthat","tidyverse", "rmarkdown", "stringr", "learnr", "ggplot2", "ggformula", "parsons", "rio", "knitr", "readr", "readODS", "babynames", "skimr", "shinyAce"))'
     - R CMD build . --no-build-vignettes --no-manual
     - R CMD check *tar.gz --no-build-vignettes --no-manual
 

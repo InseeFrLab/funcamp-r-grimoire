@@ -1,5 +1,6 @@
-variables:
-  CI_REGISTRY: git-registry.lab.sspcloud.fr
+stages:
+  - test
+  - build
 
 image: r-base
 
@@ -8,6 +9,9 @@ test:
     - R -e 'install.packages(c("dplyr", "purrr", "testthat"))'
     - R CMD build . --no-build-vignettes --no-manual
     - R CMD check *tar.gz --no-build-vignettes --no-manual
+
+variables:
+  CI_REGISTRY: git-registry.lab.sspcloud.fr
 
 build:
   stage: build

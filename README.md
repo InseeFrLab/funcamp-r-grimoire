@@ -1,8 +1,8 @@
+<!-- badges: start -->
+[![MIT](https://img.shields.io/badge/license-MIT-blue)](https://choosealicense.com/licenses/mit/)
+<!-- badges: end -->
 
 # General purpose
-
-<!-- badges: start -->
-<!-- badges: end -->
 
 The goal of funcamp-r-grimoire is to deploy tutorials built as shiny_prerendered and shiny rmd and gathered in R package and/or docker. Each tutorial is presented as a chapter of a grimoire, which the trainee opens as he progresses in the Icarius game. The tutorial n°XX corresponds to the chapterXX.Rmd file. All tutorials are grouped in a directory named `learnr` and stored in their `chapterXX` sub-directory. In addition, a `data` directory groups together the data files necessary to monitor the exercises. All source files are stored in sub-directories corresponding to the chapter concerned.
 

@@ -22,18 +22,28 @@ library(rio)
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 
-file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Tellus.ods"),
-          to = "recensement_agricole_statia_Tellus.ods")
-file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Galia.ods"),
-          to = "recensement_agricole_statia_Galia.ods")
+# DEPRECATED
+# file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Tellus.ods"),
+#          to = "recensement_agricole_statia_Tellus.ods")
+# file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Galia.ods"),
+#          to = "recensement_agricole_statia_Galia.ods")
+
+file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Tellus.ods"), 
+          to = paste0(tempdir(),"/recensement_agricole_statia_Tellus.ods"))
+file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Galia.ods"), 
+          to = paste0(tempdir(),"/recensement_agricole_statia_Galia.ods"))
 
 ```
 
 
 ```{r prepare-data}
 # relative path to data from "local random repo" of learnr exercise
-fichier_tellus<-import("../../../recensement_agricole_statia_Tellus.ods")
-fichier_galia<-import("../../../recensement_agricole_statia_Galia.ods")
+# DEPRECATED
+# fichier_tellus<-import("../../../recensement_agricole_statia_Tellus.ods")
+# fichier_galia<-import("../../../recensement_agricole_statia_Galia.ods")
+
+fichier_tellus<-import(paste0(tempdir(),"/recensement_agricole_statia_Tellus.ods"))
+fichier_galia<-import(paste0(tempdir(),"/recensement_agricole_statia_Galia.ods"))
 ```
 
 
@@ -232,4 +242,4 @@ correct="Félicitations, c'est la bonne réponse pour ce quiz bonus. La premièr
  
 **Fin du chapitre 3 >> reprenez la partie d'Icarius !!!**
 
-*(version du chapitre : 0.9.1)*
+*(version du chapitre : 0.9.2)*

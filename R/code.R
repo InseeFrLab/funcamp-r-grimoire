@@ -25,10 +25,11 @@ is_rmd_shiny <- function(header,balise="runtime:shiny"){
 #' liste tous les Rmd candidats au deploiement contenus dans le package
 #' avec runtime:shiny ou runtime:shiny_prerendered
 #' @param pattern pattern des fichiers a proposer
+#' @param quest quete dans laquelle on cherche les fichiers Rmd
 #'
 #' @export
-tous_les_programmes <- function(pattern = "*.Rmd$"){
-tous_les_rmd<-list.files(system.file("learnr", package = "funcampR"),
+tous_les_programmes <- function(pattern = "*.Rmd$", quest = "Grimoire_IGoR"){
+tous_les_rmd<-list.files(system.file("learnr", quest, package = "funcampR"),
            all.files = TRUE,full.names = TRUE,
            include.dirs = FALSE,no.. = FALSE,
            recursive = TRUE,

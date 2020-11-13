@@ -2,13 +2,17 @@
 % Please edit documentation in R/code.R
 \name{tous_les_programmes}
 \alias{tous_les_programmes}
-\title{liste tous les Rmd candidats au deploiement contenus dans le package}
+\title{liste tous les Rmd candidats au deploiement contenus dans le package
+avec runtime:shiny ou runtime:shiny_prerendered}
 \usage{
-tous_les_programmes(pattern = "*.Rmd$")
+tous_les_programmes(pattern = "*.Rmd$", quest = "Grimoire_IGoR")
 }
 \arguments{
 \item{pattern}{pattern des fichiers a proposer}
+
+\item{quest}{quete dans laquelle on cherche les fichiers Rmd}
 }
 \description{
 liste tous les Rmd candidats au deploiement contenus dans le package
+avec runtime:shiny ou runtime:shiny_prerendered
 }

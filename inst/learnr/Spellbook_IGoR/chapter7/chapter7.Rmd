@@ -1,0 +1,365 @@
+---
+title: "Chapitre 7 - optionnel - le labyrinthe"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Que le vecteur soit avec toi
+
+Vous venez de rencontrer le mage Delagarde, à l'entrée d'un labyrinthe. Comment icaRius échappera-t-il à cet ensemble tortueux de chemins et de directions ? 
+
+Pour le guider, il vous faudra au cours de ce chapitre apprendre à manipuler les briques élémentaires du langage des Runes que sont les vecteurs. Le mage Delagarde a en effet caché les directions à suivre dans un vecteur !!! Avec cet indice sibyllin : *“quelle que soit la direction que tu regardes, la sortie se trouve au delà de Pi”.*
+
+Au fait : outre le fait de vous guider dans le labyrinthe, savoir utiliser un vecteur vous sera d'une aide précieuse pour des opérations portant sur les tables de données, comme la sélection d’observations et de variables.
+
+
+
+## Créer un vecteur
+
+Un vecteur est un objet regroupant un ensemble de valeurs, comme une colonne dans un tableau. Chaque valeur est associée à une position dans le colonne (comme la position d'une cellule dans la colonne d'un tableau). Par exemple, l'ensemble de valeurs (3,24) est un vecteur avec deux éléments, dans lequel le chiffre 24 correspond à la valeur du deuxième élément du vecteur. 
+
+Le symbole `c()` permet de créer des vecteurs : entre les parenthèses, sont renseignées les valeurs de chaque élément du vecteur, séparées à chaque fois par une virgule
+
+```{r, results='hide'}
+# Création d'un vecteur avec c()
+c(3,24)
+```
+
+Un vecteur peut aussi comprendre du texte (des chaînes de caractère).
+
+```{r, results='hide'}
+# Création d'un vecteur avec un contenu textuel
+c("Daisy","Gertrude","Madame Mim","Poupoule")
+```
+
+*A noter :* on ne peut pas mélanger deux types de valeur dans un même vecteur (soit uniquement du numérique, soit uniquement du texte).
+
+Pour associer un vecteur à un nom d'objet, il faut utiliser l'opérateur d'assignation `<-`. Cette façon de procéder est identique à celle suivie lorsque l'on crée un objet qui ne contient qu'une seule valeur.
+
+```{r}
+# Assignation d'un vecteur à un nom
+mon_vecteur_icarius <- c(3,24)
+mon_vecteur_poulettes <- c("Daisy","Gertrude","Madame Mim","Poupoule")
+```
+
+La fonction `c()` permet également de créer un vecteur à partir de plusieurs autres
+
+```{r, collapse = TRUE}
+# Création des vecteurs de type caractère
+mon_vecteur_poulettes_1 <- c("Kokot","Chickitta")
+mon_vecteur_poulettes_2 <- c("Clara Cluck","Mimi")
+
+# regroupement avec le symbole c()
+c(mon_vecteur_poulettes_1,mon_vecteur_poulettes_2)
+```
+
+
+Il est également possible de créer des vecteurs dont chaque élément est nommé : 
+```{r, collapse = TRUE}
+# Création du vecteur mon_vecteur_icarius
+mon_vecteur_icarius <- c("coeurs" = 3, "âge" = 24)
+mon_vecteur_icarius
+```
+
+Le vecteur comprends deux éléments, ayant chacun un nom et une valeur. L'élément nommmé "coeurs" a pour valeur 3 ; l'élément nommmé "âge" a pour valeur 24.
+
+
+---------------------
+
+**Pour aller plus loin** : 
+
+- Quand on souhaite créer un vecteur de longueur 1, la fonction `c()` est inutile. C'est ce qui a été fait pendant le chapitre 1 de la formation.
+```{r, collapse = TRUE}
+# Création d'un vecteur de longueur 1 : les deux façons d'écrire sont identiques
+nb_heart <- 3
+nb_heart <- c(3)
+
+```
+
+-----------------------
+
+Un vecteur possède plusieurs caractéristiques essentielles, que l’on qualifie d’attributs :
+
+- son type : les types les plus courants correspondent au type numérique et au type caractère  ;
+- sa longueur : le nombre d’éléments qui le composent.
+
+Il est possible d’afficher ces attributs avec les fonctions `mode()` (type) et `length()` (longueur en anglais).
+
+```{r, collapse = TRUE}
+# Attributs de mon_vecteur_icarius
+mode(mon_vecteur_icarius)
+length(mon_vecteur_icarius)
+
+# Attributs de mon_vecteur_poulettes
+mode(mon_vecteur_poulettes)
+length(mon_vecteur_poulettes)
+```
+
+## A vous de jouer
+
+<span style="color:#18AC3E;font-size:16px">**Explorons les vecteurs du Mage Delagarde**</span> 
+
+Le Mage Delagarde a caché dans des vecteurs les indications pour franchir sans encombre le labyrinthe. Il vous remet deux vecteurs, intitulés `vecteur_choix` et `vecteur_seuil`. Commencez par explorer le contenu de ces deux vecteurs.
+
+```{r, echo=FALSE}
+vecteur_choix <- c("Droite","Gauche","Gauche","Droite","Droite",
+"Gauche","Droite","Gauche","Gauche","Droite",
+"Droite","Gauche","Droite","Gauche","Gauche",
+"Droite","Droite","Gauche","Gauche","Droite")
+
+vecteur_seuil <- rep(pi,20)
+vecteur_ajust <- rep(-1,20)
+vecteur_ajust[c(6,10,12,19)]<-1
+vecteur_seuil <- vecteur_seuil + runif(20)*vecteur_ajust
+
+```
+
+```{r ok-chapitre7-etape1,exercise=TRUE}
+# Les deux vecteurs sont déjà chargés sous les noms
+# vecteur_choix et vecteur_seuil
+# Déterminer le type d'information dans vecteur_choix
+# Combien d'éléments comprend ce vecteur ?
+# Afficher l'ensemble des éléments du vecteur
+
+
+
+# Mêmes questions avec vecteur_seuil
+
+
+
+# (à chaque opération, appuyer sur le bouton "Run code")
+``` 
+ 
+```{r ok-chapitre7-etape1-solution}
+# Les deux vecteurs sont déjà chargés sous les noms
+# vecteur_choix et vecteur_seuil
+# Déterminer le type d'information dans vecteur_choix
+# Combien d'éléments comprend ce vecteur ?
+mode(vecteur_choix)
+length(vecteur_choix)
+vecteur_choix
+# Afficher l'ensemble des éléments du vecteur
+# Afficher l'élément en 6ème position
+mode(vecteur_seuil)
+length(vecteur_seuil)
+vecteur_seuil
+
+# (à chaque opération, appuyer sur le bouton "Run code")
+``` 
+
+Voilà des objets bien mystérieux : Le mage Delagarde a, semble-t-il, caché dans le `vecteur_choix` une liste de directions, à gauche ou à droite. Le `vecteur_seuil` se compose quant à lui d'une suite de valeurs numériques. Bizarre bizarre... Continuons notre exploration pour en savoir plus...
+
+## Manipuler les vecteurs
+
+Pour sélectionner un élément dans un vecteur, il faut soit le désigner par sa position dans le vecteur, soit par nom. Ainsi, l'opérateur d'extraction `[]` permet de sélectionner des éléments en utilisant leur **position dans le vecteur** :
+```{r, collapse = TRUE}
+mon_vecteur_poulettes <- c("Daisy","Gertrude","Madame Mim","Poupoule")
+# Sélection de l'élément en position 2
+mon_vecteur_poulettes[2]
+# Sélection de l'élément en position 4
+mon_vecteur_poulettes[4]
+```
+
+Pour extraire plus d'une valeur à la fois, il faut utiliser l'opérateur `[]` avec l'ensemble des positions souhaitées : 
+```{r, collapse = TRUE}
+# Sélection des éléments en position 2 et 4
+mon_vecteur_poulettes[c(2,4)]
+```
+
+Notez que dans l'exemple précédent, l'ensemble des positions souhaitées s'écrit... comme un vecteur ! En effet, `c(2,4)` est aussi un vecteur, de deux éléments avec pour valeur respective 2 et 4. Autrement dit, vous pouvez utiliser des vecteurs pour manipuler d'autres vecteurs...
+
+Pour sélectionner **toutes les valeurs sauf certaines**, il faut indiquer leur **position précédée du signe `-`** (comme de soustraire l'élément)
+```{r, collapse = TRUE}
+mon_vecteur_poulettes <- c("Daisy","Gertrude","Madame Mim","Poupoule")
+# Sélection de tous les éléments SAUF celui en position 2
+mon_vecteur_poulettes[-2]
+# Sélection de tous les éléments SAUF ceux en position 2 et 4
+mon_vecteur_poulettes[-c(2,4)]
+```
+
+\ 
+
+Lorsque le vecteur comprend des éléments nommés, ces derniers peuvent être sélectionnés par leur nom :
+```{r, collapse = TRUE}
+# Création du vecteur mon_vecteur_icarius
+mon_vecteur_icarius <- c("coeurs" = 3, "âge" = 24)
+# Sélection de l'élément nommé "coeurs"
+mon_vecteur_icarius["âge"]
+```
+
+Il est possible d'**afficher les noms** associés à un vecteur en utilisant la fonction `names()`.
+
+```{r, collapse = TRUE}
+# Affichage des noms associés au vecteur c2
+names(mon_vecteur_icarius)
+
+```
+
+A vous de pratiquer !
+
+```{r ok-chapitre7-etape2,exercise=TRUE}
+# Les deux vecteurs sont déjà chargés sous les noms
+# vecteur_choix et vecteur_seuil
+# Afficher l'élément en 6ème position dans vecteur_choix
+
+
+# Afficher l'élément en 6ème position dans vecteur_seuil
+
+
+# (à chaque opération, appuyer sur le bouton "Run code")
+``` 
+ 
+```{r ok-chapitre7-etape2-solution}
+# Les deux vecteurs sont déjà chargés sous les noms
+# vecteur_choix et vecteur_seuil
+# Afficher l'élément en 6ème position dans vecteur_choix
+vecteur_choix[6]
+
+# Afficher l'élément en 6ème position dans vecteur_seuil
+vecteur_seuil[6]
+
+# (à chaque opération, appuyer sur le bouton "Run code")
+``` 
+
+Vous venez d'afficher la valeur de l'élément en 6ème position du vecteur_choix, et de même pour vecteur_seuil. Hum, hum : tout ceci reste abscons. Continuons donc notre apprentissage.
+
+
+## Du calcul sur les vecteurs
+
+Armés de nos vecteurs, nous voici en mesure d'affronter les plus grands dangers... comme le *calcul vectoriel* ! R permet de réaliser des opérations mathématiques sur les vecteurs, à commencer par de l'arithmétique : addition, soustraction, multiplication...
+
+Les opérations arithmétiques sont appliquées sur chaque élément numérique d'un vecteur :
+```{r, collapse = TRUE}
+# Opérations arithmétiques
+mon_vecteur_icarius <- c("coeurs" = 3, "âge" = 24)
+mon_vecteur_icarius*2
+mon_vecteur_icarius/3
+```
+
+Des calculs peuvent être conduits sur plusieurs vecteurs entre eux. Dans ce cas, les calculs sont appliqués termes à termes :
+
+```{r, collapse = TRUE}
+# Opérations arithmétiques
+mon_vecteur_icarius <- c("coeurs" = 3, "âge" = 24)
+mon_vecteur_statia <- c("coeurs" = 2, "âge" = 16)
+
+mon_vecteur_icarius+mon_vecteur_statia
+mon_vecteur_icarius-mon_vecteur_statia
+```
+
+Découvrons ensemble une dernière manipulation : la sélection d'un sous-ensemble du vecteur selon des conditions. Voyons d'abord comment rédiger une condition dans R :
+
+**Code R**    | **Traduction** 
+------------- | ------------- 
+`a == 1`      | a égal à 1
+`a != 1`      | a différent de 1
+`a < 1`       | a strictement inférieur à 1
+`a <= 1`      | a inférieur ou égal à 1
+`a > 1`       | a strictement supérieur à 1
+`a >= 1`      | a supérieur ou égal à 1
+
+**Attention :** dans R, l'égalité s'écrit avec un double signe `==`. 
+
+Ces conditions peuvent s'appliquer à un élément unitaire (comme `a` dans le tableau) ou à l'ensemble des éléments d'un vecteur. Pour cela, la fonction `which()` (lequel en anglais) permet de savoir quels sont les éléments d'un vecteur qui répondent au critère de sélection que je souhaite appliquer. La syntaxe est alors du type : `which(ma_condition)`.
+
+
+Par exemple :
+
+```{r, collapse = TRUE}
+# Où se trouve l'élément de mon_vecteur_poulettes 
+# dont la valeur est Gertrude ?
+mon_vecteur_poulettes <- c("Daisy","Gertrude","Madame Mim","Poupoule")
+which(mon_vecteur_poulettes== "Gertrude")
+#La réponse donne la position de l'élément dans le vecteur
+# ici la position n°2
+```
+
+Cette façon d'identifier la position des éléments vaut aussi pour des vecteurs numériques.
+
+
+```{r, collapse = TRUE}
+# Où se trouve l'élément supérieur à 20
+# dans le vecteur mon_vecteur_icarius ?
+mon_vecteur_icarius <- c("coeurs" = 3, "âge" = 24)
+which(mon_vecteur_icarius > 20)
+# Il est en position n°2
+
+```
+
+
+
+## Trouvons la bonne direction !
+
+Nous l'avons vu dans l'exercice précédent : le mage Delagarde a caché dans le `vecteur_choix` une liste de directions, à gauche ou à droite. Le `vecteur_seuil` se compose quant à lui d'une suite de valeurs numériques. Il nous faut interpréter l'énigme posée par le mage Delagarde : *"quelle que soit la direction vers laquelle tu regardes, la sortie se trouve au delà de Pi".* Après de longues réflexions, IcaRius a trouvé ! Certains éléments du `vecteur_seuil` ont une valeur au dessus de Pi. Par exemple, le 6ème élèment de `vecteur_seuil` vaut plus que Pi (valeur de Pi = 3,14). La place de ces éléments indique la valeur des bonnes directions à prendre, dans le `vecteur_choix`. Ainsi, le 6ème élément de `vecteur_choix` indique la direction à suivre pour se rapprocher de la sortie. 
+
+Ah, ces statisiens, quels esprits alambiqués !
+
+Il nous faut donc :
+
+- rechercher la position des éléments dans `vecteur_seuil` dont la valeur est supérieure à Pi
+- sélectionner dans `vecteur_choix` les éléments qui occupent ces mêmes positions
+- puis, une fois dans le labyrinthe, suivre dans l'ordre cette succession de direction à chaque fois qu'il faut choisir entre gauche et droite...
+
+Allons-y... dans R !
+
+```{r ok-chapitre7-etape3,exercise=TRUE}
+# Les deux vecteurs sont déjà chargés sous les noms
+# vecteur_choix et vecteur_seuil
+
+# Tâche n°1 : chercher les éléments de  vecteur_seuil dont la valeur est supérieure à pi
+# et sauvegarder cet ensemnble de position dans un vecteur appelé vecteur_position
+
+
+# Tâche n°2 : extraire de vecteur_choix les éléments qui sont dans les emplacements 
+# de vecteur_position et afficher cet ensemble de directions
+
+
+# L'ordre des directions qui apparaissent correspond
+# à la succession des directions à prendre dans le labyrinthe !
+``` 
+ 
+```{r ok-chapitre7-etape3-solution}
+# Les deux vecteurs sont déjà chargés sous les noms
+# vecteur_choix et vecteur_seuil
+
+# Tâche n°1 : chercher les éléments de  vecteur_seuil dont la valeur est supérieure à pi
+# et sauvegarder cet ensemnble de position dans un vecteur appelé vecteur_position
+vecteur_position <- which(vecteur_seuil>pi)
+
+# Tâche n°2 : extraire de vecteur_choix les éléments qui sont dans les emplacements 
+# de vecteur_position et afficher cet ensemble de directions
+vecteur_choix[vecteur_position]
+
+# L'ordre des directions qui apparaissent correspond
+# à la succession des directions à prendre dans le labyrinthe !
+``` 
+
+<div id="ok-chapitre7-etape3-hint">
+**Aide 1:** il suffit de taper pi dans R pour indiquer sa valeur
+**Aide 2:** which(mon_vecteur > X) donne la position des éléments > X
+**Aide 3:** mon_vecteur[c(2,4)] extrait les éléments de mon_vecteur en position 2 et 4
+</div>
+
+Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre la partie...
+
+**Fin du chapitre >> reprenez la partie d'Icarius !!!** 
+
+**Version 0.9.1**

@@ -1,0 +1,390 @@
+---
+title: "Chapitre 1(1) - Calculer (encore !) l'âge d'IcaRius avec R"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+library(parsons)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Conversations runiques - bis repetita
+
+Vous voilà revenu(e) au tout début de l'aventure ! Comme d'ouvrir le grimoire IGoR au premier chapitre. Tout ce chemin accomplir pour rien : quelle frustration... L'automate TeoC vous a en effet projeté en arrière, faute de maîtriser la "statistique reproductible"...
+
+Mais que veut-il dire par là ? 
+
+La notion de reproductibilité désigne à l’origine, dans le cadre des sciences expérimentales, la nécessité de disposer d’une répétition des évènements à partir desquels une conclusion est formulée. Cette condition permet de s’affranchir d’effets aléatoires venant fausser les résultats ainsi que des erreurs de manipulations de la part des scientifiques. C’est un des critères de scientificité établi par Karl Popper. L’ensemble des études statistiques sont
+ concernées par la question de la reproductibilité.
+
+Plus généralement, la reproductibilité permet de désigner une méthode de travail qui vise à faciliter la répétition de l'ensemble des étapes qui ont été suivies, de façon automatisées et maîtrisées. La reproductibilité prévoit que ces étapes puissent être réalisées par une autre personne que l'auteur du processus : autrement dit, c'est aussi une méthode pour documenter un travail et en assurer la transmission à d'autres collègues.
+
+En quelques mots, penser "reproductible", c'est pour commencer :
+- automatiser le plus possible chaque étape d'un processus
+- documenter ces étapes pour qu'elles soient pleinement comprises par un tiers
+- apporter les conditions techniques pour réaliser à l'identique ces étapes
+
+```{r ok-quiz-1,echo=FALSE}
+quiz(
+  question("Qu'est-ce que n'est pas la reproductibilité ?",
+    answer("une méthode pour mieux transmettre son travail"),
+    answer("un critère de scientificité"),
+    answer("un effort pour automatiser le plus possible ses calculs"),
+    answer("un indice de fécondité des statisiens", correct = TRUE)
+  )
+)
+```
+
+## Automatisons avec l'automate TeoC 
+
+Penchons-nous sur la première dimension de la reproductibilité, et jouons à l'automate ! 
+
+Avec le langage des runes, il est possible d'écrire un ensemble de traitement "une fois pour toute", puis de l'utiliser autant que de besoin. Il y a bien des façons de procéder en la matière... et vous l'avez déjà pratiqué ! 
+
+Revenons au calcul de l'âge d'icaRius, dans le premier chapitre du grimoire IGoR. Souvenez-vous : *Dans le monde de Statis, l'âge suit une logique un peu étrange. À la naissance, les statisiens ont pour âge leur nombre de coeurs multiplié par le nombre pi au carré, auquel on soustrait le nombre maximal de coeurs qu'ils pourront avoir au cours de leur vie... Pour faciliter le tout, on admettra de prendre l'arrondi du résultat obtenu...*
+
+Vous aviez alors écrit une formule de calcul : 
+```{r, echo=FALSE}
+nb_coeur <- 3
+max_nb_coeur <- 2*nb_coeur
+```
+
+```{r, results='hide'}
+# le nombre de coeur multiplié par le nombre pi au carré... moins le nombre maximal de coeur
+nb_coeur * pi^2 - max_nb_coeur
+
+```
+
+Cette formule prenait en compte deux ingrédients, `nb_coeur` et `max_nb_coeur`, pour désigner le nombre de coeur du héros au début du jeu et le nombre maximum de coeur qu'il pourra obtenir au cours de l'aventure. Pour appliquer cette formule, la valeur de ces deux ingrédients devait être au préalable indiquée dans votre formule runique. Par exemple :
+
+```{r, results='hide'}
+# le nombre de coeur multiplié par le nombre pi au carré... moins le nombre maximal de coeur
+nb_coeur <- 3
+max_nb_coeur <- 2*nb_coeur
+nb_coeur * pi^2 - max_nb_coeur
+
+```
+
+Ce faisant, un tout premier pas a été fait dans l'idée de reproductibilité, en utilisant comme ingrédient dans votre formule runique des "variables" dont la valeur peut être modifiée, plutôt que d'écrire directement le calcul avec les valeurs fixes.
+
+Ce faisant, il vous suffit de changer la valeur pour la variable, puis d'exécuter le code pour obtenir à chaque fois le résultat qui en découle.
+
+```{r ok-chapitre11-etape0,exercise=TRUE}
+# Modifiez ici la valeur de nb_coeur comme bon vous semble
+nb_coeur <- 3
+# Le reste s'exécutera automatiquement
+max_nb_coeur <- 2*nb_coeur
+nb_coeur * pi^2 - max_nb_coeur
+# Fin de l'exercice
+``` 
+
+
+## Ecrivez votre propre sortilège
+
+Il y a encore du chemin pour automatiser convenablement ce court calcul. Le langage des Runes aime à utiliser des sortilèges... et c'est l'occasion de s'y adonner nous-aussi !
+
+Revenons au chapitre 3 du grimoire IGoR... "Dans le monde des Runes, un sortilège est identifié par **son nom suivi de parenthèses** :`nomsortilege()`. A l'intérieur des parenthèses, sont précisés les ingrédients utiles à la confection du sortilège."
+
+Vous avez désormais assez de savoir runique pour concocter vos propres sortilèges. Eh oui : le langage des Runes permet à chacun d'écrire sa propre magie. Comment cela fonctionne-t-il ? Tout se joue entre les parenthèses et les accolades... L'écriture d'un sortilège nécessite de lui donner un nom (ici, `nom_du_sortilege`) et d'en indiquer le "fonctionnement", en indiquant les `ingredients`, et la `recette` à suivre avec ces ingrédients. 
+```{r, results='hide'}
+nom_du_sortilege <- function(ingredients) { recette }
+```
+
+Les ingrédients sont indiqués entre parenthèses, à côté du terme `function` qui veut dire que l'on crée un sortilège et que l'on veut en décrire le fonctionnement. La recette à suivre avec ces ingrédients s'écrit entre accolades, juste après.
+
+Parce que les statisiens sont un peu coquets, ils aiment à calligraphier leur sortilège d'une certaine façon. Aussi, vous serez invité(e)s à positionner les éléments de la façon suivante :
+
+```{r, results='hide'}
+nom_du_sortilege <- function(ingredients) { 
+  recette 
+}
+```
+
+A l'usage, et en particulier pour de longs sortilèges, la lisibilité s'en trouve améliorée... 
+
+Créons donc le sortilège `calcul_age`. Ce dernier aura une recette, à savoir *le nombre de coeurs multiplié par le nombre pi au carré, auquel on soustrait le nombre maximal de coeurs*. Il peut avoir deux ingrédients, avec `nb_coeur` nombre de coeur initial du héros, et `nb_max_coeur` nombre maximal de coeur. Ce qui donne : 
+
+```{r, results='hide'}
+calcul_age <- function(nb_coeur,max_nb_coeur) { 
+  nb_coeur * pi^2 - max_nb_coeur
+}
+```
+
+Le sortilège peut être encore plus simple à écrire. En prenant en compte le fait que `max_nb_coeur <- 2*nb_coeur`, un seul ingrédient suffit :
+
+```{r}
+calcul_age <- function(nb_coeur) { 
+  nb_coeur * pi^2 - 2 * nb_coeur
+}
+```
+
+Pas sorcier finalement. Comme quoi, cette histoire d'automate TeoC, c'est très surfait. Pour utiliser votre tout nouveau sortilège, il suffit de l'invoquer avec la valeur souhaitée pour l'ingrédient `nb_coeur`
+
+```{r}
+calcul_age(3)
+```
+
+Et de démultiplier (ie, reproduire) autant de fois que de besoin !
+
+```{r}
+calcul_age(4)
+calcul_age(5)
+calcul_age(6)
+```
+
+## Pourquoi diable écrire des sortilèges ? 
+
+L'esprit curieux que vous êtes peut s'interroger sur l'intérêt de rédiger des sortilèges, plutôt que d'écrire simplement le calcul d'emblée appliqué aux valeurs retenues pour l'âge d'icaRius. 
+
+Le premier gain que le Statisien trouve dans l'écriture d'un sortilège... c'est d'éviter d'avoir à tout réécrire à chaque qu'il doit réaliser un tel calcul. Une fois qu'il a créé son sortilège, il lui suffit de l'invoquer pour exécuter toute la recette qu'il comprend. Imaginez un sortilège qui comprend de longues et complexes formules : plutôt que de "copier/coller" le code à chaque fois, il suffit de l'organiser dans un sortilège, qui s'exécute simplement en l'appelant.
+
+Un exemple avec la recette de la culture de la Mandragore découverte au chapitre 4 : le fermier Galia vous avez exposé sa longue suite d'opérations pour bien cultiver son champ : 
+
+```{r, eval=FALSE}
+ champ %>% 
+    labourer() %>%
+    semer() %>%
+    ajouter(coccinelles) %>%
+    arroser() %>%
+    recolter()
+```
+
+Ici, l'ingrédient initial de la recette, c'est le `champ` (pour un statisticien, ce serait par exemple un jeu de données en entrée de son calcul). La recette, c'est l'enchaînement d'opérations (`labourer()`, `semer()`...), qui se trouvent être chacunes des sortilèges. Le fermier Galia peut créer son propre sortilège qui englobe tout ceci - appelons-le `sortilege_mandragore()`
+
+```{r, eval=FALSE}
+sortilege_mandragore <- function(champ) { 
+ champ %>% 
+    labourer() %>%
+    semer() %>%
+    ajouter(coccinelles) %>%
+    arroser() %>%
+    recolter()
+}
+```
+
+Et voilà ! Il suffit maintenant à Galia d'invoquer `sortilege_mandragore()` sur l'ingrédient de son choix (ici, un `champ`) pour lancer la culture de Mandragore selon sa recette ancestrale. 
+
+Notez que, dans cet exemple, nous avons créé un sortilège qui utilise lui-même des sortilèges au sein de sa recette. Comme d'ouvrir un coffre qui contient des coffres (... qui peuvent encore contenir d'autres coffres !)
+
+
+## À vous de jouer !
+
+Au fait, la formule pour calculer l'âge d'icaRius est un peu plus complexe que celle utilisée jusqu'à présent. Reprenons l'énoncé : *À la naissance, les statisiens ont pour âge leur nombre de coeurs multiplié par le nombre pi au carré, auquel on soustrait le nombre maximal de coeurs qu'ils pourront avoir au cours de leur vie... Pour faciliter le tout, on admettra de prendre l'arrondi du résultat obtenu...*
+
+Pour l'instant, nous avons calculé mentalement l'arrondi, plutôt que de demander à R de le faire automatiquement. Cela tombe bien, il existe un sortilège pour arrondir, le sortilège `round()`, avec comme ingrédient le nombre que l’on souhaite arrondir.
+
+```{r}
+# Arrondir le chiffre 3,1415
+round(3.1415)
+```
+
+Il est temps pour vous de pratiquer ! Assemblez d'abord votre sortilège `calcul_age_arrondi()`, avec comme ingrédient `nb_coeur`, de telle façon que l'âge calculé soit arrondi avec le sortilège `round()`.
+
+
+```{r ok-chapitre11-etape1,exercise=TRUE}
+# Créez le sortilège calcul_age_arrondi()
+# qui utilise en son sein le sortilège round()
+
+
+
+# Invoquez le sortilège avec nb_coeur=3
+
+# Fin de l'exercice
+``` 
+     
+```{r ok-chapitre11-etape1-solution}
+# Créez le sortilège calcul_age_arrondi()
+# qui utilise en son sein le sortilège round()
+calcul_age_arrondi <- function(nb_coeur) { 
+  round(nb_coeur * pi^2 - 2 * nb_coeur)
+}
+# Invoquez le sortilège avec nb_coeur=3
+calcul_age_arrondi(3)
+# Fin de l'exercice
+```
+
+
+
+><details><summary><font size="3">Pour les plus téméraires : cliquez ici</font></summary>
+><p><font size="2">
+>
+> Le sortilège round() utilise en fait deux ingrédients. Outre l'ingrédient obligatoire, à savoir le nombre que l’on souhaite arrondir, il comporte aussi un ingrédient optionnel, à savoir le nombre de décimales de l’arrondi. Cet intégrédient s’appelle digits, et par défaut il a pour valeur 0. Si l’on souhaite garder une décimale dans le résultat, la syntaxe devient :
+>
+>```{r}
+># Arrondir le chiffre 3,1415
+>round(3.1415, digits = 1)
+>```
+>
+>Autrement dit, le sortilège round est du type round(chiffre_a_arrondir, digits=N) avec N le nombre de décimales souhaitées. Pour rappel, les ingrédients d'un sortilège d’une fonction sont séparés entre eux d’une virgule. Seuls les ingrédients obligatoires doivent être absolument indiqués, les ingrédients optionnels étant précisés ou non, selon la bonne volonté de l’utilisateur.
+> 
+> A vous désormais de composer un sortilège calcul_age_arrondi_decimale(),  avec cette fois deux ingrédients, `nb_coeur` et 'nb_decimale', de telle façon que l'âge calculé soit arrondi avec le sortilège `round()` et le nombre de décimale que vous souhaitez retenir.
+> 
+> ```{r ok-chapitre11-etape2,exercise=TRUE}
+># Créez le sortilège calcul_age_arrondi_decimale()
+># qui utilise en son sein le sortilège round() 
+># et deux ingrédients : nb_coeur et nb_decimale
+>
+>
+>
+># Invoquez le sortilège avec nb_coeur=3 et nb_decimale=2
+>
+># Fin de l'exercice
+>``` 
+>     
+>```{r ok-chapitre11-etape2-solution}
+># Créez le sortilège calcul_age_arrondi_decimale()
+># qui utilise en son sein le sortilège round() 
+># et deux ingrédients : nb_coeur et nb_decimale
+>
+>calcul_age_arrondi <- function(nb_coeur,nb_decimale) { 
+>  round(nb_coeur * pi^2 - 2 * nb_coeur,nb_decimale)
+>}
+># Invoquez le sortilège avec nb_coeur=3 et nb_decimale=2
+>calcul_age_arrondi(3,2)
+># Fin de l'exercice
+>```
+
+## Ni tout à fait le même, ni tout à fait un autre
+
+La langue des runes est d'une richesse infinie... En témoigne la multitude des façon d'écrire le court sortilège que vous venez de formuler. C'est un peu déroutant, certes : le même calcul peut être rédiger de multiples façons possibles en R. 
+
+Reprenons l'exemple du sortilège `calcul_age_arrondi()`. Cette fois, il vous est proposé de le composer en réutilisant le sortilège `calcul_age()`, en complétant ce dernier par l'usage d'un pipe `%>%` et du sortilège `round()`. Pour vous guider, essayer d'assembler les briques ci-dessous :
+
+
+```{r question_brique,echo=FALSE}
+question_parsons(
+  initial = c(
+    "calcul_age_arrondi",
+    "<-",
+    "function",
+    "(",
+    ")",
+    "{",
+    "}",
+    "round()",
+    "calcul_age(nb_coeur)",
+    "%>%",
+    "nb_coeur"
+  ),
+  pass_if(
+    c(
+    "calcul_age_arrondi",
+    "<-",
+    "function",
+    "(",
+    "nb_coeur",
+    ")",
+    "{",
+    "calcul_age(nb_coeur)",
+    "%>%",
+    "round()",    
+    "}"
+    )
+  ),
+  fail_if(
+    ~length(.) < 11,
+    message = "Vous devez utiliser tous les éléments"
+  ),
+  fail_if(
+    function(x){"round" %in% x},
+    message = "Vous devez utiliser la fonction arrondi dans votre réponse"
+  ),
+  fail_if(
+    ~{.[1] != "calcul_age_arrondi"},
+    message = "La solution doit commencer par le nom de la fonction"
+  )
+)
+```
+
+
+><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
+><p><font size="2">
+>
+> Le sortilège `calcul_age_arrondi()` peut être obtenu en "augmentant" le sortilège `calcul_age()` de la façon suivante :
+>```{r, eval=FALSE}
+>calcul_age_arrondi <- function(nb_coeur){
+>  calcul_age(nb_coeur)
+>    %>% round()
+>}
+>```
+
+
+
+## Une erreur de formule !
+
+*Au fait, vous n'avez pas remarqué une anomalie dans cette histoire de calcul d'âge ?* A l'origine, la formule de calcul de l'âge se fonde sur le nombre de coeurs à la naissance, et le nombre maximum de coeurs que le statisien peut obtenir dans sa vie. Il vous a été indiqué ainsi, au début du chapitre 1, comme au début de ce chapitre 1(1), les indications suivantes :
+
+```{r, echo=FALSE}
+# Pour le commun des statisiens...
+nb_coeur <- 3
+max_nb_coeur <- 2*nb_coeur
+```
+
+Mais... dans le jeu vidéo, notre héros icaRius a déjà obtenu plus de 6 coeurs ! Il a dépassé la limite maximale autorisée `max_nb_coeur` ! Eh oui, icaRius n'est pas un statisien comme les autres. De même que la princesse Statia est née avec un Mana largement supérieur à celui des autres enfants de sa contrée, icaRius a pour lui le pouvoir d'acquérir bien plus de coeurs que ses concitoyens.
+
+En l'occurrence, icaRius pourra avoir jusqu'à 4 fois le nombre initial de coeurs qu'il a reçu au début de l'aventure. 
+
+```{r, echo=FALSE}
+# Le sujet pouvoir d'icaRius : un héros au grand coeur !
+nb_coeur <- 3
+max_nb_coeur <- 4*nb_coeur
+```
+
+Du coup, notre réponse au tout premier chapitre n'était pas la bonne ! icaRius n'a pas 24 ans... Mais alors, quel est réellement son âge ? Pour le savoir, à vous de créer un nouveau sortilège qui prend en compte les bons paramètres. 
+
+
+```{r ok-chapitre11-etape3,exercise=TRUE}
+# Créez le sortilège calcul_age_icarius()
+# qui utilise le paramètre nb_coeur
+# et le fait que max_nb_coeur = 4*nb_coeur
+
+
+
+# Invoquez le sortilège avec nb_coeur=3
+
+# Fin de l'exercice
+``` 
+     
+```{r ok-chapitre11-etape3-solution}
+# Créez le sortilège calcul_age_icarius()
+# qui utilise le paramètre nb_coeur
+# et le fait que max_nb_coeur = 4*nb_coeur
+calcul_age_icarius <- function(nb_coeur) { 
+  round(nb_coeur * pi^2 - 4 * nb_coeur)
+}
+# Invoquez le sortilège avec nb_coeur=3
+calcul_age_icarius(3)
+# Fin de l'exercice
+```
+
+```{r ok-question1,echo=FALSE}
+question("Alors, quel est l'âge véritable d'Icarius? Ne reste plus qu'à cocher la bonne réponse...pour poursuivre l'aventure!",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("18 ans",correct=TRUE),
+answer("36 ans"),
+answer("24 ans"),
+answer("La bonne réponse n'est pas dans les propositions"),
+correct="Félicitations, tu as trouvé le bon âge, c'est 18 ans (et non 24 ans comme dans le chapitre 1). L'aventure peut continuer! Reporte directement dans le jeu icaRius la bonne valeur pour débloquer la suite."
+)
+
+```   
+
+**Fin du chapitre 11  >>  reprenez la partie d'Icarius**
+
+*Version 0.9.1*

@@ -1,0 +1,216 @@
+---
+title: "Chapitre 10 - Save me !"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+```{r setup, include=FALSE}
+library(learnr)
+library(parsons)
+library(knitr)
+library(ggformula)
+library(skimr)
+library(rio)
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+#creation du graphe contenant la séquence secrète:
+coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
+des_fleches=ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
+  geom_segment(
+    size = 2, arrow = arrow(length = unit(0.3, "inches"))
+  ) + theme(plot.margin = margin(6,.2,6,.2, "cm"),
+      plot.background = element_rect(fill = "darkgrey"), 
+      axis.title=element_blank(),axis.text=element_blank(),axis.ticks = element_blank())
+
+# Import des tables des chapitres 6 et 9 pour l'exercice d'export
+file.copy(from = system.file(package = "funcampR","data","chapitre9/naissances.csv"),
+          to = "naissances.csv")
+file.copy(from = system.file(package = "funcampR","data","chapitre6/data_soldiers.csv"),
+          to = "data_soldiers.csv")
+
+# loading data for in-tutorial calculations
+naissances <- import("naissances.csv")
+naissances_1213 <-  filter(naissances, An == 1213)
+naissances_mana <- naissances %>% 
+                    filter(Genre=="F") %>%
+                    mutate(Mana = Force + Spirit) %>%
+                    arrange(desc(Mana))
+
+# Création d'un fichier nb_pontes pour la sauvegarde externe (log)
+nb_pontes <- data.frame(poulette=c("Cocotte1","Cocotte2","Cocotte3","Cocotte4"),nb_oeufs=c(10,9,20,18))
+
+# Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique)
+donnees_secretes <- import("data_soldiers.csv")
+donnees_secretes <- donnees_secretes %>%
+  select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
+donnees_secretes_df <- as.data.frame(donnees_secretes)
+graphique_chapitre6 <- donnees_secretes %>% 
+                gf_point(nb_canicule ~ dist_royaume,
+                         size = ~ nb_guerriers,
+                         shape = 5) %>% 
+                gf_text(label = ~ royaume,
+                        size = 2.5,
+                        check_overlap = TRUE) %>%
+                gf_refine(scale_x_continuous(limits = c(0, 50)))
+```
+
+```{r prepare-data}
+# relative path to data from "local random repo" of learnr exercise
+naissances<-import("../../../naissances.csv")
+
+naissances_1213 <- naissances %>% filter(An == 1213)
+naissances_mana <- naissances %>% 
+                    filter(Genre=="F") %>%
+                    mutate(Mana = Force + Spirit) %>%
+                    arrange(desc(Mana))
+
+# Création d'un fichier nb_pontes pour la sauvegarde externe
+nb_pontes <- data.frame(poulette=c("Cocotte1","Cocotte2","Cocotte3","Cocotte4"),nb_oeufs=c(10,9,20,18))
+
+# Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique)
+donnees_secretes <- import("../../../data_soldiers.csv")
+donnees_secretes <- donnees_secretes %>%
+  select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
+donnees_secretes_df <- as.data.frame(donnees_secretes)
+graphique_chapitre6 <- donnees_secretes %>% 
+                gf_point(nb_canicule ~ dist_royaume,
+                         size = ~ nb_guerriers,
+                         shape = 5) %>% 
+                gf_text(label = ~ royaume,
+                        size = 2.5,
+                        check_overlap = TRUE) %>%
+                gf_refine(scale_x_continuous(limits = c(0, 50)))
+```
+
+
+## Les sortilèges de mémoire éternelle à notre rescousse 
+
+Jamais à court d’idées pour empêcher Icarius de poursuivre sa quête, le terrible Sassos a encore frappé en lui jetant un sort totalement déboussolant… Pris au piège dans la lugubre salle de l'impossible, Icarius a totalement perdu le nord et ne sait absolument plus quel chemin emprunter pour en sortir. C’est simple, dès qu’Icarius prend une sortie, il arrive dans une nouvelle pièce … exactement identique à la précédente… Ahhhh, de quoi le rendre totalement fou !
+
+Mais comment s’échapper de ce piège?  Icarius a beau avoir une bonne mémoire, impossible pour lui de retenir la combinaison de toutes les directions prises pour sortir des différentes pièces.  Icarius ne voit plus qu’un moyen de s’en sortir… mobiliser les sortilèges de mémoire éternelle, qui lui permettront de garder la mémoire de ce qu’il a fait, des directions qu’il vient de prendre… Sans cela, Icarius est condamné à rester prisonnier des murs de ce donjon…
+
+Plus que jamais, il a besoin de votre aide pour retrouver ses repères et sauvegarder ce qu’il a déjà trouvé ! Mais avant cela, prenons le temps de nous familiariser avec les différents sortilèges de sauvegarde.
+
+## SAVE : tu  nous sauves la vie !
+
+Dans le monde des Runes, le sortilège `save` va permettre la sauvegarde d'un objet R, par exemple une table de données, dans un format propre au langage runique: le fichier "RData".
+
+*Souvenez-vous* : dans le chapitre 1, nous avons vu qu'un objet c'est comme une boite sur laquelle on peut apposer une étiquette (un nom) et dans laquelle on range un contenu (le résultat d'un calcul par exemple). L'objet est l'élément de base du langage runique. Les objets R peuvent être de type différents: data frame, vecteur, liste, graphique...
+
+Les objets sont stockés dans notre environnement de travail, lequel peut être enregistré à l'aide du sortilège `save`. Dans sa version la plus large, le sortilège save peut être utilisé comme suit pour sauvegarder tous les objets présents dans l'environnement de travail :
+```{r, collapse = TRUE, eval=FALSE}
+save.image("nom complet du chemin répertoire et du fichier")
+```
+
+Mais si on veut se limiter à la sauvegarde d'un ou plusieurs objets, c'est possible. Le sortilège save le plus basique nécessite alors au minimum 2 ingrédients :
+- le nom de l'objet que l'on souhaite sauvegarder
+- l'emplacement et le nom du fichier RData dans lequel va être stocké l'objet.
+```{r, collapse = TRUE, eval=FALSE}
+save(nom_objet_à_sauvegarder,file="chemin_du_fichier/nom_du_fichier.RData")
+```
+Ce fichier RData pourra ensuite être ouvert et lu à tout moment grâce au sortilège `load`, vu dans le chapitre 3.
+
+**Pour aller plus loin et plus vite...:**
+Il est possible de stocker dans un même fichier "RData", plusieurs objets R pouvant être de type différent. Pour cela, rien de plus simple, il suffit dans la liste des ingrédients de séparer nos différents objets à sauvegarder par des virgules.
+Si par exemple, nous souhaitons sauvegarder dans un même fichier « RData », 3 objets dont 2 tables de données et 1 vecteur, cela s’écrira alors :
+```{r, collapse = TRUE, eval=FALSE}
+save(table1_à_sauvegarder,vecteur_à_sauvegarder,table2_à_sauvegarder,file="chemin_du_fichier/nom_du_fichier.RData")
+```
+
+**Prêt pour l'échauffement ?** Pour parfaire votre apprentissage du sortilège `save`, exercez-vous en sauvegardant dans un même "RData" nommé "chapitre9_tables", les 2 tables suivantes: "naissances_1213" et "naissances_mana", correspondant aux calculs que vous avez pu conduire dans le chapitre 9 "Do you dplyr?" pour sélectionner les naissances de l'année 1213 d'une part, et trier selon le mana d'autre part.
+
+A vous de choisir le chemin où vous sauvegarderez ce fichier  sur votre poste de travail (ou sur une clef USB si vous en utilisez une). *Il faudra penser à renseigner la lettre du lecteur sur votre poste (si besoin, demander à l'animateur du Funcamp de vous aider)*
+
+
+```{r chap10-question1,exercise=TRUE, exercise.setup = "prepare-data"}
+# Sauvegarder les tables "naissances_1213" et "naissances_mana"
+
+# Fin de l'exercice
+``` 
+```{r chap10-question1-solution}
+#  Sauvegarder les tables "naissances_1213" et "naissances_mana"
+save(naissances_1213,naissances_mana,file="../sauvegarde/tables_chapitre9.RData")
+# Fin de l'exercice
+``` 
+
+
+## Oui mais si je veux sauvegarder des informations en dehors de l'environnement R ?
+
+Il est parfois nécessaire de sauvegarder des informations statistiques "en dehors de R" dans des formats qui sont compatibles avec d'autres logiciels, que ce soit le contenu de la console, des tableaux de résultats ou des graphiques. On parle alors d'exporter des objets. Par exemple, sauvegarder le contenu de la console dans un fichier txt, sauvegarder un graphique en format jpeg ou en format pdf, sauvegarder une table de données dans un fichier csv. Pour chaque objet, il existe des sortilèges d'export différents.
+
+Pour sauvegarder **le contenu de la console**, le sortilège `sink` est très efficace. Les ingrédients nécessaires à ce sortilèges sont le chemin complet vers le fichier texte dans lequel on va stocker le résultat. Exemple :
+```{r, collapse = TRUE, eval=FALSE}
+# J'amorce le "journal de bord" qui gardera trace des calculs
+sink(file="../sauvegarde/mon_journal.txt")
+# la table nb_pontes est déjà chargée. Calculons quelques statistiques descriptives
+skim(nb_pontes)
+# Enregistrons les résultats dans le journal de bord et refermons-le.
+sink()
+```
+
+Pour les **graphiques**, on peut utiliser le sortilège `ggsave`en précisant le nom du graphique:
+```{r, collapse = TRUE, eval=FALSE}
+# L'objet graphique "graphique_chapitre6" est déjà chargé.
+# Pour le sauvegarder en format pdf :
+ggsave(graphique_chapitre6,path ="../sauvegarde/",filename="graphique_chapitre6.pdf",device = "pdf" )
+#exemple pour le format jpeg :
+ggsave(graphique_chapitre6,path ="../sauvegarde/",filename="graphique_chapitre6.jpg",device = "jpeg" )
+```
+
+Pour exporter un **tableau de données**, utilisez le sortilège `export`  :
+```{r, collapse = TRUE, eval=FALSE}
+# la table nb_pontes est déjà chargée. Exportons-la.
+export(nb_pontes, "nb_pontes.csv")
+```
+## Entraine toi !
+
+A toi de jouer : tu dois désormais exporter la table naissance_1213 au format csv dans un fichier nommé naissances_1213.csv, dans le répertoire de ton choix (sur ton poste de travail ou sur ta clef USB le cas échéant). 
+
+```{r chap10-question2,exercise=TRUE, exercise.setup = "prepare-data"}
+# Sauvegarder la table "naissances_1213" au format csv
+
+# Fin de l'exercice
+``` 
+```{r chap10-question2-solution}
+# Sauvegarder la table "naissances_1213" au format csv
+export(naissances_1213,"../sauvegarde/naissances_1213.csv")
+# Fin de l'exercice
+``` 
+
+## A vous de jouer: aide Icarius à retrouver le nord!
+
+L'horrible Sassos a téléporté Icarius dans la salle de l'impossible. Prisonnier de cette pièce magique, Icarius a plus que jamais besoin de votre aide! Vous aurez pour mission de lui indiquer le chemin à suivre pour enfin pouvoir s'échapper de ce piège infernal.
+
+Mais comment ? Il se trouve que la séquence de directions qu'il doit suivre pour s'échapper est cachée dans un objet R, que vous allez devoir sauvegarder. Ensuite, il ne vous restera plus qu'à consulter le fichier créé sur votre poste de travail et à souffler les bonnes directions à Icarius. 
+
+Indication: l'objet R est un *graphique* dénommé "directions_fleches" que vous stockerez au format jpg dans un fichier dénommé enigme_chapitre10.jpg**
+
+```{r chapitre10-ex1,exercise=TRUE, exercise.setup = "prepare-data"}
+#Sauvegarder l'objet directions_fleches comme une image,
+# avec pour nom enigme_chapitre10.jpg
+
+# Fin de l'exercice
+```
+```{r chapitre10-ex1-solution}
+#Sauvegarder l'objet directions_fleches comme une image,
+# avec pour nom enigme_chapitre10.jpg
+ggsave(directions_fleches, filename="enigme_chapitre10.jpg",device = "jpeg")
+# Fin de l'exercice
+
+```
+ 
+Vous pouvez désormais reporter la séquence des directions à suivre dans le jeu **icaRius** et reprendre votre partie !
+
+**Fin du chapitre   >>  reprenez la partie d'Icarius**
+
+*Version 0.9.1*

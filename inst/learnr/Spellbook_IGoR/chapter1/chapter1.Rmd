@@ -31,7 +31,7 @@ Welcome to this first chapter of the IGoR grimoire. In this chapter, we will gra
 - start the first dialogues with R using an input window: the console
 - familiarize ourselves with the tics of R languages
 
-If necessary, do not hesitate to request one of the quizmasters moving around.
+If necessary, do not hesitate to request one of the quizmasters moving around the room.
 
 But let's start… at the beginning! R is a language used for processing statistical data, the first version of which was published in 2000. First disseminated among researchers, R is now used more and more within national statistical institutes. 
 
@@ -39,27 +39,25 @@ R allows you to make **statistical computations**, to present them in the form o
 
 Unlike other software like SAS, R is a **free software**: its license is free and allows each user to access, modify or redistribute its **source code**. The source code is the equivalent of the manual for making the software. It is also cross-platform: this means that it can be run on several operating systems (Windows, Mac, Linux ...)
 
-## Des Quiz tu triompheras
+## Quizzes you will defeat
 
-Dans l'aventure d'icaRius, vous serez parfois amené(e) à répondre à des quiz pour aider le personnage à poursuivre sa quête. En voici un tout premier, histoire de se familiariser avec le format de l'exercice. À vous donc de répondre directement en cochant votre choix puis en appuyant sur le bouton qui s'intitule `Submit answer` (*envoyer la réponse*).
+In the adventure of icaRius, you will sometimes be asked to answer quizzes to help the character continue his quest. Here is a very first one, just to familiarize yourself with the format of the exercise. So it's up to you to respond directly by checking your choice and then pressing the button called `Submit answer`.
 
-À ce sujet, vous croiserez de temps à autre quelques mots étranges issus de la langue de Shakespeare. Le langage runique emprunte en effet quelques termes à nos voisins *grands brittons*... Mais le grimoire vous proposera toujours la traduction dans la langue - infiniment plus mélodieuse - de Molière...
-
-En cas de besoin sur le mode de fonctionnement, n'hésitez pas à solliciter un animateur circulant dans la salle.
+If you need to know how to operate, do not hesitate to ask for one of the quizmasters moving around the room.
 
 ```{r ok-quiz-1,echo=FALSE}
 quiz(
-  question("Qu'est-ce que R ne fait PAS ?",
-    answer("de très beaux graphiques"),
-    answer("des calculs statistiques"),
-    answer("de très belles cartes géographiques"),
-    answer("le café", correct = TRUE),
-    answer("des applications web")
+  question("What does R NOT do?",
+    answer("very nice graphics"),
+    answer("statistical computations"),
+    answer("awesome geographical maps"),
+    answer("coffee", correct = TRUE),
+    answer("web applications")
   ),
-  question('Que signifie "logiciel libre" ?',
-    answer("un logiciel libre est un logiciel sauvage, on ne le trouve pas à l'état domestique"),
-    answer("un logiciel libre est un logiciel qui autorise librement l'utilisation, l'étude, la modification et la redistribution", correct = TRUE),
-    answer("un logiciel libre est un logiciel qu'on a vu voler")
+  question('What does "free software" mean?',
+    answer("a free software is a wild software, it cannot be found at home"),
+    answer("a free software is a software that freely authorizes the use, study, modification and redistribution", correct = TRUE),
+    answer("free software is software that has been seen flying")
   )
 )
 ```

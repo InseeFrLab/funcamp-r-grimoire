@@ -62,20 +62,20 @@ quiz(
 )
 ```
 
-## Premiers pas dans la console
+## First steps in the console
 
-Vous pourriez penser que nous allons vous proposer une "console" de jeux vidéo. Malheureusement, ce n'est pas tout à fait le cas. Nous parlerons dans le grimoire de console pour désigner une partie de l'écran où vous pourrez vous-même vous exercer à pratiquer le langage des Runes - autrement dit, à écrire vous-mêmes du R et à en voir le résultat. C'est donc une **console R** !
+You might think that we are going to offer you a video game “console”. Unfortunately, this is not quite the case. In the quest, we will talk about a console to designate a part of the screen where you can practice the Rune Language yourself - in other words, write R yourself and see the result. So it's an **R console**!
 
-Sous ces lignes se trouve une console R et, à la manière d'une calculatrice, il est possible de lui demander de réaliser des calculs  : tapez ci-dessous, dans la console, un calcul tel que `2 + 2` (c'est tout de même plus dur que `1 + 1`). Appuyez ensuite sur le bouton  ![](images/run_code.png) en haut à droite de la console pour faire executer le code (*run code* signifie *exécuter le code*). La réponse de votre calcul s'affichera alors en dessous de la console.
+Under these lines is an R console and, like a calculator, it is possible to ask it to perform calculations: type below, in the console, a calculation such as `2 + 2` (that's all even harder than `1 + 1`). Then press the button ![](images/run_code.png) at the top right of the console to execute the code (run code means execute the code). The answer to your calculation will then be displayed below the console.
 
 
 ```{r ok-two-plus-two, exercise=TRUE}
 
 ```
 
-R  répond `4` et heureusement ! À l'avenir nous allons lui faire faire des choses beaucoup plus compliquées...
+R fortunately answers `4`! In the future we're going to make it do much more complicated things ...
 
-R a ses tics, comme tout le monde. Ici, son tic de langage, c'est d'afficher la valeur d'un objet en commençant par quelque chose comme `[1]`. Un peu comme quelqu'un qui commencerait toujours ses phrases par "en fait" (ou "euh" selon la préciosité de son langage). 
+R has its tics, like everything else. Here, its tic of language is to display the value of an object starting with something like `[1]`. Kind of like someone who always starts sentences with "actually" (or "uh" depending on how precious his language is). 
 
 ## Exercez-vous...
 

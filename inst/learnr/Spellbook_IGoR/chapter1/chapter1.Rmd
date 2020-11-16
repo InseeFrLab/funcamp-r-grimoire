@@ -1,5 +1,5 @@
 ---
-title: "Chapter 1 - Compute the Age of Icarius"
+title: "Chapter 1 - Calculate the Age of Icarius"
 output: 
   html_document:
     theme: cerulean
@@ -22,22 +22,22 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Premières conversations runiques
+## First runic conversations
 
 
-Bienvenu(e) dans ce premier chapitre du grimoire IGoR. Au cours de ce chapitre, nous allons progressivement : 
+Welcome to this first chapter of the IGoR grimoire. In this chapter, we will gradually:
 
-- comprendre ce qu'est le fameux langage runique R
-- entamer les premiers dialogues avec R via une fenêtre de saisie : la console
-- nous familiariser avec les tics de langages de R
+- understand what is the famous runic language R
+- start the first dialogues with R using an input window: the console
+- familiarize ourselves with the tics of R languages
 
-En cas de besoin, n'hésitez pas à solliciter un animateur circulant dans la salle.
+If necessary, do not hesitate to request one of the quizmasters moving around.
 
-Mais commençons... par le commencement ! R est un langage utilisé pour le traitement de données statistiques, dont la première version a été publiée en 2000. D'abord diffusé parmi les chercheurs, R est aujourd'hui de plus en plus utilisé au sein des Instituts nationaux de statistiques. 
+But let's start… at the beginning! R is a language used for processing statistical data, the first version of which was published in 2000. First disseminated among researchers, R is now used more and more within national statistical institutes. 
 
-R permet de faire des **calculs statistiques**, de les restituer sous forme de **tableaux** et également de tracer des **graphiques** et des cartes géographiques. Les résultats produits dans R peuvent être exportés dans des **rapports** et même être intégrés dans des **applications web** en ligne. Maîtriser le langage des Runes est un grand pouvoir ~qui implique de grandes responsabilités~ !
+R allows you to make **statistical computations**, to present them in the form of **tables** and also to draw **graphs** and geographical maps. The results produced with R can be exported into **reports** and even be integrated in **web applications**. Mastering the Language of the Runes is a great power ~that comes with great responsibility~!
 
-À la différence d'autres logiciels comme SAS, R est un **logiciel libre** : sa licence d'utilisation est gratuite et autorise chaque utilisateur à accéder, modifier ou redistribuer son *code source.* Le code source est l'équivalent du mode d'emploi pour la fabrication du logiciel. Il est aussi **multi-plateforme** : cela signifie qu'il peut être executé sur plusieurs systèmes d'exploitation (Windows, Mac, Linux...)
+Unlike other software like SAS, R is a **free software**: its license is free and allows each user to access, modify or redistribute its **source code**. The source code is the equivalent of the manual for making the software. It is also cross-platform: this means that it can be run on several operating systems (Windows, Mac, Linux ...)
 
 ## Des Quiz tu triompheras
 

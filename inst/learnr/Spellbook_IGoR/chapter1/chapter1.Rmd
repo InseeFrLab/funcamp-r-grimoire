@@ -1,5 +1,5 @@
 ---
-title: "Chapitre 1 - Calculer l'âge d'IcaRius"
+title: "Chapter 1 - Compute the age of Icarius"
 output: 
   html_document:
     theme: cerulean

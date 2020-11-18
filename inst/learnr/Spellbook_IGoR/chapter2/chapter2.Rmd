@@ -51,27 +51,27 @@ To load a file, we use a spell provided for this purpose in R. In the Runes' lan
 
 For then, let's discover a first spell, called `import()`, which allows, as its name suggests, to *import* a file into R. To use `import()`, an ingredient has to be specified: the location of the file to read.
 
-`` '{r, collapse = TRUE, eval = FALSE}
+```{r, collapse = TRUE, eval = FALSE}
 # I import the file
 import("file_path")
-`` ``
+```
 
 Let's tidy up what you are importing in R. For that, assign the content of the imported file to a new object in R, by choosing cleverly the name of this object. For example, let's call `egglaying_book_1` the new object that will hold in R information read from the SAS file.
 
-`` '{r, collapse = TRUE, eval = FALSE}
+```{r, collapse = TRUE, eval = FALSE}
 # I import the file and assign it to the egglaying_book_1 object
 egglaying_book_1 <- import ("file_path")
-`` ``
+```
 In this way, by calling the `egglaying_book_1` object in R console, it is easy to explore its content. In our case:
 
-`` '{r, echo = FALSE}
+```{r, echo = FALSE}
 egglaying_book_1 <- import("spawns_week1.sas7bdat")
-`` ``
+```
 
-`` '{r, collapse = FALSE}
+```{r, collapse = FALSE}
 # I display the content of the egglaying_book_1 object
 egglaying_book_1
-`` ``
+```
 
 Here it is : it's already over for the first file! The latter gives the number of eggs per hen for a full week. It contains two types of information: the name of the hen (`Hen` column) and the number of eggs laid (`Eggs` column). There are 6 observations, one per hen. For example, Tarty hen laid 26 eggs - by the way, she is the best layer of the week!
 
@@ -86,14 +86,14 @@ Let's pratice now ! First, you must find the location of the file to be read. If
 
 In the example above, the correct address for spawning file is `E:/data/chapter2/pontes_semaine1.sas7bdat`. **Please note, in your case, the first letter may be different and depends on your workstation (letter D, E, F ...)**. Having taken care to check the letter corresponding to the one assigned for your USB key or local directory, load the file in an object named `egglaying_book_1`
 
-`` '{r ok-chapter2-step1, exercise = TRUE}
+```{r ok-chapter2-step1, exercise = TRUE}
 # Load the file spawns_week1.sas7bdat by indicating its path
 # and assign the result to the object named egglaying_book_1
 
 
 # Display the content of the egglaying_book_1 object
 
-`` ``
+```
 
 <div id = "ok-chapter2-step1-hint">
 **Help 1:** Use the `import()` function. Be sure to indicate the correct path in parentheses.

@@ -1,5 +1,5 @@
 ---
-title: "Chapitre 2 - des poules et des oeufs"
+title: "Chapter 2 - chickens and eggs"
 output: 
   html_document:
     theme: cerulean
@@ -33,70 +33,70 @@ file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semai
 ```
 
 
-Vous venez de rencontrer la fermière du village Kokoro, désespérée d'avoir perdu le livre de compte où, chaque jour, elle note consciencieusement le nombre de pontes. 
+You have just met the farmer in Kokoro village : she is desperate about having lost the egg-laying book in which, every day, she conscientiously notes the number of eggs.
 
-Aidons IcaRius à reconstituer le livre de compte. Ce dernier n'est pas tout à fait perdu : il en reste une copie, éclatée dans plusieurs fragments par le redoutable sorcier SaSSoS ! Pour  corser le tout, chaque fragment a été ensorcelé et semble indéchiffrable... Ils sont en effet chacun dans d'étranges formats : SAS, Excel, Calc...
+Let's help IcaRius rebuild the egg-laying book. The latter is not entirely lost: a copy has been broken up into several fragments by the dreaded wizard SaSSoS! Furthermore, each fragment has been bewitched and seems indecipherable ... They are indeed each in strange formats: SAS, Excel, Calc...
 
-**Aie aie aie.**
+**Ouch !!!**
 
-## Un Sasseur sait bien sasser... sur R ?
+## A SAS user knows how to SAS... on R?
 
-Commençons par le fragment ensorcelé sous le format SAS - qui rappellera peut-être quelques souvenirs aux aventuriers les plus aguerris. Nous allons donc apprendre, en R, à lire un fichier SAS. 
+Let's start with the bewitched fragment in SAS format - which may bring back some memories to the oldest (and wisest?) statisticians of us. We are therefore going to learn how to read a SAS file... in R!
 
-Le contenu de ce fichier - que seul le terrible SaSSoS est normalement capable de lire, est le suivant :
+Content of this file - which can only be understood by the baleful SaSSoS - is as follows:
 
 ![](images/pontes_sas.png)
 
-Pour charger un fichier, nous allons utiliser un sortilège prévu à cet effet dans R. Dans le monde des Runes, un sortilège est identifié par **son nom suivi de parenthèses** :`nomsortilege()`. Nous en parlerons davantage dans un prochain chapitre. 
+To load a file, we use a spell provided for this purpose in R. In the Runes' language, a spell is identified by **its name followed by parentheses**: `spellname()`. We will explain more about this in next chapters.
 
-Pour lors, nous allons découvrir un premier sortilège, dénommé `import()`, qui permet, comme son nom l'indique, d'importer (*import*) un fichier dans R. Pour utiliser `import()`, il y a un ingrédient à préciser : l’emplacement du fichier à lire.
+For then, let's discover a first spell, called `import()`, which allows, as its name suggests, to *import* a file into R. To use `import()`, an ingredient has to be specified: the location of the file to read.
 
-```{r, collapse = TRUE, eval=FALSE}
-# J'importe le fichier
-import("chemin_du_fichier")
-```
+`` '{r, collapse = TRUE, eval = FALSE}
+# I import the file
+import("file_path")
+`` ``
 
-Pour s'y retrouver, autant tout de suite ranger ce que l'on est en train d'importer dans R. Pour cela, on assigne à un nouvel objet le contenu du fichier importé, en choisissant astucieusementle nom de cet objet. Par exemple, appelons `livre_compte_1` ce qui sera importé dans R en lisant le fichier SAS. 
+Let's tidy up what you are importing in R. For that, assign the content of the imported file to a new object in R, by choosing cleverly the name of this object. For example, let's call `egglaying_book_1` the new object that will hold in R information read from the SAS file.
 
-```{r, collapse = TRUE, eval=FALSE}
-# J'importe le fichier et je l'assigne à l'objet livre_compte_1
-livre_compte_1 <- import("chemin_du_fichier")
-```
-De cette façon, en appelant l'objet `livre_compte_1` dans la console R, il est aisé d'en consulter le contenu. En l'occurence :
+`` '{r, collapse = TRUE, eval = FALSE}
+# I import the file and assign it to the egglaying_book_1 object
+egglaying_book_1 <- import ("file_path")
+`` ``
+In this way, by calling the `egglaying_book_1` object in R console, it is easy to explore its content. In our case:
 
-```{r, echo=FALSE}
-livre_compte_1 <- import("pontes_semaine1.sas7bdat")
-```
+`` '{r, echo = FALSE}
+egglaying_book_1 <- import("spawns_week1.sas7bdat")
+`` ``
 
-```{r, collapse = FALSE}
-# J'affiche le contenu de l'objet livre_compte_1
-livre_compte_1
-```
+`` '{r, collapse = FALSE}
+# I display the content of the egglaying_book_1 object
+egglaying_book_1
+`` ``
 
-Et voilà, c'est fini pour le premier fichier ! Ce dernier donne le nombre de pontes par poule pour une semaine complète. Il comporte deux types d'information : le nom de la poule (colonne `Poule`) et le nombre d'oeufs pondus (colonne `Oeufs`). Il y a 6 enregistrements, un par poule. Par exemple, la poule Kokot a pondu 26 oeufs - c'est d'ailleurs la meilleure pondeuse de la semaine !
+Here it is : it's already over for the first file! The latter gives the number of eggs per hen for a full week. It contains two types of information: the name of the hen (`Hen` column) and the number of eggs laid (`Eggs` column). There are 6 observations, one per hen. For example, Tarty hen laid 26 eggs - by the way, she is the best layer of the week!
 
-Et si vous pratiquiez vous-même ? Pour cela, il faut d'abord trouver l’emplacement du fichier à lire, sur votre poste de travail par exemple. En l'occurrence, le fichier est présent sur la clé USB qui vous a été remise en début de partie. Cherchons donc l'emplacement à partir  de l'explorateur dans windows. 
+Let's pratice now ! First, you must find the location of the file to be read. If you have launched this tutorial from local content on your workstation, files can be found in local directory you create when downloading the FuncampR ressources. It is the case for instance if you use a FuncampR USB Key. So let's find the location from the explorer in windows (note that it will be different if you are reading tutorials online, see below).
 
 ![](images/pontes_chemin.png)
 
-<p style="border:1px; border-style:solid; border-color:#000000; padding: 1em;">
-**Attention :** pour spécifier le chemin d’un fichier, il va falloir jongler avec les signes cabalistiques que sont les `/` et les `\` (ça ne s'appelle pas le langage des Runes pour rien). Contrairement à Windows où le backslash `\` est utilisé pour écrire un chemin, en R il faut écrire avec un slash `/`. Pensez donc à modifier le chemin du répertoire lors d'un copier coller de ce dernier depuis l’explorateur. Enfin, n'oubliez pas d'ajouter à la fin le nom du fichier (`pontes_semaine1`) avec son extension (`.sas7bdat`). 
+<p style = "border: 1px; border-style: solid; border-color: # 000000; padding: 1em;">
+**Warning:** to specify the file path, you will have to juggle with the cabalistic signs `/` and `\` (this is not called the Runes language for nothing). Unlike Windows where the backslash `\` is used to specify a path, in R you must write it with a slash `/`. Remember to change directory path when copying and pasting it from the explorer. Finally, don't forget to add the name of the file (`egglaying_book_1`) with its extension (`.sas7bdat`) at the end.
 </p>
 
 
-Dans l'exemple ci-dessus, la bonne adresse pour notre fichier de ponte c'est donc `E:/data/chapitre2/pontes_semaine1.sas7bdat`. **Attention, dans votre cas, la première lettre peut être différente et dépend de votre poste de travail (lettre D, E, F...)**. En ayant pris soin de vérifier la lettre correspondant à celle assignée pour votre clef USB, chargez vous-mêmes le fichier dans une table nommée `livre_compte_1`
+In the example above, the correct address for spawning file is `E:/data/chapter2/pontes_semaine1.sas7bdat`. **Please note, in your case, the first letter may be different and depends on your workstation (letter D, E, F ...)**. Having taken care to check the letter corresponding to the one assigned for your USB key or local directory, load the file in an object named `egglaying_book_1`
 
-```{r ok-chapitre2-etape1,exercise=TRUE}
-# Charger le fichier pontes_semaine1.sas7bdat en indiquant son chemin
-# et assigner le résultat à l'objet nommé livre_compte_1
+`` '{r ok-chapter2-step1, exercise = TRUE}
+# Load the file spawns_week1.sas7bdat by indicating its path
+# and assign the result to the object named egglaying_book_1
 
 
-# Afficher le contenu de l'objet livre_compte_1
+# Display the content of the egglaying_book_1 object
 
-``` 
+`` ``
 
-<div id="ok-chapitre2-etape1-hint">
-**Aide 1:** Utiliser la fonction `import()`. Veillez à indiquer le bon chemin entre parenthèses
+<div id = "ok-chapter2-step1-hint">
+**Help 1:** Use the `import()` function. Be sure to indicate the correct path in parentheses.
 </div>
 
 ## Tremblez, messieurs les tableurs

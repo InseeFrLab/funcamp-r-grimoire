@@ -101,93 +101,92 @@ Try some calculations, freely and on your own:
 ```
 
 
-## Mettre un peu d'ordre dans R
+## Put R in order
 
-<span style="color:#18AC3E;font-size:16px">**Créer un objet**</span>
+<span style="color:#18AC3E;font-size:16px">**Create an object**</span>
 
-Pour aller plus loin qu'une simple calculatrice, R permet de garder en mémoire tous les calculs que vous lui demandez d'exécuter, et de conserver aussi le résultat de ces calculs. Pour s'y retrouver dans cette gigantesque mémoire, un peu d'organisation s'impose ! 
+To go further than a simple calculator, R allows you to remember all the calculations you ask it to perform and also to keep the result of these calculations. To navigate this gigantic memory, a little organization is needed! 
 
-Dans R, l'information peut être rangée dans ce nous appellerons des **objets** : pour donner une image, un objet c'est comme une boite sur laquelle on peut apposer une étiquette (un nom) et dans laquelle on range un contenu (le résultat d'un calcul par exemple). Le fait de donner des noms aux objets permet de mieux s'y retrouver dans des longs calculs.
+In R, information can be stored in what we will call **objects**: to illustrate, an object is like a box on which we can affix a label (a name) and in which we store a content (the result of a calculation for example). Giving names to objects helps you navigate long calculations.
 
-Par exemple, nous allons créer un objet dont le nom est `nb_coeur`, qui servira à stocker la valeur relative au nombre de coeurs du héros dans le jeu. Icarius démarre la partie avec 3 coeurs, la valeur que nous voulons donner à `nb_coeurs` est donc 3. Pour ranger la valeur 3 dans l'objet appelé nb_coeur, le langage runique comporte un signe bien particulier, à savoir la flèche `<-`. Elle est construite en juxtaposant le signe `<` au tiret `-`. Attribuer une valeur à un objet par une flèche `<-` correspond à la notion d'*assignation*. Par exemple :
-
-```{r, collapse = TRUE}
-# Je crée l'objet nb_coeur (nombre de coeurs du héros)
-# en lui assignant la valeur 3
-nb_coeur <- 3
-```
-
-Le code ci-dessus assigne la valeur 3 à l'objet `nb_coeur`. Vous noterez que la flèche utilisée pour assigner est orientée de droite à gauche : elle va de la valeur (ici 3) à l'objet qui recueille la valeur (ici `nb_coeur`). 
-
-Au fait, dans R, tout ce qui apparaît après un `#` sert de commentaire : R ne lit pas ces lignes (qui apparaissent dans une autre couleur). Cela vous permet d'annoter le code pour le documenter, comme dans ce tutoriel.
-
-L'objet `nb_coeur` a été créé. Pour afficher son contenu dans R, il suffit... de taper son nom :
+For example, we are going to create an object named `n_lives`, which will be used to store the number of the hero's lives in the game. Icarius starts its journey with 3 lives, therefore the value we want to give to `n_lives` is 3. To store the value 3 in the object called `n_lives`, the runic language has a very particular sign, namely the arrow `<-`. It is constructed by juxtaposing the sign `<` with the dash `-`. The assignment of a value to an object is performed with the arrow `<-`. For example:
 
 ```{r, collapse = TRUE}
-# Affichage de la valeur d'un objet en tapant son nom
-nb_coeur
+# I create the n_lives object (number of the hero's lives)
+# assigning to it the value 3
+n_lives <- 3
 ```
 
+The above code assigns the value 3 to the `n_lives` object. You will notice that the arrow used to assign is oriented from right to left: it goes from the value (here 3) to the object that collects the value (here `n_lives`).
 
-<span style="color:#18AC3E;font-size:16px">**Calculer avec des objets**</span>
+By the way, in R, anything that appears after the symbol `#` serves as a comment: R does not read these lines (which appear in another color). This allows you to annotate the code to document it, as in this tutorial.
 
-Les objets peuvent être utilisés dans des opérations de multiple nature, à commencer par du calcul sur des valeurs numériques. Nous allons ainsi multiplier l'objet `nb_coeur` par 2. Nous l'avons vu, la multiplication dans R s'écrit avec la touche `*`
+The `n_lives` object has been created. To display its value in R, all you have to do is... to type its name:
 
 ```{r, collapse = TRUE}
-# Une opération arithmétique sur l'objet nb_coeur
-2*nb_coeur
+# Display the value of an object by typing its name
+n_lives
 ```
 
-Il est possible de créer un nouvel objet à partir d'un objet existant et d'une opération comme un calcul. Par exemple, nous allons créer l'objet `max_nb_coeur` pour désigner le nombre maximum de coeurs que le héros aura dans l'aventure. Ici, 
+
+<span style="color:#18AC3E;font-size:16px">**Calculate with objects**</span>
+
+Objects can be used in operations of many kinds, starting with calculations on numerical values. We are thus going to multiply the object `n_lives` by 2. As we have seen, the multiplication in R is written with the `*` key
 
 ```{r, collapse = TRUE}
-# Une opération arithmétique qui est associée à la création d'un nouvel objet,
-# max_nb_coeur, pour désigner le nombre maximum de coeurs du héros
-max_nb_coeur <- 2*nb_coeur
-# Affichage de la valeur de max_nb_coeur
-max_nb_coeur
+# An arithmetic operation on the n_lives object
+2*n_lives
 ```
 
-<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+It is possible to create a new object from an existing object and an operation such as a calculation. For example, we are going to create the `max_n_lives` object to designate the maximum number of lives the hero may have in the adventure. Here,
 
-Nous vous proposons de créer ci-dessous les variables `nb_coeur` et `max_nb_coeur`, en leur assignant respectivement les valeurs 3 et 6, puis d'afficher leur valeur. Au fait, une astuce : dans la console R, vous pouvez également afficher la solution pour avoir une aide avec le bouton :
+```{r, collapse = TRUE}
+# An arithmetic operation which is associated with the creation of a new object,
+# max_n_lives, to designate the maximum number of hero's lives
+max_n_lives <- 2*n_lives
+# Display the value of max_n_lives
+max_n_lives
+```
+
+<span style="color:#18AC3E;font-size:16px">**Try for yourself!**</span>
+
+We suggest you to create the objects `n_lives` and `max_n_lives` below, assigning them the values 3 and 6 respectively, then displaying their values. By the way, here's a tip: in the R console, you also can display the solution to get help with the following button:
 ```{r image_2, echo=FALSE, fig.cap="", out.width = '70px'}
 knitr::include_graphics("images/solution.png")
 ```
 
 
 ```{r ok-chapitre1-etape1,exercise=TRUE}
-# Création des variables nb_coeur et max_nb_coeur
+# Create the object n_lives and max_n_lives
 
 
-# Affichage de leur valeur
+# Display their values
 
 
-# Fin de l'exercice
+# End of the exercise
 ``` 
   
 
 ```{r ok-chapitre1-etape1-solution}
-# Création des variables nb_coeur et max_nb_coeur
-nb_coeur<-3
-max_nb_coeur<-2*nb_coeur
-# Affichage de leur valeur
-nb_coeur
-max_nb_coeur
-# Fin de l'exercice
+# Create the object n_lives and max_n_lives
+n_lives<-3
+max_n_lives<-2*n_lives
+# Display their values
+n_lives
+max_n_lives
+# End of the exercise
 ```   
 
 
-<span style="color:#18AC3E;font-size:16px">**Des objets préchargés**</span>
+<span style="color:#18AC3E;font-size:16px">**Preloaded objects**</span>
 
-Pour vous aider dans votre quête, le langage des Runes comporte déjà quelques "objets" déjà rangés à l'avance. Par exemple, la valeur de pi est stockée dans l'objet `pi`. 
+To help you in your quest, the language of the Runes already has a few “items” already stored in advance. For example, the value of pi is stored in the object `pi`. 
 
 ```{r, collapse = TRUE}
-# Afficher la valeur de pi dans R
+# Display the value of pi in R
 pi
 ```
 
-Parlons un instant des décimales. Vous avez l'habitude d'utiliser une virgule pour indiquer les décimales dans un nombre, non ? Comme 3,1415 pour pi ? Certes, mais les pays anglophones ont choisi le point comme séparateur décimal, et c'est cette convention que l'on retrouve dans les langages comme R. C'est pour cela que R affiche `3.14` et non `3,14`. Il vous faudra vous plier à cette règle dans votre apprentissage du langage des Runes sous peine de vous faire rouspeter par la console.
 
 
 

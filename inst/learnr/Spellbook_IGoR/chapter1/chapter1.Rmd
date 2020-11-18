@@ -77,9 +77,9 @@ R fortunately answers `4`! In the future we're going to make it do much more com
 
 R has its tics, like everything else. Here, its tic of language is to display the value of an object starting with something like `[1]`. Kind of like someone who always starts sentences with "actually" (or "uh" depending on how precious his language is). 
 
-## Exercez-vous...
+## Practice...
 
-Voici une console un peu plus grande qui contient des instructions pré-remplies, exécutez-les toujours avec le bouton ![](images/run_code.png) pour voir comment R structure sa réponse à votre sollicitation :
+Here is a slightly larger console that has some pre-populated instructions, always run them with the button to see how R structures its response to your instructions
 
 ```{r ok-several_instructions, exercise=TRUE, exercices.lines = 10}
 3 + 3
@@ -88,13 +88,13 @@ Voici une console un peu plus grande qui contient des instructions pré-remplies
 
 ```
 
-La console est un lieu de dialogue, vous commandez et R s'exécute ! Notez que vous voyez apparaître tous les résultats les uns à la suite des autres (par exemple, il y a 3 calculs demandés ici séparément, et R vous répond bien par 3 résultats) : il y a donc **une réponse par instruction passée**.
+The console is a place of dialogue, you command and R does it! Note that you see all the results appear one after the other (for example, there are 3 calculations requested here separately, and R answers you with 3 results): therefore, there is **one answer per instruction**.
 
-Dans la façon d'écrire le langage des Runes, le nombre d'espaces est sans importance :  `3 + 3`, `3+3` , c'est du pareil au même.
+n the way of writing the language of Runes, the number of spaces is irrelevant: `3 + 3`, `3+3`, they are all the same.
 
-Chaque langage a sa façon de comprendre des opérations mathématiques. Pour les fondamentaux, R utilise `+` pour les additions et `-` pour les soustractions (jusqu'ici tout va bien), mais aussi `*` pour la multiplication et `/` pour la division.
+Each language has its own way of understanding mathematical operations. For fundamentals, R uses `+` for addition and `-` for subtraction (so far so good), but also `*` for multiplication and `/` for division.
 
-Essayez quelques calculs, librement et par vous-même : 
+Try some calculations, freely and on your own:
 
 ```{r ok-error_is_ok, exercise=TRUE}
 

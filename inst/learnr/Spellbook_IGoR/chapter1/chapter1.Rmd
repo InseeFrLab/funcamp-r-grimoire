@@ -57,7 +57,7 @@ quiz(
   question('What does "free software" mean?',
     answer("a free software is a wild software, it cannot be found at home"),
     answer("a free software is a software that freely authorizes the use, study, modification and redistribution", correct = TRUE),
-    answer("free software is software that has been seen flying")
+    answer("a free software is a software working only with escape key")
   )
 )
 ```

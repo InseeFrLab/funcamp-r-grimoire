@@ -27,21 +27,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Welcome to this first chapter of the IGoR grimoire. In this chapter, we will gradually:
 
-- understand what is the famous runic language R
+- understand what is the famous runic R language
 - start the first dialogues with R using an input window: the console
-- familiarize ourselves with the tics of R languages
+- familiarize ourselves with the tics of R language
 
 If necessary, do not hesitate to request one of the quizmasters moving around the room.
 
-But let's start… at the beginning! R is a language used for processing statistical data, the first version of which was published in 2000. First disseminated among researchers, R is now used more and more within national statistical institutes. 
+But let's start… at the beginning! R is a language used for processing statistical data, the first version of which was published in 2000. First disseminated among researchers community, R is now used more and more within national statistical institutes. 
 
-R allows you to make **statistical computations**, to present them in the form of **tables** and also to draw **graphs** and geographical maps. The results produced with R can be exported into **reports** and even be integrated in **web applications**. Mastering the Language of the Runes is a great power ~that comes with great responsibility~!
+R allows you to make **statistical computations**, to present them for instance as **tables** and also to draw **graphs** and geographical maps. The results produced with R can be exported into **reports** and can even be integrated in **web applications**. Mastering the Language of the Runes is then a great power ~that comes with great responsibility~!
 
 Unlike other software like SAS, R is a **free software**: its license is free and allows each user to access, modify or redistribute its **source code**. The source code is the equivalent of the manual for making the software. It is also cross-platform: this means that it can be run on several operating systems (Windows, Mac, Linux ...)
 
 ## Quizzes you will defeat
 
-In the adventure of icaRius, you will sometimes be asked to answer quizzes to help the character continue his quest. Here is a very first one, just to familiarize yourself with the format of the exercise. So it's up to you to respond directly by checking your choice and then pressing the button called `Submit answer`.
+In the adventure of icaRius, you will sometimes be asked to answer quizzes to help the hero continue his quest. Here is a very first one, just to familiarize yourself with the format of the exercise. So it's up to you to respond directly by checking your choice and then pressing the button called `Submit answer`.
 
 If you need to know how to operate, do not hesitate to ask for one of the quizmasters moving around the room.
 
@@ -79,7 +79,7 @@ R has its tics, like everything else. Here, its tic of language is to display th
 
 ## Practice...
 
-Here is a slightly larger console that has some pre-populated instructions, always run them with the button to see how R structures its response to your instructions
+Here is a slightly larger console that has some pre-written instructions, always run them with the button to see how R structures its response to your instructions
 
 ```{r ok-several_instructions, exercise=TRUE, exercices.lines = 10}
 3 + 3
@@ -88,7 +88,7 @@ Here is a slightly larger console that has some pre-populated instructions, alwa
 
 ```
 
-The console is a place of dialogue, you command and R does it! Note that you see all the results appear one after the other (for example, there are 3 calculations requested here separately, and R answers you with 3 results): therefore, there is **one answer per instruction**.
+The console is a place of dialogue : you command and R does it! Note that you see all the results appear one after the other (for example, there are 3 calculations requested here separately, and R gives you back 3 results): therefore, there is **one answer per instruction**.
 
 n the way of writing the language of Runes, the number of spaces is irrelevant: `3 + 3`, `3+3`, they are all the same.
 
@@ -107,9 +107,9 @@ Try some calculations, freely and on your own:
 
 To go further than a simple calculator, R allows you to remember all the calculations you ask it to perform and also to keep the result of these calculations. To navigate this gigantic memory, a little organization is needed! 
 
-In R, information can be stored in what we will call **objects**: to illustrate, an object is like a box on which we can affix a label (a name) and in which we store a content (the result of a calculation for example). Giving names to objects helps you navigate long calculations.
+In R, information can be stored in what we will call **objects**: to illustrate, an object is like a box on which we can write a label (a name) and in which we store a content (the result of a calculation for example). Giving names to objects helps you navigate long calculations.
 
-For example, we are going to create an object named `n_lives`, which will be used to store the number of the hero's lives in the game. Icarius starts its journey with 3 lives, therefore the value we want to give to `n_lives` is 3. To store the value 3 in the object called `n_lives`, the runic language has a very particular sign, namely the arrow `<-`. It is constructed by juxtaposing the sign `<` with the dash `-`. The assignment of a value to an object is performed with the arrow `<-`. For example:
+For example, we are going to create an object named `n_lives`, that will be used to store the number of the hero's lives in the game. Icarius starts its journey with 3 lives, therefore the value we want to give to `n_lives` is 3. To store the value 3 in the object called `n_lives`, the runic language has a very particular sign, namely the arrow `<-`. It is constructed by concatenating the sign `<` with the dash `-`. The assignment of a value to an object is performed with the arrow `<-`. For example:
 
 ```{r, collapse = TRUE}
 # I create the n_lives object (number of the hero's lives)
@@ -180,7 +180,7 @@ max_n_lives
 
 <span style="color:#18AC3E;font-size:16px">**Preloaded objects**</span>
 
-To help you in your quest, the language of the Runes already has a few “items” already stored in advance. For example, the value of pi is stored in the object `pi`. 
+To help you in your quest, the language of the Runes already has a few “items” already built in. For example, the value of pi is stored in the object `pi`. 
 
 ```{r, collapse = TRUE}
 # Display the value of pi in R
@@ -201,7 +201,7 @@ knitr::include_graphics("images/icarius_hero.png")
 </p>
 
 
-In the world of Statis, age follows a somewhat strange logic. At birth, the statisians have for age their number of lives multiplied by the number pi squared, from which we subtract the maximum number of lives that they will be able to have during their journey… To facilitate the whole, one will admit to take the rounding of the result...
+In the world of Statis, age follows a somewhat strange logic. At birth, the age of the statisian corresponds to their number of lives multiplied by pi squared, from which we subtract the maximum number of lives that they will be able to have during their journey… To facilitate the whole, one will admit to take the rounding of the result...
 
 **Ayyayya!** 
 

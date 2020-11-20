@@ -4,11 +4,11 @@
 
 # General purpose
 
-The goal of funcamp-r-grimoire is to deploy tutorials built as shiny_prerendered and shiny rmd and gathered in R package and/or docker. Each tutorial is presented as a chapter of a grimoire, which the trainee opens as he progresses in the Icarius game. The tutorial n°XX corresponds to the chapterXX.Rmd file. All tutorials are grouped in a directory named `learnr` and stored in their `chapterXX` sub-directory. In addition, a `data` directory groups together the data files necessary to monitor the exercises. All source files are stored in sub-directories corresponding to the chapter concerned.
+The goal of funcamp-r-grimoire is to deploy tutorials built as shiny_prerendered and shiny rmd that are gathered in a R package and/or docker. Each tutorial is presented as a chapter of a "grimoire", which the trainee opens during his quest in the Icarius game. The tutorial n°XX corresponds to the chapterXX.Rmd file. All the tutorials are grouped in a directory named `learnr` and stored in their `chapterXX` sub-directory. In addition, a `data` directory groups together the data files necessary to monitor the exercises. All source files are stored in sub-directories corresponding to the chapter concerned.
 
 # Deploy using Docker
 
-Use the base docker image as built in git-registry.lab.sspcloud.fr/funcamp-r/funcamp-r-dock, with all necessary packages included (especially, shiny, shinyAce, learnr, pearson).
+Use the base docker image as built in git-registry.lab.sspcloud.fr/funcamp-r/funcamp-r-dock, with all necessary packages included (especially, shiny, shinyAce, learnr, parsons).
 
 ## build the package
 

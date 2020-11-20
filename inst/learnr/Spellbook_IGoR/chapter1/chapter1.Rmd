@@ -190,84 +190,84 @@ pi
 
 
 
-## L'âge des statisiens
+## The age of statisians
 
 
 <p style="border:1px; border-style:solid; border-color:#000000; padding: 1em;">
 ```{r image1, echo=FALSE, fig.cap=""}
 knitr::include_graphics("images/icarius_hero.png")
 ```
-<span style="color:#18AC3E">**Mais au fait, il nous reste à répondre à la question du mage RegoR... quel âge a icaRius ? **</span>
+<span style="color:#18AC3E">**By the way, we still have to answer the question of the mage RegoR… how old is icaRius?**</span>
 </p>
 
 
-Dans le monde de Statis, l'âge suit une logique un peu étrange. À la naissance, les statisiens ont pour âge leur nombre de coeurs multiplié par le nombre pi au carré, auquel on soustrait le nombre maximal de coeurs qu'ils pourront avoir au cours de leur vie... Pour faciliter le tout, on admettra de prendre l'arrondi du résultat obtenu...
+In the world of Statis, age follows a somewhat strange logic. At birth, the statisians have for age their number of lives multiplied by the number pi squared, from which we subtract the maximum number of lives that they will be able to have during their journey… To facilitate the whole, one will admit to take the rounding of the result...
 
-**Aie aie aie.** 
+**Ayyayya!** 
 
-Tiens, et si on calculait avec R ? Pour calculer le carré d'un nombre dans R, on utilise le signe `^`, comme par exemple `3^2 = 9`.
+What if we calculated with R? To calculate the square of a number in R, we use the sign `^`, such as `3 ^ 2 = 9`
 
 ```{r, collapse = TRUE}
-# La valeur de pi au carré. Pour porter un chiffre à la puissance N, on utilise ^N
+# The value of pi squared. To bring a number to the power N, we use ^N
 pi^2
 ```
 
-Ecrivons la formule de calcul pour l'âge d'IcaRius. Allons-y pas-à-pas.
+Let’s write the formula for the age of IcaRius. Let's take it step by step.
 
 ```{r, results='hide'}
-# le nombre de coeur multiplié par le nombre pi au carré...
-nb_coeur * pi^2
+# the number of lives multiplied by the number pi squared...
+n_lives * pi^2
 
-# ... moins le nombre maximal de coeur
-nb_coeur * pi^2 - max_nb_coeur
+# ...minus the maximum number of lives
+n_lives * pi^2 - max_n_lives
 
-# Et c'est déja fini !
+# That's over!
 ```
 
-Pas sorcier finalement. Comme quoi, cette histoire de "mage" dans icaRius, c'est très surfait.
+Not rocket science after all. Like what, this "mage" story in icaRius is very overrated.
 
-## À vous de jouer !
+## It's your turn!
 
-Et si vous écriviez vous-mêmes la solution pour trouver l'âge d'IcaRius ? Ecrivez ci-dessous votre calcul, exécutez-le pour trouver l'âge... Rappel : l'exécution du code se fait en appuyant sur le bouton :
+How about writing the solution to finding the age of IcaRius by yourself? Write your calculation below, run it to find the age... Reminder: the code is executed by pressing the button:
 ```{r image2, echo=FALSE, fig.cap="", out.width = '80px'}
 knitr::include_graphics("images/run_code.png")
 ```
 
 ```{r ok-chapitre1-etape2,exercise=TRUE}
-# Les objets nb_coeur et max_nb_coeur sont déjà chargés
-nb_coeur <- 3
-max_nb_coeur <- 2*nb_coeur
-# Ecrire la formule de calcul de l'âge des statisiens
+# The objects n_lives et max_n_lives are already loaded
+n_lives <- 3
+max_n_lives <- 2*n_lives
+# Write the formula to calculate the age of the statisians
 
-# Fin de l'exercice
+# End of the exercise
 ``` 
      
 ```{r ok-chapitre1-etape2-solution}
-# Les objets nb_coeur et max_nb_coeur sont déjà chargés
-nb_coeur <- 3
-max_nb_coeur <- 2*nb_coeur
-# Ecrire la formule de calcul de l'âge des statisiens
+# The objects n_lives et max_n_lives are already loaded
+n_lives <- 3
+max_n_lives <- 2*n_lives
+# Write the formula to calculate the age of the statisians
 (nb_coeur * pi^2) - max_nb_coeur
-# Fin de l'exercice
+# End of the exercise
 ```
 
-À noter que l'on pourrait aller plus loin en calculant dans R l'arrondi du résultat obtenu. Mais nous verrons cela plus tard : pour l'instant, à vous de faire cet arrondi... de tête !
+Note that we could go further by calculating in R the rounding of the result obtained. But we'll see that later: for now, it's up to you to round off... in your head!
 
 ```{r ok-question1,echo=FALSE}
-question("Alors, quel âge a Icarius? Ne reste plus qu'à cocher la bonne réponse...pour poursuivre l'aventure!",
+question("So how old is Icarius? All that remains is to check the correct answer... to continue the adventure!",
 type="single",
 allow_retry = TRUE,
-incorrect="Retente ta chance",
-answer("18 ans"),
-answer("36 ans"),
-answer("24 ans",correct=TRUE),
-answer("La bonne réponse n'est pas dans les propositions"),
-correct="Félicitations, tu as trouvé le bon âge, l'aventure peut continuer! Reporte directement dans le jeu icaRius (via l'écran bleu) la bonne valeur pour débloquer la suite."
+incorrect="Try again",
+answer("18 years"),
+answer("36 years"),
+answer("24 years",correct=TRUE),
+answer("The correct answer is not in the proposals"),
+correct="Congratulations, you have found the right age, the adventure can continue! Enter the correct value directly into the icaRius game (via the blue screen) to unlock the rest."
 )
 
 ```   
  
 
-**Fin du chapitre 1  >>  reprenez la partie d'Icarius**
+**End of chapter 1  >>  resume the quest of Icarius**
 
-*(Version du chapitre : 0.9.1)*
+*(Chapter version : 0.9.1)*

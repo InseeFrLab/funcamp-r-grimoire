@@ -1,5 +1,5 @@
 ---
-title: "Chapitre 4 - Conjuguer pour mieux cultiver - ou plutôt, pour mieux calculer..."
+title: "Chapter 4 - Conjugate to better cultivate - or rather, to better calculate..."
 output: 
   html_document:
     theme: cerulean
@@ -38,7 +38,7 @@ fichier_tellus<-import("../../../recensement_agricole_statia_Tellus.ods")
 fichier_galia<-import("../../../recensement_agricole_statia_Galia.ods")
 ```
 
-## Apprenons à conjuguer les sortilèges
+## Let's learn to combine spells
 
 Un bon mage est appelé à évoquer de multiples sortilèges, qu'il va combiner pour accroître son pouvoir. De même, dans la langue des Runes, les sortilèges peuvent se conjuguer les uns les autres, c'est-à-dire être associés dans un ordre qui vous permettra d'obtenir l'effet escompté. La conjugaison des sortilèges se fonde sur un étonnant symbole : le **pipe** (prononcez "paille-peu"), représenté par les lettres `%>%`. On l'invoque en juxtaposant %, > et % côte-à-côte. 
 
@@ -67,7 +67,7 @@ mon_fichier %>% skim(nom_variable)
 
 Si on traduit, cela donne: **"Je prends mon fichier de données et ensuite je calcule les indicateurs statistiques sur la variable selectionnée dans ce fichier"**
 
-## Un peu de pratique...
+## Let's practice...
  
 Continuons l'exploitation du fichier des fermiers Tellus et Galia avec le sortilège `skim()` : 
 
@@ -115,7 +115,7 @@ fichier_galia %>% skim(Litres)
 ```  
  
  
-## Le secret de Galia ?
+## Galia's secret ?
 
 Grace à Icarius, le conflit est résolu, et l'humble Galia est désormais reconnu comme le meilleur cultivateur de Mandragore. Tous sont maintenant curieux de connaitre le sortilège utilisé par Galia pour y arriver. Utiliserait-il les produits de la magie noire (qu'on appelle les biotues dans le monde agricole de Statia) ? 
 
@@ -139,85 +139,85 @@ farine %>%
 
 Le sortilège invoqué dans le langage des Runes comme une transcription littérale de la recette moyennant l'utilisation du `%>%`
 
-## De l'art de bien cultiver sa Mandragore...
+## The art of cultivating Mandrake ...
 
-Vous avez compris la magie du pipe ? A vous de jouer !
+Did you understand the magic of the pipe? It's your turn !
 
-Tellus a bien fourni son secret, mais dans le désordre. Recomposons les étapes comme il convient. Voici quelques indices :
+Tellus did provide his secret, but out of order. Let's recompose it step by step. Here are some clues:
 
-- Une conjugaison de sortilèges doit d'abord commencer par l'objet sur lequel débute l'enchainement de sortilèges. Ici, l'objet par tout commence, c'est le champ dans lequel on cultive la Mandragore...
+- A spell conjugation must first start with the object on which the spell chain begins. Here, the starting point is the field in which we cultivate the Mandrake ...
 
-- N'oubliez pas : Galia n'utilise pas de magie noire, donc pas de biotues
+- Remember: Galia does not use black magic, so no "biokill"
 
-- Ne vous laissez pas embrouiller par le terrible SaSSoS et sa langue serpentine - pas de `set` ou de `run` dans la langue des Runes.
+- Don't be confused by the terrible SaSSoS and its serpentine tongue - no `set` or` run` in the language of Runes.
 
-- Le meilleur moment pour arroser une terre, c'est quand elle vient d'être labourée puis semée.
+- The best time to water a land is when it has just been plowed and then sown.
 
-- Les coccinelles sont les amies des Mandragore, c'est bien connu !
+- Ladybugs are the friends of the Mandrake, it's well known!
 
-- Les coccinelles aiment que la terre soit humide...
+- Ladybugs like the earth to be wet ...
 
-- A la toute fin, il n'y a plus qu'à récolter...
+- At the very end, all you have to do is harvest ...
 
-Saurez-vous remettre les étapes dans l'ordre ?
+Can you put the steps back in order?
 
 
 ```{r ok-chapitre4-quiz}
 question_parsons(
   initial = c(
-    "champ %>%",
-    "data champ;set champ;run;",
-    "semer() %>%",
-    "arroser() %>%",
-    "ajouter(coccinelles) %>%",
-    "labourer() %>%",
-    "ajouter(biotues) %>%",
-    "recolter()"
+     "field %>%",
+     "data field; set field; run;",
+     "sow() %>%",
+     "irrigate() %>%",
+     "add(ladybugs) %>%",
+     "plow() %>%",
+     "add(biokill) %>%",
+     "harvest()"
   ),
   pass_if(
     c(
-    "champ %>%",
-    "labourer() %>%",
-    "semer() %>%",
-    "arroser() %>%",
-    "ajouter(coccinelles) %>%",
-    "recolter()"
+    "field %>%",
+    "plow() %>%",
+    "sow() %>%",
+    "irrigate() %>%",
+    "add(ladybugs) %>%",
+    "harvest()"
     ),
-    message = "Bravo vous êtes des champions de la culture de la mandragore! Rentrez le code 777 dans le jeu icaRius pour continuer l'aventure"
+    message = "Well done, you master the Mandrake culture ! Enter code 777 in icaRius game to continue the adventure"
   ),
     pass_if(
     c(
-    "champ %>%",
-    "labourer() %>%",
-    "semer() %>%",
-    "ajouter(coccinelles) %>%",
-    "arroser() %>%",
-    "recolter()"
+    "field %>%",
+    "plow() %>%",
+    "sow() %>%",
+    "add(ladybugs) %>%",
+    "irrigate() %>%",
+    "harvest()"
     ),
-    message = "Bravo vous êtes des champions de la culture de la mandragore! Rentrez le code 777 dans le jeu icaRius pour continuer l'aventure"
+    message = "Well done, you master the Mandrake culture ! Enter code 777 in icaRius game to continue the adventure"
   ),
     pass_if(
     c(
-    "champ %>%",
-    "labourer() %>%",
-    "ajouter(coccinelles) %>%",
-    "semer() %>%",
-    "arroser() %>%",
-    "recolter()"
+    "field %>%",
+    "plow() %>%",
+    "add(ladybugs) %>%",
+    "sow() %>%",
+    "irrigate() %>%",
+    "harvest()"
     ),
-    message = "Bravo vous êtes des champions de la culture de la mandragore! Rentrez le code 777 dans le jeu icaRius pour continuer l'aventure"
+    message = "Well done, you master the Mandrake culture ! Enter code 777 in icaRius game to continue the adventure"
   ),
   fail_if(
     ~length(.) < 2,
-    message = "Inclure au moins deux verbes"
+    message = "Include at least two verbs"
   ),
   fail_if(
-    ~{.[1] != "champ %>%"},
-    message = "Votre solution doit commencer par 'champ %>%'"
+    ~{.[1] != "field %>%"},
+    message = "Your solution should start with 'field %>%'"
   )
 )
 ```
 
- Vous avez trouvé ? L'exercice ci-dessus vous apportera **la réponse à reporter dans le jeu icaRius** 
- 
- version 0.9.1
+Have you found ? The above exercise gives you **the answer code to use in icaRius game** 
+
+version 0.9.1

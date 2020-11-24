@@ -21,14 +21,14 @@ library(learnr)
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine1.sas7bdat"),
-          to = "pontes_semaine1.sas7bdat")
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine2.xls"),
-          to = "pontes_semaine2.xls")
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine3.ods"),
-          to = "pontes_semaine3.ods")
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine4.csv"),
-          to = "pontes_semaine4.csv")
+file.copy(from = system.file(package = "funcampR","data","chapter2/spawns_week1.sas7bdat"),
+          to = "spawns_week1.sas7bdat")
+file.copy(from = system.file(package = "funcampR","data","chapter2/spawns_week2.xls"),
+          to = "spawns_week2.xls")
+file.copy(from = system.file(package = "funcampR","data","chapter2/spawns_week3.ods"),
+          to = "spawns_week3.ods")
+file.copy(from = system.file(package = "funcampR","data","chapter2/spawns_week4.csv"),
+          to = "spawns_week4.csv")
           
 ```
 

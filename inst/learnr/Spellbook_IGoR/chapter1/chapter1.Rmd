@@ -247,7 +247,7 @@ max_n_lives <- 2*n_lives
 n_lives <- 3
 max_n_lives <- 2*n_lives
 # Write the formula to calculate the age of the statisians
-(nb_coeur * pi^2) - max_nb_coeur
+(n_lives*pi^2) - max_n_lives
 # End of the exercise
 ```
 

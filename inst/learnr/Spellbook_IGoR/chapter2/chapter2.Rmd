@@ -1,5 +1,5 @@
 ---
-title: "Chapitre 2 - des poules et des oeufs"
+title: "Chapter 2 - chickens and eggs"
 output: 
   html_document:
     theme: cerulean
@@ -33,233 +33,233 @@ file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semai
 ```
 
 
-Vous venez de rencontrer la fermière du village Kokoro, désespérée d'avoir perdu le livre de compte où, chaque jour, elle note consciencieusement le nombre de pontes. 
+You have just met the farmer in Kokoro village : she is desperate to have lost the egg-laying book in which, every day, she conscientiously notes the number of eggs.
 
-Aidons IcaRius à reconstituer le livre de compte. Ce dernier n'est pas tout à fait perdu : il en reste une copie, éclatée dans plusieurs fragments par le redoutable sorcier SaSSoS ! Pour  corser le tout, chaque fragment a été ensorcelé et semble indéchiffrable... Ils sont en effet chacun dans d'étranges formats : SAS, Excel, Calc...
+Let's help IcaRius rebuild the egg-laying book. The latter is not entirely lost: a copy has been broken up into several fragments by the dreaded wizard SaSSoS! Furthermore, each fragment has been bewitched and seems indecipherable ... They are indeed each in strange formats: SAS, Excel, Calc...
 
-**Aie aie aie.**
+**Ouch !!!**
 
-## Un Sasseur sait bien sasser... sur R ?
+## A SAS user knows how to SAS... on R?
 
-Commençons par le fragment ensorcelé sous le format SAS - qui rappellera peut-être quelques souvenirs aux aventuriers les plus aguerris. Nous allons donc apprendre, en R, à lire un fichier SAS. 
+Let's start with the bewitched fragment in SAS format - which may bring back some memories to the oldest (and wisest?) statisticians of us. We are therefore going to learn how to read a SAS file... in R!
 
-Le contenu de ce fichier - que seul le terrible SaSSoS est normalement capable de lire, est le suivant :
+Content of this file - which can only be understood by the baleful SaSSoS - is as follows:
 
 ![](images/pontes_sas.png)
 
-Pour charger un fichier, nous allons utiliser un sortilège prévu à cet effet dans R. Dans le monde des Runes, un sortilège est identifié par **son nom suivi de parenthèses** :`nomsortilege()`. Nous en parlerons davantage dans un prochain chapitre. 
+To load a file, we use a spell provided for this purpose in R. In the Runes' language, a spell is identified by **its name followed by parentheses**: `spellname()`. We will explain more about this in next chapters.
 
-Pour lors, nous allons découvrir un premier sortilège, dénommé `import()`, qui permet, comme son nom l'indique, d'importer (*import*) un fichier dans R. Pour utiliser `import()`, il y a un ingrédient à préciser : l’emplacement du fichier à lire.
+For then, let's discover a first spell, called `import()`, which allows, as its name suggests, to *import* a file into R. To use `import()`, an ingredient has to be specified: the location of the file to read.
 
-```{r, collapse = TRUE, eval=FALSE}
-# J'importe le fichier
-import("chemin_du_fichier")
+```{r, collapse = TRUE, eval = FALSE}
+# I import the file
+import("file_path")
 ```
 
-Pour s'y retrouver, autant tout de suite ranger ce que l'on est en train d'importer dans R. Pour cela, on assigne à un nouvel objet le contenu du fichier importé, en choisissant astucieusementle nom de cet objet. Par exemple, appelons `livre_compte_1` ce qui sera importé dans R en lisant le fichier SAS. 
+Let's tidy up what you are importing in R. For that, assign the content of the imported file to a new object in R, by choosing cleverly the name of this object. For example, let's call `egglaying_book_1` the new object that will hold information in R, from the SAS file.
 
-```{r, collapse = TRUE, eval=FALSE}
-# J'importe le fichier et je l'assigne à l'objet livre_compte_1
-livre_compte_1 <- import("chemin_du_fichier")
+```{r, collapse = TRUE, eval = FALSE}
+# I import the file and assign it to the egglaying_book_1 object
+egglaying_book_1 <- import ("file_path")
 ```
-De cette façon, en appelant l'objet `livre_compte_1` dans la console R, il est aisé d'en consulter le contenu. En l'occurence :
+In this way, by calling the `egglaying_book_1` object in R console, it is easy to explore its content. In our case:
 
-```{r, echo=FALSE}
-livre_compte_1 <- import("pontes_semaine1.sas7bdat")
+```{r, echo = FALSE}
+egglaying_book_1 <- import("spawns_week1.sas7bdat")
 ```
 
 ```{r, collapse = FALSE}
-# J'affiche le contenu de l'objet livre_compte_1
-livre_compte_1
+# I display the content of the egglaying_book_1 object
+egglaying_book_1
 ```
 
-Et voilà, c'est fini pour le premier fichier ! Ce dernier donne le nombre de pontes par poule pour une semaine complète. Il comporte deux types d'information : le nom de la poule (colonne `Poule`) et le nombre d'oeufs pondus (colonne `Oeufs`). Il y a 6 enregistrements, un par poule. Par exemple, la poule Kokot a pondu 26 oeufs - c'est d'ailleurs la meilleure pondeuse de la semaine !
+Here it is : it's already over for the first file! The latter gives the number of eggs per hen for a full week. It contains two types of information: the name of the hen (`Hen` column) and the number of eggs laid (`Eggs` column). There are 6 observations, one per hen. For example, Tarty hen laid 26 eggs - by the way, she is the best layer of the week!
 
-Et si vous pratiquiez vous-même ? Pour cela, il faut d'abord trouver l’emplacement du fichier à lire, sur votre poste de travail par exemple. En l'occurrence, le fichier est présent sur la clé USB qui vous a été remise en début de partie. Cherchons donc l'emplacement à partir  de l'explorateur dans windows. 
+Let's pratice now ! First, you must find the location of the file to be read. If you have launched this tutorial from local content on your workstation, files can be found in local directory you create when downloading the FuncampR ressources. It is the case for instance if you use a FuncampR USB Key. So let's find the location from the explorer in Windows environment (note that it will be different if you are reading tutorials online, see below).
 
 ![](images/pontes_chemin.png)
 
-<p style="border:1px; border-style:solid; border-color:#000000; padding: 1em;">
-**Attention :** pour spécifier le chemin d’un fichier, il va falloir jongler avec les signes cabalistiques que sont les `/` et les `\` (ça ne s'appelle pas le langage des Runes pour rien). Contrairement à Windows où le backslash `\` est utilisé pour écrire un chemin, en R il faut écrire avec un slash `/`. Pensez donc à modifier le chemin du répertoire lors d'un copier coller de ce dernier depuis l’explorateur. Enfin, n'oubliez pas d'ajouter à la fin le nom du fichier (`pontes_semaine1`) avec son extension (`.sas7bdat`). 
+<p style = "border: 1px; border-style: solid; border-color: # 000000; padding: 1em;">
+**Warning:** to specify the file path, you will have to juggle with the cabalistic sign `/` and `\` (this is not called the Runes language for nothing). Unlike Windows where the backslash `\` is used to specify a path, in R you must write it with a slash `/`. Remember to change directory path when copying and pasting it from the explorer. Finally, don't forget to add the name of the file (`egglaying_book_1`) with its extension (`.sas7bdat`) at the end.
 </p>
 
 
-Dans l'exemple ci-dessus, la bonne adresse pour notre fichier de ponte c'est donc `E:/data/chapitre2/pontes_semaine1.sas7bdat`. **Attention, dans votre cas, la première lettre peut être différente et dépend de votre poste de travail (lettre D, E, F...)**. En ayant pris soin de vérifier la lettre correspondant à celle assignée pour votre clef USB, chargez vous-mêmes le fichier dans une table nommée `livre_compte_1`
+In the example above, the correct address for spawning file is `E:/data/chapter2/pontes_semaine1.sas7bdat`. **Please note, in your case, the first letter may be different and depends on your workstation (letter D, E, F ...)**. Having taken care to check the letter corresponding to the one assigned for your USB key or local directory, load the file in an object named `egglaying_book_1`
 
-```{r ok-chapitre2-etape1,exercise=TRUE}
-# Charger le fichier pontes_semaine1.sas7bdat en indiquant son chemin
-# et assigner le résultat à l'objet nommé livre_compte_1
+```{r ok-chapter2-step1, exercise = TRUE}
+# Load the file spawns_week1.sas7bdat by indicating its path
+# and assign the result to the object named egglaying_book_1
 
 
-# Afficher le contenu de l'objet livre_compte_1
+# Display the content of the egglaying_book_1 object
 
-``` 
+```
 
-<div id="ok-chapitre2-etape1-hint">
-**Aide 1:** Utiliser la fonction `import()`. Veillez à indiquer le bon chemin entre parenthèses
+<div id = "ok-chapter2-step1-hint">
+**Help 1:** Use the `import()` function. Be sure to indicate the correct path in parentheses.
 </div>
 
-## Tremblez, messieurs les tableurs
+## Tremble, Spreadsheets Sirs
 
 
-Bon, il nous reste à ouvrir les autres fragments. Deux d'entre eux correspondent à des fichiers produits par des tableurs, comme Excel (extension `.xls` ou `xlsx`) et Calc (extension `.ods`). Pour les ouvrir... nous allons utiliser le même sortilège que précédemment. Et oui : le sortilège `import()` permet aussi d'ouvrir les documents des tableurs ! Magiques !
+Okay, we still have to open other fragments. Two of them are files produced by spreadsheets, such as Excel (`.xls` or` xlsx` extensions) and Calc (`.ods` extension). To open them... we simply use the same spell as before - the `import()` spell also allows opening spreadsheet documents! So nice and so magical!
 
-Comme précédemment, il nous faut spécifier le chemin du fichier, et bien veiller à renseigner son extension (ce qui figure après le `.`). Une astuce à ce sujet : dans l'explorateur Windows, l'extension d'un fichier est parfois masquée. Comment dans ce cas découvrir l'extension des fichiers `pontes_semaine2`, `pontes_semaine3` et `pontes_semaine4` dans l'exemple ci-dessous ? 
+As previously, we must specify the file path, and be sure to enter its extension (which appears after the `.`). Tips: in Windows Explorer, file extension is sometimes hidden. Hum... how can we discover file extensions for `spawns_week2`,`spawns_week3` and `spawns_week4` in example below?
 
 ![](images/pontes_chemin_extensions.png)
 
-Dans l'explorateur Windows, vous pouvez faire un clic-droit sur le nom du fichier que vous souhaitez consulter (par exemple `pontes_semaine2`) puis choisir dans la liste déroulante `Propriétés`. Sur l'onglet qui apparaît, une ligne donne le type de fichier et précise l'extension (ici, `.xls`).
+In Windows Explorer, right-click on the filename you want to view (for example `spawns_week2`) then choose in the drop-down list `Properties`. A tab will appear, giving the filetype and its extension (here, `.xls`).
 
 ![](images/pontes_chemin_extensions_steps.png)
 
 
-Nous avons donc deux fichiers issus de tableurs :
+We have two files from spreadsheets:
 
-- `pontes_semaine2.xls` (Excel)
-- `pontes_semaine3.ods` (Calc)
+- `spawns_week2.xls` (Excel)
+- `spawns_week3.ods` (Calc)
 
-Importons dans R le fichier Excel `pontes_semaine2.xls`
+Let's import Excel file `spawns_week2.xls` into R
 
-```{r, echo=FALSE, message = FALSE}
-livre_compte_2 <- import("pontes_semaine2.xls")
+```{r, echo = FALSE, message = FALSE}
+book_account_2 <- import("spawns_week2.xls")
 ```
 
-```{r, eval=FALSE}
-# Je charge le fichier pontes_semaine2.xls en indiquant son chemin
-livre_compte_2 <- import("E:/data/chapitre2/pontes_semaine2.xls")
+```{r, eval = FALSE}
+# I load spawns_week2.xls with its path
+egglaying_book_2 <- import("E:/data/chapter2/spawns_week2.xls")
 ```
 
 ```{r}
-# J'affiche le contenu de l'objet livre_compte_2
-livre_compte_2
+# I display contents of the egglaying_book_2 object
+egglaying_book_2
 ```
 
-Tiens tiens. Chaque semaine, la poule Kokot l'emporte haut les plumes côté pontes... Serait-ce la meilleure pondeuse de la ferme ?
+Well: each week, Tarty hen wins the feathers high on the laying side... Would it be the best layer on the farm?
 
-## À vous de pratiquer
+## It's your turn to practice
 
-Pour ouvrir le fichier calc `pontes_semaine3.ods`, la marche à suivre est identique à celle vue précédemment : il vous faudra utiliser le sortilège `import()`, en indiquant le chemin du fichier à ouvrir. À vous de jouer !
-
-
-```{r ok-chapitre2-question2,exercise=TRUE}
-# Charger le fichier pontes_semaine3.ods en indiquant son chemin
-# et assigner le résultat à l'objet nommé livre_compte_3
+To open the calc file `spawns_week3.ods`, the same procedure is to be applied : use the `import()` spell, indicating the filepath to open. It's your turn !
 
 
-# Afficher le contenu de l'objet livre_compte_3
+```{r ok-chapter2-question2, exercise = TRUE}
+# Load the file spawns_week3.ods by indicating its path
+# and assign the result to the egglaying_book_3 object
 
 
-# Trouver dans le tableau quelle est la meilleure pondeuse de la semaine.
+# Display the content of the egglaying_book_3 object
+
+
+# Find in the table which hen is the best layer of the week.
+```
+
+```{r ok-chapter2-question2-solution}
+# Load the file spawns_week3.ods by indicating its path
+# and assign the result to the egglaying_book_3 object
+egglaying_book_3 <- import("E:/data/chapter2/spawns_week2.ods")
+
+# Display the content of the egglaying_book_3 object
+egglaying_book_3
+
+# Find in the table which hen is the best layer of the week.
+```
+
+
+## Let's explore the file content
+
+```{r, echo = FALSE}
+egglaying_book_4 <- import("spawns_week4.csv")
+```
+
+Now that we know how to load a file, let's learn the basic spells to describe file contents, like variable names and number of observations (of lines). And even display an extract of the file (rather than the whole).
+
+We will apply these spells on the 4th week egg-laying book: the latter is already loaded, under the name `egglaying_book_4`.
+
+<span style = "color: # 18AC3E; font-size: 16px"> **Displaying variable names** </span>
+
+The `names()` function is used to find out the different variables included in a file, or in other words to show column names in the data table:
+
+```{r, collapse = TRUE}
+# Display variable names
+names(egglaying_book_4)
+```
+
+<span style = "color: # 18AC3E; font-size: 16px"> **Display number of observations** </span>
+
+How many observations - how many lines - are included within the file ? Basically, we want to know the **n**umber of **rows**, which ends up using... the `nrow()` spell !
+
+```{r, collapse = TRUE}
+# Display the number of lines (number of observations)
+nrow(egglaying_book_4)
+```
+
+There are 6 records in the register (6 rows in the data table).
+
+<span style = "color: # 18AC3E; font-size: 16px"> **Display first lines of a file** </span>
+
+To display the first lines of a file, use the `head()` spell, which requires two parameters: the name of the file, and the number of lines to display. For example, for `egglaying_book_4` and the first 3 lines:
+
+```{r, collapse = TRUE}
+# Display of three first lines of the file
+head(egglaying_book_4,3)
 ``` 
 
-```{r ok-chapitre2-question2-solution}
-# Charger le fichier pontes_semaine3.ods en indiquant son chemin
-# et assigner le résultat à l'objet nommé livre_compte_3
-livre_compte_3 <- import("E:/data/chapitre2/pontes_semaine3.ods")
+You will notice that here the head() spell was used with two parameters, separated by a comma.
 
-# Afficher le contenu de l'objet livre_compte_3
-livre_compte_3
-
-# Trouver dans le tableau quelle est la meilleure pondeuse de la semaine.
-```
-
-
-##  Découvrons le contenu du fichier
-
-```{r, echo=FALSE}
-livre_compte_4 <- import("pontes_semaine4.csv")
-```
-
-Maintenant que vous savez charger un fichier, apprenons les sortilèges élémentaires pour décrire le contenu d'un fichier : les variables qu'il comporte, le nombre d'observations (de lignes) et l'affichage d'un extrait du fichier (plutôt que sa totalité). 
-
-Nous allons découvrir ces sortilèges sur l'exemple du livre de compte pour la 4ème semaine : ce dernier est déjà chargé, sous le nom `livre_compte_4`.
-
-<span style="color:#18AC3E;font-size:16px">**Affichage du nom des variables**</span> 
-
-La fonction `names()` permet de connaître les différentes variables comprises dans un fichier, ou dit autrement de connaître le nom des colonnes du tableau de données : 
+You can change the number of lines to display, and choose to view the first 6 lines (here, it means the whole file).
 
 ```{r, collapse = TRUE}
-# Affichage du nom des variables
-names(livre_compte_4) 
+# Display of the six first lines of the file
+head(egglaying_book_4,6)
 ```
 
-<span style="color:#18AC3E;font-size:16px">**Affichage du nombre de lignes**</span> 
+## Back to eggs ...
 
-Reste à savoir combien d'observations - combien de lignes - comprend un fichier. Mot à mot, nous voulons connaître le **n**ombre de lignes (**row** en anglais), d'où la fonction `nrow()`
+We now have the magical power to load files from different formats into R, and to know their content. The few examples here are far from being exhaustive: with `import()`, you could also load SPSS, Stata, Matlab files ... and of course, R data files. We will find out later in the spell-book how R saves objects you have created. But for now, let's get back to the egg-laying book.
 
-```{r, collapse = TRUE}
-# Affichage du nombre de lignes (nombre d'observations)
-nrow(livre_compte_4) 
-```
-
-Il y a 6 enregistrements dans le registre (6 lignes dans le tableau de données).
-
-<span style="color:#18AC3E;font-size:16px">**Affichage des premières lignes du fichier**</span> 
-
-Pour afficher les premières lignes du fichier, nous allons utiliser la fonction `head()` (head = tête, début), en lui indiquant deux paramètres : le nom du fichier concerné, et le nombre de lignes à présenter. Par exemple, pour `livre_compte_4` et le choix des 3 premières lignes :
-
-```{r, collapse = TRUE}
-# Affichage des premières lignes contenues dans le fichier
-head(livre_compte_4,3) 
-```
-
-Vous noterez qu'ici, le sortilège head() a été utilisé avec deux paramètres, séparés par une virgule.
-
-On peut changer le nombre de lignes à afficher, et choisir de consulter les 6 premières lignes (ici, c'est donc la totalité du fichier).
-
-```{r, collapse = TRUE}
-# Affichage des premières lignes contenues dans le fichier
-head(livre_compte_4,6) 
-```
-
-## Revenons à nos oeufs...
-
-Nous avons maintenant le pouvoir de charger dans R des fichiers de différents formats, et d'en connaître les variables. Les quelques exemples ici sont loin d'être exhaustifs : avec `import()`, vous pourriez aussi charger des fichiers au format SPSS, Stata, Matlab... et bien sûr, des fichiers de données R. Nous découvrirons plus loin dans le grimoire comment R permet de sauvegarder les objets que vous avez créés. Mais pour lors, revenons au livre de compte.
-
-><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle sur les fichiers CSV - cliquez ici</b></font></summary>
-><p><font size="2">
+> <details> <summary> <font size = "3"> <b> For the dauntless: optional part on CSV files - click here </b> </font> </summary>
+> <p> <font size = "2">
 >
->Le livre des pontes pour la 4ème semaine vient d'un fragment qui se termine par l'extension `.csv`. Qu'est-ce donc qu'un fichier CSV ?
+> The egg laying book of the 4th week comes from a fragment that ends with the `.csv` extension. So what is a CSV file?
 >
->CSV, c'est un format de fichier où chaque enregistrement apparaît sur sa propre ligne et dont les champs sont séparés par un caractère unique appelé “séparateur”. En l'occurrence, le séparateur est une virgule ou un point-virgule : c'est d'ailleurs le sens de l'acronyme CSV, pour Comma Separated Value (comma = virgule en anglais). 
+> CSV is a file format where each record appears on its own line and whose fields are separated by a single character called a “separator”. In the case of a csv file, the separator is a comma or a semicolon: this is the meaning of the acronym CSV, for Comma Separated Value.
 >
->Un fichier CSV peut être produit de multiples manières, et a l'avantage d'être "interopérable", c'est à dire qu'il peut être lu et modifié aussi bien avec un tableur comme Excel ou Calc qu'avec des logiciels statistiques comme R. Vous pouvez même créer un fichier CSV "à la main", juste avec le Notepad dans Windows par exemple.
+> A CSV file can be produced in multiple ways, and has the advantage of being "interoperable", ie it can be read and modified both with a spreadsheet such as Excel or Calc and with statistical softwares like R. You can even create a CSV file "by hand", just with the Notepad in Windows for example.
 >
 >![](images/pontes_csv.PNG)
 >
->Dans ce qui a précédé, ce fragment était déjà "chargé" dans le chapitre avec le nom `livre_compte_4`. Mais vous pouvez vous-mêmes réaliser cette opération. D'après-vous, comment allons-nous charger ce fichier csv dans R ? Eh oui: toujours avec le même sortilège `import()` ! Vous savez désormais comment procéder : à vous de charger le fichier `pontes_semaine4.csv` dans la console R, en la sauvegardant dans l'objet nommé `livre_compte_4` 
+> Previously, this fragment was already "loaded" in the chapter with the name `egglaying_book_4`. But you can do this by yourself. How could you load this csv file into R ? Yes: always with the same `import()` spell! You know how to proceed: it's up to you to load the file `spawns_week4.csv` in the R console and save it in the object named `egglaying_book_4`.
 >
->```{r module2-question3,exercise=TRUE}
-# Chargez le fichier pontes_semaine4.csv en indiquant son chemin
+> ```{r module2-question3, exercise = TRUE}
+# Load the file spawns_week4.csv by giving its path
 
 
-# Affichez le contenu de l'objet livre_compte_4
+# Display the content of the egglaying_book_4 object
 
 
-# C'est fini !
-``` 
+# It's over !
+```
 >
-></font></p></details>
+> </font> </p> </details>
 
 
-Nous avons ouverts différents fragments, ce qui répond aux attentes de la fermière. Il ne reste plus qu'à trouver quelle est la meilleure poule pondeuse. Celle qui, chaque semaine, sort en tête des résultats de ponte. Si vous avez bien suivi ce tutoriel, un nom de poule doit vous venir à l'esprit...
+Opening these various fragments, we helped the farmer in recomposing the whole book. Here is the final task : who is the best laying hen ? The one who, every week, comes out on top of the laying results. If you have followed this tutorial correctly, a chicken name should come to mind ...
 
 
-```{r ok-chapitre2-quiz1,echo=FALSE}
-question("Alors, quelle est la meilleure poule pondeuse ? Ne reste plus qu'à cocher la bonne réponse...pour poursuivre l'aventure!",
-type="single",
+`` '{r ok-chapter2-quiz1, echo = FALSE}
+question ("So, who is the best laying hen? Tick the correct answer ... to continue the adventure!",
+type = "single",
 allow_retry = TRUE,
-incorrect="Retente ta chance",
-answer("Daisy"),
-answer("Poupoule"),
-answer("Kokot",correct=TRUE),
-correct="Félicitations, vous avez reconstitué le livre de compte et trouvé la meilleure poule pondeuse. Renseignez la réponse Kokot (avec un K majuscule) dans le jeu pour continuer l'aventure !"
+incorrect = "Retry",
+answer ("Doodle Doo"),
+answer ("Lady Kluck"),
+answer ("Tarty", correct = TRUE),
+correct = "Congratulations, you've put together parts of the egg-laying book and found the best laying hen. Fill in the answer Tarty (with a capital T) in the game to continue the adventure!"
 )
 
-```   
+`` ``
 
-Vous avez trouvé ? **Reportez le nom de la meilleure poule pondeuse dans le jeu Icarius** pour reprendre la partie...
+**Enter the name of the best laying hen in the game Icarius** to resume icaRius game ...
 
-**Fin du chapitre 2 >> reprenez la partie d'Icarius !!!**
+**End of chapter 2**
 
-*(version du chapitre : 0.9.2)*
+*(chapter version: 0.9.2)*

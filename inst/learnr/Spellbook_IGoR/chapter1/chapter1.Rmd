@@ -1,5 +1,5 @@
 ---
-title: "Chapitre 1 - Calculer l'âge d'IcaRius"
+title: "Chapter 1 - Calculate the Age of Icarius"
 output: 
   html_document:
     theme: cerulean
@@ -22,66 +22,64 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Premières conversations runiques
+## First runic conversations
 
 
-Bienvenu(e) dans ce premier chapitre du grimoire IGoR. Au cours de ce chapitre, nous allons progressivement : 
+Welcome to this first chapter of the IGoR grimoire. In this chapter, we will gradually:
 
-- comprendre ce qu'est le fameux langage runique R
-- entamer les premiers dialogues avec R via une fenêtre de saisie : la console
-- nous familiariser avec les tics de langages de R
+- understand what is the famous runic language R
+- start the first dialogues with R using an input window: the console
+- familiarize ourselves with the tics of R languages
 
-En cas de besoin, n'hésitez pas à solliciter un animateur circulant dans la salle.
+If necessary, do not hesitate to request one of the quizmasters moving around the room.
 
-Mais commençons... par le commencement ! R est un langage utilisé pour le traitement de données statistiques, dont la première version a été publiée en 2000. D'abord diffusé parmi les chercheurs, R est aujourd'hui de plus en plus utilisé au sein des Instituts nationaux de statistiques. 
+But let's start… at the beginning! R is a language used for processing statistical data, the first version of which was published in 2000. First disseminated among researchers, R is now used more and more, especially within national statistical institutes. 
 
-R permet de faire des **calculs statistiques**, de les restituer sous forme de **tableaux** et également de tracer des **graphiques** et des cartes géographiques. Les résultats produits dans R peuvent être exportés dans des **rapports** et même être intégrés dans des **applications web** en ligne. Maîtriser le langage des Runes est un grand pouvoir ~qui implique de grandes responsabilités~ !
+R allows you to make **statistical computations**, to present them in the form of **tables** and also to draw **graphs** and geographical maps. The results produced with R can be exported into **reports** and even be integrated in **web applications**. Mastering R, the Language of the Runes is a great power ~that comes with great responsibility~!
 
-À la différence d'autres logiciels comme SAS, R est un **logiciel libre** : sa licence d'utilisation est gratuite et autorise chaque utilisateur à accéder, modifier ou redistribuer son *code source.* Le code source est l'équivalent du mode d'emploi pour la fabrication du logiciel. Il est aussi **multi-plateforme** : cela signifie qu'il peut être executé sur plusieurs systèmes d'exploitation (Windows, Mac, Linux...)
+Unlike other software like SAS, R is a **free software**: its license is free and allows each user to access, modify or redistribute its **source code**. The source code is the equivalent of the manual for making the software. It is also cross-platform: this means that it can be run on several operating systems (Windows, Mac, Linux ...)
 
-## Des Quiz tu triompheras
+## Quizzes you will defeat
 
-Dans l'aventure d'icaRius, vous serez parfois amené(e) à répondre à des quiz pour aider le personnage à poursuivre sa quête. En voici un tout premier, histoire de se familiariser avec le format de l'exercice. À vous donc de répondre directement en cochant votre choix puis en appuyant sur le bouton qui s'intitule `Submit answer` (*envoyer la réponse*).
+In the adventure of IcaRius, you will sometimes be asked to answer quizzes to help the character continue his quest. Here is a very first one, just to familiarize yourself with the format of the exercise. So it's up to you to respond directly by checking your choice and then pressing the button called `Submit answer`.
 
-À ce sujet, vous croiserez de temps à autre quelques mots étranges issus de la langue de Shakespeare. Le langage runique emprunte en effet quelques termes à nos voisins *grands brittons*... Mais le grimoire vous proposera toujours la traduction dans la langue - infiniment plus mélodieuse - de Molière...
-
-En cas de besoin sur le mode de fonctionnement, n'hésitez pas à solliciter un animateur circulant dans la salle.
+If you need to know how to operate, do not hesitate to ask for one of the quizmasters moving around the room.
 
 ```{r ok-quiz-1,echo=FALSE}
 quiz(
-  question("Qu'est-ce que R ne fait PAS ?",
-    answer("de très beaux graphiques"),
-    answer("des calculs statistiques"),
-    answer("de très belles cartes géographiques"),
-    answer("le café", correct = TRUE),
-    answer("des applications web")
+  question("What does R NOT do?",
+    answer("very nice graphics"),
+    answer("statistical computations"),
+    answer("awesome geographical maps"),
+    answer("coffee", correct = TRUE),
+    answer("web applications")
   ),
-  question('Que signifie "logiciel libre" ?',
-    answer("un logiciel libre est un logiciel sauvage, on ne le trouve pas à l'état domestique"),
-    answer("un logiciel libre est un logiciel qui autorise librement l'utilisation, l'étude, la modification et la redistribution", correct = TRUE),
-    answer("un logiciel libre est un logiciel qu'on a vu voler")
+  question('What does "free software" mean?',
+    answer("a free software is a wild software, it cannot be found at home"),
+    answer("a free software is a software that freely authorizes the use, study, modification and redistribution", correct = TRUE),
+    answer("a free software is a software working only with escape key")
   )
 )
 ```
 
-## Premiers pas dans la console
+## First steps in the console
 
-Vous pourriez penser que nous allons vous proposer une "console" de jeux vidéo. Malheureusement, ce n'est pas tout à fait le cas. Nous parlerons dans le grimoire de console pour désigner une partie de l'écran où vous pourrez vous-même vous exercer à pratiquer le langage des Runes - autrement dit, à écrire vous-mêmes du R et à en voir le résultat. C'est donc une **console R** !
+You might think that we are going to offer you a video game “console”. Unfortunately, this is not quite the case. In the quest, we will talk about a console to designate a part of the screen where you can practice the Rune Language yourself - in other words, write R yourself and see the result. So it's an **R console**!
 
-Sous ces lignes se trouve une console R et, à la manière d'une calculatrice, il est possible de lui demander de réaliser des calculs  : tapez ci-dessous, dans la console, un calcul tel que `2 + 2` (c'est tout de même plus dur que `1 + 1`). Appuyez ensuite sur le bouton  ![](images/run_code.png) en haut à droite de la console pour faire executer le code (*run code* signifie *exécuter le code*). La réponse de votre calcul s'affichera alors en dessous de la console.
+Under these lines is an R console and, like a calculator, it is possible to ask it to perform calculations: type below, in the console, a calculation such as `2 + 2` (that's all even harder than `1 + 1`). Then press the button ![](images/run_code.png) at the top right of the console to execute the code (run code means execute the code). The answer to your calculation will then be displayed below the console.
 
 
 ```{r ok-two-plus-two, exercise=TRUE}
 
 ```
 
-R  répond `4` et heureusement ! À l'avenir nous allons lui faire faire des choses beaucoup plus compliquées...
+R fortunately answers `4`! In the future we're going to make it do much more complicated things ...
 
-R a ses tics, comme tout le monde. Ici, son tic de langage, c'est d'afficher la valeur d'un objet en commençant par quelque chose comme `[1]`. Un peu comme quelqu'un qui commencerait toujours ses phrases par "en fait" (ou "euh" selon la préciosité de son langage). 
+R has its tics, like everything else. Here, its tic of language is to display the value of an object starting with something like `[1]`. Kind of like someone who always starts sentences with "actually" (or "uh" depending on how precious his language is). 
 
-## Exercez-vous...
+## Practice...
 
-Voici une console un peu plus grande qui contient des instructions pré-remplies, exécutez-les toujours avec le bouton ![](images/run_code.png) pour voir comment R structure sa réponse à votre sollicitation :
+Here is a slightly larger console that has some pre-populated instructions, always run them with the button to see how R structures its response to your instructions
 
 ```{r ok-several_instructions, exercise=TRUE, exercices.lines = 10}
 3 + 3
@@ -90,187 +88,186 @@ Voici une console un peu plus grande qui contient des instructions pré-remplies
 
 ```
 
-La console est un lieu de dialogue, vous commandez et R s'exécute ! Notez que vous voyez apparaître tous les résultats les uns à la suite des autres (par exemple, il y a 3 calculs demandés ici séparément, et R vous répond bien par 3 résultats) : il y a donc **une réponse par instruction passée**.
+The console is a place of dialogue, you command and R does it! Note that you see all the results appear one after the other (for example, there are 3 calculations requested separately here , and R answers you with 3 results): therefore, there is **one answer per instruction**.
 
-Dans la façon d'écrire le langage des Runes, le nombre d'espaces est sans importance :  `3 + 3`, `3+3` , c'est du pareil au même.
+In the way of writing the language of Runes, the number of spaces is irrelevant: `3 + 3`, `3+3` are all the same.
 
-Chaque langage a sa façon de comprendre des opérations mathématiques. Pour les fondamentaux, R utilise `+` pour les additions et `-` pour les soustractions (jusqu'ici tout va bien), mais aussi `*` pour la multiplication et `/` pour la division.
+Each language has its own way of understanding mathematical operations. For fundamentals, R uses `+` for addition and `-` for subtraction (so far so good), but also `*` for multiplication and `/` for division.
 
-Essayez quelques calculs, librement et par vous-même : 
+Try some calculations, freely and on your own:
 
 ```{r ok-error_is_ok, exercise=TRUE}
 
 ```
 
 
-## Mettre un peu d'ordre dans R
+## Put R in order
 
-<span style="color:#18AC3E;font-size:16px">**Créer un objet**</span>
+<span style="color:#18AC3E;font-size:16px">**Create an object**</span>
 
-Pour aller plus loin qu'une simple calculatrice, R permet de garder en mémoire tous les calculs que vous lui demandez d'exécuter, et de conserver aussi le résultat de ces calculs. Pour s'y retrouver dans cette gigantesque mémoire, un peu d'organisation s'impose ! 
+To go further than a simple calculator, R allows you to remember all the calculations you ask it to perform and also to keep the result of these calculations. To navigate this gigantic memory, a little organization is needed! 
 
-Dans R, l'information peut être rangée dans ce nous appellerons des **objets** : pour donner une image, un objet c'est comme une boite sur laquelle on peut apposer une étiquette (un nom) et dans laquelle on range un contenu (le résultat d'un calcul par exemple). Le fait de donner des noms aux objets permet de mieux s'y retrouver dans des longs calculs.
+In R, information can be stored in what we will call **objects**: to illustrate, an object is like a box on which we can affix a label (a name) and in which we store a content (the result of a calculation for example). Giving names to objects helps you navigate long calculations.
 
-Par exemple, nous allons créer un objet dont le nom est `nb_coeur`, qui servira à stocker la valeur relative au nombre de coeurs du héros dans le jeu. Icarius démarre la partie avec 3 coeurs, la valeur que nous voulons donner à `nb_coeurs` est donc 3. Pour ranger la valeur 3 dans l'objet appelé nb_coeur, le langage runique comporte un signe bien particulier, à savoir la flèche `<-`. Elle est construite en juxtaposant le signe `<` au tiret `-`. Attribuer une valeur à un objet par une flèche `<-` correspond à la notion d'*assignation*. Par exemple :
-
-```{r, collapse = TRUE}
-# Je crée l'objet nb_coeur (nombre de coeurs du héros)
-# en lui assignant la valeur 3
-nb_coeur <- 3
-```
-
-Le code ci-dessus assigne la valeur 3 à l'objet `nb_coeur`. Vous noterez que la flèche utilisée pour assigner est orientée de droite à gauche : elle va de la valeur (ici 3) à l'objet qui recueille la valeur (ici `nb_coeur`). 
-
-Au fait, dans R, tout ce qui apparaît après un `#` sert de commentaire : R ne lit pas ces lignes (qui apparaissent dans une autre couleur). Cela vous permet d'annoter le code pour le documenter, comme dans ce tutoriel.
-
-L'objet `nb_coeur` a été créé. Pour afficher son contenu dans R, il suffit... de taper son nom :
+For example, we are going to create an object named `n_lives`, which will be used to store the number of the hero's lives in the game. Icarius starts its journey with 3 lives, therefore the value we want to give to `n_lives` is 3. To store the value 3 in the object called `n_lives`, the runic language has a very particular sign, namely the arrow `<-`. It is constructed by juxtaposing the sign `<` with the dash `-`. The assignment of a value to an object is performed with the arrow `<-`. For example:
 
 ```{r, collapse = TRUE}
-# Affichage de la valeur d'un objet en tapant son nom
-nb_coeur
+# I create the n_lives object (number of the hero's lives)
+# assigning to it the value 3
+n_lives <- 3
 ```
 
+The above code assigns the value 3 to the `n_lives` object. You will notice that the arrow used to assign is oriented from right to left: it goes from the value (here 3) to the object that collects the value (here `n_lives`).
 
-<span style="color:#18AC3E;font-size:16px">**Calculer avec des objets**</span>
+By the way, in R, anything that appears after the symbol `#` serves as a comment: R does not read these lines (which appear in another color). This allows you to annotate the code to document it, as in this tutorial.
 
-Les objets peuvent être utilisés dans des opérations de multiple nature, à commencer par du calcul sur des valeurs numériques. Nous allons ainsi multiplier l'objet `nb_coeur` par 2. Nous l'avons vu, la multiplication dans R s'écrit avec la touche `*`
+The `n_lives` object has been created. To display its value in R, all you have to do is... to type its name:
 
 ```{r, collapse = TRUE}
-# Une opération arithmétique sur l'objet nb_coeur
-2*nb_coeur
+# Display the value of an object by typing its name
+n_lives
 ```
 
-Il est possible de créer un nouvel objet à partir d'un objet existant et d'une opération comme un calcul. Par exemple, nous allons créer l'objet `max_nb_coeur` pour désigner le nombre maximum de coeurs que le héros aura dans l'aventure. Ici, 
+
+<span style="color:#18AC3E;font-size:16px">**Calculate with objects**</span>
+
+Objects can be used in operations of many kinds, starting with calculations on numerical values. We are thus going to multiply the object `n_lives` by 2. As we have seen, the multiplication in R is written with the `*` key
 
 ```{r, collapse = TRUE}
-# Une opération arithmétique qui est associée à la création d'un nouvel objet,
-# max_nb_coeur, pour désigner le nombre maximum de coeurs du héros
-max_nb_coeur <- 2*nb_coeur
-# Affichage de la valeur de max_nb_coeur
-max_nb_coeur
+# An arithmetic operation on the n_lives object
+2*n_lives
 ```
 
-<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+It is possible to create a new object from an existing object and an operation such as a calculation. For example, we are going to create the `max_n_lives` object to designate the maximum number of lives the hero may have in the adventure :
 
-Nous vous proposons de créer ci-dessous les variables `nb_coeur` et `max_nb_coeur`, en leur assignant respectivement les valeurs 3 et 6, puis d'afficher leur valeur. Au fait, une astuce : dans la console R, vous pouvez également afficher la solution pour avoir une aide avec le bouton :
+```{r, collapse = TRUE}
+# An arithmetic operation which is associated with the creation of a new object,
+# max_n_lives, to designate the maximum number of hero's lives
+max_n_lives <- 2*n_lives
+# Display the value of max_n_lives
+max_n_lives
+```
+
+<span style="color:#18AC3E;font-size:16px">**Try for yourself!**</span>
+
+We suggest you to create the objects `n_lives` and `max_n_lives` below, assigning them the values 3 and 6 respectively, then displaying their values. By the way, here's a tip: in the R console, you also can display the solution to get help with the following button:
 ```{r image_2, echo=FALSE, fig.cap="", out.width = '70px'}
 knitr::include_graphics("images/solution.png")
 ```
 
 
 ```{r ok-chapitre1-etape1,exercise=TRUE}
-# Création des variables nb_coeur et max_nb_coeur
+# Create the object n_lives and max_n_lives
 
 
-# Affichage de leur valeur
+# Display their values
 
 
-# Fin de l'exercice
+# End of the exercise
 ``` 
   
 
 ```{r ok-chapitre1-etape1-solution}
-# Création des variables nb_coeur et max_nb_coeur
-nb_coeur<-3
-max_nb_coeur<-2*nb_coeur
-# Affichage de leur valeur
-nb_coeur
-max_nb_coeur
-# Fin de l'exercice
+# Create the object n_lives and max_n_lives
+n_lives<-3
+max_n_lives<-2*n_lives
+# Display their values
+n_lives
+max_n_lives
+# End of the exercise
 ```   
 
 
-<span style="color:#18AC3E;font-size:16px">**Des objets préchargés**</span>
+<span style="color:#18AC3E;font-size:16px">**Preloaded objects**</span>
 
-Pour vous aider dans votre quête, le langage des Runes comporte déjà quelques "objets" déjà rangés à l'avance. Par exemple, la valeur de pi est stockée dans l'objet `pi`. 
+To help you in your quest, the language of the Runes already has a few “items” already built-in. For example, the value of pi is stored in the object `pi`. 
 
 ```{r, collapse = TRUE}
-# Afficher la valeur de pi dans R
+# Display the value of pi in R
 pi
 ```
 
-Parlons un instant des décimales. Vous avez l'habitude d'utiliser une virgule pour indiquer les décimales dans un nombre, non ? Comme 3,1415 pour pi ? Certes, mais les pays anglophones ont choisi le point comme séparateur décimal, et c'est cette convention que l'on retrouve dans les langages comme R. C'est pour cela que R affiche `3.14` et non `3,14`. Il vous faudra vous plier à cette règle dans votre apprentissage du langage des Runes sous peine de vous faire rouspeter par la console.
 
 
 
-## L'âge des statisiens
+## The age of statisians
 
 
 <p style="border:1px; border-style:solid; border-color:#000000; padding: 1em;">
 ```{r image1, echo=FALSE, fig.cap=""}
 knitr::include_graphics("images/icarius_hero.png")
 ```
-<span style="color:#18AC3E">**Mais au fait, il nous reste à répondre à la question du mage RegoR... quel âge a icaRius ? **</span>
+<span style="color:#18AC3E">**By the way, we still have to answer the question of the mage RegoR… how old is IcaRius?**</span>
 </p>
 
 
-Dans le monde de Statis, l'âge suit une logique un peu étrange. À la naissance, les statisiens ont pour âge leur nombre de coeurs multiplié par le nombre pi au carré, auquel on soustrait le nombre maximal de coeurs qu'ils pourront avoir au cours de leur vie... Pour faciliter le tout, on admettra de prendre l'arrondi du résultat obtenu...
+In the world of Statis, age follows a somewhat strange logic. At birth, the age of the statisians corresponds to their number of lives multiplied by the number pi squared, from which we subtract the maximum number of lives that they will be able to have during their journey… To facilitate the whole, one will admit to take the rounding of the result...
 
-**Aie aie aie.** 
+**Ayyayya!** 
 
-Tiens, et si on calculait avec R ? Pour calculer le carré d'un nombre dans R, on utilise le signe `^`, comme par exemple `3^2 = 9`.
+What if we calculated with R? To calculate the square of a number in R, we use the sign `^`, such as `3 ^ 2 = 9`
 
 ```{r, collapse = TRUE}
-# La valeur de pi au carré. Pour porter un chiffre à la puissance N, on utilise ^N
+# The value of pi squared. To bring a number to the power N, we use ^N
 pi^2
 ```
 
-Ecrivons la formule de calcul pour l'âge d'IcaRius. Allons-y pas-à-pas.
+Let’s write the formula for the age of IcaRius. Let's take it step by step.
 
 ```{r, results='hide'}
-# le nombre de coeur multiplié par le nombre pi au carré...
-nb_coeur * pi^2
+# the number of lives multiplied by the number pi squared...
+n_lives * pi^2
 
-# ... moins le nombre maximal de coeur
-nb_coeur * pi^2 - max_nb_coeur
+# ...minus the maximum number of lives
+n_lives * pi^2 - max_n_lives
 
-# Et c'est déja fini !
+# That's over!
 ```
 
-Pas sorcier finalement. Comme quoi, cette histoire de "mage" dans icaRius, c'est très surfait.
+Not rocket science after all. Like what, this "mage" story in IcaRius is very overrated.
 
-## À vous de jouer !
+## It's your turn!
 
-Et si vous écriviez vous-mêmes la solution pour trouver l'âge d'IcaRius ? Ecrivez ci-dessous votre calcul, exécutez-le pour trouver l'âge... Rappel : l'exécution du code se fait en appuyant sur le bouton :
+How about writing the solution to finding the age of IcaRius by yourself? Write your calculation below, run it to find the age... Reminder: the code is executed by pressing the button:
 ```{r image2, echo=FALSE, fig.cap="", out.width = '80px'}
 knitr::include_graphics("images/run_code.png")
 ```
 
 ```{r ok-chapitre1-etape2,exercise=TRUE}
-# Les objets nb_coeur et max_nb_coeur sont déjà chargés
-nb_coeur <- 3
-max_nb_coeur <- 2*nb_coeur
-# Ecrire la formule de calcul de l'âge des statisiens
+# The objects n_lives et max_n_lives are already loaded
+n_lives <- 3
+max_n_lives <- 2*n_lives
+# Write the formula to calculate the age of the statisians
 
-# Fin de l'exercice
+# End of the exercise
 ``` 
      
 ```{r ok-chapitre1-etape2-solution}
-# Les objets nb_coeur et max_nb_coeur sont déjà chargés
-nb_coeur <- 3
-max_nb_coeur <- 2*nb_coeur
-# Ecrire la formule de calcul de l'âge des statisiens
+# The objects n_lives et max_n_lives are already loaded
+n_lives <- 3
+max_n_lives <- 2*n_lives
+# Write the formula to calculate the age of the statisians
 (nb_coeur * pi^2) - max_nb_coeur
-# Fin de l'exercice
+# End of the exercise
 ```
 
-À noter que l'on pourrait aller plus loin en calculant dans R l'arrondi du résultat obtenu. Mais nous verrons cela plus tard : pour l'instant, à vous de faire cet arrondi... de tête !
+Note that we could go further by calculating in R the rounding of the result obtained. But we'll see that later: for now, it's up to you to round off... in your head!
 
 ```{r ok-question1,echo=FALSE}
-question("Alors, quel âge a Icarius? Ne reste plus qu'à cocher la bonne réponse...pour poursuivre l'aventure!",
+question("So how old is Icarius? All that remains is to check the correct answer... to continue the adventure!",
 type="single",
 allow_retry = TRUE,
-incorrect="Retente ta chance",
-answer("18 ans"),
-answer("36 ans"),
-answer("24 ans",correct=TRUE),
-answer("La bonne réponse n'est pas dans les propositions"),
-correct="Félicitations, tu as trouvé le bon âge, l'aventure peut continuer! Reporte directement dans le jeu icaRius (via l'écran bleu) la bonne valeur pour débloquer la suite."
+incorrect="Try again",
+answer("18 years"),
+answer("36 years"),
+answer("24 years",correct=TRUE),
+answer("The correct answer is not in the proposals"),
+correct="Congratulations, you have found the right age, the adventure can continue! Enter the correct value directly into the IcaRius game (via the blue screen) to unlock the rest."
 )
 
 ```   
  
 
-**Fin du chapitre 1  >>  reprenez la partie d'Icarius**
+**End of chapter 1  >>  resume the quest of Icarius**
 
-*(Version du chapitre : 0.9.1)*
+*(Chapter version : 0.9.1)*

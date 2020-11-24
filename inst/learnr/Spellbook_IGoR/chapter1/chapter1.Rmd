@@ -33,15 +33,15 @@ Welcome to this first chapter of the IGoR grimoire. In this chapter, we will gra
 
 If necessary, do not hesitate to request one of the quizmasters moving around the room.
 
-But let's start… at the beginning! R is a language used for processing statistical data, the first version of which was published in 2000. First disseminated among researchers, R is now used more and more within national statistical institutes. 
+But let's start… at the beginning! R is a language used for processing statistical data, the first version of which was published in 2000. First disseminated among researchers, R is now used more and more, especially within national statistical institutes. 
 
-R allows you to make **statistical computations**, to present them in the form of **tables** and also to draw **graphs** and geographical maps. The results produced with R can be exported into **reports** and even be integrated in **web applications**. Mastering the Language of the Runes is a great power ~that comes with great responsibility~!
+R allows you to make **statistical computations**, to present them in the form of **tables** and also to draw **graphs** and geographical maps. The results produced with R can be exported into **reports** and even be integrated in **web applications**. Mastering R, the Language of the Runes is a great power ~that comes with great responsibility~!
 
 Unlike other software like SAS, R is a **free software**: its license is free and allows each user to access, modify or redistribute its **source code**. The source code is the equivalent of the manual for making the software. It is also cross-platform: this means that it can be run on several operating systems (Windows, Mac, Linux ...)
 
 ## Quizzes you will defeat
 
-In the adventure of icaRius, you will sometimes be asked to answer quizzes to help the character continue his quest. Here is a very first one, just to familiarize yourself with the format of the exercise. So it's up to you to respond directly by checking your choice and then pressing the button called `Submit answer`.
+In the adventure of IcaRius, you will sometimes be asked to answer quizzes to help the character continue his quest. Here is a very first one, just to familiarize yourself with the format of the exercise. So it's up to you to respond directly by checking your choice and then pressing the button called `Submit answer`.
 
 If you need to know how to operate, do not hesitate to ask for one of the quizmasters moving around the room.
 
@@ -88,9 +88,9 @@ Here is a slightly larger console that has some pre-populated instructions, alwa
 
 ```
 
-The console is a place of dialogue, you command and R does it! Note that you see all the results appear one after the other (for example, there are 3 calculations requested here separately, and R answers you with 3 results): therefore, there is **one answer per instruction**.
+The console is a place of dialogue, you command and R does it! Note that you see all the results appear one after the other (for example, there are 3 calculations requested separately here , and R answers you with 3 results): therefore, there is **one answer per instruction**.
 
-n the way of writing the language of Runes, the number of spaces is irrelevant: `3 + 3`, `3+3`, they are all the same.
+In the way of writing the language of Runes, the number of spaces is irrelevant: `3 + 3`, `3+3` are all the same.
 
 Each language has its own way of understanding mathematical operations. For fundamentals, R uses `+` for addition and `-` for subtraction (so far so good), but also `*` for multiplication and `/` for division.
 
@@ -138,7 +138,7 @@ Objects can be used in operations of many kinds, starting with calculations on n
 2*n_lives
 ```
 
-It is possible to create a new object from an existing object and an operation such as a calculation. For example, we are going to create the `max_n_lives` object to designate the maximum number of lives the hero may have in the adventure. Here,
+It is possible to create a new object from an existing object and an operation such as a calculation. For example, we are going to create the `max_n_lives` object to designate the maximum number of lives the hero may have in the adventure :
 
 ```{r, collapse = TRUE}
 # An arithmetic operation which is associated with the creation of a new object,
@@ -180,7 +180,7 @@ max_n_lives
 
 <span style="color:#18AC3E;font-size:16px">**Preloaded objects**</span>
 
-To help you in your quest, the language of the Runes already has a few “items” already stored in advance. For example, the value of pi is stored in the object `pi`. 
+To help you in your quest, the language of the Runes already has a few “items” already built-in. For example, the value of pi is stored in the object `pi`. 
 
 ```{r, collapse = TRUE}
 # Display the value of pi in R
@@ -197,11 +197,11 @@ pi
 ```{r image1, echo=FALSE, fig.cap=""}
 knitr::include_graphics("images/icarius_hero.png")
 ```
-<span style="color:#18AC3E">**By the way, we still have to answer the question of the mage RegoR… how old is icaRius?**</span>
+<span style="color:#18AC3E">**By the way, we still have to answer the question of the mage RegoR… how old is IcaRius?**</span>
 </p>
 
 
-In the world of Statis, age follows a somewhat strange logic. At birth, the statisians have for age their number of lives multiplied by the number pi squared, from which we subtract the maximum number of lives that they will be able to have during their journey… To facilitate the whole, one will admit to take the rounding of the result...
+In the world of Statis, age follows a somewhat strange logic. At birth, the age of the statisians corresponds to their number of lives multiplied by the number pi squared, from which we subtract the maximum number of lives that they will be able to have during their journey… To facilitate the whole, one will admit to take the rounding of the result...
 
 **Ayyayya!** 
 
@@ -224,7 +224,7 @@ n_lives * pi^2 - max_n_lives
 # That's over!
 ```
 
-Not rocket science after all. Like what, this "mage" story in icaRius is very overrated.
+Not rocket science after all. Like what, this "mage" story in IcaRius is very overrated.
 
 ## It's your turn!
 
@@ -262,7 +262,7 @@ answer("18 years"),
 answer("36 years"),
 answer("24 years",correct=TRUE),
 answer("The correct answer is not in the proposals"),
-correct="Congratulations, you have found the right age, the adventure can continue! Enter the correct value directly into the icaRius game (via the blue screen) to unlock the rest."
+correct="Congratulations, you have found the right age, the adventure can continue! Enter the correct value directly into the IcaRius game (via the blue screen) to unlock the rest."
 )
 
 ```   

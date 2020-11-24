@@ -33,7 +33,7 @@ file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semai
 ```
 
 
-You have just met the farmer in Kokoro village : she is desperate about having lost the egg-laying book in which, every day, she conscientiously notes the number of eggs.
+You have just met the farmer in Kokoro village : she is desperate to have lost the egg-laying book in which, every day, she conscientiously notes the number of eggs.
 
 Let's help IcaRius rebuild the egg-laying book. The latter is not entirely lost: a copy has been broken up into several fragments by the dreaded wizard SaSSoS! Furthermore, each fragment has been bewitched and seems indecipherable ... They are indeed each in strange formats: SAS, Excel, Calc...
 
@@ -56,7 +56,7 @@ For then, let's discover a first spell, called `import()`, which allows, as its 
 import("file_path")
 ```
 
-Let's tidy up what you are importing in R. For that, assign the content of the imported file to a new object in R, by choosing cleverly the name of this object. For example, let's call `egglaying_book_1` the new object that will hold in R information read from the SAS file.
+Let's tidy up what you are importing in R. For that, assign the content of the imported file to a new object in R, by choosing cleverly the name of this object. For example, let's call `egglaying_book_1` the new object that will hold information in R, from the SAS file.
 
 ```{r, collapse = TRUE, eval = FALSE}
 # I import the file and assign it to the egglaying_book_1 object
@@ -75,12 +75,12 @@ egglaying_book_1
 
 Here it is : it's already over for the first file! The latter gives the number of eggs per hen for a full week. It contains two types of information: the name of the hen (`Hen` column) and the number of eggs laid (`Eggs` column). There are 6 observations, one per hen. For example, Tarty hen laid 26 eggs - by the way, she is the best layer of the week!
 
-Let's pratice now ! First, you must find the location of the file to be read. If you have launched this tutorial from local content on your workstation, files can be found in local directory you create when downloading the FuncampR ressources. It is the case for instance if you use a FuncampR USB Key. So let's find the location from the explorer in windows (note that it will be different if you are reading tutorials online, see below).
+Let's pratice now ! First, you must find the location of the file to be read. If you have launched this tutorial from local content on your workstation, files can be found in local directory you create when downloading the FuncampR ressources. It is the case for instance if you use a FuncampR USB Key. So let's find the location from the explorer in Windows environment (note that it will be different if you are reading tutorials online, see below).
 
 ![](images/pontes_chemin.png)
 
 <p style = "border: 1px; border-style: solid; border-color: # 000000; padding: 1em;">
-**Warning:** to specify the file path, you will have to juggle with the cabalistic signs `/` and `\` (this is not called the Runes language for nothing). Unlike Windows where the backslash `\` is used to specify a path, in R you must write it with a slash `/`. Remember to change directory path when copying and pasting it from the explorer. Finally, don't forget to add the name of the file (`egglaying_book_1`) with its extension (`.sas7bdat`) at the end.
+**Warning:** to specify the file path, you will have to juggle with the cabalistic sign `/` and `\` (this is not called the Runes language for nothing). Unlike Windows where the backslash `\` is used to specify a path, in R you must write it with a slash `/`. Remember to change directory path when copying and pasting it from the explorer. Finally, don't forget to add the name of the file (`egglaying_book_1`) with its extension (`.sas7bdat`) at the end.
 </p>
 
 
@@ -176,7 +176,7 @@ We will apply these spells on the 4th week egg-laying book: the latter is alread
 
 <span style = "color: # 18AC3E; font-size: 16px"> **Displaying variable names** </span>
 
-The `names()` function is used to find out the different variables included in a file, or in other words to show columns' names in the data table:
+The `names()` function is used to find out the different variables included in a file, or in other words to show column names in the data table:
 
 ```{r, collapse = TRUE}
 # Display variable names
@@ -214,14 +214,14 @@ head(egglaying_book_4,6)
 
 ## Back to eggs ...
 
-We now have the magical power to load files of different formats into R, and to know their variables. The few examples here are far from being exhaustive: with `import()`, you could also load files in SPSS, Stata, Matlab ... and of course, R data files. We will find out later in the grimoire how R saves objects you have created. But for now, let's get back to the egg-laying book.
+We now have the magical power to load files from different formats into R, and to know their content. The few examples here are far from being exhaustive: with `import()`, you could also load SPSS, Stata, Matlab files ... and of course, R data files. We will find out later in the spell-book how R saves objects you have created. But for now, let's get back to the egg-laying book.
 
 > <details> <summary> <font size = "3"> <b> For the dauntless: optional part on CSV files - click here </b> </font> </summary>
 > <p> <font size = "2">
 >
-> The egg laying book for the 4th week comes from a fragment that ends with the `.csv` extension. So what is a CSV file?
+> The egg laying book of the 4th week comes from a fragment that ends with the `.csv` extension. So what is a CSV file?
 >
-> CSV is a file format where each record appears on its own line and whose fields are separated by a single character called a “separator”. In this case, the separator is a comma or a semicolon: this is the meaning of the acronym CSV, for Comma Separated Value.
+> CSV is a file format where each record appears on its own line and whose fields are separated by a single character called a “separator”. In the case of a csv file, the separator is a comma or a semicolon: this is the meaning of the acronym CSV, for Comma Separated Value.
 >
 > A CSV file can be produced in multiple ways, and has the advantage of being "interoperable", ie it can be read and modified both with a spreadsheet such as Excel or Calc and with statistical softwares like R. You can even create a CSV file "by hand", just with the Notepad in Windows for example.
 >

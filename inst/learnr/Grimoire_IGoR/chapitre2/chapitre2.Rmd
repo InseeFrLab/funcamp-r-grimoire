@@ -32,6 +32,17 @@ file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semai
           
 ```
 
+```{r prepare-data}
+# relative path to data from "local random repo" of learnr exercise
+file.copy(from = "pontes_semaine1.sas7bdat",
+          to = paste0(tempdir(),"/pontes_semaine1.sas7bdat"))
+file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine2.xls"),
+          to = paste0(tempdir(),"/pontes_semaine2.xls"))
+file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine3.ods"),
+          to = paste0(tempdir(),"/pontes_semaine3.ods"))
+file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine4.csv"),
+          to = paste0(tempdir(),"/pontes_semaine4.csv"))
+```
 
 Vous venez de rencontrer la fermière du village Kokoro, désespérée d'avoir perdu le livre de compte où, chaque jour, elle note consciencieusement le nombre de pontes. 
 
@@ -86,7 +97,7 @@ Et si vous pratiquiez vous-même ? Pour cela, il faut d'abord trouver l’emplac
 
 Dans l'exemple ci-dessus, la bonne adresse pour notre fichier de ponte c'est donc `E:/data/chapitre2/pontes_semaine1.sas7bdat`. **Attention, dans votre cas, la première lettre peut être différente et dépend de votre poste de travail (lettre D, E, F...)**. En ayant pris soin de vérifier la lettre correspondant à celle assignée pour votre clef USB, chargez vous-mêmes le fichier dans une table nommée `livre_compte_1`
 
-```{r ok-chapitre2-etape1,exercise=TRUE}
+```{r ok-chapitre2-etape1,exercise=TRUE, exercise.setup = "prepare-data"}
 # Charger le fichier pontes_semaine1.sas7bdat en indiquant son chemin
 # et assigner le résultat à l'objet nommé livre_compte_1
 

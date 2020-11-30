@@ -21,20 +21,17 @@ library(learnr)
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine1.sas7bdat"),
-          to = "pontes_semaine1.sas7bdat")
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine2.xls"),
-          to = "pontes_semaine2.xls")
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine3.ods"),
-          to = "pontes_semaine3.ods")
-file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine4.csv"),
-          to = "pontes_semaine4.csv")
+# DEPRECATED
+# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine1.sas7bdat"),
+#           to = "pontes_semaine1.sas7bdat")
+# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine2.xls"),
+#           to = "pontes_semaine2.xls")
+# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine3.ods"),
+#           to = "pontes_semaine3.ods")
+# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine4.csv"),
+#           to = "pontes_semaine4.csv")
           
-```
-
-```{r prepare-data}
-# relative path to data from "local random repo" of learnr exercise
-file.copy(from = "pontes_semaine1.sas7bdat",
+file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine1.sas7bdat"),
           to = paste0(tempdir(),"/pontes_semaine1.sas7bdat"))
 file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine2.xls"),
           to = paste0(tempdir(),"/pontes_semaine2.xls"))
@@ -42,6 +39,7 @@ file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semai
           to = paste0(tempdir(),"/pontes_semaine3.ods"))
 file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine4.csv"),
           to = paste0(tempdir(),"/pontes_semaine4.csv"))
+          
 ```
 
 Vous venez de rencontrer la fermière du village Kokoro, désespérée d'avoir perdu le livre de compte où, chaque jour, elle note consciencieusement le nombre de pontes. 
@@ -76,7 +74,7 @@ livre_compte_1 <- import("chemin_du_fichier")
 De cette façon, en appelant l'objet `livre_compte_1` dans la console R, il est aisé d'en consulter le contenu. En l'occurence :
 
 ```{r, echo=FALSE}
-livre_compte_1 <- import("pontes_semaine1.sas7bdat")
+livre_compte_1 <- import(paste0(tempdir(),"/pontes_semaine1.sas7bdat"))
 ```
 
 ```{r, collapse = FALSE}
@@ -97,7 +95,7 @@ Et si vous pratiquiez vous-même ? Pour cela, il faut d'abord trouver l’emplac
 
 Dans l'exemple ci-dessus, la bonne adresse pour notre fichier de ponte c'est donc `E:/data/chapitre2/pontes_semaine1.sas7bdat`. **Attention, dans votre cas, la première lettre peut être différente et dépend de votre poste de travail (lettre D, E, F...)**. En ayant pris soin de vérifier la lettre correspondant à celle assignée pour votre clef USB, chargez vous-mêmes le fichier dans une table nommée `livre_compte_1`
 
-```{r ok-chapitre2-etape1,exercise=TRUE, exercise.setup = "prepare-data"}
+```{r ok-chapitre2-etape1,exercise=TRUE}
 # Charger le fichier pontes_semaine1.sas7bdat en indiquant son chemin
 # et assigner le résultat à l'objet nommé livre_compte_1
 
@@ -132,7 +130,7 @@ Nous avons donc deux fichiers issus de tableurs :
 Importons dans R le fichier Excel `pontes_semaine2.xls`
 
 ```{r, echo=FALSE, message = FALSE}
-livre_compte_2 <- import("pontes_semaine2.xls")
+livre_compte_2 <- import(paste0(tempdir(),"/pontes_semaine2.xls"))
 ```
 
 ```{r, eval=FALSE}
@@ -178,7 +176,7 @@ livre_compte_3
 ##  Découvrons le contenu du fichier
 
 ```{r, echo=FALSE}
-livre_compte_4 <- import("pontes_semaine4.csv")
+livre_compte_4 <- import(paste0(tempdir(),"/pontes_semaine4.csv"))
 ```
 
 Maintenant que vous savez charger un fichier, apprenons les sortilèges élémentaires pour décrire le contenu d'un fichier : les variables qu'il comporte, le nombre d'observations (de lignes) et l'affichage d'un extrait du fichier (plutôt que sa totalité). 
@@ -273,4 +271,4 @@ Vous avez trouvé ? **Reportez le nom de la meilleure poule pondeuse dans le jeu
 
 **Fin du chapitre 2 >> reprenez la partie d'Icarius !!!**
 
-*(version du chapitre : 0.9.2)*
+*(version du chapitre : 0.9.3)*

@@ -21,24 +21,17 @@ library(learnr)
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 
-# DEPRECATED
-# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine1.sas7bdat"),
-#           to = "pontes_semaine1.sas7bdat")
-# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine2.xls"),
-#           to = "pontes_semaine2.xls")
-# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine3.ods"),
-#           to = "pontes_semaine3.ods")
-# file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine4.csv"),
-#           to = "pontes_semaine4.csv")
-          
+dir.create(paste0(tempdir(),"/data"))
+dir.create(paste0(tempdir(),"/data/chapitre2"))
+
 file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine1.sas7bdat"),
-          to = paste0(tempdir(),"/pontes_semaine1.sas7bdat"))
+          to = paste0(tempdir(),"/data/chapitre2/pontes_semaine1.sas7bdat"))
 file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine2.xls"),
-          to = paste0(tempdir(),"/pontes_semaine2.xls"))
+          to = paste0(tempdir(),"/data/chapitre2/pontes_semaine2.xls"))
 file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine3.ods"),
-          to = paste0(tempdir(),"/pontes_semaine3.ods"))
+          to = paste0(tempdir(),"/data/chapitre2/pontes_semaine3.ods"))
 file.copy(from = system.file(package = "funcampR","data","chapitre2/pontes_semaine4.csv"),
-          to = paste0(tempdir(),"/pontes_semaine4.csv"))
+          to = paste0(tempdir(),"/data/chapitre2/pontes_semaine4.csv"))
           
 ```
 
@@ -74,7 +67,7 @@ livre_compte_1 <- import("chemin_du_fichier")
 De cette façon, en appelant l'objet `livre_compte_1` dans la console R, il est aisé d'en consulter le contenu. En l'occurence :
 
 ```{r, echo=FALSE}
-livre_compte_1 <- import(paste0(tempdir(),"/pontes_semaine1.sas7bdat"))
+livre_compte_1 <- import(paste0(tempdir(),"/data/chapitre2/pontes_semaine1.sas7bdat"))
 ```
 
 ```{r, collapse = FALSE}
@@ -130,7 +123,7 @@ Nous avons donc deux fichiers issus de tableurs :
 Importons dans R le fichier Excel `pontes_semaine2.xls`
 
 ```{r, echo=FALSE, message = FALSE}
-livre_compte_2 <- import(paste0(tempdir(),"/pontes_semaine2.xls"))
+livre_compte_2 <- import(paste0(tempdir(),"/data/chapitre2/pontes_semaine2.xls"))
 ```
 
 ```{r, eval=FALSE}
@@ -176,7 +169,7 @@ livre_compte_3
 ##  Découvrons le contenu du fichier
 
 ```{r, echo=FALSE}
-livre_compte_4 <- import(paste0(tempdir(),"/pontes_semaine4.csv"))
+livre_compte_4 <- import(paste0(tempdir(),"/data/chapitre2/pontes_semaine4.csv"))
 ```
 
 Maintenant que vous savez charger un fichier, apprenons les sortilèges élémentaires pour décrire le contenu d'un fichier : les variables qu'il comporte, le nombre d'observations (de lignes) et l'affichage d'un extrait du fichier (plutôt que sa totalité). 
@@ -271,4 +264,4 @@ Vous avez trouvé ? **Reportez le nom de la meilleure poule pondeuse dans le jeu
 
 **Fin du chapitre 2 >> reprenez la partie d'Icarius !!!**
 
-*(version du chapitre : 0.9.3)*
+*(version du chapitre : 0.9.3.1)*

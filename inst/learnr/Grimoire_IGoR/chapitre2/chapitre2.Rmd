@@ -77,7 +77,9 @@ livre_compte_1
 
 Et voilà, c'est fini pour le premier fichier ! Ce dernier donne le nombre de pontes par poule pour une semaine complète. Il comporte deux types d'information : le nom de la poule (colonne `Poule`) et le nombre d'oeufs pondus (colonne `Oeufs`). Il y a 6 enregistrements, un par poule. Par exemple, la poule Kokot a pondu 26 oeufs - c'est d'ailleurs la meilleure pondeuse de la semaine !
 
-Et si vous pratiquiez vous-même ? Pour cela, il faut d'abord trouver l’emplacement du fichier à lire, sur votre poste de travail par exemple. En l'occurrence, le fichier est présent sur la clé USB qui vous a été remise en début de partie. Cherchons donc l'emplacement à partir  de l'explorateur dans windows. 
+Et si vous pratiquiez vous-même ? Pour cela, il faut d'abord trouver l’emplacement du fichier à lire...
+
+**Vous suivez ce tutoriel à partir d'une clef USB, ou vous avez installé le grimoire de tutoriels sur votre poste de travail?**  Cherchons dans ce cas l'emplacement à partir de l'explorateur dans windows. 
 
 ![](images/pontes_chemin.png)
 
@@ -86,7 +88,11 @@ Et si vous pratiquiez vous-même ? Pour cela, il faut d'abord trouver l’emplac
 </p>
 
 
-Dans l'exemple ci-dessus, la bonne adresse pour notre fichier de ponte c'est donc `E:/data/chapitre2/pontes_semaine1.sas7bdat`. **Attention, dans votre cas, la première lettre peut être différente et dépend de votre poste de travail (lettre D, E, F...)**. En ayant pris soin de vérifier la lettre correspondant à celle assignée pour votre clef USB, chargez vous-mêmes le fichier dans une table nommée `livre_compte_1`
+Dans l'exemple ci-dessus, la bonne adresse pour notre fichier de ponte est `E:/data/chapitre2/pontes_semaine1.sas7bdat`. **Attention, dans votre cas, la première lettre peut être différente et dépend de votre poste de travail (lettre D, E, F...)**. 
+
+**Vous suivez ce tutoriel en ligne, par exemple avec le SSPCloud ?** Dans ce cas, la bonne adresse pour notre fichier de ponte est `../data/chapitre2/pontes_semaine1.sas7bdat` (pour ainsi dire, il faut substituer `../` à `E:/` pour indiquer à R de chercher le fichier dans le stockage de la plateforme en ligne
+
+Selon votre version du tutoriel (sur clef/poste ou sur Internet), chargez vous-même le fichier dans une table nommée `livre_compte_1`
 
 ```{r ok-chapitre2-etape1,exercise=TRUE}
 # Charger le fichier pontes_semaine1.sas7bdat en indiquant son chemin
@@ -157,8 +163,10 @@ Pour ouvrir le fichier calc `pontes_semaine3.ods`, la marche à suivre est ident
 ```{r ok-chapitre2-question2-solution}
 # Charger le fichier pontes_semaine3.ods en indiquant son chemin
 # et assigner le résultat à l'objet nommé livre_compte_3
+# Version sur clef USB (lettre E à changer éventuellement)
 livre_compte_3 <- import("E:/data/chapitre2/pontes_semaine3.ods")
-
+# Version en ligne
+livre_compte_3 <- import("../data/chapitre2/pontes_semaine3.ods")
 # Afficher le contenu de l'objet livre_compte_3
 livre_compte_3
 
@@ -264,4 +272,4 @@ Vous avez trouvé ? **Reportez le nom de la meilleure poule pondeuse dans le jeu
 
 **Fin du chapitre 2 >> reprenez la partie d'Icarius !!!**
 
-*(version du chapitre : 0.9.3.1)*
+*(version du chapitre : 0.9.3.2)*

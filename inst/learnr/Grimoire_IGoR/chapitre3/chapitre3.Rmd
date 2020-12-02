@@ -22,12 +22,6 @@ library(rio)
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 
-# DEPRECATED
-# file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Tellus.ods"),
-#          to = "recensement_agricole_statia_Tellus.ods")
-# file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Galia.ods"),
-#          to = "recensement_agricole_statia_Galia.ods")
-
 file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Tellus.ods"), 
           to = paste0(tempdir(),"/recensement_agricole_statia_Tellus.ods"))
 file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_agricole_statia_Galia.ods"), 
@@ -38,10 +32,6 @@ file.copy(from = system.file(package = "funcampR","data","chapitre3/recensement_
 
 ```{r prepare-data}
 # relative path to data from "local random repo" of learnr exercise
-# DEPRECATED
-# fichier_tellus<-import("../../../recensement_agricole_statia_Tellus.ods")
-# fichier_galia<-import("../../../recensement_agricole_statia_Galia.ods")
-
 fichier_tellus<-import(paste0(tempdir(),"/recensement_agricole_statia_Tellus.ods"))
 fichier_galia<-import(paste0(tempdir(),"/recensement_agricole_statia_Galia.ods"))
 ```
@@ -52,7 +42,7 @@ fichier_galia<-import(paste0(tempdir(),"/recensement_agricole_statia_Galia.ods")
 
 Pour avancer dans son aventure, Icarius dispose de son précieux grimoire, qu'il a pu alimenter au fur et à mesure de ses rencontres avec des mages dans les villages précédents. Ce grimoire renferme une multitude de sortilèges - appelés **fonctions** dans le langage des Runes - permettant chacun d'accomplir une tâche bien spécifique. Nous avons, dans le chapitre précédent, fait la découverte de quelques sortilèges : `import()`, pour charger des données dans R ; `names()`, `nrow()` et `head()` pour décrire un jeu de données.
 
-Nous allons, dans ce chapitre, un découvrir un peu plus sur les sortilèges, et tant que nous y sommes, produire des statistiques grâce à cette magie !
+Nous allons, dans ce chapitre, en découvrir un peu plus sur les sortilèges, et tant que nous y sommes, produire des statistiques grâce à cette magie !
 
 Dans le monde des Runes, un sortilège est identifié par **son nom suivi de parenthèses** :`nomsortilege()`. A l'intérieur des parenthèses, sont précisés les ingrédients utiles à la confection du sortilège. Pas d'inquiétude, une aide intégrée dans R permet de connaître la liste des ingrédients que l'on peut renseigner pour chaque sortilège.
 
@@ -91,8 +81,8 @@ skim(mon_fichier)
 
 Les résultats du sortilège se présentent de telle façon que **les statistiques essentielles** sont regroupées sur une même ligne pour chaque variable. On y retrouve :
 
-- la moyenne (*Mean*), la valeur minimale (*p0*) et la valeur maximale (*p100*)
-- la médiane (*p50*), qui détermine le seuil séparant les valeurs en deux parties égales, une moitié des valeurs qui sont toutes inférieures ou égales à la médiane et l'autre moitié des valeurs, qui sont toutes supérieures ou égales à la médiane
+- la moyenne (*Mean*), la valeur minimale (*p0*) et la valeur maximale (*p100*);
+- la médiane (*p50*), qui détermine le seuil séparant les valeurs en deux parties égales, une moitié des valeurs qui sont toutes inférieures ou égales à la médiane et l'autre moitié des valeurs, qui sont toutes supérieures ou égales à la médiane;
 - le premier quartile (*p25*) et le troisième quartile (*p75*). Le premier quartile est le niveau pour lequel 25% des valeurs de la variable sont inférieures ou égales à ce seuil. Le troisième quartile est le niveau pour lequel 25% des valeurs de la variable sont supérieures ou égales à ce seuil.  
 
 Tout ceci parce que ces termes font référence à des "moments" d'une distribution, aussi appelés des percentiles (d'où la lettre p). La médiane est donc le 50e percentile, le 1er quartile est le 25e percentile, etc. 
@@ -225,8 +215,7 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius**. Le tutoriel é
 >Les deux exploitations ont une production moyenne différente : la valeur `mean` de la variable Litres dans les résultats du sortilège `skim()` donne en effet une moyenne respective de 33,9 litres et 36,5 litres pour les exploitations de Tellus et Galia. 
 >
 >Au delà de cette moyenne, le sortilège `skim()` révèle des caractéristiques très différentes entre les deux exploitations. Quelle proposition parmi les suivantes est fausse ? Aidez-vous des résultats obtenus avec skim pour les deux exploitations...
->
->```{r ok-chapitre3-quiz2,echo=FALSE}
+```{r ok-chapitre3-quiz2,echo=FALSE}
 question("Quiz bonus - quelle assertion est fausse ?",
 type="single",
 allow_retry = TRUE,
@@ -242,4 +231,4 @@ correct="Félicitations, c'est la bonne réponse pour ce quiz bonus. La premièr
  
 **Fin du chapitre 3 >> reprenez la partie d'Icarius !!!**
 
-*(version du chapitre : 0.9.2)*
+*(version du chapitre : 0.9.3)*

@@ -77,11 +77,11 @@ head(livre_ambroisie_df,5)
 
 Le fichier `livre_ambroisie` comprend ainsi, pour chaque observation (chaque liqueur consommée) les informations suivantes : 
 
-- le `prix` de la bouteille d'ambroisie bue par Batreb - prix exprimé dans la monnaie locale de statis, qui s'appelle des kopeks si vous voulez le savoir...
+- le `prix` de la bouteille d'ambroisie bue par Batreb - prix exprimé dans la monnaie locale de statis, qui s'appelle des rupees si vous voulez le savoir...
 
 - la `puissance` de la liqueur, comparable au nombre de degré d'une boisson alcoolisée 
 
-- l' `age` de la liqueur, c'est-à-dire depuis combien de temps elle murit. Certains bouteilles d'ambroisie ont plusieurs siècles !
+- l' `age` de la liqueur, c'est-à-dire depuis combien de temps elle murit. Etonnant : certaines bouteilles d'ambroisie ont plusieurs siècles !
 
 - la `saveur`, qui correspond à l'appréciation portée par Batreb sur la liqueur consommée. 
 
@@ -107,7 +107,7 @@ livre_ambroisie %>% gf_point(prix ~ puissance)
 
 Le nuage de points semble indiquer une relation (quoique bruitée) entre la puissance d'une liqueur et le prix de la bouteille, les deux variables progressant de pair.
 
-Ce graphique est un premier exemple d'illustration produite avec un sortilège de la famille ggformula. Mais ne vous inquiétez pas, nous allons savoir rapidement comment faire de beaux graphiques pas comme ceux de Sassos ;-)
+Ce graphique est un premier exemple d'illustration produite avec un sortilège de la famille ggformula. Mais ne vous inquiétez pas, nous allons savoir rapidement comment faire de beaux graphiques - pas comme ceux de Sassos ;-)
  
 <span style="color:#18AC3E;font-size:16px">**L'opérateur ~ **</span>
   
@@ -124,7 +124,7 @@ livre_ambroisie %>% gf_point(prix ~ age)
 
 ```
 
-De nouveau, une relation se dessine entre les deux variables, tout en présentant une certaine dispersion. D'ailleurs, la forme globale du nuage est assez similaire à la précédente. Voilà qui invite à étudier de plus près la liaison entre puissance et âge, qui semblent très liées...
+De nouveau, une relation se dessine entre les deux variables, tout en présentant une certaine dispersion. D'ailleurs, la forme globale du nuage est assez similaire à la précédente. Voilà qui invite à étudier de plus près la liaison entre puissance et âge...
 
 ## Votre premier graphique (magique)
 
@@ -189,7 +189,7 @@ livre_ambroisie %>%  gf_barh( ~ saveur)
 
 <span style="color:#18AC3E;font-size:16px">**Les ingrédients exhausteurs de goût**</span>
 
-Les graphiques ggformula peuvent être enrichis et voir leur sapidité augmentée par quelques ingrédients supplémentaires. Découvrons-les ensemble en reprenant le graphique avec la courbe liant puissance et âge de la liqueur, que nous allons "customizer" (terme non reconnu par l'Académie des Lettres de Statis) 
+Les graphiques ggformula peuvent être enrichis et voir leur sapidité augmentée par quelques ingrédients supplémentaires. Découvrons-les ensemble en reprenant le graphique avec la courbe liant puissance et âge de la liqueur, que nous allons "customiser" (terme non reconnu par l'Académie des Lettres de Statis) 
 
 L'ingrédient `title` permet par exemple d'ajouter un titre : 
 
@@ -200,7 +200,7 @@ livre_ambroisie %>%
 
 ```
 
-Notez ici que, comme le sortilège peut comporter de nombreux ingrédients, nous allons dorénavant les appeler par leur nom consciencieusement, ici : `title = `. 
+Comme le sortilège peut comporter de nombreux ingrédients, nous allons dorénavant les appeler par leur nom consciencieusement, ici : `title = `. 
 
 Pour changer la couleur, il faudra ajouter l'ingrédient `color =`:
   
@@ -281,4 +281,4 @@ correct="Félicitations, c'est la bonne réponse (hips!)"
  
 Vous pouvez désormais reporter la bonne réponse dans le jeu **icaRius** et reprendre votre partie !
 
-**Version 0.9.1**
+**Version 0.9.2**

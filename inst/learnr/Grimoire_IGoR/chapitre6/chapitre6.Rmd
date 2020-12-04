@@ -107,7 +107,7 @@ donnees_secretes %>%
 
 ##  Des points qui changent de taille, dites-vous ?
 
-Pour faire varier la taille des ronds d'un nuage de points en fonction de la valeur d'une variable dénommeée nombre, il faut utiliser l'ingrédient **size** et lui donner la valeur ~ nombre : `size = ~nombre`. Dans l'exemple qui suit, représentons sur un nuage de points le nombre d'habitants des royaumes selon le nombre de guerriers et faisons varier la taille des ronds proportionnellement au nombre de chevaux de chaque royaume. L'ensemble des informations se trouve dans le fichier `donnees_secretes`.
+Pour faire varier la taille des ronds d'un nuage de points en fonction de la valeur d'une variable dénommée nombre, il faut utiliser l'ingrédient **size** et lui donner la valeur ~ nombre : `size = ~nombre`. Dans l'exemple qui suit, représentons sur un nuage de points le nombre d'habitants des royaumes selon le nombre de guerriers et faisons varier la taille des ronds proportionnellement au nombre de chevaux de chaque royaume. L'ensemble des informations se trouve dans le fichier `donnees_secretes`.
 
 ```{r t3, collapse = TRUE}
 donnees_secretes %>%
@@ -165,7 +165,7 @@ donnees_secretes %>%
 
 Il est également possible de faire figurer des noms associés à chaque point représenté. Dans notre exemple, nous allons attribuer à chaque point le nom du royaume correspondant. Pour cela, il faut combiner le sortilège `gf_point` avec un autre sortilège : `gf_text`. Pour combiner les sortilèges, le pipe `%>%` sera de nouveau utilisé, avec une rédaction du type suivant :
 
-```{r t6, collapse = TRUE, echo=FALSE, eval=FALSE}
+```{r t6, collapse = TRUE, echo=TRUE, eval=FALSE}
 # combinaison de sortilèges ggformula avec le %>%
 les_donnees %>%
     gf_point(des_ingredients) %>%

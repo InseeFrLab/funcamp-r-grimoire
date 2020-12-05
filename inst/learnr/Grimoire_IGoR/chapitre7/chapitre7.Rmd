@@ -338,7 +338,7 @@ Allons-y... dans R !
 # vecteur_choix et vecteur_seuil
 
 # Tâche n°1 : chercher les éléments de  vecteur_seuil dont la valeur est supérieure à pi
-# et sauvegarder cet ensemnble de position dans un vecteur appelé vecteur_position
+# et sauvegarder cet ensemble de position dans un vecteur appelé vecteur_position
 vecteur_position <- which(vecteur_seuil>pi)
 
 # Tâche n°2 : extraire de vecteur_choix les éléments qui sont dans les emplacements 
@@ -359,4 +359,4 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre 
 
 **Fin du chapitre >> reprenez la partie d'Icarius !!!** 
 
-**Version 0.9.3**
+**Version 0.9.3.1**

@@ -66,7 +66,9 @@ head(donnees_secretes,5)
 ```
 
 ```{r, collapse = TRUE, echo=FALSE, eval=T}
-head(donnees_secretes_df,5)
+#head(donnees_secretes_df,5)
+donnees_secretes_df %>% select(royaume,nb_guerriers,nb_habitants,nb_chevaux) %>% head(5)
+donnees_secretes_df %>% select(royaume,nb_canicule,dist_royaume,situation) %>% head(5)
 ```
 
 Essespéus propose à icaRius de rapporter une fausse information auprès du prétendu chef des armées de Statis, pour le tromper et diriger les forces obscures le plus loin possible - afin de gagner un peu de temps. Pour établir cette fausse information, vous allez construire une représentation graphique s'appuyant sur les données secrètes.
@@ -279,4 +281,4 @@ correct="Félicitations, vous avez trouvé le bon royaume. Rentrez le code 59 da
 
 **Fin du chapitre 6  >>  reprenez la partie d'Icarius**
 
-**Version 0.9.2**
+**Version 0.9.3**

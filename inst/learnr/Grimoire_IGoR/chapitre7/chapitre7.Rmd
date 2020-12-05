@@ -20,7 +20,17 @@ library(learnr)
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r prepare-data}
+vecteur_choix <- c("Droite","Gauche","Gauche","Droite","Droite",
+"Gauche","Droite","Gauche","Gauche","Droite",
+"Droite","Gauche","Droite","Gauche","Gauche",
+"Droite","Droite","Gauche","Gauche","Droite")
 
+vecteur_seuil <- rep(pi,20)
+vecteur_ajust <- rep(-1,20)
+vecteur_ajust[c(6,10,12,19)]<-1
+vecteur_seuil <- vecteur_seuil + runif(20)*vecteur_ajust
+```
 
 # Que le vecteur soit avec toi
 
@@ -119,20 +129,7 @@ length(mon_vecteur_poulettes)
 
 Le Mage Delagarde a caché dans des vecteurs les indications pour franchir sans encombre le labyrinthe. Il vous remet deux vecteurs, intitulés `vecteur_choix` et `vecteur_seuil`. Commencez par explorer le contenu de ces deux vecteurs.
 
-```{r, echo=FALSE}
-vecteur_choix <- c("Droite","Gauche","Gauche","Droite","Droite",
-"Gauche","Droite","Gauche","Gauche","Droite",
-"Droite","Gauche","Droite","Gauche","Gauche",
-"Droite","Droite","Gauche","Gauche","Droite")
-
-vecteur_seuil <- rep(pi,20)
-vecteur_ajust <- rep(-1,20)
-vecteur_ajust[c(6,10,12,19)]<-1
-vecteur_seuil <- vecteur_seuil + runif(20)*vecteur_ajust
-
-```
-
-```{r ok-chapitre7-etape1,exercise=TRUE}
+```{r ok-chapitre7-etape1,exercise=TRUE, exercise.setup = "prepare-data"}
 # Les deux vecteurs sont déjà chargés sous les noms
 # vecteur_choix et vecteur_seuil
 # Déterminer le type d'information dans vecteur_choix
@@ -215,7 +212,7 @@ names(mon_vecteur_icarius)
 
 À vous de pratiquer !
 
-```{r ok-chapitre7-etape2,exercise=TRUE}
+```{r ok-chapitre7-etape2,exercise=TRUE, exercise.setup = "prepare-data"}
 # Les deux vecteurs sont déjà chargés sous les noms
 # vecteur_choix et vecteur_seuil
 # Afficher l'élément en 6ème position dans vecteur_choix
@@ -320,7 +317,7 @@ Il nous faut donc :
 
 Allons-y... dans R !
 
-```{r ok-chapitre7-etape3,exercise=TRUE}
+```{r ok-chapitre7-etape3,exercise=TRUE, exercise.setup = "prepare-data"}
 # Les deux vecteurs sont déjà chargés sous les noms
 # vecteur_choix et vecteur_seuil
 
@@ -362,4 +359,4 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre 
 
 **Fin du chapitre >> reprenez la partie d'Icarius !!!** 
 
-**Version 0.9.2**
+**Version 0.9.3**

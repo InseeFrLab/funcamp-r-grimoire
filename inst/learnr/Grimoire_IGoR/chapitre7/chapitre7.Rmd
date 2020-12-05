@@ -34,7 +34,7 @@ Au fait : outre le fait de vous guider dans le labyrinthe, savoir utiliser un ve
 
 ## Créer un vecteur
 
-Un vecteur est un objet regroupant un ensemble de valeurs, comme une colonne dans un tableau. Chaque valeur est associée à une position dans le colonne (comme la position d'une cellule dans la colonne d'un tableau). Par exemple, l'ensemble de valeurs (3,24) est un vecteur avec deux éléments, dans lequel le chiffre 24 correspond à la valeur du deuxième élément du vecteur. 
+Un vecteur est un objet regroupant un ensemble de valeurs, comme une colonne dans un tableau. Chaque valeur est associée à une position dans la colonne (comme la position d'une cellule dans la colonne d'un tableau). Par exemple, l'ensemble de valeurs (3,24) est un vecteur avec deux éléments, dans lequel le chiffre 24 correspond à la valeur du deuxième élément du vecteur. 
 
 Le symbole `c()` permet de créer des vecteurs : entre les parenthèses, sont renseignées les valeurs de chaque élément du vecteur, séparées à chaque fois par une virgule
 
@@ -50,7 +50,7 @@ Un vecteur peut aussi comprendre du texte (des chaînes de caractère).
 c("Daisy","Gertrude","Madame Mim","Poupoule")
 ```
 
-*A noter :* on ne peut pas mélanger deux types de valeur dans un même vecteur (soit uniquement du numérique, soit uniquement du texte).
+*À noter :* on ne peut pas mélanger deux types de valeur dans un même vecteur (soit uniquement du numérique, soit uniquement du texte).
 
 Pour associer un vecteur à un nom d'objet, il faut utiliser l'opérateur d'assignation `<-`. Cette façon de procéder est identique à celle suivie lorsque l'on crée un objet qui ne contient qu'une seule valeur.
 
@@ -79,7 +79,7 @@ mon_vecteur_icarius <- c("coeurs" = 3, "âge" = 24)
 mon_vecteur_icarius
 ```
 
-Le vecteur comprends deux éléments, ayant chacun un nom et une valeur. L'élément nommmé "coeurs" a pour valeur 3 ; l'élément nommmé "âge" a pour valeur 24.
+Le vecteur comprends deux éléments, ayant chacun un nom et une valeur. L'élément nommé "coeurs" a pour valeur 3 ; l'élément nommé "âge" a pour valeur 24.
 
 
 ---------------------
@@ -113,7 +113,7 @@ mode(mon_vecteur_poulettes)
 length(mon_vecteur_poulettes)
 ```
 
-## A vous de jouer
+## À vous de jouer
 
 <span style="color:#18AC3E;font-size:16px">**Explorons les vecteurs du Mage Delagarde**</span> 
 
@@ -165,11 +165,11 @@ vecteur_seuil
 # (à chaque opération, appuyer sur le bouton "Run code")
 ``` 
 
-Voilà des objets bien mystérieux : Le mage Delagarde a, semble-t-il, caché dans le `vecteur_choix` une liste de directions, à gauche ou à droite. Le `vecteur_seuil` se compose quant à lui d'une suite de valeurs numériques. Bizarre bizarre... Continuons notre exploration pour en savoir plus...
+Voilà des objets bien mystérieux : le mage Delagarde a, semble-t-il, caché dans le `vecteur_choix` une liste de directions, à gauche ou à droite. Le `vecteur_seuil` se compose quant à lui d'une suite de valeurs numériques. Bizarre bizarre... Continuons notre exploration pour en savoir plus...
 
 ## Manipuler les vecteurs
 
-Pour sélectionner un élément dans un vecteur, il faut soit le désigner par sa position dans le vecteur, soit par nom. Ainsi, l'opérateur d'extraction `[]` permet de sélectionner des éléments en utilisant leur **position dans le vecteur** :
+Pour sélectionner un élément dans un vecteur, il faut soit le désigner par sa position dans le vecteur, soit par son nom. Ainsi, l'opérateur d'extraction `[]` permet de sélectionner des éléments en utilisant leur **position dans le vecteur** :
 ```{r, collapse = TRUE}
 mon_vecteur_poulettes <- c("Daisy","Gertrude","Madame Mim","Poupoule")
 # Sélection de l'élément en position 2
@@ -213,7 +213,7 @@ names(mon_vecteur_icarius)
 
 ```
 
-A vous de pratiquer !
+À vous de pratiquer !
 
 ```{r ok-chapitre7-etape2,exercise=TRUE}
 # Les deux vecteurs sont déjà chargés sous les noms
@@ -239,7 +239,7 @@ vecteur_seuil[6]
 # (à chaque opération, appuyer sur le bouton "Run code")
 ``` 
 
-Vous venez d'afficher la valeur de l'élément en 6ème position du vecteur_choix, et de même pour vecteur_seuil. Hum, hum : tout ceci reste abscons. Continuons donc notre apprentissage.
+Vous venez d'afficher la valeur de l'élément en 6ème position du `vecteur_choix`, et de même pour `vecteur_seuil`. Hum, hum : tout ceci reste abscons. Continuons donc notre apprentissage.
 
 
 ## Du calcul sur les vecteurs
@@ -362,4 +362,4 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre 
 
 **Fin du chapitre >> reprenez la partie d'Icarius !!!** 
 
-**Version 0.9.1**
+**Version 0.9.2**

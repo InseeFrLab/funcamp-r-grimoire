@@ -141,9 +141,9 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-Vous voilà désormais en capacité d'invoquer les extensions du tidyverse, dont les principales sont représentées dans les logos ci-dessous :
+Vous voilà désormais en capacité d'invoquer les extensions du tidyverse, ou d'autres packages R encore ! Voici une illustration d'une sélection de ressources que vous pourriez d'ailleurs croiser dans votre apprentissage R, au cours du Funcamp ou plus tard (avec quelques intrus - saurez-vous les retrouver ?).
 <br>
-<img src="images/tidyverse_core_packages.png" class="img-rounded" alt="les principaux packages du tidyverse">
+<img src="images/tidyverse_core_packages.png" class="img-rounded" alt="sélection de packages R">
 <br>
 
 
@@ -152,4 +152,4 @@ De quoi acquérir une force statistique herculéenne ! Voyons d'ailleurs comment
 
 **Fin du chapitre >> reprenez la partie d'Icarius !!!** 
 
-*Version 0.9.2*
+*Version 0.9.3*

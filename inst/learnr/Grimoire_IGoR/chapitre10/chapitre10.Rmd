@@ -23,6 +23,10 @@ library(skimr)
 library(rio)
 library(tidyverse)
 knitr::opts_chunk$set(echo = TRUE)
+
+#création des répertoires temporaires
+dir.create(paste0(tempdir(),"/sauvegarde"))
+
 #creation du graphe contenant la séquence secrète:
 coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
 des_fleches=ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
@@ -129,8 +133,9 @@ save(table1_à_sauvegarder,vecteur_à_sauvegarder,table2_à_sauvegarder,file="ch
 
 **Prêt pour l'échauffement ?** Pour parfaire votre apprentissage du sortilège `save`, exercez-vous en sauvegardant dans un même "RData" nommé "chapitre9_tables", les 2 tables suivantes: "naissances_1213" et "naissances_mana", correspondant aux calculs que vous avez pu conduire dans le chapitre 9 "Do you dplyr?" pour sélectionner les naissances de l'année 1213 d'une part, et trier selon le mana d'autre part.
 
-A vous de choisir le chemin où vous sauvegarderez ce fichier  sur votre poste de travail (ou sur une clef USB si vous en utilisez une). *Il faudra penser à renseigner la lettre du lecteur sur votre poste (si besoin, demander à l'animateur du Funcamp de vous aider)*
+**Vous travaillez sur une version locale des tutoriels, sur votre poste de travail ?** A vous de choisir le chemin où vous sauvegarderez ce fichier sur votre poste (ou sur une clef USB si vous en utilisez une). *Il faudra penser à renseigner la lettre du lecteur sur votre poste (si besoin, demander à l'animateur du Funcamp de vous aider)*
 
+**Vous travaillez sur une version Internet des tutoriels avec le SSPCloud ?** Dans ce cas, il vous faut sauvegarder dans un endroit que nous avons créé exprès dans les nuages, en l'occurrence, à l'adresse "../sauvegarde"*
 
 ```{r chap10-question1,exercise=TRUE, exercise.setup = "prepare-data"}
 # Sauvegarder les tables "naissances_1213" et "naissances_mana"
@@ -142,7 +147,6 @@ A vous de choisir le chemin où vous sauvegarderez ce fichier  sur votre poste d
 save(naissances_1213,naissances_mana,file="../sauvegarde/tables_chapitre9.RData")
 # Fin de l'exercice
 ``` 
-
 
 ## Oui mais si je veux sauvegarder des informations en dehors de l'environnement R ?
 
@@ -213,4 +217,4 @@ Vous pouvez désormais reporter la séquence des directions à suivre dans le je
 
 **Fin du chapitre   >>  reprenez la partie d'Icarius**
 
-*Version 0.9.1*
+*Version 0.9.2*

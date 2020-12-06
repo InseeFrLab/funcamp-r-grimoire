@@ -143,7 +143,7 @@ library(tidyverse)
 
 Vous voilà désormais en capacité d'invoquer les extensions du tidyverse, ou d'autres packages R encore ! Voici une illustration d'une sélection de ressources que vous pourriez d'ailleurs croiser dans votre apprentissage R, au cours du Funcamp ou plus tard (avec quelques intrus - saurez-vous les retrouver ?).
 <br>
-<img src="images/tidyverse_core_packages.png" class="img-rounded" alt="sélection de packages R">
+<img src="images/core_packages.png" class="img-rounded" alt="sélection de packages R">
 <br>
 
 

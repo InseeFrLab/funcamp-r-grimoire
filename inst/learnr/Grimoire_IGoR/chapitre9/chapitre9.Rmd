@@ -58,11 +58,11 @@ Dans le chapitre précédent, vous avez découvert des nouveaux sortilèges à a
 library(tidyverse)
 ```
 
-Nous allons désormais utilisés les sortilèges apportés par `dplyr` pour étudier le registre des naissances.
+Nous allons désormais utiliser les sortilèges apportés par `dplyr` pour étudier le registre des naissances.
 
 ## De nouvelles fonctions apportées par dplyr
 
-La manipulation de données avec `dplyr` se fait en utilisant de nouvelles fonctions, qui correspondent chacun à une action différente appliquée à un tableau de données. 
+La manipulation de données avec `dplyr` se fait en utilisant de nouvelles fonctions, qui correspondent chacune à une action différente appliquée à un tableau de données. 
 
 <span style="color:#18AC3E;font-size:16px">**Les fonctions filter() et arrange()**</span> 
 
@@ -97,7 +97,7 @@ Si on veut trier selon une colonne par ordre décroissant, on lui applique la fo
 arrange(naissances, Village, desc(Taille))
 ```
 
-A vous de prendre la plume ! 
+À vous de prendre la plume ! 
 
 ```{r ok-chapitre9-etape1,exercise=TRUE, exercise.setup = "prepare-data"}
 # Filtrer le registre des naissances pour avoir les naissances
@@ -168,7 +168,7 @@ naissances %>% filter(An == 1212) %>%
 
 Voyons comment utiliser ces nouveaux pouvoirs pour résoudre l'énigme posée par Mam' Grouxi. Voici l'énigme : **"Les enfants du royaume de Statis naissent avec une force et une spiritualité dont la somme égale ce que l'on appelle le Mana. De quel village vient la fille dont le Mana était le plus grand à la naissance ?"**
 
-A vous de jouer ! La première ligne du tableau final vous donnera le nom et surtout le village de naissance de cette petite fille pas tout à fait comme les autres... N'oubliez pas d'utiliser le pipe %>% pour combiner les sortilèges entre eux !
+À vous de jouer ! La première ligne du tableau final vous donnera le nom et surtout le village de naissance de cette petite fille pas tout à fait comme les autres... N'oubliez pas d'utiliser le pipe %>% pour combiner les sortilèges entre eux !
 
 ```{r ok-chapitre9-etape3,exercise=TRUE, exercise.setup = "prepare-data"}
 # A partir du fichier naissances,
@@ -217,4 +217,4 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre 
 
 **Fin du chapitre >> reprenez la partie d'Icarius !!!** 
 
-*Version 0.9.2*
+*Version 0.9.3*

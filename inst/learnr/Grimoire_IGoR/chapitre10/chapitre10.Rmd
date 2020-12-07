@@ -29,7 +29,7 @@ dir.create(paste0(tempdir(),"/sauvegarde"))
 
 #creation du graphe contenant la séquence secrète:
 coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
-des_fleches=ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
+directions_fleches=ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
   geom_segment(
     size = 2, arrow = arrow(length = unit(0.3, "inches"))
   ) + theme(plot.margin = margin(6,.2,6,.2, "cm"),
@@ -53,12 +53,12 @@ naissances_mana <- naissances %>%
 # Création d'un fichier nb_pontes pour la sauvegarde externe (log)
 nb_pontes <- data.frame(poulette=c("Cocotte1","Cocotte2","Cocotte3","Cocotte4"),nb_oeufs=c(10,9,20,18))
 
-# Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique directions_fleches)
+# Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique graphique_chapitre6)
 donnees_secretes <- import("data_soldiers.csv")
 donnees_secretes <- donnees_secretes %>%
   select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
 donnees_secretes_df <- as.data.frame(donnees_secretes)
-directions_fleches <- donnees_secretes %>% 
+graphique_chapitre6 <- donnees_secretes %>% 
                 gf_point(nb_canicule ~ dist_royaume,
                          size = ~ nb_guerriers,
                          shape = 5) %>% 
@@ -81,12 +81,12 @@ naissances_mana <- naissances %>%
 # Création d'un fichier nb_pontes pour la sauvegarde externe
 nb_pontes <- data.frame(poulette=c("Cocotte1","Cocotte2","Cocotte3","Cocotte4"),nb_oeufs=c(10,9,20,18))
 
-# Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique directions_fleches)
+# Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique graphique_chapitre6)
 donnees_secretes <- import("../../../data_soldiers.csv")
 donnees_secretes <- donnees_secretes %>%
   select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
 donnees_secretes_df <- as.data.frame(donnees_secretes)
-directions_fleches <- donnees_secretes %>% 
+graphique_chapitre6 <- donnees_secretes %>% 
                 gf_point(nb_canicule ~ dist_royaume,
                          size = ~ nb_guerriers,
                          shape = 5) %>% 
@@ -220,28 +220,35 @@ Vous pouvez désormais reporter la séquence des directions à suivre dans le je
 *Version 0.9.3.2*
 
 ```{r, echo=FALSE}
-### Test
-sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
-plotOutput("distPlot")
-downloadLink("downloadData", "Download")
+downloadLink("downloadData", "Téléchargez l'image pour avoir la solution")
+downloadButton('downloadPlot')
 ```
 
 ```{r, context="server"}
-output$distPlot <- renderPlot({
-  x <- faithful[, 2]  # Old Faithful Geyser data
-  bins <- seq(min(x), max(x), length.out = input$bins + 1)
-  hist(x, breaks = bins, col = 'darkgray', border = 'white')
-})
 
-data <- c(1,2)
+coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
 
 output$downloadData <- downloadHandler(
     filename = function() {
       paste("data-", Sys.Date(), ".csv", sep="")
     },
     content = function(file) {
-      write.csv(data, file)
+      write.csv(coord, file)
     }
 )
+ 
+  plotInput = function() {
+	  coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
+	  ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
+ 		  geom_segment(size = 2, arrow = arrow(length = unit(0.3, "inches"))) + theme(plot.margin = margin(6,.2,6,.2, "cm"),
+      plot.background = element_rect(fill = "darkgrey"), 
+      axis.title=element_blank(),axis.text=element_blank(),axis.ticks = element_blank())
+  }
+
+  output$downloadPlot <- downloadHandler(
+   	filename = function() { paste('directions_fleches', '.png', sep='') },
+   	content = function(file) {
+    ggsave(file, plot = plotInput(), device = "png")
+  }) 
  
 ```

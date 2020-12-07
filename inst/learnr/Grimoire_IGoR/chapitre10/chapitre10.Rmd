@@ -217,11 +217,10 @@ Vous pouvez désormais reporter la séquence des directions à suivre dans le je
 
 **Fin du chapitre   >>  reprenez la partie d'Icarius**
 
-*Version 0.9.3.2*
+*Version 0.9.3.3*
 
 ```{r, echo=FALSE}
-downloadLink("downloadData", "Téléchargez l'image pour avoir la solution")
-downloadButton('downloadPlot')
+downloadLink("downloadPlot", "Téléchargez l'image pour avoir la solution de l'énigme")
 ```
 
 ```{r, context="server"}

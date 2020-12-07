@@ -176,9 +176,9 @@ Pour exporter un **tableau de données**, utilisez le sortilège `export`  :
 # la table nb_pontes est déjà chargée. Exportons-la.
 export(nb_pontes, "nb_pontes.csv")
 ```
-## Entraine toi !
+## Entrainez-vous !
 
-A toi de jouer : tu dois désormais exporter la table naissance_1213 au format csv dans un fichier nommé naissances_1213.csv, dans le répertoire de ton choix (sur ton poste de travail ou sur ta clef USB le cas échéant). 
+À vous de jouer : vous devez désormais exporter la table naissance_1213 au format csv dans un fichier nommé naissances_1213.csv. **Vous travaillez avec une version locale des tutoriels ?** Enregistrez le fichier dans le répertoire de votre choix (sur votre poste de travail ou sur votre clef USB le cas échéant). **Vous travaillez avec une version en ligne sur le SSPCloud ?** Enregistrez le fichier dans le répertoire "../sauvegarde/", directement dans les nuages :-)
 
 ```{r chap10-question2,exercise=TRUE, exercise.setup = "prepare-data"}
 # Sauvegarder la table "naissances_1213" au format csv
@@ -191,7 +191,7 @@ export(naissances_1213,"../sauvegarde/naissances_1213.csv")
 # Fin de l'exercice
 ``` 
 
-## A vous de jouer: aide Icarius à retrouver le nord!
+## Aidez Icarius à retrouver le nord!
 
 L'horrible Sassos a téléporté Icarius dans la salle de l'impossible. Prisonnier de cette pièce magique, Icarius a plus que jamais besoin de votre aide! Vous aurez pour mission de lui indiquer le chemin à suivre pour enfin pouvoir s'échapper de ce piège infernal.
 
@@ -217,4 +217,4 @@ Vous pouvez désormais reporter la séquence des directions à suivre dans le je
 
 **Fin du chapitre   >>  reprenez la partie d'Icarius**
 
-*Version 0.9.2*
+*Version 0.9.3*

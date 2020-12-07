@@ -217,12 +217,13 @@ Vous pouvez désormais reporter la séquence des directions à suivre dans le je
 
 **Fin du chapitre   >>  reprenez la partie d'Icarius**
 
-*Version 0.9.3.1*
+*Version 0.9.3.2*
 
 ```{r, echo=FALSE}
 ### Test
 sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
 plotOutput("distPlot")
+downloadLink("downloadData", "Download")
 ```
 
 ```{r, context="server"}
@@ -231,4 +232,16 @@ output$distPlot <- renderPlot({
   bins <- seq(min(x), max(x), length.out = input$bins + 1)
   hist(x, breaks = bins, col = 'darkgray', border = 'white')
 })
+
+data <- c(1,2)
+
+output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("data-", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      write.csv(data, file)
+    }
+)
+ 
 ```

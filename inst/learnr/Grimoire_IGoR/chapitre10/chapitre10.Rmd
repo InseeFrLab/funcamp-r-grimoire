@@ -218,3 +218,17 @@ Vous pouvez désormais reporter la séquence des directions à suivre dans le je
 **Fin du chapitre   >>  reprenez la partie d'Icarius**
 
 *Version 0.9.3*
+
+```{r, echo=FALSE}
+### Test
+sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
+plotOutput("distPlot")
+```
+
+```{r, context="server"}
+output$distPlot <- renderPlot({
+  x <- faithful[, 2]  # Old Faithful Geyser data
+  bins <- seq(min(x), max(x), length.out = input$bins + 1)
+  hist(x, breaks = bins, col = 'darkgray', border = 'white')
+})
+```

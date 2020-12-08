@@ -195,9 +195,9 @@ export(naissances_1213,"../sauvegarde/naissances_1213.csv")
 
 L'horrible Sassos a téléporté Icarius dans la salle de l'impossible. Prisonnier de cette pièce magique, Icarius a plus que jamais besoin de votre aide! Vous aurez pour mission de lui indiquer le chemin à suivre pour enfin pouvoir s'échapper de ce piège infernal.
 
-Mais comment ? Il se trouve que la séquence de directions qu'il doit suivre pour s'échapper est cachée dans un objet R, que vous allez devoir sauvegarder. Ensuite, il ne vous restera plus qu'à consulter le fichier créé sur votre poste de travail et à souffler les bonnes directions à Icarius. 
+Mais comment ? Il se trouve que la séquence de directions qu'il doit suivre pour s'échapper est cachée dans un objet R, que vous allez devoir sauvegarder. 
 
-Indication: l'objet R est un *graphique* dénommé "directions_fleches" que vous stockerez au format jpg dans un fichier dénommé enigme_chapitre10.jpg**
+Indication: l'objet R est un *graphique* dénommé "directions_fleches" que vous stockerez au format jpg dans un fichier denommé enigme_chapitre10.jpg**
 
 ```{r chapitre10-ex1,exercise=TRUE, exercise.setup = "prepare-data"}
 #Sauvegarder l'objet directions_fleches comme une image,
@@ -208,16 +208,12 @@ Indication: l'objet R est un *graphique* dénommé "directions_fleches" que vous
 ```{r chapitre10-ex1-solution}
 #Sauvegarder l'objet directions_fleches comme une image,
 # avec pour nom enigme_chapitre10.jpg
-ggsave(directions_fleches, filename="enigme_chapitre10.jpg",device = "jpeg")
+ggsave(directions_fleches, filename="../sauvegarde/enigme_chapitre10.jpg",device = "jpeg")
 # Fin de l'exercice
 
 ```
  
-Vous pouvez désormais reporter la séquence des directions à suivre dans le jeu **icaRius** et reprendre votre partie !
-
-**Fin du chapitre   >>  reprenez la partie d'Icarius**
-
-*Version 0.9.3.3*
+Vous avez réalisé l'exercice pratique ? Vous pouvez désormais consulter le fichier créé en le téléchargeant sur votre poste de travail, et souffler les bonnes directions à Icarius. 
 
 ```{r, echo=FALSE}
 downloadLink("downloadPlot", "Téléchargez l'image pour avoir la solution de l'énigme")
@@ -225,17 +221,6 @@ downloadLink("downloadPlot", "Téléchargez l'image pour avoir la solution de l'
 
 ```{r, context="server"}
 
-coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
-
-output$downloadData <- downloadHandler(
-    filename = function() {
-      paste("data-", Sys.Date(), ".csv", sep="")
-    },
-    content = function(file) {
-      write.csv(coord, file)
-    }
-)
- 
   plotInput = function() {
 	  coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
 	  ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
@@ -245,9 +230,17 @@ output$downloadData <- downloadHandler(
   }
 
   output$downloadPlot <- downloadHandler(
-   	filename = function() { paste('directions_fleches', '.png', sep='') },
+   	filename = function() { paste('enigme_chapitre10', '.jpg', sep='') },
    	content = function(file) {
-    ggsave(file, plot = plotInput(), device = "png")
+    ggsave(file, plot = plotInput(), device = "jpeg")
   }) 
- 
 ```
+
+A partir de l'image téléchargée, reportez la séquence des directions à suivre dans le jeu **icaRius** et reprenez votre partie !
+
+**Fin du chapitre   >>  reprenez la partie d'Icarius**
+
+*Version 0.9.4*
+
+ 
+

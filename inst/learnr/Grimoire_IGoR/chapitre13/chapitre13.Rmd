@@ -133,10 +133,16 @@ correct="Félicitations, c'est tout à fait ça et maintenant...à vous de jouer
 Nous pourrions aussi imaginer produire des documents tels que des `.odt` mais déjà votre mémoire se brouille, il vous faut vite consigner vos mémoires épiques. 
 
 
-C'est parti !  Vous allez maintenant ouvrir une autre partie de ce chapitre 13, avec le service intitulé "Grimoire - Neverending" dans votre panneau comportant tous les tutoriels du FuncampR. Vous pourrez alors accéder à RStudio, pour éditer votre grimoire. 
+C'est parti !  Vous allez maintenant ouvrir une autre partie de ce chapitre 13, avec le service intitulé "Grimoire - Neverending" dans votre panneau comportant tous les tutoriels du FuncampR. Vous pourrez alors accéder à RStudio, pour éditer votre grimoire. À la page d'ouverture de Rstudio, il vous faudra indiquer :
 
+- comme nom d'utilisateur (username) : icarius
+- comme mot de passe (password) : statia
+
+```{r  echo=FALSE}
+include_graphics("images/rstudio.png")
+```
 
 **Fin de la première partie du chapitre 13  >>  lancez la partie "Grimoire - Neverending" qui vous permettra d'ouvrir un RStudio et d'éditer votre grimoire (partie 2 du chapitre 13)**
 
-*Version 0.9.2*
+*Version 0.9.3*
 

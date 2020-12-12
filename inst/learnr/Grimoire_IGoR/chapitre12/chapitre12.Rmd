@@ -37,7 +37,7 @@ Quant à icaRius, le voilà bien embêté : il lui faut traverser un lac pour re
 
 Catastrophe ! Pourtant, c'est bien connu de tous les statisiens : pour qu'un sortilège puisse être utilisé dans les règles de l'art, il faut écrire son mode d'emploi.  Autrement dit, expliquer ce que fait le sortilège, renseigner les ingrédients nécessaires et préciser ce que l'on obtient pour que chacun puisse utiliser ce sortilège (sans jouer au savant fou). Les paragraphes suivants vous présentent les arcanes de cet art ô combien vénéré des statisiens : l'art de documenter son sortilège.
 
-C'est ce qui vous permettra de répondre à la question du Mage FebeleR : "quel est le mot magique qui permet de documenter les sortilèges, et d'apprendre à s'en servir ?". 
+C'est ce qui vous permettra de répondre à la question du Mage FebeleR : *"quel est le mot magique qui permet de documenter les sortilèges, et d'apprendre à s'en servir ?"*. 
 
 
 ## Une grammaire pour décrire
@@ -118,7 +118,7 @@ calcul_age <- function(nb_coeur) {
 }
 ```
 
-A vous de documenter ce sortilège. Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
+À vous de documenter ce sortilège. Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
 
 ```{r, echo=FALSE}
 library(shiny)
@@ -216,13 +216,13 @@ Jusqu'alors, vous avez appris à utiliser les pouvoirs magiques des autres en ou
 
 Découvrons ensemble comment organiser les ressources magiques à cet effet. 
 
-Si vous participez au Funcamp-R en présentiel, vous trouverez sur votre clef USB nommée FUNCAMP, un ensemble d'éléments ont été regroupés dans le répertoire `\data\chapitre12`. A l'intérieur, un répertoire sobrement intitulé R et un fichier nommé DESCRIPTION. 
+*Si vous utilisez une version locale des tutoriels et du grimoire IGoR*, vous trouverez sur votre clef USB ou votre poste de travail un ensemble d'éléments qui ont été regroupés dans le répertoire `\data\chapitre12`. À l'intérieur, un répertoire sobrement intitulé R et un fichier nommé DESCRIPTION. 
 
 ![](images/Capture01.PNG)
 
-Si vous suivez le funcamp en ligne, ces mêmes ressources ont été préchargées en ligne. Ainsi, votre console R pourra lire les programmes et enregistrer les modifications directement.
+*Si vous suivez le funcamp en ligne sur le SSP Cloud*, ces mêmes ressources ont été préchargées en ligne. Ainsi, votre console R pourra lire les programmes et enregistrer les modifications directement.
 
-Vous l'avez deviné, le répertoire R servira à stocker les programmes R écrits en langue des runes. Le fichier sortileges_age.R a été chargé ci-dessous. Vous voyez apparaître nos sortilèges... mais vous constaterez que la documentation est incomplète. Damned ! A vous de réparer cet impair. Vous pouvez éditer "en ligne" le programme et le sauvegarder également en ligne. Puis, une fois l'opération achevée, téléchargez le fichier modifié pour le garder sur votre poste de travail.
+Vous l'avez deviné, le répertoire R servira à stocker les programmes R écrits en langue des runes. Le fichier sortileges_age.R a été chargé ci-dessous. Vous voyez apparaître nos sortilèges... mais vous constaterez que la documentation est incomplète. Damned ! À vous de réparer cet impair. Vous pouvez éditer "en ligne" le programme et le sauvegarder également en ligne. Puis, une fois l'opération achevée, téléchargez le fichier modifié pour le garder sur votre poste de travail.
 
 
 ```{r, echo=FALSE, warning=F}
@@ -248,8 +248,7 @@ calcul_age <- function(nb_coeur) {
 #' ???
 #' ???
 calcul_age_arrondi <- function(nb_coeur) { 
- calcul_age(nb_coeur)
-   %>% round()
+ calcul_age(nb_coeur) %>% round()
 }
 "
 
@@ -321,7 +320,7 @@ ui = fluidPage(
 )
 ```
 
-Vous avez terminé ? Votre documentation devrait ressembler peu ou prou à ce qui figure ci-dessous. Si ce n'est pas le cas, corrigez la rédaction et cliquez de nouveau sur "enregistrer"
+Vous avez terminé ? Votre documentation devrait ressembler peu ou prou à ce qui figure ci-dessous. Si ce n'est pas le cas, corrigez la rédaction et cliquez de nouveau sur *"Sauvegarder le programme en ligne"*
 
 ><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
 ><p><font size="2">
@@ -362,21 +361,23 @@ install.packages("roxygen2")
 library(roxygen2)
 ```
 
-Puis nous allons utiliser le sortilège `roxygenize()`, qui va apporter un peu d'oxygène documentaire à notre langue des runes ;-). Le sortilège a besoin d'un seul ingrédient : le chemin vers le répertoire où se trouve nos ressources statistiques. Ici, c'est le chemin vers le répertoire qui contient le fichier DESCRIPTION, qui sert de balise pour organiser ces ressources. Si vous suivez le funcamp en présentiel, la clef USB qui vous a été confiée contient ainsi les ressources dans un chemin du type `E:/data/chapitre12` ou `F:/data/chapitre12`.
+Puis nous allons utiliser le sortilège `roxygenize()`, qui va apporter un peu d'oxygène documentaire à notre langue des runes ;-). Le sortilège a besoin d'un seul ingrédient : le chemin vers le répertoire où se trouve nos ressources statistiques. Ici, c'est le chemin vers le répertoire qui contient le fichier DESCRIPTION, qui sert de balise pour organiser ces ressources. 
+
+*Si vous suivez les tutoriels avec une version locale*, le répertoire du grimoire sur votre clef USB ou votre poste de travail contient les ressources dans un chemin du type `E:/data/chapitre12`.
 
 ```{r, eval=FALSE}
 # Si votre clef USB FUNCAMP figure sur la lettre E:
 roxygenize("E:/data/chapitre12")
 ```
 
-Si vous suivez ce tutoriel en ligne, vous pouvez toutefois appliquer le sortilège directement sur les ressources "en mémoire"
+*Si vous suivez ce tutoriel en ligne sur le SSP Cloud*, vous pouvez toutefois appliquer le sortilège directement sur les ressources "en mémoire"
 
 ```{r, eval=FALSE}
 # Si sous utilisez une version en ligne du tutoriel
 roxygenize("chapitre12")
 ```
 
-A vous de jouer !
+À vous de jouer !
 
 ```{r, echo=FALSE, warning=F}
 library(shiny)
@@ -461,7 +462,7 @@ Dans le répertoire "chapitre12" où se trouvent les ressources pour vos sortil�
 
 
 
-C'est dans ce répertoire **man** qu'ont été placés les nouveaux fichiers nommés `calcul_age.Rd` et `calcul_age_arrondi.Rd`. Nous n'allons pas chercher à les ouvrir, mais sachez qu'ils permettent au statisien de lire votre documentation, sortilège par sortilège, dans une mise en page plus agréable, sans les sibyllines inscriptions comme `#' @title` ou d'autres hiéroglyphes. A l'issue de votre aventure icaRius, vous découvrirez comment des logiciels d'aide au développement en R comme Rstudio permettent de feuilleter cette documentation, sous la forme suivante :
+C'est dans ce répertoire **man** qu'ont été placés les nouveaux fichiers nommés `calcul_age.Rd` et `calcul_age_arrondi.Rd`. Nous n'allons pas chercher à les ouvrir, mais sachez qu'ils permettent au statisien de lire votre documentation, sortilège par sortilège, dans une mise en page plus agréable, sans les sibyllines inscriptions comme `#' @title` ou d'autres hiéroglyphes. À l'issue de votre aventure icaRius, vous découvrirez comment des logiciels d'aide au développement en R comme Rstudio permettent de feuilleter cette documentation, sous la forme suivante :
 
 ![](images/Documentation_02.PNG)
 
@@ -501,10 +502,10 @@ A la toute fin, l'utilisateur (vous-même, un de vos collègues ou, qui sait, un
 
 ## La solution de l'énigme ?
 
-Bravo, vous êtes parvenu(e) à l'issue de ce chapitre documentaires ! Vous êtes maintenant capable de nager dans l'océan documentaire des sortilèges runiques. Mais qu'en est-il du jeune icaRius, qui doit traverser le lac ? Il vous reste à répondre à la question posée par le Mage FebeleR : quel est le nom du package qui permet de gérer facilement la documentation de ses sortilèges ? Une histoire d'oxygène, semble-t-il... Vous avez trouvé ? Renseignez la réponse (en minuscule) dans le jeu icaRius pour continuer la partie.
+Bravo, vous êtes parvenu(e) à l'issue de ce chapitre documentaire ! Vous êtes maintenant capable de nager dans l'océan documentaire des sortilèges runiques. Mais qu'en est-il du jeune icaRius, qui doit traverser le lac ? Il vous reste à répondre à la question posée par le Mage FebeleR : *quel est le nom du package qui permet de gérer facilement la documentation de ses sortilèges ?* Une histoire d'oxygène, semble-t-il... Vous avez trouvé ? Renseignez la réponse (en minuscule) dans le jeu icaRius pour continuer la partie.
 
 
 
 **Fin du module 12  >>  reprenez la partie d'Icarius**
 
-*Version 0.9.1.1*
+*Version 0.9.3*

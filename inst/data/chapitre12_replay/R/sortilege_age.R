@@ -10,7 +10,7 @@ calcul_age <- function(nb_coeur) {
 }
 
 #' @title calcul_age_arrondi
-#' #' @description Calculer l'âge arrondi d'un statisien selon son nombre de coeurs
+#' @description Calculer l'âge arrondi d'un statisien selon son nombre de coeurs
 #' @param nb_coeur A number
 #' @import tidyverse
 #' @examples

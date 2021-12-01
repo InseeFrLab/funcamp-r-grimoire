@@ -1,0 +1,111 @@
+Nom;Genre;Village;An;Taille;Poids;Force;Spirit
+Aelia;F;Kokoro;1211;46;2.990;24;22
+Aitor ;H;Hylia;1211;53;3.420;27;26
+Alcor;H;Sandia;1212;46;3.270;27;19
+Angus;H;Kokoro;1212;51;3.440;29;22
+Cipria;F;Kokoro;1212;50;3.240;22;28
+Darius ;H;Hylia;1211;45;3.380;26;19
+Flavia;F;Euphor;1213;51;3.700;21;30
+Icarius;H;Sandia;1213;50;3.180;25;25
+Ignacius ;H;Hylia;1212;46;3.300;28;18
+Isidore ;H;Sandia;1212;53;3.700;27;26
+Iunia;F;Euphor;1212;49;3.500;24;25
+Lucia;F;Euphor;1212;43;3.310;21;22
+Mircea;F;Hortusus;1212;51;2.990;22;29
+Phenicia;F;Euphor;1213;49;2.830;21;28
+Statia;F;Hylia;1212;44;2.980;23;35
+Valentina;F;Hortusus;1212;45;2.800;21;24
+Valerius;H;Hylia;1213;54;3.470;30;24
+Venusia;F;Sandia;1212;46;2.910;25;21
+Zilap;H;Kokoro;1212;51;3.030;28;23
+Actarus;H;Hylia;1212;53;3.460;27;26
+Aelia;F;Hylia;1211;46;3.620;20;26
+Aitor ;H;Kokoro;1212;47;3.380;27;20
+Alcor;H;Kokoro;1213;45;3.820;27;18
+Angus;H;Euphor;1211;49;3.480;29;20
+Cipria;F;Hylia;1212;46;3.180;24;22
+Actarus;H;Kokoro;1212;52;3.360;27;30
+Darius ;H;Sandia;1213;47;3.000;28;19
+Flavia;F;Sandia;1211;43;3.270;20;23
+Ignacius ;H;Sandia;1213;54;3.320;30;24
+Isidore ;H;Hortusus;1212;46;3.330;30;16
+Iunia;F;Sandia;1212;52;3.500;23;29
+Lucia;F;Sandia;1213;50;3.040;20;30
+Mircea;F;Hortusus;1211;46;3.460;23;23
+Phenicia;F;Kokoro;1213;51;3.000;22;29
+Valentina;F;Sandia;1211;50;3.650;21;29
+Valerius;H;Sandia;1211;55;3.710;28;27
+Venusia;F;Hylia;1212;44;2.940;21;23
+Zilap;H;Hylia;1211;48;3.900;26;22
+Aelia;F;Hylia;1213;49;3.300;21;28
+Aitor ;H;Euphor;1212;48;3.150;29;19
+Alcor;H;Hylia;1213;51;3.600;29;22
+Angus;H;Kokoro;1211;54;3.910;26;28
+Cipria;F;Kokoro;1211;43;2.960;22;21
+Darius ;H;Hortusus;1211;54;3.170;28;26
+Flavia;F;Sandia;1213;47;3.770;22;25
+Ignacius ;H;Kokoro;1212;48;3.120;26;22
+Isidore ;H;Hortusus;1213;51;3.990;28;23
+Iunia;F;Kokoro;1212;47;3.130;24;23
+Lucia;F;Kokoro;1212;42;3.430;21;21
+Mircea;F;Kokoro;1213;46;3.200;21;25
+Phenicia;F;Sandia;1212;49;3.580;24;25
+Valentina;F;Euphor;1211;47;3.470;23;24
+Valerius;H;Hylia;1212;50;3.050;26;24
+Venusia;F;Hylia;1212;50;3.320;24;26
+Aitor ;H;Sandia;1211;53;3.450;28;25
+Alcor;H;Kokoro;1211;46;3.400;27;19
+Angus;H;Sandia;1213;52;3.730;26;26
+Cipria;F;Kokoro;1213;44;3.420;20;24
+Darius ;H;Hylia;1212;47;3.830;26;21
+Flavia;F;Sandia;1211;52;3.680;21;31
+Ignacius ;H;Sandia;1211;53;3.310;28;25
+Isidore ;H;Euphor;1211;50;3.790;28;22
+Iunia;F;Kokoro;1213;49;3.170;21;28
+Lucia;F;Kokoro;1213;50;3.400;21;29
+Mircea;F;Kokoro;1211;49;3.590;23;26
+Phenicia;F;Euphor;1213;42;3.130;21;21
+Valentina;F;Hortusus;1213;47;3.640;23;24
+Valerius;H;Kokoro;1213;49;3.570;27;22
+Alcor;H;Kokoro;1212;49;3.790;26;23
+Angus;H;Kokoro;1212;48;3.240;25;23
+Cipria;F;Kokoro;1212;50;2.870;21;29
+Darius ;H;Euphor;1212;50;3.890;28;22
+Flavia;F;Hylia;1212;45;3.580;21;24
+Ignacius ;H;Euphor;1213;47;3.220;28;19
+Isidore ;H;Kokoro;1212;53;3.090;26;27
+Iunia;F;Hylia;1213;48;3.300;23;25
+Lucia;F;Hortusus;1212;49;2.850;22;27
+Mircea;F;Hylia;1211;43;2.810;24;19
+Phenicia;F;Hylia;1212;42;2.890;22;20
+Valentina;F;Hortusus;1213;49;2.800;24;25
+Angus;H;Sandia;1211;51;3.480;25;26
+Cipria;F;Hortusus;1213;50;3.030;22;28
+Darius ;H;Hylia;1211;48;3.610;30;18
+Flavia;F;Euphor;1212;43;3.250;25;18
+Ignacius ;H;Hylia;1211;52;3.920;26;26
+Isidore ;H;Hylia;1212;46;3.980;27;19
+Iunia;F;Sandia;1211;49;3.640;25;24
+Lucia;F;Hylia;1211;44;3.630;22;22
+Mircea;F;Sandia;1212;43;3.070;22;21
+Phenicia;F;Euphor;1211;44;2.910;21;23
+Cipria;F;Hortusus;1213;49;2.810;20;29
+Darius ;H;Euphor;1212;49;3.990;26;23
+Flavia;F;Hylia;1213;49;2.980;24;25
+Ignacius ;H;Hylia;1212;51;3.840;29;22
+Isidore ;H;Euphor;1211;49;3.200;29;20
+Iunia;F;Hylia;1213;45;2.800;23;22
+Lucia;F;Kokoro;1213;44;3.050;23;21
+Mircea;F;Kokoro;1212;47;3.100;22;25
+Darius ;H;Euphor;1212;50;3.210;28;22
+Flavia;F;Kokoro;1213;51;3.770;21;30
+Ignacius ;H;Euphor;1211;49;3.570;29;20
+Isidore ;H;Sandia;1212;49;3.010;26;23
+Iunia;F;Sandia;1212;50;3.290;20;30
+Lucia;F;Hylia;1212;48;3.470;24;24
+Flavia;F;Kokoro;1212;47;3.530;21;26
+Ignacius ;H;Euphor;1211;50;3.410;28;22
+Isidore ;H;Hylia;1212;46;3.880;26;20
+Iunia;F;Hylia;1212;51;2.840;21;30
+Cipria;F;Kokoro;1212;45;3.530;24;21
+Aelia;F;Hortusus;1212;43;3.400;22;21

@@ -1,0 +1,760 @@
+---
+title: "Chapitre 4 - do you dplyr ?"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+library(rio)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+df_statis <- data.frame(
+	nom = factor(c("IcaRius", "Mage Zilap", "Mage RegoR")),
+	coeurs = c(2, 10, 8),
+	lieu = factor(c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro"))
+)
+```
+
+```{r prepare-data-df_statis}
+df_statis <- data.frame(
+    nom = factor(c("IcaRius", "Mage Zilap", "Mage RegoR")),
+    coeurs = c(2, 12, 10),
+    lieu = factor(c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro"))
+)
+
+df_statis_2 <- data.frame(
+	nom = factor(c("Statia", "Mage Tourep", "Tellus")),
+	coeurs = c(3, 10, 6),
+	lieu = factor(c("Plaines de Statis", "Village de Kokoro", "Village de GrissGrass"))
+)
+
+df_statis_4 <- data.frame(
+    initiale = c("I", "Z", "R", "S", "To", "Te"), # "I" pour Icarius, "Z" pour le mage Zilap, etc.
+	age = c("24", "80", "64", "24", "80", "48"),
+	statut = c("héros", "mage", "mage", "héroïne", "mage", "fermier")
+)
+
+df_statis_6 <- data.frame(
+	nom = factor(c("IcaRius", "IcaRius", "Tellus", "Soldat")),
+	possession = c("Epée", "Bouclier", "Ferme de Tellus", "Armure")
+)
+```
+
+
+## Préparation des données
+
+<BR>
+
+#### Rappel : les packages
+
+<BR>
+
+Le logiciel R contient, dans son installation initiale, 
+le cœur du programme ainsi qu’un ensemble de fonctions de base. 
+
+Mais étant un langage libre, R bénéficie d’une forte communauté d’utilisateurs qui contribuent
+au développement du logiciel en lui ajoutant des fonctionnalités supplémentaires. Ces contributions prennent 
+la forme d’extensions, que l’on appelle packages en anglais.
+
+Ajouter une extension à R, c’est comme ajouter un nouveau chapitre dans votre grimoire IGoR. Et ce chapitre comprend 
+plusieurs sortilèges, c’est-à-dire des fonctions complémentaires, qui simplifient la vie dans la quête statistique.
+
+<BR>
+
+Quand on veut utiliser un package, on doit :
+
+- tout d'abord installer l'extension
+(si le package n'a pas été déjà installé dans une session antérieure),
+
+- puis déclarer l'extension pour indiquer à R qu'on souhaite l'utiliser.
+
+<BR>
+
+Exemple avec le package **dplyr**.
+
+```{r, eval=FALSE}
+# Je souhaite utiliser certaines fonctions du package "dplyr".
+# Pour cela, j'installe l'extension "dplyr" sur le disque dur (si je ne l'ai pas déjà fait dans une session R antérieure)
+install.packages("dplyr")
+# Puis je déclare le package (étape nécessaire à chaque nouvelle session R)
+library(dplyr)
+# A ce stade, je peux utiliser les fonctions de l'extension "dplyr"
+```
+
+<BR>
+
+#### Qu'est-ce que **dplyr**
+
+<BR>
+
+L'extension **dplyr** est très utilisée. 
+
+**dplyr** facilite le traitement et la manipulation de données. **dplyr** contient des fonctions très pratiques !
+
+<BR>
+
+#### Un jeu de données
+
+<BR>
+
+Nous allons employer ci-dessous un `data.frame` nommé "df_statis" (qui a déjà utilisé dans les chapitres 1 et 2).
+
+<BR>
+
+Il a été déjà chargé dans R.
+
+<BR>
+
+```{r, echo=TRUE, eval=TRUE}
+# J'affiche le data.frame "df_statis"
+df_statis
+```
+
+Le `data.frame` "df_statis" contient 3 colonnes : `nom`, `coeurs`, et `lieu`.
+
+Il compte 3 observations.
+
+<BR>
+
+#### Les sortilèges de **dplyr** `select`, `filter`, `arrange`, `mutate` et `rename`, pour préparer les données
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `select()`**</span> 
+
+<BR>
+
+La fonction `select()` permet de sélectionner des colonnes d'un `data.frame`. 
+
+<BR>
+
+Exemple.
+```{r, echo=TRUE, eval=TRUE}
+# Je prends le data.frame "df_statis",
+# et ensuite je sélectionne les colonnes "nom" et "coeurs"
+df_statis %>% select(nom, coeurs)
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**À vous de prendre la plume !**</span> 
+
+```{r ok-chapitre4-etape1,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
+# Considérer le data.frame "df_statis", 
+# puis sélectionner les colonnes "nom" et "coeurs" evec le sortilège "select"
+
+
+# fin de l'exercice
+``` 
+ 
+```{r ok-chapitre4-etape1-solution}
+# Considérer le data.frame "df_statis", 
+# puis sélectionner les colonnes "nom" et "coeurs" evec le sortilège "select"
+df_statis %>% select(nom, coeurs)
+
+# fin de l'exercice
+``` 
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `filter()`**</span> 
+
+<BR>
+
+La fonction `filter()` permet de retenir certaines lignes d'un `data.frame` selon une condition que l'on choisit. 
+
+<BR>
+
+Exemple.
+```{r, echo=TRUE, eval=TRUE}
+# Je prends le data.frame "df_statis", 
+# et ensuite je ne garde que les observations dont le "lieu" est "Maison d’IcaRius".
+df_statis %>% filter(lieu == "Maison d’IcaRius")
+```
+
+<BR>
+
+Plusieurs conditions peuvent être combinées (en utilisant le caractère `&` entre chaque condition). 
+```{r, echo=TRUE, eval=TRUE}
+# Je considère le data.frame "df_statis", 
+# puis je ne retiens que les données relatives à la "maison d'Icarius" et au "Mage Zilap" :
+df_statis %>% filter(lieu == "Maison d’IcaRius" & nom == "Mage Zilap")
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**À vous de pratiquer**</span> 
+
+```{r ok-chapitre4-etape2,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
+# Prendre le data.frame "df_statis".
+# Ensuite filtrer le data.frame "df_statis" avec le sortilège "filter", 
+# pour ne conserver que les observations
+# relatives à la "Maison d'Icarius" et au "Mage Zilap"
+
+
+# fin de l'exercice
+``` 
+ 
+```{r ok-chapitre4-etape2-solution}
+# Prendre le data.frame "df_statis".
+# Ensuite filtrer le data.frame "df_statis" avec le sortilège "filter", 
+# pour ne conserver que les observations
+# relatives à la "Maison d'Icarius" et au "Mage Zilap"
+df_statis %>% filter(lieu == "Maison d’IcaRius" & nom == "Mage Zilap")
+
+# fin de l'exercice
+``` 
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `arrange()`**</span> 
+
+<BR>
+
+La fonction `arrange()` réordonne les lignes d’un `data.frame` selon une ou plusieurs colonnes.
+
+<BR>
+
+```{r, echo=TRUE, eval=TRUE}
+# Je considère le data.frame "df_statis", 
+# puis je le trie selon le "lieu" par ordre alphabétique
+df_statis %>% arrange(lieu)
+```
+
+<BR>
+
+On peut trier selon plusieurs colonnes.
+
+```{r, echo=TRUE, eval=TRUE}
+# Je prends le data.frame "df_statis", 
+# ensuite je le trie selon le "lieu"
+# et après suivant le nombre de coeurs (par ordre croissant)
+df_statis %>% arrange(lieu, coeurs)
+```
+
+<BR>
+
+Si on veut trier selon une colonne par ordre décroissant, on lui applique la fonction `desc()`. 
+Illustration en triant le `data.frame` "df_statis" par lieu puis par nombre de coeurs décroissant :
+
+```{r, echo=TRUE, eval=TRUE}
+# Je considère le data.frame "df_statis", 
+# puis je le trie suivant le "lieu"
+# et ensuite par nombre de coeurs décroissant
+df_statis %>% arrange(lieu, desc(coeurs))
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+```{r ok-chapitre4-etape3,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
+# Prendre le data.frame "df_statis".
+# Après le trier par lieu
+# puis par nombre de coeurs décroissant
+
+
+# fin de l'exercice
+``` 
+ 
+```{r ok-chapitre4-etape3-solution}
+# Prendre le data.frame "df_statis".
+# Après le trier par lieu
+# puis par nombre de coeurs décroissant
+df_statis %>% arrange(lieu, desc(coeurs))
+
+# fin de l'exercice
+``` 
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `mutate()`**</span> 
+
+<BR>
+
+La fonction `mutate()` permet dans un `data.frame` :
+
+- de modifier une colonne,
+- ou de créer de nouvelles colonnes.
+
+<BR>
+
+`mutate` opère en général à partir de colonnes existantes. 
+
+<BR>
+
+Exemple.
+
+```{r, echo=TRUE, eval=TRUE}
+# Je considère le data.frame "df_statis",
+# puis je crée une colonne "age" à partir de la colonne "coeurs",
+# l'âge d'un personnage étant égal à son nombre de coeurs multiplié par 8
+df_statis %>% mutate(age = coeurs * 8)
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**À vous de prendre la plume !**</span> 
+
+```{r ok-chapitre4-etape4,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
+# Prendre le data.frame "df_statis".
+# Après créer une colonne "age" dans le data.frame "df_statis"
+# à partir de la colonne coeurs,
+# l'âge d'un personnage étant égal au nombre de coeurs multiplié par 8.
+
+
+# fin de l'exercice
+``` 
+ 
+```{r ok-chapitre4-etape4-solution}
+# Prendre le data.frame "df_statis".
+# Après créer une colonne "age" dans le data.frame "df_statis"
+# à partir de la colonne coeurs,
+# l'âge d'un personnage étant égal au nombre de coeurs multiplié par 8.
+df_statis %>% mutate(age = coeurs * 8)
+
+# fin de l'exercice
+``` 
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `rename()`**</span> 
+
+<BR>
+
+La fonction `rename()` permet de renommer une ou plusieurs colonnes d'un `data.frame`. 
+
+<BR>
+
+Exemple.
+```{r, echo=TRUE, eval=TRUE}
+# Je considère le data.frame "df_statis",
+# puis je renomme la colonne "nom" en "personnage"
+df_statis %>% rename(personnage = nom)
+```
+ 
+<BR>
+
+Renommer plusieurs colonnes :
+```{r, echo=TRUE, eval=TRUE}
+# Je prends le data.frame "df_statis",
+# et ensuite je renomme la colonne "nom" en "personnage", et la colonne "coeurs" en "nombre_de_coeurs" :
+df_statis %>% rename(personnage = nom, nombre_de_coeurs = coeurs)
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Un enchaînement de sortilèges :**</span> 
+
+<BR>
+
+A titre d'exercice, ci-dessous un enchaînement de sortilèges.
+```{r, echo=TRUE, eval=TRUE}
+# Je considère le data.frame "df_statis".
+# Puis je ne retiens que les observations dont 
+# la variable "lieu" est "Maison d’IcaRius".
+# Ensuite j'ajoute une variable "age" égale au nombre de coeurs multiplié par 8.
+# Puis je trie suivant le nombre de coeurs, par ordre décroissant.
+df_statis %>% 
+  filter(lieu == "Maison d’IcaRius") %>%
+  mutate(age = coeurs * 8) %>%
+  arrange(desc(coeurs))
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume dans l'exercice suivant**</span>
+
+```{r ok-chapitre4-etape5,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
+# (i) Prendre le data.frame "df_statis".
+# (ii) Ensuite filtrer le data.frame pour ne retenir que les observations dont 
+#     la variable "lieu" est "Maison d’IcaRius".
+# (iii) Puis ajouter la variable "age" égale au nombre de coeurs multiplié par 8.
+# (iv) Après trier suivant le nombre de coeurs, par ordre décroissant.
+# N.B. : enchaîner tous les sortilèges, en utilisant le "pipe" `%>%`.
+
+
+
+
+# fin de l'exercice
+``` 
+
+
+```{r ok-chapitre4-etape5-solution}
+# (i) Prendre le data.frame "df_statis".
+# (ii) Ensuite filtrer le data.frame pour ne retenir que les observations dont 
+#     la variable "lieu" est "Maison d’IcaRius".
+# (iii) Puis ajouter la variable "age" égale au nombre de coeurs multiplié par 8.
+# (iv) Après trier suivant le nombre de coeurs, par ordre décroissant.
+# N.B. : enchaîner tous les sortilèges, en utilisant le "pipe" `%>%`.
+df_statis %>% 
+  filter(lieu == "Maison d’IcaRius") %>%
+  mutate(age = coeurs * 8) %>%
+  arrange(desc(coeurs))
+
+# fin de l'exercice
+``` 
+ 
+<BR>
+
+## Fusion de deux tables
+
+<BR>
+
+#### Assembler deux tables, avec **dyplr**
+
+<BR>
+
+Quand on souhaite réunir plusieurs `data.frame` en une seule table de données, on peut faire appel aux sortilèges de **dplyr**
+`bind_rows()`, `bind_cols()`, `left_join` (ainsi qu'à d'autres sortilèges du package).
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `bind_rows()`**</span> 
+
+<BR>
+
+Considérons deux `data.frame`, qui ont les mêmes colonnes.  
+(chaque colonne du premier `data.frame` a le même nom et le même type, que la colonne correspondante du second `data.frame`)
+
+<BR>
+
+On peut utiliser `bind_rows` pour assembler les deux `data.frame` en un seul.
+
+<BR>
+
+Exemple.
+```{r, echo=TRUE, eval=FALSE}
+# Soit le data.frame "df_statis_2" suivant :
+df_statis_2 <- data.frame(
+	nom = c("Statia", "Mage Tourep", "Tellus"),
+	coeurs = c(3, 10, 6),
+	lieu = c("Plaines de Statis", "Village de Kokoro", "Village de GrissGrass")
+)
+
+# J'affiche "df_statis_2"
+df_statis_2
+```
+
+```{r, echo=FALSE, eval=TRUE}
+# Soit le data.frame "df_statis_2" suivant :
+df_statis_2 <- data.frame(
+	nom = factor(c("Statia", "Mage Tourep", "Tellus")),
+	coeurs = c(3, 10, 6),
+	lieu = factor(c("Plaines de Statis", "Village de Kokoro", "Village de GrissGrass"))
+)
+
+# J'affiche "df_statis_2"
+df_statis_2
+```
+
+<BR>
+
+```{r, echo=TRUE, eval=TRUE}
+# J'affiche la structure du data.frame "df_statis_2".
+# Pour cela je peux utiliser le sortilège "str()". 
+# "str()" va donner notamment la liste des colonnes du data.frame et leur type.
+str(df_statis_2)
+```
+Les colonnes du `data.frame` "df_statis_2" ont le type suivant :  
+"nom" est de type "facteur",  
+"coeurs" est de type numérique,   
+"lieu" est de type "facteur".  
+
+<BR>
+
+```{r, echo=TRUE, eval=TRUE}
+# J'affiche aussi la structure du data.frame "df_statis".
+str(df_statis)
+```
+
+<BR>
+
+On observe que :  
+
+- les deux `data.frame` "df_statis" et "df_statis_2" ont les mêmes colonnes ("nom", "coeurs", "lieu"),
+
+- les colonnes de "df_statis" ont le même type que les colonnes correspondantes dans "df_statis_2"  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (la colonne "nom "de "df_statis" est de type "facteur", comme la colonne "nom" de "df_statis_2", etc.)
+
+<BR>
+
+`bind_rows` permet d'assembler les deux `data.frame` en une seule table.
+
+```{r, echo=TRUE, eval=TRUE}
+# "df_statis" et "df_statis_2" sont deux data.frame qui ont les mêmes colonnes.
+# J'assemble les deux tables avec le sortilège "bind_rows".
+# J'obtiens un data_frame que je note "df_statis_3"
+df_statis_3 <- bind_rows(df_statis, df_statis_2)
+
+# J'affiche le data.frame "df_statis_3"
+df_statis_3
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+
+```{r ok-chapitre4-etape6,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
+# Afficher la structure du data.frame "df_statis_2", avec le sortilège "str()"
+
+
+# De même afficher la structure du data.frame "df_statis"
+
+
+# "df_statis" et "df_statis_2" ont les mêmes colonnes.
+# Assembler les deux data.frame avec le sortilège "bind_rows",
+# et obtenir un data.frame "df_statis_3".
+
+
+# Afficher le data.frame "df_statis_3" obtenu
+
+
+# Fin de l'exercice
+```
+
+```{r ok-chapitre4-etape6-solution}
+# Afficher la structure du data.frame "df_statis_2", avec le sortilège "str()"
+str(df_statis_2)
+
+# De même afficher la structure du data.frame "df_statis"
+str(df_statis)
+
+# "df_statis" et "df_statis_2" ont les mêmes colonnes.
+# Assembler les deux data.frame avec le sortilège "bind_rows",
+# et obtenir un data.frame "df_statis_3".
+df_statis_3 <- bind_rows(df_statis, df_statis_2)
+
+# Afficher le data.frame "df_statis_3" obtenu
+df_statis_3
+
+# Fin de l'exercice
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `bind_cols()`**</span> 
+
+<BR>
+
+Soit deux `data.frame` dont les lignes se correspondent.
+
+On peut utiliser le sortilège `bind_cols` pour assembler les deux `data.frame`.
+
+<BR>
+
+Exemple.
+```{r, echo=TRUE, eval=TRUE}
+# J'affiche "df_statis_3"
+df_statis_3
+
+# Soit le data.frame "df_statis_4".
+df_statis_4 <- data.frame(
+    initiale = c("I", "Z", "R", "S", "To", "Te"), # "I" pour Icarius, "Z" pour le mage Zilap, etc.
+	age = c("24", "80", "64", "24", "80", "48"),
+	statut = c("héros", "mage", "mage", "héroïne", "mage", "fermier")
+)
+
+# J'affiche "df_statis_4"
+df_statis_4
+```
+Les lignes de "df_statis_4" correspondent bien aux lignes de "df_statis_3", soit IcaRius, le mage Zilap, le mage RegoR, Statia, le mage Tourep, et Tellus.
+
+<BR>
+
+Le sortilège `bind_cols` permet alors d'assembler "df_statis_3" et "df_statis_4".
+
+```{r, echo=TRUE, eval=TRUE}
+# "df_statis_3" et "df_statis_4" sont deux data.frame qui ont des lignes qui se correspondent.
+# Je les assemble avec le sortilège "bind_cols".
+# J'obtiens un data_frame que je note "df_statis_5"
+df_statis_5 <- bind_cols(df_statis_3, df_statis_4)
+
+# J'affiche le data.frame "df_statis_5"
+df_statis_5
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Le sortilège `left_join()`**</span> 
+
+<BR>
+
+Dans cette sous-partie, on souhaite assembler deux tables en une seule, en utilisant une clé de jointure,
+la clé de jointure étant constituée d’une ou de plusieurs variables qui sont présentes dans les deux tables.
+
+La fonction `left_join` permet d'effectuer cette jointure; elle extrait tous les éléments de la première table, 
+et leurs correspondants (éventuels) dans la deuxième table.
+
+<BR>
+
+Exemple.
+
+```{r, echo=TRUE, eval=FALSE}
+# Soit le data.frame suivant :
+df_statis_6 <- data.frame(
+	nom = c("IcaRius", "IcaRius", "Tellus", "Soldat"),
+	possession = c("Epée", "Bouclier", "Ferme de Tellus", "Armure")
+)
+
+# J'affiche le data.frame "df_statis_6"
+df_statis_6 
+```
+
+```{r, echo=FALSE, eval=TRUE}
+# Soit le data.frame suivant :
+df_statis_6 <- data.frame(
+	nom = factor(c("IcaRius", "IcaRius", "Tellus", "Soldat")),
+	possession = c("Epée", "Bouclier", "Ferme de Tellus", "Armure")
+)
+
+# J'affiche le data.frame "df_statis_6"
+df_statis_6 
+```
+
+<BR>
+
+On souhaite :  
+- joindre les deux data.frame "df_statis_5" et "df_statis_6", en utilisant comme clé de jointure le "nom",  
+- et obtenir, dans la table résultat, tous les éléments de "df_statis_5", et leurs correspondants (éventuels) dans "df_statis_6".  
+
+```{r, echo=TRUE, eval=TRUE}
+# Je joins "df_statis_5" et "df_statis_6" avec le sortilège "left_join", en utilisant comme clé de jointure le "nom"
+df_statis_7 <- left_join(df_statis_5, df_statis_6, by = "nom")
+
+# J'affiche la table obtenue
+df_statis_7
+```
+
+Dans la table "df_statis_7" obtenue :
+
+- IcaRius apparaît deux fois, parce qu'on a trouvé deux occurences d'Icarius dans la table "df_statis_6".
+
+- dans le cas du mage Zilap, il n'y a pas d'occurence dans le `data.frame` "df_statis_6.
+Pour "Tellus", une occurence a été trouvée dans la table "df_statis_6".
+
+- le personnage "Soldat" du `data.frame` "df_statis_6" ne figure pas dans le "df_statis_5". Ce personnage 
+n'est donc pas présent dans la table "df_statis_7" résultat.
+
+
+<BR>
+
+N.B. : d'autres sortilèges de **dplyr** (`right_join`, `inner_join`, `full_join`, etc.) permettent
+d'effectuer d'autres jointures avec une clé.
+
+<BR>
+
+## À vous de jouer !
+
+Et si vous écriviez vous-mêmes la solution pour :  
+- assembler les deux `data.frame` "df_statis" et "df_statis_2", en une table "df_statis_3",  
+- fusionner "df_statis_3" et "df_statis_4", en un `data.frame` "df_statis_5",  
+- et joindre "df_statis_5" et "df_statis_6" ?  
+
+Ecrivez ci-dessous la manipulation des `data.frame`, 
+exécutez votre code... Rappel : l'exécution des lignes se fait en appuyant sur le bouton :
+```{r image2, echo=FALSE, fig.cap="", out.width = '80px'}
+knitr::include_graphics("images/run_code.png")
+```
+
+```{r ok-chapitre4-etape7,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
+# Les data.frame "df_statis" et "df_statis_2" ont les mêmes colonnes.
+# Assembler les deux data.frame avec le sortilège "bind_rows",
+# et obtenir un data.frame "df_statis_3".
+
+
+# Afficher le data.frame "df_statis_3"
+
+
+# Les data.frame "df_statis_3" et "df_statis_4" ont des lignes qui se correspondent.
+# Assembler les deux tables avec le sortilège "bind_cols",
+# et obtenir un data_frame "df_statis_5"
+
+
+# Afficher le data.frame "df_statis_5"
+
+
+# Effectuer une jointure de "df_statis_5" et "df_statis_6",
+# avec comme clé la colonne "nom", 
+# en utilisant le sortilège "left_join",
+# et obtenir un data_frame "df_statis_7"
+
+
+# Afficher "df_statis_7"
+
+
+# Compter le nombre de lignes de "df_statis_7" avec le sortilège "nrow"
+
+
+# 
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre4-etape7-solution}
+# Les data.frame "df_statis" et "df_statis_2" ont les mêmes colonnes.
+# Assembler les deux data.frame avec le sortilège "bind_rows",
+# et obtenir un data.frame "df_statis_3".
+df_statis_3 <- bind_rows(df_statis, df_statis_2)
+
+# Afficher le data.frame "df_statis_3"
+df_statis_3
+
+# Les data.frame "df_statis_3" et "df_statis_4" ont des lignes qui se correspondent.
+# Assembler les deux tables avec le sortilège "bind_cols",
+# et obtenir un data_frame "df_statis_5"
+df_statis_5 <- bind_cols(df_statis_3, df_statis_4)
+
+# Afficher le data.frame "df_statis_5"
+df_statis_5
+
+# Effectuer une jointure de "df_statis_5" et "df_statis_6",
+# avec comme clé la colonne "nom", 
+# en utilisant le sortilège "left_join",
+# et obtenir un data_frame "df_statis_7"
+df_statis_7 <- left_join(df_statis_5, df_statis_6, by = "nom")
+
+# Afficher "df_statis_7"
+df_statis_7
+
+# Compter le nombre de lignes de "df_statis_7" avec le sortilège "nrow"
+nrow(df_statis_7)
+
+# 
+# Fin de l'exercice
+```
+
+```{r ok-chapitre2-quiz1,echo=FALSE}
+question(
+"Alors, quel est le nombre de lignes du data.frame \"df_statis_7\" ? Ne reste plus qu'à cocher la bonne réponse...pour poursuivre l'aventure!",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("5 lignes"),
+answer("6 lignes"),
+answer("7 lignes",correct=TRUE),
+correct="Félicitations, vous avez trouvé le bon nombre de lignes. Renseignez la réponse 777 dans le jeu pour continuer l'aventure !"
+)
+``` 
+
+Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre la partie...
+
+**Fin du chapitre >> reprenez la partie d'Icarius !!!** 
+
+*Version 0.0.1*

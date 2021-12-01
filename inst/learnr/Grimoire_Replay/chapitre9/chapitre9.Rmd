@@ -1,0 +1,1044 @@
+---
+title: "Chapitre 9 - do you tidyverse ?"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+library(rio)
+library(dplyr)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(Hmisc)
+
+# fichier "naissances_replay" : même fichier que le fichier "naissances.csv" de la première collection,
+# sauf la variable "Spirit" rehaussée pour le village "Hylia"
+
+file.copy(from = system.file(package = "funcampR","data","chapitre9_replay/naissances_replay.csv"),
+          to = paste0(tempdir(),"/naissances.csv"))
+file.copy(from = system.file(package = "funcampR","data","chapitre9_replay/naissances_enquete.csv"),
+          to = paste0(tempdir(),"/naissances_enquete.csv"))
+		  
+# naissances
+naissances<-import(
+  paste0(
+    tempdir(),
+	"/naissances.csv"
+  )
+)
+
+# naissances_enquete
+naissances_enquete<-import(
+  paste0(
+    tempdir(),
+	"/naissances_enquete.csv"
+  )
+)
+
+naissances_enquete <- naissances_enquete %>%
+  mutate(Village = factor(Village),
+         An      = factor(An)
+		)
+
+# naissances_2
+naissances_2 <- naissances %>% 
+  head(2)
+
+
+# naissances_3
+naissances_3 <- naissances_2 %>% 
+  pivot_longer(
+    cols = c("Taille","Poids","Force","Spirit"),
+    names_to = "noms",
+    values_to = "valeurs"
+  )
+  
+# naissances_F
+naissances_F <- naissances %>% 
+  filter(Genre=="F")
+```
+
+```{r prepare-data}
+# naissances
+naissances<-import(
+  paste0(
+    tempdir(),
+	"/naissances.csv"
+  )
+)
+
+# naissances_enquete
+naissances_enquete<-import(
+  paste0(
+    tempdir(),
+	"/naissances_enquete.csv"
+  )
+)
+
+naissances_enquete <- naissances_enquete %>%
+  mutate(Village = factor(Village),
+         An      = factor(An)
+		)
+
+# naissances_2
+naissances_2 <- naissances %>% 
+  head(2)
+
+# naissances_3
+naissances_3 <- naissances_2 %>% 
+  pivot_longer(
+    cols = c("Taille","Poids","Force","Spirit"),
+    names_to = "noms",
+    values_to = "valeurs"
+  )
+
+# naissances_F
+naissances_F <- naissances %>% 
+  filter(Genre=="F")
+```
+
+```{r prepare-data_7}
+# naissances
+naissances<-import(
+  paste0(
+    tempdir(),
+	"/naissances.csv"
+  )
+)
+
+# naissances_2
+naissances_2 <- naissances %>% 
+  head(2)
+
+naissances_3 <- NA
+naissances_4 <- NA
+```
+
+```{r prepare-data_8}
+# naissances
+naissances<-import(
+  paste0(
+    tempdir(),
+	"/naissances.csv"
+  )
+)
+
+# naissances_2
+naissances_2 <- naissances %>% 
+  head(2)
+
+# naissances_3
+naissances_3 <- naissances_2 %>% 
+  pivot_longer(
+    cols = c("Taille","Poids","Force","Spirit"),
+    names_to = "noms",
+    values_to = "valeurs"
+  )
+
+naissances_2 <- NA
+naissances_4 <- NA
+```
+
+## Le registre des naissances
+
+Pour répondre à l'énigme posée par Mam'Grouxi, nous allons explorer le registre des naissances, que vous venez de découvrir dans le village de Sandia. 
+Ce registre est déjà chargé, sous le nom de `naissances`. Souvenez-vous nous avons appris à découvrir le contenu 
+d'un fichier avec les instructions `names()` pour avoir le noms des variables, `head()` pour consulter les premiers enregistrements, et `nrow()`
+pour en connaître le nombre de lignes. Allons-y :
+
+```{r, collapse = TRUE}
+names(naissances)
+head(naissances)
+nrow(naissances)
+```
+
+Le registre des naissances comporte 8 variables : le `Nom` de l'enfant, son `Genre`, l'`An` de sa naissance, la `Taille`de l'enfant et son 
+`Poids`à la naissance, son niveau de `Force`et sa spiritualité `Spirit`. Nous devrions donc avoir toutes les informations appropriées pour 
+résoudre l'énigme qui vous est posée : *"Dans quel village sont nées les filles dont la spiritualité à la naissance était la plus grande ?"*
+
+
+## Evaluer en toute facilité
+
+Nous allons désormais apprendre à utiliser des sorts de l'extension `dplyr` pour calculer à partir d'une table, et
+des fonctions de `tidyr` pour transposer un data.frame. 
+`dplyr` et `tidyr` font partie de l'ensemble de packages `tidyverse`. Ils sont donc chargés automatiquement en écrivant `library(tidyverse)` au début du programme R.
+
+```{r, eval=FALSE}
+library(tidyverse)
+```
+
+Nous allons désormais utiliser les sortilèges apportés par `dplyr` et `tidyr` pour étudier le registre des naissances.
+
+
+## Des opérations
+
+<BR>	
+
+### Le sortilège `summarise()` pour calculer
+
+<BR>
+
+#### Objectif de cette partie
+
+<BR>
+
+On considère le data.frame "naissances" (ou un autre data.frame avec des observations en ligne, et des variables en colonne).
+
+<BR>
+
+On souhaite :
+
+* compter les observations de la table,
+
+* et pour une variable du data.frame, évaluer la moyenne, la médiane, etc.,
+
+<BR>
+
+Pour cela, on va utiliser le sortilège `summarise` du package **dplyr**.
+
+<BR>
+
+#### Les alternatives à l'emploi de `summarise`
+
+<BR>
+
+><details><summary><font size="3"><b>Des sortilèges abordés au chapitre 3 - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>	
+>- "nrow()"
+>```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je calcule le nombre d'observations du data.frame "naissances"
+nrow(naissances)
+>```
+>
+><BR>
+>	
+>- "mean()", "sum()"
+>```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je détermine la moyenne de la variable "Force" du data.frame "naissances"
+mean(naissances$Force)
+
+# J'obtiens la somme de la variable "Force" du data.frame "naissances"
+sum(naissances$Force)
+>```
+>
+><BR>
+>	
+>- "table()"
+>```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je calcule les nombres d'observations du data.frame "naissances"
+# suivant les modalités des variables "Village" et "An"
+table(naissances$Village, naissances$An)
+>```
+>
+><BR>
+>	
+>- "xtabs()"
+>```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je détermine la somme de la variable "Force" du data.frame "naissances"
+# suivant les modalités des variables "Village" et "An"
+xtabs(data = naissances, Force ~ Village + An)
+>```
+>
+>
+><BR>
+>
+></font></p></details>
+
+<BR>
+
+Après avoir rappelé ces alternatives, nous allons utiliser `summarise()` pour effectuer les calculs.
+
+<BR>
+
+#### Compter le nombre d'observations d'un data.frame
+
+<BR>
+
+Nous allons employer :  
+- le sortilège `summarise()`,  
+- et la fonction `n()` (de **dplyr**) pour obtenir le nombre d'observations.  
+
+<BR>
+
+```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je charge en mémoire le package "dplyr"
+library(dplyr)
+
+# Je calcule le nombre d'observations du data.frame "naissances".
+# Je pars du data.frame
+naissances %>%
+  # J'utilise "summarise" en combinaison avec "n()"
+  summarise(n())
+```
+
+<BR>
+
+#### Déterminer la moyenne d'une variable d'un data.frame
+
+<BR>
+
+Pour calculer la moyenne, on va employer :  
+- le sortilège `summarise()`,  
+- et la fonction `mean()`  
+
+<BR>
+
+```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je calcule la moyenne de la variable niveau de "Force" du data.frame "naissances".
+# Je pars du data.frame
+naissances %>%
+  # J'utilise "summarise()" en combinaison avec "mean()"
+  summarise(mean(Force))
+```
+
+<BR>
+
+#### Obtenir la médiane d'une variable d'un data.frame
+
+<BR>
+
+Pour calculer la médiane, on va employer :  
+- le sortilège `summarise()`,  
+- et la fonction `median()`.  
+
+<BR>
+
+```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je détermine la médiane de la variable niveau de "Force" du data.frame "naissances".
+# Je pars du data.frame
+naissances %>%
+  # J'utilise "summarise()" en combinaison avec "median()"
+  summarise(median(Force))
+```
+
+<BR>
+
+#### Calculer l'écart-type, la variance, etc. d'une variable d'un data.frame
+
+<BR>
+
+De la même façon, on peut obtenir l'écart-type, la variance, etc. d'une variable d'un data.frame :  
+- en utilisant le sortilège `summarise()`,  
+- en combinaison avec l'une des fonctions `sd()` (écart-type corrigé), `var()` (variance sans biais),  
+`sum()`, `max()`, `min()`, `quantile()`, `IQR()` (intervalle interquartile), etc.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+
+<BR>
+
+Nous vous proposons :  
+- de recalculer le nombre d'observations du data.frame "naissances",  
+- ainsi que de déterminer la moyenne et la médiane de la variable "Force" de la table,  
+- en utilisant le sortilège `summarise()` .  
+
+<BR>
+
+```{r ok-chapitre9-etape1,exercise=TRUE, exercise.setup = "prepare-data", echo=TRUE, message=FALSE, warning=FALSE} 
+# Obtenir le nombre d'observtions du data.frame "naissances"
+# avec les sortilèges "summarise()" et "n()"
+
+
+# Evaluer la moyenne de la variable "Force" du data.frame "naissances"
+# avec "summarise()" et "mean()"
+
+
+# Estimer la médiane de la variable "Force"
+# avec "summarise()" et "median()"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre9-etape1-solution, message=FALSE, warning=FALSE}
+# Obtenir le nombre d'observtions du data.frame "naissances"
+# avec les sortilèges "summarise()" et "n()"
+naissances %>%
+  summarise(n())
+
+# Evaluer la moyenne de la variable "Force" du data.frame "naissances"
+# avec "summarise()" et "mean()"
+naissances %>%
+  summarise(mean(Force))
+
+# Estimer la médiane de la variable "Force"
+# avec "summarise()" et "median()"
+naissances %>%
+  summarise(median(Force))
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle sur les quantiles - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Nous vous proposons dans cette sous-partie d'estimer le premier décile d'une variable.
+>
+><BR>
+>
+>En association avec "summarise()", nous allons employer le sortilège "quantile()" avec un ingrédient.
+>
+><BR>
+>
+>```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# data.frame "naissances", je calcule le premier décile du niveau de "Force".
+# Je pars du data.frame "naissances"
+naissances %>%
+  # J'utilise le sortilège "summarise", et la fonction "quantile()" avec l'ingrédient "probs=0.1"
+  summarise( quantile(Force, probs=0.1) )
+
+# Fin de l'exercice
+>```
+>
+><BR>
+>
+><span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+>
+><BR>
+>
+>Nous vous proposons de recalculer un quantile, avec les sortilèges "summarise()" et "quantile()".
+>
+><BR>
+>
+>```{r ok-chapitre9-etape2,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
+# data.frame "naissances", déterminer le premier décile du niveau de "Force".
+# Partir du data.frame "naissances",
+# puis utiliser le sortilège "summarise", et la fonction "quantile()" avec l'ingrédient "probs=0.1"
+
+
+# Fin de l'exercice
+>```
+>
+>```{r ok-chapitre9-etape2-solution, message=FALSE, warning=FALSE}
+# data.frame "naissances", déterminer le premier décile du niveau de "Force".
+# Partir du data.frame "naissances",
+# puis utiliser le sortilège "summarise", et la fonction "quantile()" avec l'ingrédient "probs=0.1"
+naissances %>%
+  summarise( quantile(Force, probs=0.1) )
+
+# Fin de l'exercice
+>```
+>
+><BR>
+>
+></font></p></details>
+
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires 2 : partie optionnelle sur un indice de Gini - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Nous vous proposons d'estimer un indice de Gini.
+>
+><BR>
+>
+>En association avec summarise", nous allons employer le sortilège "Gini" du package **DescTools**.
+>
+><BR>
+>
+>```{r ok-chapitre9-etape3,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
+# Charger en mémoire le package "DescTools"
+
+
+# data.frame "naissances", calculer l'indice de Gini de la variable "Force", 
+# en utilisant le sortilège "summarise()" en combinaison avec la fonction "Gini()"
+
+
+# Fin de l'exercice
+>```
+>
+>```{r ok-chapitre9-etape3-solution, message=FALSE, warning=FALSE}
+# Charger en mémoire le package "DescTools"
+library(DescTools)
+
+# data.frame "naissances", calculer l'indice de Gini de la variable "Force", 
+# en utilisant le sortilège "summarise()" en combinaison avec la fonction "Gini()"
+naissances %>%
+  summarise( Gini(Force) )
+
+# Fin de l'exercice
+>```
+>
+><BR>
+>
+></font></p></details>
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires 3 : partie optionnelle sur la moyenne pondérée et la  médiane ponsérée - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Dans cette sous-partie, on souhaite calculer la moyenne ou la médiane d'une variable d'un data.frame, pondérée par une deuxième variable de la table.
+>
+><BR>
+>
+>En association avec le sortilège "summarise()", nous allons utiliser la fonctions "wtd.mean()" (moyenne pondérée) 
+>ou "wtd.quantile()" (quantile pondéré) du package **Hmisc**, avec des ingrédients.
+>
+><BR>
+>
+>Nous allons partir de données d'une enquête (sur les naissances) dans le village de Sandia.
+>Le data.frame correspondant à l'enquête est déjà chargé, sous le nom de "naissances_enquete".
+>
+>```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# J'affiche les 5 premières lignes du data.frame "naissances_enquete"
+naissances_enquete %>%
+  head(5)
+>```
+>L'enquête sur les naissances comporte 8 variables, dont une variable de "Ponderation".
+>
+><BR>
+>
+>```{r, message=FALSE, warning=FALSE}
+# Je charge en mémoire le package "Hmisc"
+library(Hmisc)
+
+# data.frame "naissances_enquete", je calcule la moyenne du niveau de "Force", 
+# pondérée par la variable "Ponderation".
+# Je pars de la table
+naissances_enquete %>%
+  # J'utilise les sortilèges "summarise", et "wtd.mean" avec l'ingrédient "weights=Ponderation"
+  summarise( wtd.mean(Force, weights=Ponderation) )
+>```
+>
+><BR>
+>
+>```{r, message=FALSE, warning=FALSE}
+# data.frame "naissances_enquete", je calcule la médiane du niveau de "Force", 
+# pondérée par la variable "Ponderation".
+# Je pars de la table
+naissances_enquete %>%
+  # J'utilise les sortilèges "summarise", et "wtd.quantile" avec les ingrédients "probs=0.5" ainsi que "weights=Ponderation"
+  summarise( wtd.quantile(Force, probs=0.5, weights=Ponderation) )
+>```
+>
+><BR>
+>
+><span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+>
+><BR>
+>
+>Nous vous proposons de recalculer la moyenne pondérée de la variable "Force".
+>
+><BR>
+>
+>```{r ok-chapitre9-etape4,exercise=TRUE, message=FALSE, warning=FALSE, exercise.setup = "prepare-data-df_livre"}
+# data.frame "naissances_enquete", calculer la moyenne du niveau de "Force", pondérée par la variable "Ponderation".
+# Partir de la table,
+# puis utiliser les sortilèges "summarise", et "wtd.mean" avec l'ingrédient "weights=Ponderation"
+
+  
+# Fin de l'exercice
+>```
+>
+>```{r ok-chapitre9-etape4-solution, message=FALSE, warning=FALSE}
+# data.frame "naissances_enquete", calculer la moyenne du niveau de "Force", pondérée par la variable "Ponderation".
+# Partir de la table,
+# puis utiliser les sortilèges "summarise", et "wtd.mean" avec l'ingrédient "weights=Ponderation"
+naissances_enquete %>%
+  summarise( wtd.mean(Force, weights=Ponderation) )
+  
+# Fin de l'exercice
+>```
+>
+>
+><BR>
+>
+></font></p></details>
+
+<BR>
+
+## On multiplie les calculs
+
+<BR>	
+
+### Ajout du sortilège `group_by` pour mener les opérations pour chaque modalité d'une ou de plusieurs variables qualitatives
+
+<BR>
+
+Dans cette partie, on souhaite effectuer des calculs pour une table, suivant les valeurs de variables catégorielles.
+
+<BR>
+
+On emploie le sortilège `group_by()` avec la fonction `summarise()`.
+
+<BR>
+	
+#### Compter le nombre d'observations suivant les valeurs de variables qualitatives
+
+<BR>
+
+On adjoint `group_by()` aux sortilèges `summarise()` et `n()`.
+
+<BR>
+
+```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je calcule le nombre d'observations du data.frame "naissances",
+# suivant les modalités de la variables "Village".
+
+# Je pars du data.frame
+naissances %>%
+  # J'utilise "group_by()"
+  group_by(Village) %>%
+  # J'emploie "summarise" et "n()"
+  summarise(n())
+```
+
+<BR>
+
+```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je calcule le nombre d'observations du data.frame "naissances",
+# suivant les modalités des variables "Village" et "An".
+naissances %>%
+  group_by(Village, An) %>%
+  summarise(n())
+```
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires : obtenir les résultats dans un tableau - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Si l'on souhaite afficher le résultat ci-dessus dans un tableau avec une variable en ligne et une en colonne,
+>on peut appliquer le sortilège "xtabs()", comme au chapitre 3.
+>
+><BR>
+>
+><BR>
+>
+>```{r, message=FALSE, warning=FALSE, echo = TRUE, eval=TRUE}
+# Je calcule le nombre d'observtions du data.frame "naissances",
+# suivant les modalités des variables "Village" et "An".
+# J'assigne le résultat à "df_resultat".
+df_resultat <- naissances %>%
+  group_by(Village, An) %>%
+  # Je nomme le nombre d'observations "nombre_observations".
+  summarise(nombre_observations = n())
+
+# J'applique le sortilège "xtabs()" à "df_resultat", pour obtenir les résultats dans un tableau
+xtabs(
+  data = df_resultat, 
+  # nombre_observations, "~" (tilde, qui se lit "en fonction de"), et les variables qualitatives séparées par un +
+  nombre_observations ~ Village + An
+)
+>```
+>
+>
+></font></p></details>
+
+
+<BR>
+
+#### Déterminer une moyenne suivant les modalités de variables catégorielles
+
+<BR>
+
+On ajoute `group_by()` aux sortilèges `summarise()` et `mean()`.
+
+<BR>
+
+Exemple avec deux variables qualitatives.
+```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Je calcule la moyenne de la variable "Force" du data.frame "naissances",
+# suivant les valeurs des variables "Village" et "An".
+# Je pars du data.frame
+naissances %>%
+  # J'utilise "group_by()"
+  group_by(Village, An) %>%
+  # J'emploie "summarise()" en combinaison avec "mean()"
+  summarise(mean(Force))
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+<BR>
+
+Nous vous proposons :  
+- de recalculer des nombres d'observations ainsi que des moyennes,  
+- suivant les valeurs de variables qualitatives.  
+
+<BR>
+
+```{r ok-chapitre9-etape5,exercise=TRUE, exercise.setup = "prepare-data", echo=TRUE, message=FALSE, warning=FALSE} 
+# Obtenir le nombre d'observtions du data.frame "naissances"
+# suivant les valeurs des variables qualitatives "Village" et "An".
+# Utiliser le sortilège "group_by()", puis "summarise()" et "n()".
+
+
+# Evaluer la moyenne de la variable "Force" du data.frame "naissances"
+# suivant les valeurs des variables qualitatives "Village" et "An".
+# Utiliser le sortilège "group_by()", puis "summarise()" et "mean()".
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre9-etape5-solution, message=FALSE, warning=FALSE}
+# Obtenir le nombre d'observtions du data.frame "naissances"
+# suivant les valeurs des variables qualitatives "Village" et "An".
+# Utiliser le sortilège "group_by()", puis "summarise()" et "n()".
+naissances %>%
+  group_by(Village, An) %>%
+  summarise(n())
+
+# Evaluer la moyenne de la variable "Force" du data.frame "naissances"
+# suivant les valeurs des variables qualitatives "Village" et "An".
+# Utiliser le sortilège "group_by()", puis "summarise()" et "mean()".
+naissances %>%
+  group_by(Village, An) %>%
+  summarise(mean(Force))
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+#### Calculer une médiane, une somme, etc. d'une variable d'un data.frame, suivant les valeurs de variables qualitatives
+
+<BR>
+
+De même que ci-dessus, on ajoute `group_by()` aux sortilèges :  
+- `summarise()`,  
+- et à l'une des fonctions `median()`, `sum()`, `quantiel()`, etc. 
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle sur un quantile - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Nous vous proposons dans cette sous-partie d'estimer le premier décile d'une variable,
+>suivant les modalités de variables qualitatives.
+>
+><BR>
+>
+>Nous allons employer les sortilèges "group_by()", "summarise()", et "quantile()" avec un ingrédient.
+>
+><BR>
+>
+>```{r, echo = TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# data.frame "naissances", je calcule le premier décile du niveau de "Force",
+# suivant les modalités des variables qualitatives "Village" et "An".
+# Je pars du data.frame "naissances".
+naissances %>%
+  # J'utilise le sortilège "group_by()",
+  group_by(Village, An) %>%
+  # J'emploie les sortilèges "summarise", et "quantile()" avec l'ingrédient "probs=0.1"
+  summarise( quantile(Force, probs=0.1) )
+>```
+>
+><BR>
+>
+><span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+>
+><BR>
+>
+>Nous vous proposons de recalculer un quantile,
+>suivant les valeurs de variables qualitatives.
+>
+><BR>
+>
+>```{r ok-chapitre9-etape6,exercise=TRUE, echo=TRUE, message=FALSE, warning=FALSE} 
+# data.frame "naissances", calculer le premier décile du niveau de "Force",
+# suivant les modalités des variables qualitatives "Village" et "An".
+# Partir du data.frame "naissances".
+# Utiliser le sortilège "group_by()",
+# Employer les sortilèges "summarise", et "quantile()" avec l'ingrédient "probs=0.1"
+
+  
+# Fin de l'exercice
+>```
+>
+>```{r ok-chapitre9-etape6-solution, message=FALSE, warning=FALSE}
+# data.frame "naissances", calculer le premier décile du niveau de "Force",
+# suivant les modalités des variables qualitatives "Village" et "An".
+# Partir du data.frame "naissances".
+# Utiliser le sortilège "group_by()",
+# Employer les sortilèges "summarise", et "quantile()" avec l'ingrédient "probs=0.1"
+naissances %>%
+  group_by(Village, An) %>%
+  summarise( quantile(Force, probs=0.1) )
+
+# Fin de l'exercice
+>```
+>
+><BR>
+>
+>
+></font></p></details>
+
+<BR>
+
+## Pivot
+
+<BR>
+
+Dans cette partie, nous allons transposer une table.
+
+<BR>
+
+#### Objectif  
+
+<BR>
+
+Exemple.  
+
+Soit le data.frame "naissances_2", extrait du data.frame "naissances", et contenant 2 lignes.
+```{r, message=FALSE, warning=FALSE, echo=TRUE, eval=TRUE}
+# J'affiche "naissances_2"
+naissances_2
+```
+
+<BR>
+
+Soit maintenant le data.frame "naissances_3" :
+
+```{r, message=FALSE, warning=FALSE, echo=TRUE, eval=TRUE}
+# J'affiche "naissances_3"
+naissances_3
+```
+
+<BR>
+
+La table "naissances_3" est transposée de "naissances_2".  
+("naissances_3" contient les mêmes informations que "naissances_2". Les données sont juste rangées différemment : 
+les variables "noms" et "valeurs" de "naissances_3" remplacent les colonnes "Taille", "Poids", "Force", et "Spirit" de "naissances_2").
+
+<BR>
+
+Comment obtenir "naissances_3" à partir de "naissances_2" ou inversement ?
+
+Les sortilèges `pivot_longer()` et `pivot_wider()` répondent à ce besoin.
+
+<BR>
+
+#### Les sortilèges `pivot_longer()` et `pivot_wider()` pour transposer
+
+<BR>
+
+Ces sortilèges sont dans le package **tidyr** (qui appartient au **tidyverse**).
+
+<BR>
+
+Exemple.
+```{r, message=FALSE, warning=FALSE}
+## Je souhaite transposer le data.frame "naissances_2",
+## et obtenir un data.frame "naissances_3" qui contiendra deux variables
+## remplaçant les colonnes "Taille", "Poids", "Force", et "Spirit" de "naissances_2".
+
+# Je pars du data.frame "naissances_2" (et j'assigne le résultat à l'objet "naissances_3").
+naissances_3 <- naissances_2 %>% 
+  # J'utilise le sortilege "pivot_longer()"
+  pivot_longer(
+    cols = c("Taille", "Poids", "Force", "Spirit"),
+	# la variable "valeurs" va contenir les valeurs des colonnes "Taille", "Poids", "Force", "Spirit"
+    values_to = "valeurs",
+	# "noms" va contenir les chaînes de caractères "Taille", "Poids", "Force", "Spirit"
+    names_to = "noms"
+  )
+  
+# J'affiche le data.frame transposé
+naissances_3
+```
+Le data.frame "naissances_3" contient bien deux variables "noms" et "valeurs"
+qui ont remplacé les colonnes "Taille", "Poids", "Force", et "Spirit".
+
+<BR>
+
+Autre exemple.
+```{r, message=FALSE, warning=FALSE}
+## Je souhaite transposer le data.frame que l'on vient d'obtenir "naissances_3",
+## pour retrouver un data.frame qui contienne les colonnes "Taille", "Poids", "Force", et "Spirit".
+
+# Je pars du data.frame "naissances_3". J'assigne le résultat à l'objet "naissances_4".
+naissances_4 <- naissances_3 %>% 
+  # J'utilise le sortilege "pivot_wider()"
+  pivot_wider(
+	# J'indique que les noms des variables "Taille", "Poids", "Force", et "Spirit"
+    # sont dans la colonne "noms"
+    names_from = "noms",
+    # Je précise que les valeurs de "Taille", "Poids", "Force", et "Spirit", 
+	# sont dans la variable "valeurs"
+    values_from = "valeurs"
+  )
+  
+# J'affiche le data.frame transposé
+naissances_4
+```
+Le data.frame ("naissances_4") comprend bien les variables "Taille", "Poids", "Force", et "Spirit".
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+<BR>
+
+Nous vous proposons de transposer un data.frame, en diminuant le nombre de ses variables, ou en l'augmentant.
+
+<BR>
+
+```{r ok-chapitre9-etape7,exercise=TRUE, exercise.setup = "prepare-data_7", echo=TRUE, message=FALSE, warning=FALSE} 
+## Transposer le data.frame "naissances_2".
+## Remplacer les colonnes "Taille", "Poids", "Force", et "Spirit"
+## par deux variables "noms", "valeurs"
+# Partir du data.frame "naissances_2".
+# Utiliser le sortilege "pivot_longer()".
+# Assigner le résultat à l'objet "naissances_3".
+
+  
+# Afficher le data.frame "naissances_3"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre9-etape7-solution, message=FALSE, warning=FALSE}
+## Transposer le data.frame "naissances_2".
+## Remplacer les colonnes "Taille", "Poids", "Force", et "Spirit"
+## par deux variables "noms", "valeurs"
+# Partir du data.frame "naissances_2".
+# Utiliser le sortilege "pivot_longer()".
+# Assigner le résultat à l'objet "naissances_3".
+naissances_3 <- naissances_2 %>% 
+  pivot_longer(
+    cols = c("Taille", "Poids", "Force", "Spirit"),
+    values_to = "valeurs",
+    names_to = "noms"
+  )
+  
+# Afficher le data.frame "naissances_3"
+naissances_3
+
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+Autre exercice, transposition dans l'autre sens.
+```{r ok-chapitre9-etape8,exercise=TRUE, exercise.setup = "prepare-data_8", echo=TRUE, message=FALSE, warning=FALSE} 
+## Transposer le data.frame "naissances_3",
+## et obtenir une table "naissances_4" qui contienne
+## les colonnes "Taille", "Poids", "Force", et "Spirit".
+# Partir du data.frame "naissances_3".
+# Utiliser le sortilege "pivot_wider()".
+# Assigner le résultat à l'objet "naissances_4".
+
+  
+# Afficher le data.frame "naissances_4"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre9-etape8-solution, message=FALSE, warning=FALSE}
+## Transposer le data.frame "naissances_3",
+## et obtenir une table "naissances_4" qui contienne
+## les colonnes "Taille", "Poids", "Force", et "Spirit".
+# Partir du data.frame "naissances_3".
+# Utiliser le sortilege "pivot_wider()".
+# Assigner le résultat à l'objet "naissances_4".
+naissances_4 <- naissances_3 %>% 
+  pivot_wider(
+    names_from = "noms",
+    values_from = "valeurs"
+  )
+  
+# Afficher le data.frame "naissances_4"
+naissances_4
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## Résoudre l'énigme de Mam' Grouxi
+
+Voyons comment utiliser ces nouveaux pouvoirs pour résoudre l'énigme posée par Mam' Grouxi. Voici l'énigme : **"De quel village viennent 
+les filles dont la spiritualité était en moyenne la plus grande à la naissance ?"**
+
+À vous de jouer ! Le résultat vous donnera le village de naissance de ces filles pas 
+tout à fait comme les autres. N'oubliez pas d'utiliser "group_by" avec "summarise" !
+
+<BR>
+
+Un data.frame "naissances_F" est chargé en mémoire. Il est égal au data.frame "naissances", restreint aux personnes de genre "F".
+
+```{r ok-chapitre9-etape9,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
+# A partir du data.frame "naissances_F",
+# (i) Calculer la moyenne de la variable Spirit,
+# pour chaque modalité de la variable "Village"
+# avec les sortilèges "group_by", "summarise", "mean",
+# (ii) vous obtiendrez la réponse !
+
+
+
+
+
+# fin de l'exercice
+``` 
+ 
+```{r ok-chapitre9-etape9-solution, message=FALSE, warning=FALSE}
+# A partir du data.frame "naissances_F",
+# (i) Calculer la moyenne de la variable Spirit,
+# pour chaque modalité de la variable "Village"
+# avec les sortilèges "group_by", "summarise", "mean",
+# (ii) vous obtiendrez la réponse !
+naissances_F %>% 
+  group_by(Village) %>%
+  summarise(mean(Spirit))
+
+# fin de l'exercice
+``` 
+
+```{r ok-chapitre9-quiz1,echo=FALSE}
+question("Le village de naissance des filles avec la plus grande spiritualité est :",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("Sandia"),
+answer("Hylia",correct=TRUE),
+answer("Kokoro"),
+correct="Félicitations, la réponse à donner à Mam' Grouxi est donc : Hylia (avec H majuscule)"
+)
+
+```  
+
+Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre la partie...
+
+**Fin du chapitre >> reprenez la partie d'Icarius !!!** 
+
+*Version 0.9.3*

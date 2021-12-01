@@ -1,0 +1,725 @@
+---
+title: "Chapitre 3 - des sortilèges statistiques pour bien cultiver la Mandragore "
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr) 
+library(knitr)
+library(rio)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+file.copy(from = system.file(package = "funcampR","data","chapitre3_replay/recensement_agricole.csv"),
+          to = paste0(tempdir(),"/recensement_agricole.csv"))
+```
+
+```{r prepare-data-df_livre}
+df_livre <- import(
+  paste0(
+    tempdir(),
+	"/recensement_agricole.csv")
+)
+
+df_livre <- mutate(df_livre, Exploitation = factor(Exploitation))
+df_livre <- mutate(df_livre, Temps = factor(Temps))
+```
+
+<BR>
+
+## Le livre de récolte des fermiers
+
+<BR>
+
+Au sein du village de GrissGrass, les deux fermiers Galia et Tellus cultivent la mandragore, une plante dont le jus a des pouvoirs magiques… 
+Le fermier Galia, petit homme frêle et fort âgé, ou le fermier Tellus, robuste gaillard qui joue les gros bras : lequel des deux obtient 
+le meilleur rendement en jus de mandragore ? Qui des deux sait réellement cultiver cette plante ?
+Le chef du village remet à icaRius le livre de récolte des fermiers… Les chiffres vont bientôt parler! Et si icaRius trouve la 
+bonne réponse, il gagnera un filtre de Mandragore, un élément essentiel pour la suite de sa quête.
+
+Voici l'énigme à résoudre : <span style="color:#18AC3E;font-size:16px">**"En moyenne, sur les 10 dernières années, quelle exploitation a donné le plus de jus de Mandragore ?"**</span>.
+
+<BR>
+
+Le livre de récolte des fermiers est un `data.frame` "df_livre". Il est déjà chargé dans R.
+
+```{r include=FALSE}
+df_livre <- import(
+  paste0(
+    tempdir(),
+	"/recensement_agricole.csv")
+)
+
+df_livre <- mutate(df_livre, Exploitation = factor(Exploitation))
+df_livre <- mutate(df_livre, Temps = factor(Temps))
+```
+
+```{r}
+# J'affiche le contenu du data.frame "df_livre"
+df_livre
+```
+
+Le data.frame "df_livre" comprend quatre variables : le nom de l’exploitation, l’année, 
+le nombre de litres de jus de Mandragore (variable `Production`), et enfin le temps qu'il a fait pendant la moisson.  
+Chaque ligne du `data.frame` représente une exploitation et une année de récolte.  
+
+Par exemple, en l’an 1013, Tellus a effectué la moisson par un temps pluvieux, et a produit 36 litres de jus de Mandragore.
+
+<BR>
+
+## Les cuvées de jus de Mandragore
+
+<BR>
+
+Les lignes enregistrées dans le `data.frame` "df_livre" sont un peu les différentes "cuvées" de jus de Mandragore.
+
+Quel est le nombre de ces cuvées ?.
+
+<BR>
+
+### Nombre d'observations d'un `data.frame`
+
+<BR>
+
+Rappel : on peut compter le nombre de lignes du data.frame avec le sortilège "nrow".
+```{r}
+# J'affiche le nombre de lignes du data.frame "df_livre"
+nrow(df_livre)
+```
+
+<BR>
+
+Et si on calculait les nombres de lignes du `data.frame` "df_livre", par exploitation (Galia, Tellus), et suivant le temps qu'il a fait pendant la récolte ?
+
+<BR>
+
+### Nombres d'observations d'un `data.frame`, suivant les valeurs d'une ou de plusieurs variables qualitatives, et présentation des résultats dans un tableau
+
+<BR>
+
+On utilise le sortilège `table()`. 
+
+<BR>
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+# Rappel : je peux accéder à une colonne d'un data.frame avec le nom du data.frame, 
+# le signe $, et le nom de la colonne
+
+# J'obtiens la colonne "Exploitation" du data.frame "df_livre"
+df_livre$Exploitation
+```
+
+```{r, message=FALSE, warning=FALSE}
+# Je compte le nombre de lignes du data.frame "df_livre", 
+# suivant les valeurs de la variable qualitative "Exploitation",
+# avec le sortilège "table()"
+table(df_livre$Exploitation)
+
+# Je calcule le nombre de lignes du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps"
+table(df_livre$Exploitation, df_livre$Temps)
+```
+
+<BR>
+
+Si l'on souhaite ajouter le nom des variables qualitatives, au tableau de résultats ci-dessus, on peut employer l'ingrédient (un peu ésotérique) "deparse.level = 2".
+```{r}
+# Je compte le nombre de lignes du data.frame "df_livre", 
+# suivant les valeurs de la variable qualitative "Exploitation",
+# en ajoutant le nom de la variable qualitative au tableau de résultats
+table(df_livre$Exploitation, deparse.level = 2)
+
+# Je calcule le nombre de lignes du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en ajoutant les noms des variables qualitatives
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2)
+```
+
+<BR>
+
+N.B. : si on utilise trois variables qualitatives ou plus, le sortilège `table` affiche plusieurs tableaux au lieu d'un seul.
+
+<BR>
+
+### Mêmes calculs, avec les totaux
+
+<BR>
+
+On souhaite :  
+- compter des nombres d'observations d'un `data.frame`, suivant les valeurs d'une ou de plusieurs variables qualitatives,  
+- et ajouter les totaux au tableau de résultat.  
+
+Pour cela, on utilise :  
+- le sortilège `table()`,  
+- et ensuite le sortilège `addmargin(FUN = list(Total = sum))`.  
+
+```{r, message=FALSE, warning=FALSE}
+# Je compte le nombre de lignes du data.frame "df_livre", 
+# suivant les valeurs de la variable qualitative "Exploitation",
+# en ajoutant les totaux
+table(df_livre$Exploitation, deparse.level = 2) %>%
+  addmargins(FUN = list(Total = sum))
+```
+
+On a utilisé ci-dessus le "pipe" `%>%` pour enchaîner les sortilèges.
+
+<BR>
+
+```{r, message=FALSE, warning=FALSE}
+# Je calcule le nombre de lignes du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# avec les totaux
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  addmargins(FUN = list(Total = sum))
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+Nous vous proposons de recalculer ci-dessous des nombres de cuvées. Au fait, dans la console R, vous pouvez également afficher la solution pour avoir une aide avec le bouton :
+```{r image_1, echo=FALSE, fig.cap="", out.width = '70px'}
+knitr::include_graphics("images/solution.png")
+```
+
+```{r ok-chapitre3-etape1,exercise=TRUE, exercise.setup = "prepare-data-df_livre"}
+# Compter le nombre d'observations du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# avec le sortilège "table()",
+# avec ajout du nom des variables qualitatives, au tableau de résultats
+
+
+# Même calcul avec en plus l'ajout des totaux 
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre3-etape1-solution}
+# Compter le nombre d'observations du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# avec le sortilège "table()",
+# avec ajout du nom des variables qualitatives, au tableau de résultats
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2)
+
+# Même calcul avec en plus l'ajout des totaux 
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  addmargins(FUN = list(Total = sum))
+
+# Fin de l'exercice
+```
+
+<BR>
+
+### Nombres d'observations d'un `data.frame`, en pourcentages
+
+<BR>
+
+Pour obtenir des nombres d'observations en pourcentage, on applique :  
+- le sortilège `table()`,  
+- et ensuite le sortilège `prop.table()`.  
+
+```{r, message=FALSE, warning=FALSE}
+# Je compte le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs de la variable qualitative "Exploitation",
+# en pourcentages
+table(df_livre$Exploitation, deparse.level = 2) %>%
+  prop.table()
+  
+# Je calcule le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table()
+```
+
+<BR>
+
+Avec les totaux :
+
+Pour ajouter les totaux, on applique ensuite le sortilège `addmargin(FUN = list(Total = sum))`, comme ci-dessus.
+
+Pourcentages, avec les totaux :
+```{r, message=FALSE, warning=FALSE}
+# Je calcule le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages, avec les totaux
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table() %>%
+  addmargins(FUN = list(Total = sum))
+```
+
+Dans le code ci-dessus, on a utilisé deux fois le "pipe" `%>%`, pour enchaîner les sortilèges.
+
+<BR>
+
+### Nombres d'observations d'un `data.frame`, en pourcentages en ligne
+
+<BR>
+
+Pour disposer de pourcentages en ligne, on utilise :  
+- le sortilège `table()`,  
+- et ensuite le sortilège `prop.table`, avec l'ingrédient `margin = 1` .
+
+<BR>
+
+```{r, message=FALSE, warning=FALSE}
+# Je compte le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages en ligne
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table(margin = 1)
+```
+
+<BR>
+
+Pour obtenir des pourcentages en ligne, avec une colonne "Total" :  
+on applique ensuite le sortilège `addmargin()` avec l'ingrédient `margin = 2` .
+
+```{r, message=FALSE, warning=FALSE}
+# Je calcule le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages en ligne, avec une colonne "Total"
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table(margin = 1) %>%
+  addmargins(FUN = list(Total = sum), margin = 2)
+```
+
+<BR>
+
+### Nombres d'observations d'un `data.frame`, en pourcentages en colonne
+
+<BR>
+
+Pour obtenir des pourcentages en colonne, on emploie :  
+- le sortilège `table()`,  
+- et ensuite le sortilège `prop.table`, avec l'ingrédient `margin = 2` .
+
+<BR>
+
+```{r, message=FALSE, warning=FALSE}
+# Je calcule le nombre d'observations du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages en colonne
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table(margin = 2)
+```
+
+<BR>
+
+
+Pour disposer de pourcentages en colonne, avec une ligne "Total" :  
+on applique ensuite le sortilège `addmargin` avec l'ingrédient `margin = 1` .
+```{r, message=FALSE, warning=FALSE}
+# Je compte le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages en colonne, avec une ligne "Total"
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table(margin = 2) %>%
+  addmargins(FUN = list(Total = sum), margin = 1)
+  
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+Nous vous proposons de recalculer ci-dessous des nombres de cuvées en pourcentages.
+
+```{r ok-chapitre3-etape2,exercise=TRUE, exercise.setup = "prepare-data-df_livre"}
+# Calculer le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages,
+# avec les sortilèges "table()" puis "prop.table()"
+
+
+# Même calcul, avec en plus l'ajout des totaux avec le sortilège "addmargins"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre3-etape2-solution}
+# Calculer le nombre d'observations du data.frame "df_livre", 
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# en pourcentages,
+# avec les sortilèges "table()" puis "prop.table()"
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table()
+
+# Même calcul, avec en plus l'ajout des totaux avec le sortilège "addmargins"
+table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
+  prop.table() %>%
+  addmargins(FUN = list(Total = sum))
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## Une production très appréciée
+
+<BR>
+
+Nous venons de calculer des nombres de cuvées.
+
+Mais quelle a été la production de jus de Mandragore ?
+
+<BR>
+
+### Somme d'une variable quantitative d'un `data.frame`
+
+<BR>
+
+Affichons la production totale de jus de Mandragore.
+
+C'est la somme de la variable "Production" du `data.frame` "df_livre". 
+
+Pour la calculer, on utilise le sortilege "sum".
+
+```{r, eval=FALSE}
+# J'accède à la colonne "Production" du data.frame "df_livre", avec le signe $
+df_livre$Production
+```
+
+```{r}
+# A partir de la colonne "Production" du data.frame "df_livre", 
+# je calcule la production totale avec le sortilège "sum"
+sum(df_livre$Production)
+```
+
+<BR>
+
+Et si l'on souhaite calculer la production de jus de Mandragore par exploitation (Galia, Tellus) et suivant le temps qu'il a fait pendant la récolte ?
+
+<BR>
+
+### Sommes d'une variable quantitative d'un `data.frame` suivant les valeurs d'une ou de plusieurs variables qualitatives, et présentation des résultats dans un tableau
+
+<BR>
+
+On utilise le sortilège `xtabs`.
+
+```{r}
+# Je calcule la production de jus de Mandragore, suivant l'exploitation
+xtabs(data = df_livre, Production ~ Exploitation)
+
+# Je détermine la production de jus de Mandragore, suivant l'exploitation et le temps
+xtabs(data = df_livre, Production ~ Exploitation + Temps)
+```
+L'écriture de ce sortilège `xtabs` est particulière.  
+Il faut indiquer comme ingrédients :  
+- le data.frame `data = df_livre`,  
+- la variable quantitative (ici `Production`),  
+&nbsp;&nbsp;&nbsp;&nbsp;ensuite l'opérateur `~` (tilde de son petit nom) qui se lit `en fonction de`,  
+&nbsp;&nbsp;&nbsp;&nbsp;puis la variable qualitative, ou les variables qualitatives séparées par un `+` .  
+
+<BR>
+
+N.B. : si on utilise trois variables qualitatives ou plus, le sortilège `xtabs` affiche plusieurs tableaux au lieu d'un seul.
+
+<BR>
+
+### Sommes en pourcentages, et ajout des totaux
+
+<BR>
+
+On peut passer à des sommes en pourcentage, en pourcentage en ligne ou en pourcentage en colonne, comme ci-dessus, avec 
+le sortilège `prop.table`.
+
+De même on peut ajouter les totaux avec le sortilège `addmargins`.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+Nous vous proposons de recalculer ci-dessous la somme d'une variable quantitative.
+
+```{r ok-chapitre3-etape3,exercise=TRUE, exercise.setup = "prepare-data-df_livre"}
+# Calculer la somme de la variable "Production" du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# avec le sortilège "xtabs()"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre3-etape3-solution}
+# Calculer la somme de la variable "Production" du data.frame "df_livre",
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
+# avec le sortilège "xtabs()"
+xtabs(data = df_livre, Production ~ Exploitation + Temps)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## La moyenne
+
+<BR>
+
+Quelle a été la production moyenne de jus de Mandragore ?
+
+<BR>
+
+### Moyenne d'une variable quantitative d'un `data.frame`
+
+<BR>
+
+Pour calculer la moyenne, on utilise le sortilège `mean`.
+
+```{r}
+# data.frame "df_livre", colonne "Production", je calcule la moyenne
+mean(df_livre$Production)
+```
+
+La moyenne de la production de jus de Mandragore par cuvée est de `r mean(df_livre$Production)` litres.
+
+<BR>
+
+### Moyennes d'une variable quantitative d'un `data.frame`, suivant les valeurs d'une ou de plusieurs variables qualitatives
+
+<BR>
+
+On utilise les sortilèges :  
+- `group_by()`,  
+- et ensuite `summarise()` ainsi que `mean()` 
+
+<BR>
+
+```{r, message=FALSE, warning=FALSE}
+# Je calcule la moyenne de la production
+# suivant les valeurs de la variable qualitative "Exploitation".
+# Pour cela je pars de la table "df_livre"
+df_livre %>%
+  # J'emploie le sortilège "group_by" pour indiquer que je souhaite réaliser les calculs 
+  # suivant les valeurs de la variable qualitative "Exploitation"
+  group_by(Exploitation) %>%
+  # J'utilise le sortilège "summarise()" pour préciser que je souhaite résumer les informations, 
+  # et "mean()" pour indiquer que je suis intéressé par la moyenne de la variable "Production".
+  # Par ailleurs je nomme "moyenne_production" le résultat de la moyenne.
+  summarise(moyenne_production = mean(Production))
+```
+
+<BR>
+
+Dans le code ci-dessus, deux fois en fin de ligne on ajoute le "pipe" `%>%`, pour indiquer que l'on enchaîne avec d'autres sortilèges.
+
+<BR>
+
+Deux variables qualitatives.
+```{r, message=FALSE, warning=FALSE}
+# Je calcule la moyenne de la production
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps".
+# Je pars de la table "df_livre"
+df_livre %>%
+  # J'emploie le sortilège "group_by" avec les variables qualitatives "Exploitation" et "Temps"
+  group_by(Exploitation, Temps) %>%
+  # J'utilise les sortilèges "summarise()" et "mean()", et je nomme "moyenne_production" le résultat de la moyenne
+  summarise(moyenne_production = mean(Production))
+```
+
+<BR>
+
+Et voilà ! On sait maintenant quelle est l'exploitation la plus productive, et quel est l'effet du temps sur la production.
+
+<BR>
+
+### Moyennes d'une variable quantitative d'un `data.frame`, suivant les valeurs de plusieurs variables qualitatives, et présentation dans un tableau
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Dans cette sous-partie, on reprend le dernier morceau de code.
+>
+><BR>
+>
+>Puis on utilise le sortilège "xtabs()" pour présenter les résultats dans un tableau avec une variable en ligne et une variable en colonne.
+>
+><BR>
+>
+>```{r, message=FALSE, warning=FALSE}
+# Je reprend le dernier morceau de code.
+# J'assigne le résultat à l'objet "df_resultat"
+df_resultat <- df_livre %>%
+  group_by(Exploitation, Temps) %>%
+  summarise(moyenne_production = mean(Production))
+  
+# J'affiche le type de "df_resultat"
+class(df_resultat)
+>```
+>"df_resultat" est un data.frame.
+>
+><BR>
+>
+>```{r, message=FALSE, warning=FALSE}
+# J'obtiens la liste des colonnes de "df_resultat"
+names(df_resultat)
+
+# J'applique le sortilège "xtabs", pour obtenir les résultats dans un tableau
+xtabs(data = df_resultat, moyenne_production ~ Exploitation + Temps)
+>```
+>
+><BR>
+>
+><span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+>
+><BR>
+>
+>Nous vous proposons de recalculer la moyenne de la production suivant les valeurs des variables "Exploitation" et "Temps",
+>puis de présenter les résultats dans un tableau
+>
+><BR>
+>
+>```{r ok-chapitre3-etape4,exercise=TRUE, exercise.setup = "prepare-data-df_livre", message=FALSE, warning=FALSE}
+# Calculer la moyenne de la production
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps".
+# Partir de la table "df_livre", et employer le sortilège "group_by" avec les variables qualitatives "Exploitation" et "Temps".
+# Puis utiliser les sortilèges "summarise()", "mean()", et nommer la moyenne "moyenne_production".
+# Assigner le résultat à l'objet "df_resultat".
+
+
+# Appliquer le sortilège "xtabs" au data.frame "df_resultat", pour obtenir les résultats dans un tableau
+
+
+# Fin de l'exercice
+>```
+>
+>```{r ok-chapitre3-etape4-solution}
+# Calculer la moyenne de la production
+# suivant les valeurs des variables qualitatives "Exploitation" et "Temps".
+# Partir de la table "df_livre", et employer le sortilège "group_by" avec les variables qualitatives "Exploitation" et "Temps".
+# Puis utiliser les sortilèges "summarise()", "mean()", et nommer la moyenne "moyenne_production".
+# Assigner le résultat à l'objet "df_resultat".
+df_resultat <- df_livre %>%
+  group_by(Exploitation, Temps) %>%
+  summarise(moyenne_production = mean(Production))
+
+# Appliquer le sortilège "xtabs" au data.frame "df_resultat", pour obtenir les résultats dans un tableau
+xtabs(data = df_resultat, moyenne_production ~ Exploitation + Temps)
+
+# Fin de l'exercice
+>```
+>
+><BR>
+>
+></font></p></details>
+
+<BR>
+
+## Autres chiffres
+
+<BR>
+
+Et si l'on souhaitait d'autres statistiques que la moyenne ?   
+
+On peut utiliser les sortilèges `median`, `max`, `min`, `quantile` (pour un quantile), `var` (pour la variance), `sd` (pour l'écart-type) 
+dans les calculs ci-dessus au lieu de `mean`.
+
+<BR>
+
+## La ferme la plus productive en Mandragore ?
+
+Au fait, revenons à la question posée par le chef du village : "En moyenne, sur les 10 dernières années, quelle exploitation 
+a donné le plus de jus de Mandragore ?" Ecrivez ci-dessous les calculs à partir du `data.frame` "df_livre", 
+exécutez votre code pour trouver la ferme la plus productive...
+
+```{r ok-chapitre3-etape5,exercise=TRUE, exercise.setup = "prepare-data-df_livre"}
+# Commencer avec le data.frame "df_livre".
+# Indiquer que vous souhaitez effectuer les calculs par exploitation, avec le sortilège "group_by",
+# puis calculer la moyenne avec les sortilèges "summarise" et "mean".
+
+ 
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre3-etape5-solution}
+# Commencer avec le data.frame "df_livre".
+# Indiquer que vous souhaitez effectuer les calculs par exploitation, avec le sortilège "group_by",
+# puis calculer la moyenne avec les sortilèges "summarise" et "mean".
+df_livre %>%
+  group_by(Exploitation) %>%
+  summarise(moyenne_production = mean(Production))
+ 
+# Fin de l'exercice
+```
+
+```{r ok-chapitre3-quiz1,echo=FALSE}
+question("En moyenne, sur les 10 dernières années, quelle exploitation a donné le plus de jus de Mandragore ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("L'exploitation de Tellus"),
+answer("L'exploitation de Galia",correct=TRUE),
+answer("Autre réponse"),
+correct="Félicitations, la réponse à donner au chef du village est donc : Galia (avec un G majuscule)"
+)
+
+```   
+ 
+Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius**. Le tutoriel était trop facile ? Vous pouvez aussi répondre au quiz bonus ci-dessous si vous le souhaitez. 
+ 
+><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle sur la distribution des variables - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+>On s'intéresse maintenant à la régularité de l'obtention de jus de Mandragore. On souhaite calculer l'écart-type de la production, pour l'exploitation de Tellus, ainsi que pour celle de Galia. 
+>
+>
+>```{r ok-chapitre3-etape6,exercise=TRUE, message=FALSE, warning=FALSE, exercise.setup = "prepare-data-df_livre"}
+# Je calcule l'écart-type de la "Production",
+# suivant les valeurs de la variable qualitative "Exploitation".
+# Pour cela, je pars du data.frame "df_livre", puis j'utilise les sortilèges "group_by", "summarise", et "sd" (standard deviation)
+
+
+# Fin de l'exercice
+>```
+>
+>```{r ok-chapitre3-etape6-solution, message=FALSE, warning=FALSE}
+# Je calcule l'écart-type de la "Production",
+# suivant les valeurs de la variable qualitative "Exploitation".
+# Pour cela, je pars du data.frame "df_livre", puis j'utilise les sortilèges "group_by", "summarise", et "sd" (standard deviation)
+df_livre %>%
+  group_by(Exploitation) %>%
+  summarise(ecart_type_production = sd(Production))
+
+# Fin de l'exercice
+>```
+>
+>
+>```{r ok-chapitre3-quiz2,echo=FALSE}
+question("Quiz bonus - quelle assertion est vraie ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("L'exploitation de Galia présente la production la plus régulière, quand celle de Tellus est très irrégulière",correct=TRUE),
+answer("L'exploitation de Galia a une production moins régulière que celle de Tellus"),
+answer("Les deux exploitations ont une régularité comparable"),
+correct="Félicitations, c'est la bonne réponse pour ce quiz bonus. L'écart-type pour Galia est de 2,55 contre 8,63 pour Tellus."
+)
+>```
+>
+>
+></font></p></details>
+
+ 
+**Fin du chapitre 3 >> reprenez la partie d'Icarius !!!**
+
+*(version du chapitre : 0.0.1)*

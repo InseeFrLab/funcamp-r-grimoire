@@ -1,0 +1,1045 @@
+---
+title: "Chapitre 7 - optionnel - le labyrinthe"
+tutorial:
+  version: 0.0.1
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+library(dplyr)
+knitr::opts_chunk$set(echo = TRUE)
+
+df_statis <- data.frame(
+	nom = c("IcaRius", "IcaRius", "Tellus", "Soldat"),
+	possession = c("Epée", "Bouclier", "Ferme de Tellus", "Armure"),
+	nombre = c(1, 1, 1, 2)
+)
+df_statis <- df_statis %>%
+  mutate(
+    nom = as.character(nom),
+	possession = as.character(possession)
+  )
+
+  
+  
+```
+
+```{r prepare-data}
+nom <- NA
+vecteur_1 <- NA
+vecteur_2 <- NA
+vecteur_3 <- NA
+```
+
+
+```{r prepare-data_2}
+data.frame_clef <- data.frame(
+  col_1 = c(1, NA, 1, 2, 3, 3, 1, 3, 1, 3, 2),
+  col_2 = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2)
+)
+```
+
+## Que le vecteur soit avec toi
+
+Vous venez de rencontrer le mage Delagarde, à l'entrée d'un labyrinthe. Comment icaRius échappera-t-il à cet ensemble tortueux 
+de chemins et de directions ? 
+
+Pour le guider, il vous faudra au cours de ce chapitre continuer à apprendre à manipuler les briques élémentaires du langage des Runes 
+que sont les vecteurs. Le mage Delagarde a en effet caché les directions à suivre dans un vecteur !!! Avec deux indices sibyllins : 
+*“il faut commencer par 'Gauche', 'Droite'”*, et *“puis continuer en répétant un certain nombre de fois 'Gauche'”.*
+
+Au fait : outre le fait de vous guider dans le labyrinthe, savoir utiliser un vecteur vous sera d'une aide précieuse 
+pour des opérations portant sur les tables de données, comme la sélection d’observations et de variables.
+
+
+<BR>
+
+## Rappel : les vecteurs
+
+<BR>
+
+- Un vecteur est un objet du langage des Runes, qui regroupe un ensemble de valeurs,  
+
+<BR>
+
+- avec la particularité suivante : les valeurs contenues dans un vecteur sont de même type.
+
+<BR>
+ 
+<BR>
+
+Exemples :  
+
+1 &nbsp;&nbsp;&nbsp;&nbsp; est un vecteur (numérique)
+
+"Icarius" &nbsp;&nbsp; "Statia" &nbsp;&nbsp;&nbsp;&nbsp; est un vecteur (de chaînes de caractères)
+
+"Icarius" &nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp;&nbsp; n'est pas un vecteur  
+
+<BR>
+
+#### Créer un vecteur
+
+<BR>
+
+On peut construire un vecteur avec le sortilège `c()`.
+
+<BR>
+
+Exemples.
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "nom" qui contient des chaînes de caractères
+nom = c("IcaRius", "Mage Zilap", "Mage RegoR")
+# Je construis un vecteur "coeurs" qui contient des nombres
+coeurs = c(2, 12, 10)
+
+# J'affiche "nom" et "coeurs"
+nom
+coeurs
+```
+
+<BR>
+
+N.B. : quand on souhaite fabriquer un vecteur qui contient un seul élément, la fonction `c()` est inutile.
+
+Exemple.
+```{r, messages=FALSE, warning=FALSE, echo=TRUE, eval=FALSE}
+vecteur_1 <- c(5)
+# EST EQUIVALENT A :
+vecteur_1 <- 5
+```
+
+<BR>
+
+Les éléments d'un vecteur peuvent être nommés si on le souhaite.
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "possession" dont chaque élément est nommé
+possession <- c(equipement_Icarius_1 = "Epée", 
+			    equipement_Icarius_2 = "Bouclier", 
+                propriete_de_Tellus = "Ferme de Tellus", 
+				equipement_soldat = "Armure")
+
+# J'affiche "possession"
+possession
+```
+
+Le vecteur "possession" comprends 4 éléments.  
+L’élément nommé "equipement_Icarius_1" a pour valeur "Epée", etc.  
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+
+```{r ok-chapitre7-etape1,exercise=TRUE, exercise.setup = "prepare-data", echo=TRUE}
+# Construire un vecteur "nom" qui contient les chaînes de caractères "IcaRius", "Statia", "Mage Zilap",
+# avec le sortilège c().
+
+
+# Afficher le vecteur créé
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre7-etape1-solution}
+# Construire un vecteur "nom" qui contient les chaînes de caractères "IcaRius", "Statia", "Mage Zilap",
+# avec le sortilège c().
+nom = c("IcaRius", "Mage Zilap", "Mage RegoR")
+
+# Afficher le vecteur créé
+nom
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+#### Liens entre les vecteurs et les data.frame
+
+<BR>
+
+Vecteurs et data.frame sont très liés.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">Chaque colonne d'un data.frame est un vecteur</span> 
+
+<BR>
+
+Exemple.
+```{r, messages=FALSE, warning=FALSE}
+# Le data.frame "df_statis" est déjà chargé dans R.
+
+# J'affiche df_statis
+df_statis
+
+# Le data.frame "df_statis" a trois colonnes : "nom", "possession", "nombre".  
+
+# J'affiche la 1ère colonne de "df_statis", qui est un vecteur
+df_statis$nom
+
+# J'affiche les 2ème et 3ème colonnes de "df_statis", qui sont des vecteurs
+df_statis$possession
+df_statis$nombre
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">Un data.frame peut être créé à partir de vecteurs</span> 
+
+<BR>
+
+Exemple.
+```{r, messages=FALSE, warning=FALSE}
+# Je construis trois vecteurs
+vecteur_1 = c("IcaRius", "Mage Zilap", "Mage RegoR")
+vecteur_2 = c(2, 12, 10)
+vecteur_3 = c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro")
+	
+# à partir de ces vecteurs, je crée un data.frame "df_statis_2"
+df_statis_2 <- data.frame(
+	nom = vecteur_1,
+	coeurs = vecteur_2,
+	lieu = vecteur_3
+)
+
+# J'affiche "df_statis_2"
+df_statis_2
+```
+
+<BR>
+
+Quiz
+```{r ok-chapitre7-quiz1,echo=FALSE}
+question("Quiz - Quel ensemble ne peut être un vecteur ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("un ensemble de nombres"),
+answer("un ensemble de chaînes de caractères"),
+answer("un ensemble constitué de nombres et de chaînes de caractères",correct=TRUE),
+answer("La réponse n'est pas dans les propositions."),
+correct="Félicitations, c'est la bonne réponse pour ce quiz."
+)
+```
+
+<BR>
+
+Quiz 2
+```{r ok-chapitre7-quiz2,echo=FALSE}
+question("Quiz - Dans R, que peut-on dire des vecteurs et des data.frame ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("Les colonnes d'un data.frame peuvent être des vecteurs, mais pas forcément"),
+answer("data.frame et vecteurs sont un peu liés, mais pas tant que cela"),
+answer("Chaque colonne d'un data.frame est un vecteur. Par ailleurs un data.frame peut être créé à partir de vecteurs.",correct=TRUE),
+answer("Autre réponse."),
+correct="Félicitations, c'est la bonne réponse pour ce quiz."
+)
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+<BR>
+
+```{r ok-chapitre7-etape2,exercise=TRUE, echo=TRUE} 
+# Le data.frame "df_statis" a déjà été chargé dans R.
+# Afficher "df_statis"
+
+
+# Obtenir la colonne "nom" de "df_statis"
+
+
+# Afficher la colonne "possession" de "df_statis", puis la colonne "nombre"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre7-etape2-solution}
+# Le data.frame "df_statis" a déjà été chargé dans R.
+# Afficher "df_statis"
+df_statis
+
+# Obtenir la colonne "nom" de "df_statis"
+df_statis$nom
+
+# Afficher la colonne "possession" de "df_statis", puis la colonne "nombre"
+df_statis$possession
+df_statis$nombre
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+Autre exercice.
+```{r ok-chapitre7-etape2_bis,exercise=TRUE, echo=TRUE}
+# Soient les vecteurs suivants
+vecteur_1 = c("IcaRius", "Mage Zilap", "Mage RegoR")
+vecteur_2 = c(2, 12, 10)
+vecteur_3 = c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro")
+
+# Créer un data.frame "data.frame_1" à partir de ces 3 vecteurs,
+# avec le sortilège "c()".
+# Nommer les colonnes du data.frame "nom", "coeurs", "lieu".
+
+
+# Afficher le data.frame obtenu
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre7-etape2_bis-solution}
+# Soient les vecteurs suivant
+vecteur_1 = c("IcaRius", "Mage Zilap", "Mage RegoR")
+vecteur_2 = c(2, 12, 10)
+vecteur_3 = c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro")
+
+# Créer un data.frame "data.frame_1" à partir de ces 3 vecteurs,
+# avec le sortilège "c()".
+# Nommer les colonnes du data.frame "nom", "coeurs", "lieu".
+data.frame_1 <- data.frame(
+	nom = vecteur_1,
+	coeurs = vecteur_2,
+	lieu = vecteur_3
+)
+
+# Afficher le data.frame obtenu
+data.frame_1
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+#### Concaténer deux vecteurs
+
+<BR>
+
+La fonction "c()", qui permet de créer un vecteur, 
+peut aussi être utilisée pour fusionner 2 vecteurs.  
+
+<BR>
+
+```{r, collapse = TRUE, messages=FALSE, warning=FALSE}
+# J'affiche le vecteur "nom"
+nom
+
+# Je crée un vecteur "nom_2", et je l'affiche
+nom_2 <- c("Statia", "Mage Tourep", "Tellus")
+nom_2
+
+# Je concatène "nom" et "nom_2" en un 3ème vecteur "nom_3",
+nom_3 <- c(nom, nom_2)
+
+# J'affiche "nom_3"
+nom_3
+```
+
+<BR>
+
+#### Accéder aux éléments d'un vecteur avec la position
+
+<BR>
+
+On peut obtenir les éléments d'un vecteur avec les crochets `[]` et la position des éléments.
+
+<BR>
+
+```{r, collapse = TRUE, messages=FALSE, warning=FALSE}
+# J'affiche le vecteur "nom"
+nom
+
+# J'accède au 2ème élément du vecteur
+nom[2]
+```
+
+<BR>
+
+Pour sélectionner plus d’une valeur à la fois, il faut préciser les positions des valeurs souhaitées.
+
+```{r,  messages=FALSE, warning=FALSE}
+# Je sélectionne les 2ème et 3ème éléments du vecteur "nom"
+nom[ c(2, 3) ]
+```
+
+On note que dans cet exemple, l’ensemble des positions souhaitées s’écrit… comme un vecteur ! 
+En effet, `c(2, 3)` est aussi un vecteur, de deux éléments avec pour valeur respective 2 et 3. 
+Autrement dit, vous pouvez utiliser des vecteurs pour manipuler d’autres vecteurs…
+
+<BR>
+
+Pour obtenir toutes les valeurs d'un vecteur sauf certaines, 
+il faut indiquer la ou les positions précédées du signe `-`
+
+```{r, messages=FALSE, warning=FALSE}
+# J'affiche le vecteur "nom"
+nom
+# J'affiche les valeurs du vecteur "nom", sauf celle en 2ème position
+nom[-2]
+# Je sélectionne les valeurs du vecteur "nom", sauf celles en 2ème et 3ème positions
+nom[ -c(2, 3) ]
+```
+
+<BR>
+
+#### Disposer des éléments d'un vecteur, avec le nom
+
+<BR>
+
+Lorsque le vecteur comprend des éléments nommés, ces derniers peuvent être sélectionnés par leur nom.
+
+```{r,  messages=FALSE, warning=FALSE}
+# J'affiche le vecteur "possession"
+possession
+
+# J'obtiens l'élément du vecteur "possession" dont le nom est "equipement_Icarius_1"
+possession["equipement_Icarius_1"]
+# J'accède aux éléments du vecteur "possession" 
+# dont les noms sont "equipement_Icarius_1" et "propriete_de_Tellus"
+possession[ c("equipement_Icarius_1", "propriete_de_Tellus") ]
+```
+
+<BR>
+
+#### Obtenir les éléments d'un vecteur, avec une condition
+
+<BR>
+
+On peut accéder aux éléments d'un vecteur avec les crochets `[]` et une condition.  
+
+<BR>
+
+La syntaxe est : `un_vecteur[une_condition]`
+
+<BR>
+
+Exemples.
+```{r, messages=FALSE, warning=FALSE}
+# Je recrée un vecteur "nombre_d_equipements"
+nombre_d_equipements <- c(2, 1, 1, 4, 6)
+
+# J'affiche "nombre_d_equipements"
+nombre_d_equipements
+
+# Je souhaite obtenir les éléments du vecteur égaux à 1.
+# Pour cela, j'utilise la condition "nombre_d_equipements == 1"
+nombre_d_equipements[ nombre_d_equipements == 1 ]
+```
+Deux éléments du vecteur sont égaux à 1.
+
+Attention : dans R, l’égalité dans un test ou une condition s’écrit avec un double signe == .  
+
+<BR>
+
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "nom"
+nom <- c("IcaRius", "Mage Zilap", "IcaRius", "Mage RegoR")
+
+# J'affiche les éléments du vecteur "nom" égaux à "IcaRius"
+nom[nom == "IcaRius"]
+```
+Il y a deux éléments du vecteur "nom" qui sont égaux à "Icarius"
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px"> Les opérateurs de comparaison >= , &nbsp;&nbsp; > , &nbsp;&nbsp; <= , &nbsp;&nbsp; < , &nbsp;&nbsp; etc.</span> 
+
+<BR>
+
+Dans la condition utilisée, on peut employer `>=` .
+
+```{r, messages=FALSE, warning=FALSE}
+# J'affiche le vecteur "nombre_d_equipements"
+nombre_d_equipements
+
+# J'obtiens les éléments du vecteur "nombre_d_equipements" supérieurs ou égal à 2
+nombre_d_equipements[ nombre_d_equipements >= 2 ]
+```
+Il y a trois éléments  du vecteur "nombre_d_equipements supérieurs ou égal à 2
+
+<BR>
+
+On peut utiliser aussi :  
+
+!=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(différent de)  
+< &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(strictement inférieur)  
+<=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inférieur ou égal))  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(l'inverse d'une condition)  
+
+<BR>
+
+Exemple.
+
+```{r, messages=FALSE, warning=FALSE}
+nombre_d_equipements[ !(nombre_d_equipements == 2) ]
+```
+Quatre éléments du vecteur ne sont pas égaux à 2.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">Les opérateurs &nbsp;&nbsp; "et", &nbsp;&nbsp; "ou"</span> 
+
+<BR>
+
+Dans la condition utilisée on peut employer ces opérateurs.
+
+<BR>
+
+On écrit "ou" avec le signe `|`
+```{r, messages=FALSE, warning=FALSE}
+nombre_d_equipements[ nombre_d_equipements == 1 | nombre_d_equipements == 6 ]
+```
+Trois éléments sont égaux à 1 ou 6.
+
+<BR>
+
+On écrit "et" avec le signe `&`
+```{r, messages=FALSE, warning=FALSE}
+nombre_d_equipements[ nombre_d_equipements <= 4 & nombre_d_equipements >= 2 ]
+```
+Deux éléments du vecteur sont inférieurs ou égal à 4 et supérieurs ou égal à 2.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+
+```{r ok-chapitre7-etape3,exercise=TRUE, echo=TRUE}
+# Soit le vecteur "nombre_d_equipements"
+nombre_d_equipements <- c(2, 1, 1, 4, 6)
+
+# Afficher les valeurs de "nombre_d_equipements"
+
+
+# Sélectionner l'élément de "nombre_d_equipements" situé en 5ème position
+
+
+# Obtenir les éléments de "nombre_d_equipements" qui sont supérieurs ou égal à 2
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre7-etape3-solution}
+# Soit le vecteur "nombre_d_equipements"
+nombre_d_equipements <- c(2, 1, 1, 4, 6)
+
+# Afficher les valeurs de "nombre_d_equipements"
+nombre_d_equipements
+
+# Sélectionner l'élément de "nombre_d_equipements" situé en 5ème position
+nombre_d_equipements[5]
+
+# Obtenir les éléments de "nombre_d_equipements" qui sont supérieurs ou égal à 2
+nombre_d_equipements[nombre_d_equipements >= 2]
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+#### Accéder à la position d'un ou de plusieurs éléments
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">Le sortilège `which()`</span> 
+
+<BR>
+
+Le sortilège `which()` permet d'accéder à la position d'un ou de plusieurs éléments dans un vecteur.
+
+<BR>
+
+La syntaxe est : `which( une_condition )`
+
+<BR>
+
+Exemples.
+```{r, messages=FALSE, warning=FALSE}
+# J'affiche le vecteur nom
+nom
+
+# J'affiche les positions de l'élément "Icarius" dans le vecteur "nom"
+which( nom == "IcaRius" )
+```
+"Icarius" est en 1ère et 3ème positions du vecteur "nom"  
+
+Attention, ici aussi, l’égalité dans un test ou une condition s’écrit avec un double signe == .  
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px"> Les opérateurs &nbsp;&nbsp; !=, &nbsp;&nbsp; >= , &nbsp;&nbsp; > , &nbsp;&nbsp; <= , &nbsp;&nbsp; < , &nbsp;&nbsp; !, &nbsp;&nbsp; "et", &nbsp;&nbsp; "ou"</span> 
+
+<BR>
+
+Dans une condition avec `which()`), on peut utiliser aussi :  
+`!=` &nbsp;&nbsp; (différent de)  
+`>=`  
+`>`  
+`<=`  
+`<`  
+`!` &nbsp;&nbsp; (l'inverse d'une condition)  
+`|` &nbsp;&nbsp; (ou)  
+`&` &nbsp;&nbsp; (et)  
+
+<BR>
+
+Exemple.
+```{r, messages=FALSE, warning=FALSE}
+which( nombre_d_equipements == 1 | nombre_d_equipements == 6 )
+```
+Les éléments du vecteur situés en 2ème, 3ème et 5ème position sont égaux à 1 ou 6.
+
+<BR>
+
+#### Fonctions diverses
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Obtenir le type des éléments d'un vecteur**</span>
+
+<BR>
+
+On peut accéder au type des éléments d'un vecteur avec le sortilege `class()` .
+ 
+```{r, messages=FALSE, warning=FALSE}
+# J'affiche le vecteur nom
+nom
+
+# J'obtiens le type des éléments du vecteur "nom"
+class(nom)
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Disposer du nombre d'éléments d'un vecteur**</span>
+
+<BR>
+
+On peut récupérer le nombre d'éléments d'un vecteur avec le sortilège `length()` .
+
+```{r, messages=FALSE, warning=FALSE}
+# J'affiche le nombre d'éléments du vecteur "nom"
+length(nom)
+```
+Le vecteur "nom" contient `r length(nom)` éléments.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Pour un vecteur dont les éléments sont nommés, accéder aux noms des éléments**</span>
+
+<BR>
+
+Pour un vecteur qui comprend des éléments nommés, 
+il est possible de recouvrer les noms des éléments
+avec le sortilège `names()`.
+
+```{r, messages=FALSE, warning=FALSE}
+# J'affiche le nom des éléments du vecteur "possession"
+names(possession)
+```
+
+<BR>
+
+#### Opérations arithmétiques sur un vecteur
+
+<BR>
+
+Si un vecteur est numérique, il est possible de l'additionner, le soustraire, le multiplier, le diviser, avec un nombre.
+
+<BR>
+
+Exemple.
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "nombre_d_equipements", et je l'affiche
+nombre_d_equipements <- c(2, 1, 4)
+nombre_d_equipements
+```
+
+<BR>
+
+Calculs :
+```{r, messages=FALSE, warning=FALSE}
+nombre_d_equipements + 1
+nombre_d_equipements / 2
+```
+Les opérations sont appliquées pour chaque élément du vecteur.
+
+<BR>
+
+#### Calculs sur plusieurs vecteurs entre eux
+
+<BR>
+
+Dans ce cas, les calculs sont appliqués termes à termes
+
+<BR>
+
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "nombre_d_equipements_2"
+nombre_d_equipements_2 <- c(2, 2, 3)
+
+# J'affiche "nombre_d_equipements" et "nombre_d_equipements_2"
+nombre_d_equipements
+nombre_d_equipements_2
+```
+
+<BR>
+
+Calculs :
+```{r, messages=FALSE, warning=FALSE}
+nombre_d_equipements - nombre_d_equipements_2
+nombre_d_equipements / nombre_d_equipements_2
+```
+
+<BR>
+
+## Encore et encore
+
+<BR>
+
+### D'autres sortilèges pour créer un vecteur
+
+<BR>
+
+#### La fonction `seq()` pour obtenir un vecteur séquence de nombres
+
+<BR>
+
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "vecteur_1", égal à la séquence qui commence par 0 se termine par 10
+# et qui progresse de 2 en 2.
+vecteur_1 <- seq(from = 0, to = 10, by = 2)
+
+# J'affiche "vecteur_1"
+vecteur_1
+```
+
+<BR>
+
+#### La notation `i:j` pour créer un vecteur de nombres consécutifs
+
+<BR>
+
+```{r, messages=FALSE, warning=FALSE}
+# Une séquence de nombres consécutifs peut être construite avec "seq()"
+vecteur_2 <- seq(from = 3, to = 7, by = 1)
+
+# J'affiche "vecteur_2"
+vecteur_2
+
+# Cette séquence peut aussi être créée avec la notation 3:7
+vecteur_3 <- 3:7
+
+# J'affiche "vecteur_3"
+vecteur_3
+```
+
+<BR>
+
+#### Le sortilège `rep()` pour obtenir un vecteur par répétition d'éléments
+
+<BR>
+
+Il est possible de répéter un nombre, une chaîne de caractères, ou un autre vecteur.
+
+<BR>
+
+
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "vecteur_4", qui contient 5 fois le chiffre 1.
+# J'affiche "vecteur_4"
+vecteur_4 <- rep(1, 5)
+vecteur_4
+
+# Je crée un vecteur "vecteur_5", qui contient 3 fois "Icarius".
+# J'affiche "vecteur_5"
+vecteur_5 <- rep("Icarius", 3)
+vecteur_5
+
+# Je crée un vecteur "vecteur_6".
+# Ensuite je crée un vecteur "vecteur_7", qui contient 3 fois les valeurs de "vecteur_6".
+# J'affiche "vecteur_7".
+vecteur_6 <- c(1, 4)
+vecteur_7 <- rep( vecteur_6, 3 )
+vecteur_7
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+```{r ok-chapitre7-etape4,exercise=TRUE, exercise.setup = "prepare-data", echo=TRUE}
+# Avec le sortilège "seq()", créer un vecteur "vecteur_1", égal à la séquence qui commence par 0 se termine par 10
+# et qui progresse de 2 en 2.
+# Afficher le vecteur obtenu.
+
+
+# Construire un vecteur "vecteur_2", égal à la séquence de nombres consécutifs de 3 à 7,
+# avec la notation "i:j".
+# Afficher "vecteur_2".
+
+
+# Créer un vecteur "vecteur_3", qui contient 3 fois "Icarius", avec le sortilège "rep()".
+# Afficher le vecteur obtenu.
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre7-etape4-solution}
+# Avec le sortilège "seq()", créer un vecteur "vecteur_1", égal à la séquence qui commence par 0 se termine par 10
+# et qui progresse de 2 en 2.
+# Afficher le vecteur obtenu.
+vecteur_1 <- seq(from = 0, to = 10, by = 2)
+vecteur_1
+
+# Construire un vecteur "vecteur_2", égal à la séquence de nombres consécutifs de 3 à 7,
+# avec la notation "i:j".
+# Afficher "vecteur_2".
+vecteur_2 <- 3:7
+vecteur_2
+
+# Créer un vecteur "vecteur_3", qui contient 3 fois "Icarius", avec le sortilège "rep()".
+# Afficher le vecteur obtenu.
+vecteur_3 <- rep("Icarius", 3)
+vecteur_3
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## Valeurs manquantes
+
+<BR>
+
+#### Dans R, les valeurs manquantes s'écrivent `NA` &nbsp;&nbsp; (Not Available).
+
+<BR>
+
+Exemples.
+```{r, messages=FALSE, warning=FALSE}
+# Je crée un vecteur "nom" qui contient une valeur manquante
+nom = c("IcaRius", "Mage Zilap", NA)
+# Je crée un vecteur "coeurs" qui contient aussi une valeur manquante
+coeurs = c(2, NA, 10)
+# J'affiche les vecteurs "nom" et "coeurs"
+nom
+coeurs
+```
+
+<BR>
+
+#### Une valeur manquante peut empêcher les calculs
+
+<BR>
+
+Une valeur manquante dans un vecteur va a priori gêner les calculs sur ce vecteur.
+
+<BR>
+
+Exemple
+```{r, messages=FALSE, warning=FALSE}
+# J'affiche le vecteur "coeurs"
+coeurs
+# Je souhaite calculer la moyenne des valeurs du vecteur "coeurs", avec le sortilège "mean"
+mean(coeurs)
+``` 
+R n'a pas pu calculer la moyenne, à cause de la valeur manquante dans le vecteur.  
+R a donc donné comme résultat la valeur manquante `r mean(coeurs)` !  
+
+<BR>
+
+#### On peut parfois indiquer à R d'enlever les valeurs manquantes dans les calculs
+
+<BR>
+
+Certains sortilèges permettent d'enlever les valeurs manquantes dans les calculs.  
+
+<BR>
+
+Exemple.
+```{r, messages=FALSE, warning=FALSE}
+# Le vecteur "coeurs" contient une valeur manquante.
+# Je souhaite calculer la moyenne des valeurs du vecteur.
+# J'utilise le sortilège "mean",
+# et l'ingrédient "na.rm = TRUE" qui va permettre d'enlever les valeurs manquantes dans les calculs
+mean(coeurs, na.rm = TRUE)
+```
+Les valeurs manquantes ont été enlevées dans les calculs.
+On obtient bien la valeur `r mean(coeurs, na.rm = TRUE)` .  
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+
+```{r ok-chapitre7-etape5,exercise=TRUE, echo=TRUE}
+# Le vecteut suivant contient une valeur manquante
+vecteur_1 <- c(4, NA, 8)
+
+# Afficher "vecteur_1"
+
+
+# Tenter d'obtenir la moyenne des valeurs de ce vecteur,
+# avec le sortilège "mean()", sans utiliser d'ingrédient 
+# particulier
+
+
+# Calculer la moyenne des valeurs du vecteur,
+# avec le sortilège "mean()", en indiquant
+# d'enlever les valeurs manquantes dans les calculs
+# avec l'ingrédient "na.rm = TRUE"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre7-etape5-solution}
+# Le vecteut suivant contient une valeur manquante
+vecteur_1 <- c(4, NA, 8)
+
+# Afficher "vecteur_1"
+vecteur_1
+
+# Tenter d'obtenir la moyenne des valeurs de ce vecteur,
+# avec le sortilège "mean()", sans utiliser d'ingrédient 
+# particulier
+mean(vecteur_1)
+
+# Calculer la moyenne des valeurs du vecteur,
+# avec le sortilège "mean()", en indiquant
+# d'enlever les valeurs manquantes dans les calculs
+# avec l'ingrédient "na.rm = TRUE"
+mean(vecteur_1, na.rm = TRUE)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## Trouvons la bonne direction !
+
+Nous avons vu que le mage Delagarde a caché dans un vecteur une liste de directions, 
+à gauche ou à droite.  
+Nous allons essayer de reconstituer ce vecteur.  
+Un premier indice : *“il faut commencer par 'Gauche', 'Droite'”* .
+
+Deuxième indice : *“puis continuer en répétant un certain nombre de fois 'Gauche'”.*
+
+Ah, ces statisiens, quels esprits alambiqués !
+
+Allons-y... dans R !
+
+```{r ok-chapitre7-etape6,exercise=TRUE, exercise.setup = "prepare-data_2"}
+# On crée un vecteur "vecteur_chemin_debut" contenant les chaînes de caractère "Gauche", "Droite"
+vecteur_chemin_debut <- c("Gauche", "Droite")
+
+# Le data.frame "data.frame_clef" a déjà été chargé dans R.
+# Accéder à la colonne "col_1" du data.frame "data.frame_clef" avec le signe $
+
+
+# Tenter de calculer la moyenne des valeurs du vecteur data.frame_1$col_1,
+# avec le sortilège "mean()",
+# sans utiliser d'ingrédient particulier
+
+
+# Ré-essayer d'obtenir la moyenne des valeurs du vecteur data.frame_1$col_1,
+# avec le sortilège "mean()", 
+# en enlevant les valeurs manquantes dans les calculs avec d'ingrédient "na.rm = TRUE"
+
+
+# La moyenne est égale à 2.
+# Nous allons maintenant utiliser cette valeur "2", pour
+# construire un nouveau vecteur.
+
+# Créer un vecteur "vecteur_chemin_fin",
+# par répétition de la chaîne de caractère "Gauche",
+# le nombre de fois étant de 2.
+
+
+# Afficher "vecteur_chemin_fin"
+
+
+# Concaténer les deux vecteurs "vecteur_chemin_debut" et "vecteur_chemin_fin", 
+# pour obtenir un vecteur "vecteur_chemin",
+# avec le sortilège c()
+
+
+# Afficher "vecteur_chemin"
+
+
+# L'ordre des directions qui apparaissent correspond
+# à la succession des directions à prendre dans le labyrinthe !
+``` 
+ 
+```{r ok-chapitre7-etape6-solution}
+# On crée un vecteur "vecteur_chemin_debut" contenant les chaînes de caractère "Gauche", "Droite"
+vecteur_chemin_debut <- c("Gauche", "Droite")
+
+# Le data.frame "data.frame_clef" a déjà été chargé dans R.
+# Accéder à la colonne "col_1" du data.frame "data.frame_clef" avec le signe $
+data.frame_clef$col_1
+
+# Tenter de calculer la moyenne des valeurs du vecteur data.frame_1$col_1,
+# avec le sortilège "mean()",
+# sans utiliser d'ingrédient particulier
+mean(data.frame_clef$col_1)
+
+# Ré-essayer d'obtenir la moyenne des valeurs du vecteur data.frame_1$col_1,
+# avec le sortilège "mean()", 
+# en enlevant les valeurs manquantes dans les calculs avec d'ingrédient "na.rm = TRUE"
+mean(data.frame_clef$col_1, na.rm = TRUE)
+
+# La moyenne est égale à 2.
+# Nous allons maintenant utiliser cette valeur "2", pour
+# construire un nouveau vecteur.
+
+# Créer un vecteur "vecteur_chemin_fin",
+# par répétition de 2 fois la chaîne de caractère "Gauche"
+vecteur_chemin_fin <- rep("Gauche", 2)
+
+# Afficher "vecteur_chemin_fin"
+vecteur_chemin_fin
+
+# Concaténer les deux vecteurs "vecteur_chemin_debut" et "vecteur_chemin_fin", 
+# pour obtenir un vecteur "vecteur_chemin",
+# avec le sortilège c()
+vecteur_chemin <- c(vecteur_chemin_debut, vecteur_chemin_fin)
+
+# Afficher "vecteur_chemin"
+vecteur_chemin
+
+# L'ordre des directions qui apparaissent correspond
+# à la succession des directions à prendre dans le labyrinthe !
+``` 
+
+<BR>
+
+Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre la partie...
+
+**Fin du chapitre >> reprenez la partie d'Icarius !!!** 
+
+**Version 0.9.3.1**
+

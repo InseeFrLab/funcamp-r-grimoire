@@ -13,6 +13,26 @@ runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
+PATH_fichier_chapitre12_Rmd <- getwd()
+
+PATH_funcampR_data_chapitre12_replay_projet1 <- system.file(
+    package = "funcampR",
+	"data/chapitre12_replay/projet1"
+)
+
+PATH_projet_package_projet1 <- 
+  paste0(
+  getwd(),
+  "/projet1"
+  )
+
+# copie de "projet1"
+file.copy(
+  from = PATH_funcampR_data_chapitre12_replay_projet1, 
+  to = PATH_fichier_chapitre12_Rmd, 
+  recursive=TRUE
+)
+
 library(rio)
 file.copy(from = system.file(package = "funcampR","data","chapitre12/DESCRIPTION"),
          to = "DESCRIPTION")
@@ -422,8 +442,22 @@ ui = fluidPage(
         paste("chapitre12-", Sys.Date(), ".zip", sep = "")
       },
       content = function(file) {
-        zip("chapitre12.zip","chapitre12")
-        file.copy("chapitre12.zip",file)
+		utils::zip(
+			# répertoire de "chapitre12.Rmd"
+			zipfile = paste0(
+			  getwd(), 
+			  "/fichierZip.zip"
+			),
+			files = PATH_projet_package_projet1
+		)
+		
+		file.copy(
+			from = paste0(
+			  getwd(), 
+			  "/fichierZip.zip"
+			),
+			to = file
+		)
       },
       contentType = "application/zip"
     )

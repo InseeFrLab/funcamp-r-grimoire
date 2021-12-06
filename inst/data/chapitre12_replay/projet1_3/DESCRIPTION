@@ -1,0 +1,9 @@
+Package: projet1
+Type: Package
+Title: un package pour formater des nombres
+Version: 0.1.0
+Author: Mage RegoR
+Maintainer: automate TeoC <teoc@statis.st>
+Description: Le package fournit deux fonctions :
+    fmt et fmt1Decimale
+RoxygenNote: 7.1.1

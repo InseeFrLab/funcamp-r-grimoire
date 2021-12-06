@@ -6,4 +6,3 @@ Author: Mage RegoR
 Maintainer: automate TeoC <teoc@statis.st>
 Description: Le package fournit deux fonctions :
     fmt et fmt1Decimale
-RoxygenNote: 7.1.1

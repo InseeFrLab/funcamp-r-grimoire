@@ -385,7 +385,7 @@ Les commentaires "roxygen2" ci-dessus, et le fichier "DESCRIPTION" permettent :
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* le code du fichier,  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* le projet,  
 
-- mais aussi de fabriquer automatiquement des pages de documentation, comme celles qu'on peut afficher avec le lien suivant :
+- mais aussi de fabriquer automatiquement des pages de documentation, comme celles qu'on peut afficher avec le lien suivant :
 ```{r, echo=FALSE}
 library(shiny)
 library(htmltools)
@@ -399,7 +399,9 @@ server <- function(input, output) {
   shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
 }
   
-shinyApp(ui, server)
+shinyApp(ui, server,
+  options = list(height = 100)
+)
 ```
 
 Pour générer les pages ci-dessus automatiquement, on peut utiliser le code suivant :
@@ -512,7 +514,9 @@ server <- function(input, output) {
   shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
 }
   
-shinyApp(ui, server)
+shinyApp(ui, server,
+  options = list(height = 100)
+)
 ```
 
 <BR>
@@ -722,7 +726,9 @@ server <- function(input, output) {
   shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
 }
   
-shinyApp(ui, server)
+shinyApp(ui, server,
+  options = list(height = 100)
+)
 ```
 
 ## La solution de l'énigme ?

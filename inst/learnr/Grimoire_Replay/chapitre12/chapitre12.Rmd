@@ -6,7 +6,7 @@ output:
   html_document:
     theme: cerulean
     highlight: haddock
-    toc: true
+    toc: false
     toc_depth: 5
     toc_float:
       collapsed: true

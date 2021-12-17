@@ -1,10 +1,13 @@
 ---
 title: "Chapitre 12 : de l'oxygène documentaire !"
+tutorial:
+  version: 0.0.1
 output:
   html_document:
     theme: cerulean
     highlight: haddock
     toc: true
+    toc_depth: 5
     toc_float:
       collapsed: true
       smooth_scroll: false
@@ -12,24 +15,47 @@ output:
 runtime: shiny
 ---
 
-```{r setup, include=FALSE}
-PATH_fichier_chapitre12_Rmd <- getwd()
 
-PATH_funcampR_data_chapitre12_replay_projet1 <- system.file(
+```{r setup, include=FALSE}
+# répertoire du fichier chapitre12.Rmd en cours d'exécution
+REPERTOIRE_du_fichier_chapitre12_Rmd <- getwd()
+
+# répertoire du package funcampR, sous répertoire data/chapitre12/replay_projet1
+REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1 <- system.file(
     package = "funcampR",
 	"data/chapitre12_replay/projet1"
 )
 
-PATH_projet_package_projet1 <- 
-  paste0(
-  getwd(),
-  "/projet1"
-  )
+# répertoire du package funcampR, sous répertoire data/chapitre12/replay_projet1_2
+REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_2<- system.file(
+    package = "funcampR",
+	"data/chapitre12_replay/projet1_2"
+)
+
+# répertoire du package funcampR, sous répertoire data/chapitre12/replay_projet1_3
+REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_3<- system.file(
+    package = "funcampR",
+	"data/chapitre12_replay/projet1_3"
+)
 
 # copie de "projet1"
 file.copy(
-  from = PATH_funcampR_data_chapitre12_replay_projet1, 
-  to = PATH_fichier_chapitre12_Rmd, 
+  from = REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1, 
+  to = REPERTOIRE_du_fichier_chapitre12_Rmd, 
+  recursive=TRUE
+)
+
+# copie de "projet1_2"
+file.copy(
+  from = REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_2, 
+  to = REPERTOIRE_du_fichier_chapitre12_Rmd, 
+  recursive=TRUE
+)
+
+# copie de "projet1_3"
+file.copy(
+  from = REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_3, 
+  to = REPERTOIRE_du_fichier_chapitre12_Rmd, 
   recursive=TRUE
 )
 
@@ -59,86 +85,150 @@ Catastrophe ! Pourtant, c'est bien connu de tous les statisiens : pour qu'un sor
 
 C'est ce qui vous permettra de répondre à la question du Mage FebeleR : *"quel est le mot magique qui permet de documenter les sortilèges, et d'apprendre à s'en servir ?"*. 
 
+<BR>
 
-## Une grammaire pour décrire
+<BR>
 
-Pour cela, la langue des runes prévoit une grammaire particulière, que le statisien se doit de respecter. Vous avez déjà connaissance du caractère `#` qui permet d'écrire des commentaires en complément du code R. Par exemple :
+## Rappels
 
-```{r}
-# Ceci est un commentaire avant une ligne de code R
-nb_coeur <- 3
-```
+<BR>
 
-Pour documenter un sortilège, la langue des Runes a recours à une forme complémentaire de commentaires, qui commence cette fois par les deux caractères accolés `#'`  (dièse et apostrophe). Puis des notions clés peuvent être rédigées, par une liste prédéfinie de termes qui commencent toujours par `@`, selon le formalisme `@notion_a_documenter`. Par exemple, pour documenter le titre d'un sortilège, le statisien utilisera @title:
+<BR>
 
-```{r}
-#' @title mon_super_sortilege
-mon_super_sortilege <- function(n,p) { 
-n^p
+Dans cette sous-partie on va :  
+
+- considérer un fichier qui contient du code R,  
+
+- ajouter des commentaires à ce fichier,  
+
+- créer une fiche descriptive DESCRIPTION,  
+
+- et utiliser des sortilèges magiques qui vont générer une documentation automatiquement.  
+
+<BR>
+
+<BR>
+
+#### Un fichier de script exemple
+
+<BR>
+
+Dans toute la suite, on dispose d'un fichier `fmt.R` qui contient du code R (une page du grimoire d'Icarius).
+
+<BR>
+
+(Et ce fichier est inclus dans un "projet R de package" : mais on verra cela dans le prochain chapitre).
+
+<BR>
+  
+Ci-dessous le contenu de `fmt.R`.   
+```{r, messages=FALSE, warning=FALSE}
+## fichier "fmt.R"
+
+# fonction "fmt"
+# formate un nombre avec n décimales
+fmt <- function(x, n) { # "fmt" prend en entrée deux paramètres : la quantité à formater, et le nombre de décimales
+
+  format(x,              # "fmt" utilise "format()" du R de base, qui permet de formater
+         decimal.mark = ",",  		 # la virgule est employée pour les nombres décimaux
+         digits=0, nsmall=n, 		 # on utilise l'écriture "digits=0, nsmall=n", pour n décimales
+         big.mark = " ",      		 # le séparateur de milliers est l'espace " "
+         scientific = FALSE   		 # La notation scientifique n'est pas utilisée.
+  )      
+}
+
+# fonction "fmt1Decimale"
+# formate un nombre avec 1 décimale
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1) # appel de "fmt" ci-dessus
 }
 ```
+*Le fichier contient deux sortilèges "fmt()" et "fmt1Decimale()".*  
 
-Ici, le sortilège `mon_super_sortilege()`, qui permet de calculer la puissance p du nombre n qui lui est donné en entrée, est documenté sur la toute première ligne en précisant son titre via `#' @title mon_super_sortilege`.
+<BR>
 
-Bon, pas très utile à ce stade, vous en conviendrez... Continuons, en apportant une description littérale du sortilège avec @description :
+J'utilise "fmt()" et "fmt1Decimale()"
+```{r, messages=FALSE, warning=FALSE}
+fmt(100, 2)
 
-```{r}
-#' @title mon_super_sortilege
-#' @description sortilège pour porter un nombre n à la puissance p
-mon_super_sortilege <- function(n,p) { 
-n^p
-}
+fmt1Decimale(1234.56789)
 ```
 
-Voilà qui permet déjà à un lecteur de mieux comprendre ce que le sortilège permet de faire... Continuons, en précisant les ingrédients du sortilège. Un ingrédient se trouve décrit par le terme @param (pour faire référence à la notion de **param**ètre). Il faut une ligne distincte pour chaque ingrédient d'un sortilège.
+<BR>
 
-```{r}
-#' @titre mon_super_sortilege
-#' @description sortilège pour porter un nombre n à la puissance p
-#' @param n Un nombre
-#' @param p Un nombre
-mon_super_sortilege <- function(n,p) { 
-n^p
-}
-```
+<BR>
 
-Dans cet exemple, les deux ingrédients n et p sont documentés, en précisant que n comme p doivent être des nombres. Voilà qui permet d'éviter d'utiliser le sortilège avec un ingrédient incompatible, comme du texte, ce qui produirait une erreur. Par exemple
+#### Ajout de commentaires suivant le modèle proposé par le package **roxygen2**
 
-```{r, eval=FALSE}
-# Un sortilège qui n'est pas documenté...
-mon_super_sortilege <- function(n,p) { 
-n^p
-}
-#... se trouve mal utilisé
-mon_super_sortilege(2,"toto")
-```
+<BR>
 
-Il peut être utile aussi de donner des exemples d'utilisation du sortilège, avec le terme @examples - l'occasion de laisser libre cours à sa créativité ! Il suffit d'écrire une seule fois @examples puis de le faire suivre de plusieurs exemples (idéalement, 2 ou 3 cas d'usage)
+Le package **roxygen2** offre une norme pour ajouter des commentaires.
 
-```{r}
-#' @titre mon_super_sortilege
-#' @description sortilège pour porter un nombre n à la puissance p
-#' @param n Un nombre
-#' @param p Un nombre
+<BR>
+
+Avec cette norme, on peut documenter le script de la façon suivante :
+```{r, messages=FALSE, warning=FALSE}
+#' @title fmt
+#' @description La fonction formate un nombre avec
+#' le nombre de decimales specifié, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
+#' @param x la quantité à formater
+#' @param decimales le nombre de decimales
+#' @import dplyr
 #' @examples
-#' mon_super_sortilege(2,3)
-#' mon_super_sortilege(10,2)
-mon_super_sortilege <- function(n,p) { 
-n^p
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
+fmt <- function(x, nombre_decimales) {
+
+  format(x,                    
+         decimal.mark = ",",  
+         digits=0, nsmall=nombre_decimales,
+         big.mark = " ",      
+         scientific = FALSE   
+  )      
+  
+}
+
+
+#' @title fmt1Decimale
+#' @description La fonction formate un nombre avec
+#' une décimale, 
+#' la virgule pour distinguer unités et décimales, 
+#' et l'espace comme séparateur de milliers.  
+#' @param x la quantité à formater
+#' @import dplyr
+#' @examples
+#' fmt1Decimale(100)
+#' fmt1Decimale(1234.56789)
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1) 
 }
 ```
+*On a écrit ci-dessus des commentaires "roxygen2".*  
+*Les lignes de commentaires "roxygen2" :*  
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;commencent par les signes `#'` ,*  
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et utilisent les mots clés `@title`, `@description`, `@param`, etc.*  
+*Chaque sortilège est précédée par un bloc de commentaires "roxygen2".*  
+*Les commentaires "roxygen2" peuvent s'employer en plus des commentaires traditionnels commençant par #*
 
-## Un peu de pratique
+```{r, include=FALSE, eval=FALSE}
+1. Dans "Grimoire_Replay\chapitre12", il y a "projet1\html\..."
 
-Au fait, c'est l'occasion de documenter les sortilèges écrits par vos soins pour calculer l'âge d'icaRius. Commençons par la version simplifiée, sans calcul de l'arrondi, avec `calcul_age()` :
+2. Dans "Grimoire_Replay\chapitre12\projet1\html\00Index.html", 3 lignes mises en commentaire :
+<!--<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />-->
 
-```{r}
-calcul_age <- function(nb_coeur) { 
-  nb_coeur * pi^2 - 2 * nb_coeur
-}
+<!--<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>-->
+<!--<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>-->
 ```
 
-À vous de documenter ce sortilège. Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
+<BR>
+
+<BR>
+
+À vous de documenter ces sortilèges. Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
 
 ```{r, echo=FALSE}
 library(shiny)
@@ -151,8 +241,26 @@ init <- "# Compléter ci-dessous la documentation
 #' @examples
 #' ???
 #' ???
-calcul_age <- function(nb_coeur) { 
-  nb_coeur * pi^2 - 2 * nb_coeur
+fmt <- function(x, nombre_decimales) {
+
+  format(x,
+         decimal.mark = \",\",  
+         digits=0, nsmall=nombre_decimales,
+         big.mark = \" \",      
+         scientific = FALSE   
+  )      
+  
+}
+
+#' @title ???
+#' @description ???
+#' @param ???
+#' @examples
+#' ???
+#' ???
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1) 
 }
 "
 
@@ -175,368 +283,454 @@ ui = fluidPage(
 )
 ```
 
-Vous avez terminé ? Votre documentation devrait ressembler peu ou prou à ce qui figure ci-dessous. 
+Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce qui figure ci-dessous. 
 
 ><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
 ><p><font size="2">
 >
 >
 >```{r}
->#' @title calcul_age
->#' @description Calculer l'âge d'un statisien, sans arrondi, selon son nombre de coeurs
->#' @param nb_coeur Un nombre
+>#' @title fmt
+>#' @description La fonction formate un nombre avec
+>#' le nombre de decimales specifié, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' l'espace comme séparateur de milliers. 
+>#' @param x la quantité à formater
+>#' @param decimales le nombre de decimales
+>#' @import dplyr
 >#' @examples
->#' calcul_age(3)
->#' calcul_age(4)
->calcul_age <- function(nb_coeur) { 
->  nb_coeur * pi^2 - 2 * nb_coeur
+>#' fmt(100, 2)
+>#' fmt(1234.56789, 2)
+>fmt <- function(x, nombre_decimales) {
+>
+>  format(x,                    
+>         decimal.mark = ",",  
+>         digits=0, nsmall=nombre_decimales,
+>         big.mark = " ",      
+>         scientific = FALSE   
+>  )      
+>  
 >}
->```
-
-Continuons désormais notre documentation avec le sortilège `calcul_age_arrondi()`. Nous allons dans ce cas utiliser l'écriture du sortilège qui comprend l'usage du pipe `%>%`, soit :
-
-```{r, eval=FALSE}
-calcul_age_arrondi <- function(nb_coeur){
-  calcul_age(nb_coeur)
-    %>% round()
-}
-```
-
-Souvenez-vous : le pipe `%>%` est un symbole apporté par l'ensemble de sortilèges appelé `tidyverse` (voir chapitres 4 et 8). Dans la documentation, il faut préciser ce lien entre notre sortilège et les autres ressources dont il dépend. Pour cela, nous vous invitons à utiliser le terme @import suivi du nom du package concerné. Dans le cas d'espèce, nous ajouterons donc la ligne :
-
-```{r, eval=FALSE}
-#' @import tidyverse
-```
-
-Notre documentation devient :
-```{r, eval=FALSE}
-#' @title calcul_age_arrondi
-#' @description calculer l'âge arrondi d'un statisien selon son nombre de coeurs
-#' @param nb_coeur Un nombre
-#' @import tidyverse
-#' @examples
-#' calcul_age_arrondi(3)
-#' calcul_age_arrondi(4)
-calcul_age_arrondi <- function(nb_coeur){
-  calcul_age(nb_coeur)
-    %>% round()
-}
-```
-
-
-## Assemblez la documentation de vos sortilèges
-
-La rédaction de cette documentation peut vous sembler fastidieuse, et d'un intérêt limité. Certes, pour des sortilèges élémentaires, le statisien pourrait appréhender, à la seule lecture du code, ce dont il retourne - mais pour des sortilèges plus complexes, une documentation est incontournable pour éviter des erreurs. 
-
-L'usage systématique des conventions de documentation vous aidera grandement dans la suite de votre apprentissage de la langue des Runes, mais aussi dans l'organisation de vos travaux statistiques (ou magiques). Car la documentation des sortilèges est le tout premier pas pour rédiger votre propre grimoire !
-
-Souvenez-vous du chapitre 8, "la plume d'IgoR" : *Ajouter une extension à R, c'est comme ajouter un nouveau chapitre dans votre grimoire IGoR. Et ce chapitre comprend plusieurs sortilèges, c'est-à-dire des `fonctions` complémentaires, qui vous simplifieront la vie dans votre quête statistique.* 
-
-Jusqu'alors, vous avez appris à utiliser les pouvoirs magiques des autres en ouvrant les chapitres qu'ils ont écrits (en installant des packages). En documentant chacune de vos fonctions, vous débutez vous-mêmes l'écriture d'un nouveau "chapitre", c'est-à-dire d'un package dont vous serez l'auteur ! Ce dernier peut servir à réunir vos traitements statistiques, vos sortilèges et la documentation qui l'accompagne. Libre à vous ensuite de garder ce chapitre pour votre strict usage personnel, ou le partager avec d'autres collègues.
-
-Découvrons ensemble comment organiser les ressources magiques à cet effet. 
-
-*Si vous utilisez une version locale des tutoriels et du grimoire IGoR*, vous trouverez sur votre clef USB ou votre poste de travail un ensemble d'éléments qui ont été regroupés dans le répertoire `\data\chapitre12`. À l'intérieur, un répertoire sobrement intitulé R et un fichier nommé DESCRIPTION. 
-
-![](images/Capture01.PNG)
-
-*Si vous suivez le funcamp en ligne sur le SSP Cloud*, ces mêmes ressources ont été préchargées en ligne. Ainsi, votre console R pourra lire les programmes et enregistrer les modifications directement.
-
-Vous l'avez deviné, le répertoire R servira à stocker les programmes R écrits en langue des runes. Le fichier sortileges_age.R a été chargé ci-dessous. Vous voyez apparaître nos sortilèges... mais vous constaterez que la documentation est incomplète. Damned ! À vous de réparer cet impair. Vous pouvez éditer "en ligne" le programme et le sauvegarder également en ligne. Puis, une fois l'opération achevée, téléchargez le fichier modifié pour le garder sur votre poste de travail.
-
-
-```{r, echo=FALSE, warning=F}
-library(shiny)
-library(shinyAce)
-library(readr)
-
-init <- "#' @title ???
-#' @description ???
-#' @param ???
-#' @examples
-#' ???
-#' ???
-calcul_age <- function(nb_coeur) { 
- nb_coeur * pi^2 - 2 * nb_coeur
-}
-
-#' @title ???
-#' @description ???
-#' @param ???
-#' @import ???
-#' @examples
-#' ???
-#' ???
-calcul_age_arrondi <- function(nb_coeur) { 
- calcul_age(nb_coeur) %>% round()
-}
-"
-
-shinyApp(
-
-ui = fluidPage(
-    fluidRow(
-      column(
-        12,
-        aceEditor("code", mode = "r", height = "300px", value = init),
-        actionButton("eval", "Sauvegarder en ligne le programme"),
-        actionButton("load", "Recharger en ligne le programme"),
-        actionButton("reset", "Reprendre à zéro")
-      )
-    ),
-    fluidRow(
-      column(
-        12,
-        downloadButton('download_edited_pgm',"Télécharger le programme modifié")
-      )
-    )
-  ),
-
-  server = function(input, output, session) {
-
-    dir.create("chapitre12")
-    dir.create("chapitre12/R")
-    file.create("chapitre12/DESCRIPTION")
-    file.create("chapitre12/R/sortilege_age.R")  
-    
-    fileConn<-file("chapitre12/DESCRIPTION")
-    writeLines(description, fileConn)
-    close(fileConn)
-
-    fileConn<-file("chapitre12/R/sortilege_age.R")
-    writeLines(pgm, fileConn)
-    close(fileConn)
-      
-    output$download_edited_pgm <- downloadHandler(
-      filename = function(){
-        paste("sortilege_age-", Sys.Date(), ".R", sep = "")
-      },
-      content = function(file) {
-        writeLines(isolate(input$code), file)
-      }
-    )
-  
-    observeEvent(input$eval,{
-      
-        fileConn<-file("chapitre12/R/sortilege_age.R")
-        writeLines(isolate(input$code), fileConn)
-        close(fileConn)
-    })
-  
-    observeEvent(input$load,{
-        
-        reload <- paste0(readLines("chapitre12/R/sortilege_age.R"), collapse = "\n")
-        updateAceEditor(session, editorId = "code", value = reload)  
-  
-    })
-      
-    observeEvent(input$reset,{
-        updateAceEditor(session, editorId = "code", value = init)    
-    })
-    
-  },
-
-  options = list(height = 400)
-)
-```
-
-Vous avez terminé ? Votre documentation devrait ressembler peu ou prou à ce qui figure ci-dessous. Si ce n'est pas le cas, corrigez la rédaction et cliquez de nouveau sur *"Sauvegarder le programme en ligne"*
-
-><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
-><p><font size="2">
 >
 >
->```{r}
->#' @title calcul_age
->#' @description Calculer l'âge d'un statisien, sans arrondi, selon son nombre de coeurs
->#' @param nb_coeur A number
+>#' @title fmt1Decimale
+>#' @description La fonction formate un nombre avec
+>#' une décimale, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' et l'espace comme séparateur de milliers.  
+>#' @param x la quantité à formater
+>#' @import dplyr
 >#' @examples
->#' calcul_age(3)
->#' calcul_age(4)
->calcul_age <- function(nb_coeur) { 
->  nb_coeur * pi^2 - 2 * nb_coeur
->}
-
->#' @title calcul_age_arrondi
->#' @description Calculer l'âge arrondi d'un statisien selon son nombre de coeurs
->#' @param nb_coeur A number
->#' @import tidyverse
->#' @examples
->#' calcul_age_arrondi(3)
->#' calcul_age_arrondi(4)
-calcul_age_arrondi <- function(nb_coeur) { 
- calcul_age(nb_coeur) %>% round()
+>#' fmt1Decimale(100)
+>#' fmt1Decimale(1234.56789)
+>fmt1Decimale <- function(x) {
+>
+>  fmt(x, 1) 
 >}
 >```
+>
+></font></p></details>
+
+<BR>
+
+<BR>
 
 
-## Prenons un bol d'R
-
-Voilà, vous avez modifié votre programme R. Nous allons maintenant "produire" la documentation, pour qu'elle puisse être lue plus facilement par les utilisateurs de vos sortilèges. Pour cela, nous allons utiliser l'ensemble magique `roxygen2`, qui automatise la création de documentation.
-
-Il faut d'abord installer le package correspondant, puis le charger :
-
-```{r, eval=FALSE}
-install.packages("roxygen2")
-library(roxygen2)
-```
-
-Puis nous allons utiliser le sortilège `roxygenize()`, qui va apporter un peu d'oxygène documentaire à notre langue des runes ;-). Le sortilège a besoin d'un seul ingrédient : le chemin vers le répertoire où se trouve nos ressources statistiques. Ici, c'est le chemin vers le répertoire qui contient le fichier DESCRIPTION, qui sert de balise pour organiser ces ressources. 
-
-*Si vous suivez les tutoriels avec une version locale*, le répertoire du grimoire sur votre clef USB ou votre poste de travail contient les ressources dans un chemin du type `E:/data/chapitre12`.
-
-```{r, eval=FALSE}
-# Si votre clef USB FUNCAMP figure sur la lettre E:
-roxygenize("E:/data/chapitre12")
-```
-
-*Si vous suivez ce tutoriel en ligne sur le SSP Cloud*, vous pouvez toutefois appliquer le sortilège directement sur les ressources "en mémoire"
-
-```{r, eval=FALSE}
-# Si sous utilisez une version en ligne du tutoriel
-roxygenize("chapitre12")
-```
-
-À vous de jouer !
-
-```{r, echo=FALSE, warning=F}
-library(shiny)
-library(shinyAce)
-library(utils)
-
-init2 <- "# Chargez le package roxygen2
-
-# Lancez la construction de la documentation en indiquant le chemin
-
-# Appuyez sur le bouton pour générer la documentation
-"
-
-shinyApp(
-
-ui = fluidPage(
-    fluidRow(
-      column(
-        12,
-        aceEditor("code", mode = "r", height = "150px", value = init2),
-        actionButton("eval", "Générer la documentation")
-      )
-    ),
-    fluidRow(
-      column(
-        12,
-        downloadButton('download_ressources',"Télécharger l'ensemble des ressources produites")
-      )
-    ),
-    fluidRow(
-      column(
-        12,
-        verbatimTextOutput("output")
-      )
-    )
-  ),
-
-  server = function(input, output, session) {
-
-    output$download_ressources <- downloadHandler(
-      filename = function(){
-        paste("chapitre12-", Sys.Date(), ".zip", sep = "")
-      },
-      content = function(file) {
-		utils::zip(
-			# répertoire de "chapitre12.Rmd"
-			zipfile = paste0(
-			  getwd(), 
-			  "/fichierZip.zip"
-			),
-			files = PATH_projet_package_projet1
-		)
-		
-		file.copy(
-			from = paste0(
-			  getwd(), 
-			  "/fichierZip.zip"
-			),
-			to = file
-		)
-      },
-      contentType = "application/zip"
-    )
-    
-    output$output <- renderPrint({
-      input$eval
-      eval(parse(text = isolate(input$code)))    
-    })
-  
-  },
-
-  options = list(height = 300)
-)
-```
+#### La fiche signalétique "DESCRIPTION"
 
 
-Une fois lancé le sortilège `roxygenize()`, vous devriez voir apparaître quelques lignes :
+<BR>
 
-```{xml}
-Writing NAMESPACE
-Writing calcul_age.Rd
-Writing calcul_age_arrondi.Rd
-```
+<BR>
 
-De nouveaux fichiers ont été créés. Le fichier NAMESPACE va garder la trace des packages que le statisien doit maîtriser en amont pour pouvoir utiliser vos sortilèges. Ici par exemple, il y a un package nécessaire, à savoir `tidyverse`, puisque nous avons utilisé le symbole du pipe `%>%`dans le sortilège `calcul_age_arrondi()`. Le contenu de ce fichier est très sommaire : 
+(Cette fiche est requise pour les "projets de package".)
 
-```{xml}
-# Generated by roxygen2: do not edit by hand
-import(tidyverse)
-```
+<BR>
 
-Dans le répertoire "chapitre12" où se trouvent les ressources pour vos sortilèges, un nouveau sous-répertoire apparaît, intitulé **man** : il sert à héberger, grâce aux conventions de documentation que vous venez d'apprendre, le **man**uel d'utilisation de vos sortilèges. 
+La fiche signalétique est un fichier nommé "DESCRIPTION" (sans extension du type ".txt").  
 
-![](images/Capture02.PNG)
+(Elle contient des informations sur le projet.)
 
+<BR>
 
+<BR>
 
-
-C'est dans ce répertoire **man** qu'ont été placés les nouveaux fichiers nommés `calcul_age.Rd` et `calcul_age_arrondi.Rd`. Nous n'allons pas chercher à les ouvrir, mais sachez qu'ils permettent au statisien de lire votre documentation, sortilège par sortilège, dans une mise en page plus agréable, sans les sibyllines inscriptions comme `#' @title` ou d'autres hiéroglyphes. À l'issue de votre aventure icaRius, vous découvrirez comment des logiciels d'aide au développement en R comme Rstudio permettent de feuilleter cette documentation, sous la forme suivante :
-
-![](images/Documentation_02.PNG)
-
-![](images/Documentation_03.PNG)
-
-
-Il nous reste enfin à compléter la courte fiche signalétique qui regroupe toutes vos ressources magiques : le fichier `DESCRIPTION`. Là encore, nous ne chercherons pas l'éditer ensemble. Mais voici un exemple de contenu, illustrant le type d'informations qu'il est intéressant de donner :
-
+Exemple de fichier "DESCRIPTION" :
 ```{txt}
-Package: nomdupackage
+Package: projet1
 Type: Package
-Title: Le titre de votre package
-Version: 0.1.0
-Author: auteur de votre package
-Maintainer: Celui qui va maintenir le package <toto@email.com>
-Description: Description un peu plus complète du contenu du package
-    Attention à utiliser quatre "espace" pour toute ligne supplémentaire
-```
-
-Par exemple :
-
-```{txt}
-Package: agestatisiens
-Type: Package
-Title: Age des statisiens
+Title: un package pour formater des nombres
 Version: 0.1.0
 Author: Mage RegoR
 Maintainer: automate TeoC <teoc@statis.st>
-Description: Deux sortilèges permettent de calculer l âge des statisiens,
-    avec ou sans prendre en compte un arrondi. Le calcul dépend du nombre de coeurs.
+Description: Le package fournit deux fonctions :
+    fmt et fmt1Decimale
+```
+*Le fichier "DESCRIPTION" a un contenu qui suit une forme particulière :*  
+*Les informations doivent s'insérer dans des rubriques spécifiques : "Package:", "Type:", "Title:", etc.*  
+*Si le bloc "Description: ..." vers la fin du fichier fait plus d'une ligne, chaque ligne du bloc (à partir de la seconde) doit commencer*  
+*par quatre espaces.*  
+
+<BR>
+
+<BR>
+
+#### Génération de la documentation
+
+<BR>
+
+Les commentaires "roxygen2" ci-dessus, et le fichier "DESCRIPTION" permettent :  
+
+- de décrire :  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* le code du fichier,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* le projet,  
+
+- mais aussi de fabriquer automatiquement des pages de documentation, comme celles qu'on peut afficher avec le lien suivant :
+```{r, echo=FALSE}
+library(shiny)
+library(htmltools)
+
+library(shiny)
+ui <- fluidPage(
+	shiny::a("fmt.html",target="_blank", href="www/projet1/html/fmt.html")
+)
+server <- function(input, output) {
+  # www = getwd()
+  shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
+}
+  
+shinyApp(ui, server)
 ```
 
-A la toute fin, l'utilisateur (vous-même, un de vos collègues ou, qui sait, un statisien), pourra ensuite parcourir vos sortilèges depuis cette page de garde :
+Pour générer les pages ci-dessus automatiquement, on peut utiliser le code suivant :
+```{r, echo=TRUE, eval=FALSE}
+# chargement du package "roxygen2"
+library(roxygen2)
 
-![](images/Documentation_01.PNG)
+roxygenize()
+```
 
+<BR>
+
+## Plus de commentaires
+
+<BR>
+
+<BR>
+
+Dans cette partie, on adjoint plus de commentaires au script `fmt.R` ci-dessus.
+
+<BR>
+
+On utilise plus de mots-clés proposés par le package **roxygen2** :
+```{r, messages=FALSE, warning=FALSE}
+#' @title fmt
+#' @author Mage RegoR, \email{mage.regor@@email.fr}
+#' @description Formate un nombre
+#' @details La fonction formate avec
+#' le nombre de decimales specifie, 
+#' la virgule pour distinguer unites et decimales, 
+#' l'espace comme separateur de milliers. 
+#' @section Emploie :
+#' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+#' @section Warning :
+#' N'utilise pas de notation scientifique
+#' @param x un nombre
+#' @param decimales un entier, le nombre de decimales
+#' @return Le nombre formate.
+#' @import dplyr
+#' @examples
+#' fmt2Decimales(100, 2)
+#' fmt2Decimales(1234.56789, 2)
+#' @family fonctions pour formater
+#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
+#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
+fmt <- function(x, decimales) {
+
+  format(x,                   
+                             
+         decimal.mark = ",",  
+         digits=0, nsmall=decimales,  
+         big.mark = " ",      
+         scientific = FALSE   
+  )      
+  
+}
+
+
+#' @title fmt1Decimale
+#' @author Mage RegoR, \email{mage.regor@@email.fr}
+#' @description Formate un nombre
+#' @details La fonction formate avec
+#' une decimale, 
+#' la virgule pour distinguer unites et decimales, 
+#' l'espace comme separateur de milliers. 
+#' @section Emploie :
+#' Les fonctions \code{\link{fmt}} et \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+#' @section Warning :
+#' N'utilise pas de notation scientifique
+#' @param x un nombre
+#' @return Le nombre formate
+#' @import dplyr
+#' @examples
+#' fmt1Decimale(100)
+#' fmt1Decimale(1234.56789)
+#' @family fonctions pour formater
+#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
+#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1)
+}
+```
+*Dans les commentaires ci-dessus :*  
+*- les mots-clés `@details` et `@section` autorisent l'ajout de commentaires supplémentaires.*  
+*- pour ajouter des hyperliens, la syntaxe est particulière.*  
+*`\url{...)` va ajouter un lien internet*  
+*`\code{\link{...}}` ajoute un lien vers une autre fonction (du même projet RStudio)*  
+*- Le mot clé `@family` permet de grouper certaines fonctions dans une "famille".*  
+*Ici on a créé une famille "fonctions pour formater" qui contient "fmt()" et "fmt1Decimale()".*  
+*Lors de la génération de la documentation, des hyperliens vont être créés entre les fonctions de la famille.*
+
+<BR>
+
+#### Génération de la documentation
+
+<BR>
+
+On obtient alors la documentation suivante :
+```{r, echo=FALSE}
+library(shiny)
+library(htmltools)
+
+library(shiny)
+ui <- fluidPage(
+    shiny::a("fmt.html",target="_blank", href="www/projet1_2/html/fmt.html")
+)
+server <- function(input, output) {
+  # www = getwd()
+  shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
+}
+  
+shinyApp(ui, server)
+```
+
+<BR>
+
+<BR>
+
+À vous de documenter les sortilèges. Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
+
+```{r, echo=FALSE}
+library(shiny)
+library(shinyAce)
+
+init <- "# Compléter ci-dessous la documentation
+#' @title fmt
+#' @author ??? \\email{???}
+#' @description Formate un nombre
+#' @details ???
+#' @section ??? :
+#' ???
+#' @section ??? :
+#' ???
+#' @param x un nombre
+#' @param decimales un entier, le nombre de decimales
+#' @return ???
+#' @import dplyr
+#' @examples
+#' fmt2Decimales(100, 2)
+#' fmt2Decimales(1234.56789, 2)
+#' @family ???
+#' @seealso \\url{???} ???
+#' @references \\url{???} ???
+fmt <- function(x, decimales) {
+
+  format(x,                   
+                             
+         decimal.mark = \",\",  
+         digits=0, nsmall=decimales,  
+         big.mark = \" \",      
+         scientific = FALSE   
+  )      
+  
+}
+
+
+#' @title fmt1Decimale
+#' @author ??? \\email{???}
+#' @description Formate un nombre
+#' @details ???
+#' @section ??? :
+#' ???
+#' @section ??? :
+#' ???
+#' @param x un nombre
+#' @return ???
+#' @import dplyr
+#' @examples
+#' fmt1Decimale(100)
+#' fmt1Decimale(1234.56789)
+#' @family ???
+#' @seealso \\url{???} ???
+#' @references \\url{???} ???
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1)
+}
+"
+
+shinyApp(
+
+ui = fluidPage(
+    fluidRow(
+      column(
+        12,
+        aceEditor("code", mode = "r", height = "200px", value = init)
+      )
+    )
+  ),
+
+  server = function(input, output, session) {
+
+    },
+
+  options = list(height = 250)
+)
+```
+
+Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce qui figure ci-dessous. 
+
+><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
+><p><font size="2">
+>
+>
+>```{r}
+>#' @title fmt
+>#' @author Mage RegoR, \email{mage.regor@@email.fr}
+>#' @description Formate un nombre
+>#' @details La fonction formate avec
+>#' le nombre de decimales specifie, 
+>#' la virgule pour distinguer unites et decimales, 
+>#' l'espace comme separateur de milliers. 
+>#' @section Emploie :
+>#' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+>#' @section Warning :
+>#' N'utilise pas de notation scientifique
+>#' @param x un nombre
+>#' @param decimales un entier, le nombre de decimales
+>#' @return Le nombre formate.
+>#' @import dplyr
+>#' @examples
+>#' fmt2Decimales(100, 2)
+>#' fmt2Decimales(1234.56789, 2)
+>#' @family fonctions pour formater
+>#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
+>#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
+>fmt <- function(x, decimales) {
+>
+>  format(x,                   
+>                             
+>         decimal.mark = ",",  
+>         digits=0, nsmall=decimales,  
+>         big.mark = " ",      
+>         scientific = FALSE   
+>  )      
+>  
+>}
+>
+>
+>#' @title fmt1Decimale
+>#' @author Mage RegoR, \email{mage.regor@@email.fr}
+>#' @description Formate un nombre
+>#' @details La fonction formate avec
+>#' une decimale, 
+>#' la virgule pour distinguer unites et decimales, 
+>#' l'espace comme separateur de milliers. 
+>#' @section Emploie :
+>#' Les fonctions \code{\link{fmt}} et \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+>#' @section Warning :
+>#' N'utilise pas de notation scientifique
+>#' @param x un nombre
+>#' @return Le nombre formate
+>#' @import dplyr
+>#' @examples
+>#' fmt1Decimale(100)
+>#' fmt1Decimale(1234.56789)
+>#' @family fonctions pour formater
+>#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
+>#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
+>fmt1Decimale <- function(x) {
+>
+>  fmt(x, 1)
+>}
+>```
+>
+></font></p></details>
+
+<BR>
+
+<BR>
+
+## Ajout d'une page de documentation concernant l'ensemble du projet
+
+<BR>
+
+Dans cette sous-partie, on souhaite créer une page de documentation supplémentaire, qui décrit l'ensemble du projet R sur lequel on travaille.
+
+<BR>
+
+Pour cela :
+
+1. On crée un script `package-projet1.R`  (si le projet s'appelle `projet1`)  
+2. On remplit `package-projet1.R` de la façon suivante :  
+
+```{r, messages=FALSE, warning=FALSE, eval=FALSE}
+#' @title projet1 : un package pour formater des nombres
+#'
+#' @description Le package "projet1" fournit deux fonctions :
+#' \code{\link{fmt}} et \code{\link{fmt1Decimale}}.
+#' 
+#' @section Les fonctions du package "projet1" :
+#' utilisent la virgule au lieu du point pour les nombres decimaux, et l'espace " " pour separer les milliers.
+#'
+#' @docType package
+#' @name projet1-package 
+NULL
+```
+*Le code R du script ci-dessus se réduit à un mot : NULL*  
+*Dans les commentaires, on peut utiliser les mêmes mots-clés que ceux vus plus haut.*  
+*Deux mots-clés sont à ajouter : @docType et @name .*
+
+<BR>
+
+#### Génération de la documentation
+
+<BR>
+
+On obtient alors la documentation suivante :
+```{r, echo=FALSE}
+library(shiny)
+library(htmltools)
+
+library(shiny)
+ui <- fluidPage(
+    shiny::a("projet1-package.html",target="_blank", href="www/projet1_3/html/projet1-package.html")
+)
+server <- function(input, output) {
+  # www = getwd()
+  shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
+}
+  
+shinyApp(ui, server)
+```
 
 ## La solution de l'énigme ?
 
-Bravo, vous êtes parvenu(e) à l'issue de ce chapitre documentaire ! Vous êtes maintenant capable de nager dans l'océan documentaire des sortilèges runiques. Mais qu'en est-il du jeune icaRius, qui doit traverser le lac ? Il vous reste à répondre à la question posée par le Mage FebeleR : *quel est le nom du package qui permet de gérer facilement la documentation de ses sortilèges ?* Une histoire d'oxygène, semble-t-il... Vous avez trouvé ? Renseignez la réponse (en minuscule) dans le jeu icaRius pour continuer la partie.
+Bravo, vous êtes parvenu(e) à l'issue de ce chapitre documentaire ! Vous êtes maintenant capable de nager dans l'océan documentaire des sortilèges runiques. 
+Mais qu'en est-il du jeune icaRius, qui doit traverser le lac ? Il vous reste à répondre à la question posée par le Mage FebeleR : *quel est le nom du package 
+qui permet de gérer facilement la documentation de ses sortilèges ?* Une histoire d'oxygène, semble-t-il... Vous avez trouvé ? Renseignez la réponse (en minuscule) 
+dans le jeu icaRius pour continuer la partie.
 
 
 

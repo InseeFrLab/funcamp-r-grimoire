@@ -58,13 +58,6 @@ file.copy(
   to = REPERTOIRE_du_fichier_chapitre12_Rmd, 
   recursive=TRUE
 )
-
-library(rio)
-file.copy(from = system.file(package = "funcampR","data","chapitre12/DESCRIPTION"),
-         to = "DESCRIPTION")
-file.copy(from = system.file(package = "funcampR","data","chapitre12/R/sortilege_age.R"),
-          to = "sortilege_age.R")
-
 ```
 
 
@@ -95,15 +88,15 @@ C'est ce qui vous permettra de répondre à la question du Mage FebeleR : *"quel
 
 <BR>
 
-Dans cette sous-partie on va :  
+Dans cette sous-partie :  
 
-- considérer un fichier qui contient du code R,  
+- on considère un fichier qui contient du code R,  
 
-- ajouter des commentaires à ce fichier,  
+- on ajoute des commentaires à ce fichier,  
 
-- créer une fiche descriptive DESCRIPTION,  
+- on crée une fiche descriptive DESCRIPTION,  
 
-- et utiliser des sortilèges magiques qui vont générer une documentation automatiquement.  
+- et on génére une documentation du code, automatiquement.  
 
 <BR>
 
@@ -129,12 +122,13 @@ Ci-dessous le contenu de `fmt.R`.
 # formate un nombre avec n décimales
 fmt <- function(x, n) { # "fmt" prend en entrée deux paramètres : la quantité à formater, et le nombre de décimales
 
-  format(x,              # "fmt" utilise "format()" du R de base, qui permet de formater
+  x %>% 
+    format(              # "fmt" utilise "format()" du R de base, qui permet de formater
          decimal.mark = ",",  		 # la virgule est employée pour les nombres décimaux
-         digits=0, nsmall=n, 		 # on utilise l'écriture "digits=0, nsmall=n", pour n décimales
+         digits=0, nsmall=n, 		 # on utilise l'écriture "digits=0, nsmall=n", pour obtenir n décimales
          big.mark = " ",      		 # le séparateur de milliers est l'espace " "
          scientific = FALSE   		 # La notation scientifique n'est pas utilisée.
-  )      
+    )      
 }
 
 # fonction "fmt1Decimale"
@@ -149,6 +143,13 @@ fmt1Decimale <- function(x) {
 <BR>
 
 J'utilise "fmt()" et "fmt1Decimale()"
+```{r, messages=FALSE, warning=FALSE, echo=TRUE, eval=FALSE}
+library(dplyr)
+```
+```{r, messages=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+```
+&nbsp;
 ```{r, messages=FALSE, warning=FALSE}
 fmt(100, 2)
 
@@ -170,25 +171,25 @@ Le package **roxygen2** offre une norme pour ajouter des commentaires.
 Avec cette norme, on peut documenter le script de la façon suivante :
 ```{r, messages=FALSE, warning=FALSE}
 #' @title fmt
-#' @description La fonction formate un nombre avec
-#' le nombre de decimales specifié, 
+#' @description La fonction formate une quantité,
+#' avec un nombre de décimales specifié, 
 #' la virgule pour distinguer unités et décimales, 
 #' l'espace comme séparateur de milliers. 
 #' @param x la quantité à formater
-#' @param decimales le nombre de decimales
+#' @param n le nombre de décimales
 #' @import dplyr
 #' @examples
 #' fmt(100, 2)
 #' fmt(1234.56789, 2)
-fmt <- function(x, nombre_decimales) {
+fmt <- function(x, n) {
 
-  format(x,                    
+  x %>% 
+    format(                  # la fonction format() est utilisée
          decimal.mark = ",",  
-         digits=0, nsmall=nombre_decimales,
+         digits=0, nsmall=n,
          big.mark = " ",      
          scientific = FALSE   
-  )      
-  
+    )      
 }
 
 
@@ -198,13 +199,12 @@ fmt <- function(x, nombre_decimales) {
 #' la virgule pour distinguer unités et décimales, 
 #' et l'espace comme séparateur de milliers.  
 #' @param x la quantité à formater
-#' @import dplyr
 #' @examples
 #' fmt1Decimale(100)
 #' fmt1Decimale(1234.56789)
 fmt1Decimale <- function(x) {
 
-  fmt(x, 1) 
+  fmt(x, 1) # appel de fmt()
 }
 ```
 *On a écrit ci-dessus des commentaires "roxygen2".*  
@@ -212,7 +212,8 @@ fmt1Decimale <- function(x) {
 *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;commencent par les signes `#'` ,*  
 *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et utilisent les mots clés `@title`, `@description`, `@param`, etc.*  
 *Chaque sortilège est précédée par un bloc de commentaires "roxygen2".*  
-*Les commentaires "roxygen2" peuvent s'employer en plus des commentaires traditionnels commençant par #*
+
+*(N.B. Les commentaires "roxygen2" peuvent s'employer en plus des commentaires traditionnels commençant par #)*
 
 ```{r, include=FALSE, eval=FALSE}
 1. Dans "Grimoire_Replay\chapitre12", il y a "projet1\html\..."
@@ -228,7 +229,7 @@ fmt1Decimale <- function(x) {
 
 <BR>
 
-À vous de documenter ces sortilèges. Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
+À vous de documenter ces sortilèges avec des commentaires "roxygen2". Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
 
 ```{r, echo=FALSE}
 library(shiny)
@@ -238,18 +239,19 @@ init <- "# Compléter ci-dessous la documentation
 #' @title ???
 #' @description ???
 #' @param ???
+#' @import ???
 #' @examples
 #' ???
 #' ???
-fmt <- function(x, nombre_decimales) {
+fmt <- function(x, n) {
 
-  format(x,
+  x %>% 
+    format(
          decimal.mark = \",\",  
-         digits=0, nsmall=nombre_decimales,
+         digits=0, nsmall=n,
          big.mark = \" \",      
          scientific = FALSE   
-  )      
-  
+    )      
 }
 
 #' @title ???
@@ -291,25 +293,25 @@ Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce
 >
 >```{r}
 >#' @title fmt
->#' @description La fonction formate un nombre avec
->#' le nombre de decimales specifié, 
+>#' @description La fonction formate une quantité,
+>#' avec un nombre de décimales specifié, 
 >#' la virgule pour distinguer unités et décimales, 
 >#' l'espace comme séparateur de milliers. 
 >#' @param x la quantité à formater
->#' @param decimales le nombre de decimales
+>#' @param n le nombre de décimales
 >#' @import dplyr
 >#' @examples
 >#' fmt(100, 2)
 >#' fmt(1234.56789, 2)
->fmt <- function(x, nombre_decimales) {
+>fmt <- function(x, n) {
 >
->  format(x,                    
+>  x %>% 
+>    format(                   
 >         decimal.mark = ",",  
->         digits=0, nsmall=nombre_decimales,
+>         digits=0, nsmall=n,
 >         big.mark = " ",      
 >         scientific = FALSE   
->  )      
->  
+>    )      
 >}
 >
 >
@@ -319,7 +321,6 @@ Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce
 >#' la virgule pour distinguer unités et décimales, 
 >#' et l'espace comme séparateur de milliers.  
 >#' @param x la quantité à formater
->#' @import dplyr
 >#' @examples
 >#' fmt1Decimale(100)
 >#' fmt1Decimale(1234.56789)
@@ -381,11 +382,25 @@ Description: Le package fournit deux fonctions :
 
 Les commentaires "roxygen2" ci-dessus, et le fichier "DESCRIPTION" permettent :  
 
-- de décrire :  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* le code du fichier,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* le projet,  
+- de décrire le code du fichier, et le projet,  
 
-- mais aussi de fabriquer automatiquement des pages de documentation, comme celles qu'on peut afficher avec le lien suivant :
+- mais aussi de fabriquer automatiquement des pages de documentation.
+
+<BR>
+
+Je génère automatiquement des pages de documentation :
+```{r, echo=TRUE, eval=FALSE}
+# chargement du package "roxygen2"
+library(roxygen2)
+
+roxygenize()
+```
+*(N.B. Pour générer la documentation, il y a aussi besoin d'une étape d'installation*  
+*du projet de package)*  
+
+<BR>
+
+J'obtiens les pages suivantes :
 ```{r, echo=FALSE}
 library(shiny)
 library(htmltools)
@@ -404,14 +419,6 @@ shinyApp(ui, server,
 )
 ```
 
-Pour générer les pages ci-dessus automatiquement, on peut utiliser le code suivant :
-```{r, echo=TRUE, eval=FALSE}
-# chargement du package "roxygen2"
-library(roxygen2)
-
-roxygenize()
-```
-
 <BR>
 
 ## Plus de commentaires
@@ -428,35 +435,36 @@ On utilise plus de mots-clés proposés par le package **roxygen2** :
 ```{r, messages=FALSE, warning=FALSE}
 #' @title fmt
 #' @author Mage RegoR, \email{mage.regor@@email.fr}
-#' @description Formate un nombre
+#' @description Formate une quantité
 #' @details La fonction formate avec
-#' le nombre de decimales specifie, 
-#' la virgule pour distinguer unites et decimales, 
-#' l'espace comme separateur de milliers. 
+#' un nombre de décimales specifie, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
 #' @section Emploie :
 #' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
 #' @section Warning :
 #' N'utilise pas de notation scientifique
-#' @param x un nombre
-#' @param decimales un entier, le nombre de decimales
-#' @return Le nombre formate.
+#' @param x la quantité à formater
+#' @param n le nombre de décimales
+#' @return La quantité formatée.
 #' @import dplyr
 #' @examples
-#' fmt2Decimales(100, 2)
-#' fmt2Decimales(1234.56789, 2)
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
 #' @family fonctions pour formater
-#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
-#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
-fmt <- function(x, decimales) {
+#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} 
+#' pour afficher dans la console
+#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} 
+#' la fonction format
+fmt <- function(x, n) {
 
-  format(x,                   
-                             
+  x %>% 
+    format(                                    
          decimal.mark = ",",  
-         digits=0, nsmall=decimales,  
+         digits=0, nsmall=n,  
          big.mark = " ",      
          scientific = FALSE   
-  )      
-  
+    )      
 }
 
 
@@ -464,16 +472,15 @@ fmt <- function(x, decimales) {
 #' @author Mage RegoR, \email{mage.regor@@email.fr}
 #' @description Formate un nombre
 #' @details La fonction formate avec
-#' une decimale, 
-#' la virgule pour distinguer unites et decimales, 
-#' l'espace comme separateur de milliers. 
+#' une décimale, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
 #' @section Emploie :
 #' Les fonctions \code{\link{fmt}} et \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
 #' @section Warning :
 #' N'utilise pas de notation scientifique
-#' @param x un nombre
+#' @param x la quantité à formater
 #' @return Le nombre formate
-#' @import dplyr
 #' @examples
 #' fmt1Decimale(100)
 #' fmt1Decimale(1234.56789)
@@ -487,9 +494,10 @@ fmt1Decimale <- function(x) {
 ```
 *Dans les commentaires ci-dessus :*  
 *- les mots-clés `@details` et `@section` autorisent l'ajout de commentaires supplémentaires.*  
-*- pour ajouter des hyperliens, la syntaxe est particulière.*  
-*`\url{...)` va ajouter un lien internet*  
-*`\code{\link{...}}` ajoute un lien vers une autre fonction (du même projet RStudio)*  
+*- si l'on souhaite ajouter des hyperliens dans la documentation qui sera générée,*  
+*la syntaxe est particulière :*  
+*`\url{...)` ajoutera un lien internet*  
+*`\code{\link{...}}` faira apparaître un lien vers une autre fonction (du même projet RStudio)*  
 *- Le mot clé `@family` permet de grouper certaines fonctions dans une "famille".*  
 *Ici on a créé une famille "fonctions pour formater" qui contient "fmt()" et "fmt1Decimale()".*  
 *Lors de la génération de la documentation, des hyperliens vont être créés entre les fonctions de la famille.*
@@ -523,7 +531,7 @@ shinyApp(ui, server,
 
 <BR>
 
-À vous de documenter les sortilèges. Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
+À vous de documenter les sortilèges. Dans la fenêtre ci-dessous, vous pouvez écrire librement.
 
 ```{r, echo=FALSE}
 library(shiny)
@@ -538,26 +546,25 @@ init <- "# Compléter ci-dessous la documentation
 #' ???
 #' @section ??? :
 #' ???
-#' @param x un nombre
-#' @param decimales un entier, le nombre de decimales
+#' @param x la quantité à formater
+#' @param n le nombre de décimales
 #' @return ???
 #' @import dplyr
 #' @examples
-#' fmt2Decimales(100, 2)
-#' fmt2Decimales(1234.56789, 2)
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
 #' @family ???
 #' @seealso \\url{???} ???
 #' @references \\url{???} ???
-fmt <- function(x, decimales) {
+fmt <- function(x, n) {
 
-  format(x,                   
-                             
+  x %>% 
+    format(                   
          decimal.mark = \",\",  
-         digits=0, nsmall=decimales,  
+         digits=0, nsmall=n,  
          big.mark = \" \",      
          scientific = FALSE   
-  )      
-  
+    )      
 }
 
 
@@ -569,9 +576,8 @@ fmt <- function(x, decimales) {
 #' ???
 #' @section ??? :
 #' ???
-#' @param x un nombre
+#' @param x la quantité à formater
 #' @return ???
-#' @import dplyr
 #' @examples
 #' fmt1Decimale(100)
 #' fmt1Decimale(1234.56789)
@@ -612,35 +618,34 @@ Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce
 >```{r}
 >#' @title fmt
 >#' @author Mage RegoR, \email{mage.regor@@email.fr}
->#' @description Formate un nombre
+>#' @description Formate une quantité
 >#' @details La fonction formate avec
->#' le nombre de decimales specifie, 
->#' la virgule pour distinguer unites et decimales, 
->#' l'espace comme separateur de milliers. 
+>#' un nombre de décimales specifié, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' l'espace comme séparateur de milliers. 
 >#' @section Emploie :
 >#' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
 >#' @section Warning :
 >#' N'utilise pas de notation scientifique
->#' @param x un nombre
->#' @param decimales un entier, le nombre de decimales
->#' @return Le nombre formate.
+>#' @param x la quantité à formater
+>#' @param n le nombre de décimales
+>#' @return la quantité formatée.
 >#' @import dplyr
 >#' @examples
->#' fmt2Decimales(100, 2)
->#' fmt2Decimales(1234.56789, 2)
+>#' fmt(100, 2)
+>#' fmt(1234.56789, 2)
 >#' @family fonctions pour formater
 >#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
 >#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
->fmt <- function(x, decimales) {
+>fmt <- function(x, n) {
 >
->  format(x,                   
->                             
+>  x %>% 
+>    format(                  
 >         decimal.mark = ",",  
->         digits=0, nsmall=decimales,  
+>         digits=0, nsmall=n,  
 >         big.mark = " ",      
 >         scientific = FALSE   
->  )      
->  
+>    )      
 >}
 >
 >
@@ -648,16 +653,15 @@ Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce
 >#' @author Mage RegoR, \email{mage.regor@@email.fr}
 >#' @description Formate un nombre
 >#' @details La fonction formate avec
->#' une decimale, 
->#' la virgule pour distinguer unites et decimales, 
->#' l'espace comme separateur de milliers. 
+>#' une décimale, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' l'espace comme séparateur de milliers. 
 >#' @section Emploie :
 >#' Les fonctions \code{\link{fmt}} et \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
 >#' @section Warning :
 >#' N'utilise pas de notation scientifique
->#' @param x un nombre
->#' @return Le nombre formate
->#' @import dplyr
+>#' @param x la quantité à formater
+>#' @return Le nombre formaté
 >#' @examples
 >#' fmt1Decimale(100)
 >#' fmt1Decimale(1234.56789)
@@ -696,7 +700,7 @@ Pour cela :
 #' \code{\link{fmt}} et \code{\link{fmt1Decimale}}.
 #' 
 #' @section Les fonctions du package "projet1" :
-#' utilisent la virgule au lieu du point pour les nombres decimaux, et l'espace " " pour separer les milliers.
+#' utilisent la virgule au lieu du point pour les nombres decimaux, et l'espace " " pour séparer les milliers.
 #'
 #' @docType package
 #' @name projet1-package 

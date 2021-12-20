@@ -9,14 +9,14 @@
 
 <h3>Description</h3>
 
-<p>Formate un nombre
+<p>Formate une quantite
 </p>
 
 
 <h3>Usage</h3>
 
 <pre>
-fmt(x, decimales)
+fmt(x, n)
 </pre>
 
 
@@ -25,11 +25,11 @@ fmt(x, decimales)
 <table summary="R argblock">
 <tr valign="top"><td><code>x</code></td>
 <td>
-<p>un nombre</p>
+<p>la quantite a formater</p>
 </td></tr>
-<tr valign="top"><td><code>decimales</code></td>
+<tr valign="top"><td><code>n</code></td>
 <td>
-<p>un entier, le nombre de decimales</p>
+<p>le nombre de decimales</p>
 </td></tr>
 </table>
 
@@ -37,7 +37,7 @@ fmt(x, decimales)
 <h3>Details</h3>
 
 <p>La fonction formate avec
-le nombre de decimales specifie, 
+un nombre de decimales specifie, 
 la virgule pour distinguer unites et decimales, 
 l'espace comme separateur de milliers.
 </p>
@@ -45,7 +45,7 @@ l'espace comme separateur de milliers.
 
 <h3>Value</h3>
 
-<p>Le nombre formate.
+<p>La quantite formatee.
 </p>
 
 
@@ -69,13 +69,15 @@ l'espace comme separateur de milliers.
 
 <h3>References</h3>
 
-<p><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format">https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format</a> la fonction format
+<p><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format">https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format</a> 
+la fonction format
 </p>
 
 
 <h3>See Also</h3>
 
-<p><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print">https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print</a> pour afficher dans la console
+<p><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print">https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print</a> 
+pour afficher dans la console
 </p>
 <p>Other fonctions pour formater: 
 <code><a href="fmt1Decimale.html">fmt1Decimale</a>()</code>
@@ -85,8 +87,8 @@ l'espace comme separateur de milliers.
 <h3>Examples</h3>
 
 <pre>
-fmt2Decimales(100, 2)
-fmt2Decimales(1234.56789, 2)
+fmt(100, 2)
+fmt(1234.56789, 2)
 </pre>
 
 <hr /><div style="text-align: center;">[Package <em>projet1</em> version 0.1.0 <a href="00Index.html">Index</a>]</div>

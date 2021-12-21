@@ -94,7 +94,7 @@ Dans cette sous-partie :
 
 - on ajoute des commentaires à ce fichier,  
 
-- on crée une fiche descriptive DESCRIPTION,  
+- on crée une fiche signalétique,  
 
 - et on génére une documentation du code, automatiquement.  
 
@@ -106,7 +106,7 @@ Dans cette sous-partie :
 
 <BR>
 
-Dans toute la suite, on dispose d'un fichier `fmt.R` qui contient du code R (une page du grimoire d'Icarius).
+Dans toute la suite, on dispose d'un fichier `fmt.R` (une page du grimoire d'Icarius).
 
 <BR>
 
@@ -125,7 +125,7 @@ fmt <- function(x, n) { # "fmt" prend en entrée deux paramètres : la quantité
   x %>% 
     format(              # "fmt" utilise "format()" du R de base, qui permet de formater
          decimal.mark = ",",  		 # la virgule est employée pour les nombres décimaux
-         digits=0, nsmall=n, 		 # on utilise l'écriture "digits=0, nsmall=n", pour obtenir n décimales
+         digits=0, nsmall=n, 		 # n décimales
          big.mark = " ",      		 # le séparateur de milliers est l'espace " "
          scientific = FALSE   		 # La notation scientifique n'est pas utilisée.
     )      
@@ -211,9 +211,9 @@ fmt1Decimale <- function(x) {
 *Les lignes de commentaires "roxygen2" :*  
 *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;commencent par les signes `#'` ,*  
 *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et utilisent les mots clés `@title`, `@description`, `@param`, etc.*  
-*Chaque sortilège est précédée par un bloc de commentaires "roxygen2".*  
+*Chaque sortilège est précédé par un bloc de commentaires "roxygen2".*  
 
-*(N.B. Les commentaires "roxygen2" peuvent s'employer en plus des commentaires traditionnels commençant par #)*
+*(N.B. Les commentaires "roxygen2" peuvent s'employer en plus des commentaires traditionnels commençant par `#`)*
 
 ```{r, include=FALSE, eval=FALSE}
 1. Dans "Grimoire_Replay\chapitre12", il y a "projet1\html\..."
@@ -344,19 +344,16 @@ Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce
 
 <BR>
 
-(Cette fiche est requise pour les "projets de package".)
+(La fiche signalétique est requise pour les "projets de package".  
+Elle contient des informations sur le projet.)  
 
 <BR>
 
-La fiche signalétique est un fichier nommé "DESCRIPTION" (sans extension du type ".txt").  
-
-(Elle contient des informations sur le projet.)
+La fiche signalétique est un fichier nommé `DESCRIPTION`, sans extension du type ".txt".  
 
 <BR>
 
-<BR>
-
-Exemple de fichier "DESCRIPTION" :
+Exemple de fichier `DESCRIPTION` :
 ```{txt}
 Package: projet1
 Type: Package
@@ -367,7 +364,7 @@ Maintainer: automate TeoC <teoc@statis.st>
 Description: Le package fournit deux fonctions :
     fmt et fmt1Decimale
 ```
-*Le fichier "DESCRIPTION" a un contenu qui suit une forme particulière :*  
+*Le fichier `DESCRIPTION` a un contenu qui suit une forme particulière :*  
 *Les informations doivent s'insérer dans des rubriques spécifiques : "Package:", "Type:", "Title:", etc.*  
 *Si le bloc "Description: ..." vers la fin du fichier fait plus d'une ligne, chaque ligne du bloc (à partir de la seconde) doit commencer*  
 *par quatre espaces.*  
@@ -380,7 +377,7 @@ Description: Le package fournit deux fonctions :
 
 <BR>
 
-Les commentaires "roxygen2" ci-dessus, et le fichier "DESCRIPTION" permettent :  
+Les commentaires "roxygen2" ci-dessus, et le fichier `DESCRIPTION` permettent :  
 
 - de décrire le code du fichier, et le projet,  
 
@@ -395,7 +392,7 @@ library(roxygen2)
 
 roxygenize()
 ```
-*(N.B. Pour générer la documentation, il y a aussi besoin d'une étape d'installation*  
+*(N.B. Pour générer la documentation, il y a besoin aussi d'une étape d'installation*  
 *du projet de package)*  
 
 <BR>
@@ -421,23 +418,23 @@ shinyApp(ui, server,
 
 <BR>
 
-## Plus de commentaires
+## Encore plus
 
 <BR>
 
 <BR>
 
-Dans cette partie, on adjoint plus de commentaires au script `fmt.R` ci-dessus.
+Dans cette partie, on adjoint d'autres commentaires au script `fmt.R` ci-dessus.
 
 <BR>
 
-On utilise plus de mots-clés proposés par le package **roxygen2** :
+On utilise des mots-clés suppplémentaires proposés par le package **roxygen2** :
 ```{r, messages=FALSE, warning=FALSE}
 #' @title fmt
 #' @author Mage RegoR, \email{mage.regor@@email.fr}
 #' @description Formate une quantité
 #' @details La fonction formate avec
-#' un nombre de décimales specifie, 
+#' un nombre de décimales specifié, 
 #' la virgule pour distinguer unités et décimales, 
 #' l'espace comme séparateur de milliers. 
 #' @section Emploie :
@@ -480,7 +477,7 @@ fmt <- function(x, n) {
 #' @section Warning :
 #' N'utilise pas de notation scientifique
 #' @param x la quantité à formater
-#' @return Le nombre formate
+#' @return Le nombre formaté
 #' @examples
 #' fmt1Decimale(100)
 #' fmt1Decimale(1234.56789)
@@ -494,13 +491,16 @@ fmt1Decimale <- function(x) {
 ```
 *Dans les commentaires ci-dessus :*  
 *- les mots-clés `@details` et `@section` autorisent l'ajout de commentaires supplémentaires.*  
-*- si l'on souhaite ajouter des hyperliens dans la documentation qui sera générée,*  
-*la syntaxe est particulière :*  
-*`\url{...)` ajoutera un lien internet*  
-*`\code{\link{...}}` faira apparaître un lien vers une autre fonction (du même projet RStudio)*  
+*- si l'on souhaite ajouter des hyperliens dans la documentation qui sera générée, la syntaxe est particulière :*  
+&nbsp;&nbsp;*`\email{...}` ajoutera un lien vers des outils de messagerie,*  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(il faut écrire `@@` dans l'adresse email),*  
+&nbsp;&nbsp;*`\url{...)` insèrera un lien internet,*  
+&nbsp;&nbsp;*`\code{\link{...}}` faira apparaître un lien vers une autre fonction (du même projet RStudio)*  
 *- Le mot clé `@family` permet de grouper certaines fonctions dans une "famille".*  
-*Ici on a créé une famille "fonctions pour formater" qui contient "fmt()" et "fmt1Decimale()".*  
-*Lors de la génération de la documentation, des hyperliens vont être créés entre les fonctions de la famille.*
+&nbsp;&nbsp;*Ici on a créé une famille "fonctions pour formater" qui contient "fmt()" et "fmt1Decimale()".*  
+&nbsp;&nbsp;*Lors de la génération de la documentation, des hyperliens vont être créés entre les fonctions de la famille.*  
+
+<BR>
 
 <BR>
 
@@ -680,7 +680,7 @@ Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce
 
 <BR>
 
-## Ajout d'une page de documentation concernant l'ensemble du projet
+## Page d'accueil
 
 <BR>
 
@@ -709,6 +709,8 @@ NULL
 *Le code R du script ci-dessus se réduit à un mot : NULL*  
 *Dans les commentaires, on peut utiliser les mêmes mots-clés que ceux vus plus haut.*  
 *Deux mots-clés sont à ajouter : @docType et @name .*
+
+<BR>
 
 <BR>
 

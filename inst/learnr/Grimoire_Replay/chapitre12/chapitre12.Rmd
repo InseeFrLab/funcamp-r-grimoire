@@ -61,10 +61,6 @@ file.copy(
 ```
 
 
-```{r, echo=FALSE, results='hide', message=FALSE}
-description <- paste0(readLines("DESCRIPTION"), collapse = "\n")
-pgm <- paste0(readLines("sortilege_age.R"), collapse = "\n")
-```
 
 
 ## Pour ne pas se noyer dans un océan magique

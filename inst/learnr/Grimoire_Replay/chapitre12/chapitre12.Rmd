@@ -412,7 +412,7 @@ server <- function(input, output) {
 }
   
 shinyApp(ui, server,
-  options = list(height = 100)
+  options = list(height = 100) # espace réservé dans le document html produit
 )
 ```
 

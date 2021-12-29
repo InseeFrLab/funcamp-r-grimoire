@@ -1,0 +1,382 @@
+---
+title: "Chapitre 13 : Ce qui se conçoit bien s'énonce clairement !"
+output:
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+
+# répertoire du fichier chapitre13.Rmd en cours d'exécution
+REPERTOIRE_du_fichier_chapitre13_Rmd <- getwd()
+
+# répertoire du package funcampR, sous répertoire data/chapitre13_replay
+REPERTOIRE_package_funcampR_data_chapitre13_replay <- system.file(
+    package = "funcampR",
+	"data/chapitre13_replay"
+)
+
+# copie hello.html
+file.copy(
+  from = 
+    paste0(
+	  REPERTOIRE_package_funcampR_data_chapitre13_replay, 
+	  "/hello.html"
+	),
+  to = paste0(
+	  REPERTOIRE_du_fichier_chapitre13_Rmd, 
+	  "/hello.html"
+	)
+)
+# copie R.css
+file.copy(
+  from = 
+    paste0(
+	  REPERTOIRE_package_funcampR_data_chapitre13_replay, 
+	  "/R.css"
+	),
+  to = paste0(
+	  REPERTOIRE_du_fichier_chapitre13_Rmd, 
+	  "/R.css"
+	)
+)
+```
+
+## Mes(-)aventures ? 
+
+Votre aventure touche à sa fin, vous voilà en possession des 6 runes, votre fidèle épée, un bouclier, une fiole d'immonde jus de mandragore, 
+la clé de la cave à ambroisie, une plume du tidyverse, un boomerang, une paire de palme et...ce bon vieux grimoire IgoR. 
+
+Le grimoire ? Mince, le grimoire ! Quelle n'est pas votre surprise quand vous découvrez que votre immersion dans le datalake a ruiné ses pages.
+Tous vos précieux apprentissages dilués, presque illisibles !
+
+Vous décidez d'utiliser un "projet RStudio" pour organiser l'écriture de sortilèges.  
+
+<BR>
+
+## Rappel RStudio
+
+<BR>
+
+RStudio est un logiciel qui facilite l'écriture de code R.
+
+<BR>
+
+On lance RStudio.
+
+<BR>
+
+## Pourquoi créer un "projet RStudio" ?
+
+<BR>
+
+<BR>
+
+Quand on utilise des programmes R dans le cadre d'un projet statistique, il est conseillé de créer un projet RStudio.  
+
+Un projet RStudio permet de :  
+
+- rassembler les scripts utilisés,  
+
+- faciliter l'utilisation des programmes par tout utilisateur (reproductibilité),  
+
+- simplifier le travail en équipe : plusieurs personnes pourront 
+contribuer en même temps sur les scripts du projet sans risque d'écraser par mégarde le travail d'un collègue.  
+
+<BR>
+
+<BR>
+
+## Création d'un projet RStudio
+
+<BR>
+
+<BR>
+
+><details><summary><font size="3"><b>Je crée un projet RStudio - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Ci-dessous, l'une des façons de créer un projet RStudio.
+>
+><BR>
+>
+>On ouvre RStudio.
+>
+><BR>
+>
+>Dans RStudio, tout en haut à droite, cliquer sur "Project: (None)".  
+>Une liste déroulante apparaît.  
+>
+>Cliquer sur "New Project..."  
+>Une fenêtre pop-up "Create Project" s'affiche  
+>
+>&nbsp;&nbsp;&nbsp;&nbsp;Choisir "New Directory" .  
+>
+>&nbsp;&nbsp;&nbsp;&nbsp;Dans la page "Project Type" de la pop-up,  
+>&nbsp;&nbsp;&nbsp;&nbsp;cliquer sur "New Project".  
+>
+>&nbsp;&nbsp;&nbsp;&nbsp;Dans la page suivante,  
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Directory Name:" renseigner le nom du projet, par exemple "projet1",  
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(par exemple "C/user/R/mesProjets/" ),  
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"  
+>
+><BR>
+>
+>Le projet est maintenant utilisable.
+>
+>Dans le répertoire parent du projet un répertoire "projet1"a été créé.
+>
+><BR>
+>
+><span style="color:blue;font-size:20px">Visualisation du projet dans l'explorateur de fichier</span>
+>
+><BR>
+>
+>Avec l'explorateur de fichier je consulte le contenu du répertoire "projet1" :
+>
+>![](./images/projet1_Rproj.png){width=40%} 
+>
+>*Le dossier "projet1" contient un seul fichier "projet1.Rproj" .*
+>
+><BR>
+>
+><span style="color:blue;font-size:20px">Le répertoire "R" du projet</span>
+>
+><BR>
+>
+>Je crée un sous-dossier "R" dans le répertoire "projet1" avec l'explorateur de fichier.
+>
+><BR>
+>
+>Le contenu du dossier "projet1" devient :
+>
+>![](./images/projet1.png){width=40%} 
+>
+><BR>
+>
+>Ce sous-dossier "R" sert à stocker les scripts R.
+>
+><BR>
+>
+>Le projet "projet1" est maintenant prêt.  
+>Il reste à le compléter avec des scripts écrits dans le langage des Runes.  
+>
+><BR>
+>
+><BR>
+>
+><BR>
+>
+></font></p></details>
+
+<BR>
+
+## Création d'un "projet de package"
+
+<BR>
+
+<BR>
+
+Un projet de package est un projet RStudio plus élaboré que les simples projets créés ci-dessus.  
+
+Un projet de package permet notamment :
+
+- de créer un package,
+
+- de fabriquer une documentation des scripts particulièrement bien assemblée,
+
+- etc.
+
+<BR>
+
+<BR>
+
+><details><summary><font size="3"><b>Je crée un projet de package - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Ci-dessous, l'une des façons d'obtenir un projet de package.
+>
+><BR>
+>
+><BR>
+>
+>On peur créer un projet de package de la même façon qu'on a construit un simple projet ci-dessus :  
+>en haut à droite, cliquer sur "Project: (None)" etc.
+>
+>Deux différences avec la création d'un simple projet :  
+>dans la page "Project Type" , cliquer sur "R package",  
+>dans la page suivante renseigner le nom du projet, par exemple "projet2", dans le champs "Package Name:" .
+>
+><BR>
+>
+>Après création du projet de package "projet2", un répertoire "projet2" apparaît.
+>
+><BR>
+>
+><span style="color:blue;font-size:20px">Visualisation du projet dans l'explorateur de fichier</span>
+>
+><BR>
+>
+>Le répertoire "projet2" a alors le contenu suivant :
+>
+>![](./images/projet2.png){width=30%} 
+>
+><BR>
+>
+>Le dossier "projet2" inclut un sous-répertoire "R".  
+>
+>Ce sous-répertoire "R" contient un script R "exemple".  
+>
+>Ce script "exemple" est nommé "hello.R" et comprend le code suivant :
+>```{r, message=FALSE, warning=FALSE}
+# Hello, world!
+#
+# This is an example function named 'hello' 
+# which prints 'Hello, world!'.
+#
+# You can learn more about package authoring with RStudio at:
+#
+#   http://r-pkgs.had.co.nz/
+#
+# Some useful keyboard shortcuts for package authoring:
+#
+#   Install Package:           'Ctrl + Shift + B'
+#   Check Package:             'Ctrl + Shift + E'
+#   Test Package:              'Ctrl + Shift + T'
+
+hello <- function() {
+  print("Hello, world!")
+}
+>```
+>
+><BR>
+>
+>Le dossier "projet2" inclut aussi un sous-répertoire "man" qui contient des fichiers ".Rd" (fichiers de documentation).  
+>
+>Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dans le chapitre précédent).  
+>
+><BR>
+>
+><span style="color:blue;font-size:20px">Utilisation</span>
+>
+><BR>
+>
+>J'emploie le sortilège "hello()" :
+>```{r, message=FALSE, warning=FALSE}
+# Dans un projet de package, je peux charger en mémoire 
+# tous les sortilèges du projet avec "load_all()"
+library(devtools)
+load_all()
+
+# J'exécute le sortilege "hello()"
+hello()
+>```
+>
+><BR>
+>
+>```{r, message=FALSE, warning=FALSE, eval=FALSE}
+## J'affiche la documentation du sortilège "hello()"
+# J'utilise le point d'interrogation suivi de "hello",
+# (ce qui est synonyme de "help(hello)" )
+?hello
+>```
+>
+>_______________________________________________
+>
+>
+>```{r message = FALSE, warning = FALSE, echo=FALSE}
+htmltools::includeHTML( paste0(REPERTOIRE_du_fichier_chapitre13_Rmd, "/hello.html") )
+>```
+>
+>_______________________________________________
+>
+><BR>
+>
+><BR>
+>
+>Le projet "projet2" est prêt.  
+>Il reste à le compléter avec des scripts dans le langage des Runes.  
+>
+><BR>
+>
+><BR>
+>
+><BR>
+>
+></font></p></details>
+
+
+<BR>
+
+<BR>
+
+## Quizz
+
+```{r question, echo=FALSE}
+question("Qu'est-ce qu'un projet RStudio ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("un ensemble de scripts, qui ne contient qu'une partie des programmes R d'un projet statistique"),
+answer("une organisation des scripts R d'un utilisateur ou d'une équipe, dans le cadre d'un projet statistique", correct = TRUE),
+answer("un ensemble de scripts qui ne permet qu'un seul utilisateur "),
+correct="Félicitations, il s'agit bien d'organiser les scripts"
+)
+
+``` 
+
+
+```{r question2, echo=FALSE}
+question("Qu'est-ce qu'un projet de package ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("un simple projet RStudio"),
+answer("un projet qui ne permet pas de créer un package"),
+answer("un projet qui n'apporte pas de plus-value en matière d'édition de la documentation des scripts"),
+answer("un projet RStudio, plus élaboré, qui permet notamment de créer un  package, d'éditer une documentation particulièrement bien assemblée, etc.", correct = TRUE),
+correct="Félicitations, c'est tout à fait ça et maintenant...à vous de jouer"
+)
+
+``` 
+
+<BR>
+
+<BR>
+
+Nous pourrions aussi imaginer de créer d'autres types de projet, mais déjà votre mémoire se brouille, il vous faut vite consigner vos mémoires épiques. 
+
+
+C'est parti !  Vous allez maintenant ouvrir une autre partie de ce chapitre 13, avec le service intitulé "Grimoire - Neverending" 
+dans votre panneau comportant tous les tutoriels du FuncampR. Vous pourrez alors créer un projet RStudio, et éditer votre grimoire. 
+À la page d'ouverture de Rstudio, il vous faudra indiquer :
+
+- comme nom d'utilisateur (username) : icarius
+- comme mot de passe (password) : statia
+
+```{r  echo=FALSE}
+include_graphics("images/rstudio.png")
+```
+
+**Fin de la première partie du chapitre 13  >>  lancez la partie "Grimoire - Neverending" qui vous permettra de créer un projet RStudio et d'éditer 
+votre grimoire (partie 2 du chapitre 13)**
+
+*Version 0.9.3*
+

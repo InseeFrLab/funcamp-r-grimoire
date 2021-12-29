@@ -15,6 +15,12 @@ output:
 runtime: shiny_prerendered
 ---
 
+```{css, echo=FALSE}
+.background-white {
+  background-color: white;
+}
+```
+
 ```{r setup, include=FALSE}
 library(learnr)
 library(knitr)
@@ -279,7 +285,7 @@ hello <- function() {
 ><BR>
 >
 >J'emploie le sortilège "hello()" :
->```{r, message=FALSE, warning=FALSE}
+>```{r, message=FALSE, warning=FALSE, eval=FALSE}
 # Dans un projet de package, je peux charger en mémoire 
 # tous les sortilèges du projet avec "load_all()"
 library(devtools)
@@ -287,6 +293,10 @@ load_all()
 
 # J'exécute le sortilege "hello()"
 hello()
+>```
+>
+>```{r, message=FALSE, warning=FALSE, echo=TRUE, eval=FALSE, class.source="background-white"}
+[1] "Hello, world!"
 >```
 >
 ><BR>

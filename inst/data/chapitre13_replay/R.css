@@ -18,7 +18,7 @@ h1 {
     color: rgb(55%, 55%, 55%);
     font-family: monospace;
     font-size: x-large;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 h2 {

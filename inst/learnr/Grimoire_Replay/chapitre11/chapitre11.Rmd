@@ -508,7 +508,7 @@ f_1(1000000) # emploi sans préciser la valeur de l'ingrédient "sep"
 >
 ><BR>
 >
-<span style="color:blue;font-size:20px">Il est possible de donner des valeurs par défaut aux ingrédients d'une fonction.</span>
+><span style="color:blue;font-size:20px">Il est possible de donner des valeurs par défaut aux ingrédients d'une fonction.</span>
 >
 ><BR>
 >

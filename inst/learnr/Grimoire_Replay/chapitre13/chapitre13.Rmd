@@ -68,7 +68,7 @@ la clé de la cave à ambroisie, une plume du tidyverse, un boomerang, une paire
 Le grimoire ? Mince, le grimoire ! Quelle n'est pas votre surprise quand vous découvrez que votre immersion dans le datalake a ruiné ses pages.
 Tous vos précieux apprentissages dilués, presque illisibles !
 
-Vous décidez d'utiliser un "projet RStudio" pour organiser l'écriture de sortilèges.  
+A la suite de cela, vous décidez d'utiliser un "projet RStudio" pour organiser vos sortilèges.  
 
 <BR>
 
@@ -79,8 +79,6 @@ Vous décidez d'utiliser un "projet RStudio" pour organiser l'écriture de sorti
 RStudio est un logiciel qui facilite l'écriture de code R.
 
 <BR>
-
-On lance RStudio.
 
 <BR>
 
@@ -127,10 +125,10 @@ contribuer en même temps sur les scripts du projet sans risque d'écraser par m
 >Dans RStudio, tout en haut à droite, cliquer sur "Project: (None)".  
 >Une liste déroulante apparaît.  
 >
->Cliquer sur "New Project..."  
+>Choisir "New Project..."  
 >Une fenêtre pop-up "Create Project" s'affiche  
 >
->&nbsp;&nbsp;&nbsp;&nbsp;Choisir "New Directory" .  
+>&nbsp;&nbsp;&nbsp;&nbsp;Sélectionner "New Directory" .  
 >
 >&nbsp;&nbsp;&nbsp;&nbsp;Dans la page "Project Type" de la pop-up,  
 >&nbsp;&nbsp;&nbsp;&nbsp;cliquer sur "New Project".  
@@ -204,7 +202,7 @@ Un projet de package permet notamment :
 
 - de créer un package,
 
-- de fabriquer une documentation des scripts particulièrement bien assemblée,
+- de fabriquer une documentation des scripts R particulièrement bien assemblée,
 
 - etc.
 
@@ -223,8 +221,8 @@ Un projet de package permet notamment :
 >
 ><BR>
 >
->On peur créer un projet de package de la même façon qu'on a construit un simple projet ci-dessus :  
->en haut à droite, cliquer sur "Project: (None)" etc.
+>On peut créer un projet de package de la même façon qu'on a construit un simple projet ci-dessus :  
+>dans RStudio, en haut à droite, cliquer sur "Project: (None)" etc.
 >
 >Deux différences avec la création d'un simple projet :  
 >dans la page "Project Type" , cliquer sur "R package",  
@@ -240,17 +238,31 @@ Un projet de package permet notamment :
 >
 ><BR>
 >
->Le répertoire "projet2" a alors le contenu suivant :
+><span style="color:blue;font-size:16px">Aperçu</span>
+>
+><BR>
+>
+>Le répertoire "projet2" a alors le contenu suivant :  
 >
 >![](./images/projet2.png){width=30%} 
 >
 ><BR>
 >
->Le dossier "projet2" inclut un sous-répertoire "R".  
+><BR>
 >
->Ce sous-répertoire "R" contient un script R "exemple".  
+><span style="color:blue;font-size:16px">Les sous-répertoires du projet</span>
 >
->Ce script "exemple" est nommé "hello.R" et comprend le code suivant :
+><BR>
+>
+>Le dossier "projet2" inclut un sous-répertoire "R" :  
+>
+>![](./images/projet2_R.png){width=100%}  
+>
+>Ce sous-répertoire "R" contient un script R exemple "hello.R".  
+>
+><BR>
+>
+>"hello.R" comprend le code suivant :
 >```{r, message=FALSE, warning=FALSE}
 # Hello, world!
 #
@@ -274,20 +286,26 @@ hello <- function() {
 >
 ><BR>
 >
->Le dossier "projet2" inclut aussi un sous-répertoire "man" qui contient des fichiers ".Rd" (fichiers de documentation).  
+>Le dossier "projet2" inclut aussi un sous-répertoire "man" :  
 >
+>![](./images/projet2_man.png){width=100%} 
+>
+>Ce répertoire "man" contient des fichiers ".Rd" (de documentation).  
 >Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dans le chapitre précédent).  
 >
 ><BR>
 >
-><span style="color:blue;font-size:20px">Utilisation</span>
+><span style="color:blue;font-size:20px">Utilisation du projet</span>
 >
 ><BR>
 >
 >J'emploie le sortilège "hello()" :
 >```{r, message=FALSE, warning=FALSE, eval=FALSE}
+# J'installe le package "devtools" si je ne l'ai pas déjà installé dans une session antérieure
+install.packages("devtools")
+
 # Dans un projet de package, je peux charger en mémoire 
-# tous les sortilèges du projet avec "load_all()"
+# tous les sortilèges du projet avec "load_all()" du package "devtools"
 library(devtools)
 load_all()
 
@@ -303,7 +321,7 @@ hello()
 >
 >```{r, message=FALSE, warning=FALSE, eval=FALSE}
 ## J'affiche la documentation du sortilège "hello()"
-# J'utilise le point d'interrogation suivi de "hello",
+# Je peux utiliser le point d'interrogation suivi de "hello"
 # (ce qui est synonyme de "help(hello)" )
 ?hello
 >```
@@ -337,6 +355,65 @@ htmltools::includeHTML( paste0(REPERTOIRE_du_fichier_chapitre13_Rmd, "/hello.htm
 
 <BR>
 
+## Rappel les fichiers "RMarkdown"
+
+<BR>
+
+<BR>
+
+#### Motivation
+
+<BR>
+
+Les fichiers RMarkdown permettent de créer des documents (rapports, présentations, tableaux de bord) :  
+- avec une belle présentation,  
+- qui peuvent comprendre :  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;du texte,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;du code dans le langage des Runes,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ainsi que les résultats de l'éxécution du code (les chiffres produits, les graphiques réalisés, etc.).  
+
+<BR>
+
+<BR>
+
+#### Le contenu des fichiers RMarkdown
+
+<BR>
+
+<BR>
+
+Les fichiers RMarkdown ont une extension ".Rmd" .  
+
+<BR>
+
+A l'intérieur des fichiers RMarkdown on alterne la prise de note et le code R.  
+
+Les lieux où taper du code 
+sont matérialisés par une zone grisée dans RStudio :  
+
+![](./images/premier_chunk.png){width=80%} 
+
+<BR>
+
+Ces zones grisées commencent par des symboles ``` (accents graves ou "backticks" en anglais) et se terminent par cette même 
+série de symboles.
+
+<BR>
+
+A l'exécution du fichier ".Rmd", les calculs sont menés, les graphiques éventuels sont réalisés, et un document est produit.  
+Chaque nouvelle exécution met à jour le document (si le fichier ".Rmd" a été modifié ou si les données ont changé).
+
+<BR>
+
+Le document produit est au format html.  
+Il apparaît dans le même répertoire que le fichier `.Rmd` .  
+
+![](./images/age_Icarius.png.png){width=80%} 
+
+<BR>
+
+<BR>
+
 ## Quizz
 
 ```{r question, echo=FALSE}
@@ -345,8 +422,8 @@ type="single",
 allow_retry = TRUE,
 incorrect="Retente ta chance",
 answer("un ensemble de scripts, qui ne contient qu'une partie des programmes R d'un projet statistique"),
-answer("une organisation des scripts R d'un utilisateur ou d'une équipe, dans le cadre d'un projet statistique", correct = TRUE),
 answer("un ensemble de scripts qui ne permet qu'un seul utilisateur "),
+answer("une organisation des scripts R d'un utilisateur ou d'une équipe, dans le cadre d'un projet statistique", correct = TRUE),
 correct="Félicitations, il s'agit bien d'organiser les scripts"
 )
 
@@ -367,6 +444,19 @@ correct="Félicitations, c'est tout à fait ça et maintenant...à vous de jouer
 
 ``` 
 
+```{r question3, echo=FALSE}
+question("Quel est le type de fichiers, qui permet de créer des rapports qui contiennent prise de notes, code R, et résultats, avec une belle présentation ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer(""),
+answer("Le type \".R\","),
+answer("Le type \".Rmd\" (RMarkdown)", correct = TRUE),
+answer("Le type \".txt\""),
+correct="Félicitations, ce sont bien les fichiers de type \".Rmd\", qui à l'exécution peuvent produire de tels rapports"
+)
+
+``` 
 <BR>
 
 <BR>

@@ -72,7 +72,7 @@ A la suite de cela, vous décidez d'utiliser un "projet RStudio" pour organiser 
 
 <BR>
 
-## Rappel RStudio
+## Rappel : RStudio
 
 <BR>
 
@@ -92,7 +92,7 @@ Quand on utilise des programmes R dans le cadre d'un projet statistique, il est 
 
 Un projet RStudio permet de :  
 
-- rassembler les scripts utilisés,  
+- rassembler les scripts R utilisés,  
 
 - faciliter l'utilisation des programmes par tout utilisateur (reproductibilité),  
 
@@ -134,16 +134,16 @@ contribuer en même temps sur les scripts du projet sans risque d'écraser par m
 >&nbsp;&nbsp;&nbsp;&nbsp;cliquer sur "New Project".  
 >
 >&nbsp;&nbsp;&nbsp;&nbsp;Dans la page suivante,  
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Directory Name:" renseigner le nom du projet, par exemple "projet1",  
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Directory Name:" renseigner le nom du projet, par exemple projet1 ,  
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(par exemple "C/user/R/mesProjets/" ),  
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(par exemple C/user/R/mesProjets/ ),  
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"  
 >
 ><BR>
 >
 >Le projet est maintenant utilisable.
 >
->Dans le répertoire parent du projet un répertoire "projet1"a été créé.
+>Dans le répertoire parent du projet un dossier "projet1" a été créé.
 >
 ><BR>
 >
@@ -226,7 +226,7 @@ Un projet de package permet notamment :
 >
 >Deux différences avec la création d'un simple projet :  
 >dans la page "Project Type" , cliquer sur "R package",  
->dans la page suivante renseigner le nom du projet, par exemple "projet2", dans le champs "Package Name:" .
+>dans la page suivante renseigner le nom du projet, par exemple projet2, dans le champs "Package Name:" .
 >
 ><BR>
 >
@@ -350,12 +350,18 @@ htmltools::includeHTML( paste0(REPERTOIRE_du_fichier_chapitre13_Rmd, "/hello.htm
 >
 ></font></p></details>
 
+<BR>
+
+<BR>
+
+Remarque : en plus des "projets RStudio" et des projets de package, 
+nous pourrions aussi imaginer de créer d'autres types de projet,
 
 <BR>
 
 <BR>
 
-## Rappel les fichiers "RMarkdown"
+## Rappel : les fichiers "RMarkdown"
 
 <BR>
 
@@ -365,12 +371,12 @@ htmltools::includeHTML( paste0(REPERTOIRE_du_fichier_chapitre13_Rmd, "/hello.htm
 
 <BR>
 
-Les fichiers RMarkdown permettent de créer des documents (rapports, présentations, tableaux de bord) :  
+Les fichiers RMarkdown permettent de produire des documents, rapports, présentations, tableaux de bord :   
 - avec une belle présentation,  
-- qui peuvent comprendre :  
+- et qui peuvent contenir :  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;du texte,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;du code dans le langage des Runes,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ainsi que les résultats de l'éxécution du code (les chiffres produits, les graphiques réalisés, etc.).  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;du code R,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ainsi que les résultats de l'éxécution du code R (les chiffres produits, les graphiques réalisés, etc.).  
 
 <BR>
 
@@ -382,16 +388,20 @@ Les fichiers RMarkdown permettent de créer des documents (rapports, présentati
 
 <BR>
 
-Les fichiers RMarkdown ont une extension ".Rmd" .  
+Les fichiers RMarkdown ont une extension `.Rmd` .  
 
 <BR>
 
-A l'intérieur des fichiers RMarkdown on alterne la prise de note et le code R.  
+A l'intérieur des fichiers RMarkdown on alterne du texte et du code R.  
 
-Les lieux où taper du code 
-sont matérialisés par une zone grisée dans RStudio :  
+Les lieux où entrer du code 
+sont matérialisés par des zones grisées dans RStudio.  
 
-![](./images/premier_chunk.png){width=80%} 
+<BR>
+
+Exemple, un fichier `"age_Icarius.Rmd"` : 
+
+![](./images/age_Icarius_Rmd.png){width=70%} 
 
 <BR>
 
@@ -400,15 +410,29 @@ série de symboles.
 
 <BR>
 
-A l'exécution du fichier ".Rmd", les calculs sont menés, les graphiques éventuels sont réalisés, et un document est produit.  
-Chaque nouvelle exécution met à jour le document (si le fichier ".Rmd" a été modifié ou si les données ont changé).
+<BR>
+
+#### Exécution d'un fichier RMarkdown
 
 <BR>
 
-Le document produit est au format html.  
-Il apparaît dans le même répertoire que le fichier `.Rmd` .  
+Après exécution du fichier `.Rmd` , on obtient un document html qui comprend 
+le texte, le code R, et le résultat de l'exécution du code R.  
 
-![](./images/age_Icarius.png.png){width=80%} 
+<BR>
+
+Ci-dessous le document obtenu après exécution de `age_Icarius.Rmd` :
+
+![](./images/age_Icarius_html.png){width=100%} 
+
+<BR>
+
+Le document produit apparaît dans le même répertoire que le fichier `.Rmd` .  
+
+<BR>
+
+Quand le fichier `.Rmd` est modifié ou quand les données utilisées changent, 
+on peut mettre à jour le document réalisé, en exécutant à nouveau le fichier RMarkdown.
 
 <BR>
 
@@ -439,44 +463,56 @@ answer("un simple projet RStudio"),
 answer("un projet qui ne permet pas de créer un package"),
 answer("un projet qui n'apporte pas de plus-value en matière d'édition de la documentation des scripts"),
 answer("un projet RStudio, plus élaboré, qui permet notamment de créer un  package, d'éditer une documentation particulièrement bien assemblée, etc.", correct = TRUE),
-correct="Félicitations, c'est tout à fait ça et maintenant...à vous de jouer"
+correct="Félicitations, bonne réponse"
 )
 
 ``` 
 
 ```{r question3, echo=FALSE}
-question("Quel est le type de fichiers, qui permet de créer des rapports qui contiennent prise de notes, code R, et résultats, avec une belle présentation ?",
+question("Quel est le type de fichiers, qui permet de créer des rapports, présentations, etc. qui contiennent du texte, du code R, et les résultats de l'exécution du code R, avec une belle présentation ?",
 type="single",
 allow_retry = TRUE,
 incorrect="Retente ta chance",
-answer(""),
 answer("Le type \".R\","),
 answer("Le type \".Rmd\" (RMarkdown)", correct = TRUE),
 answer("Le type \".txt\""),
-correct="Félicitations, ce sont bien les fichiers de type \".Rmd\", qui à l'exécution peuvent produire de tels rapports"
+correct="Félicitations, ce sont bien les fichiers de type \".Rmd\", qui à l'exécution peuvent produire de tels rapports. Et maintenant...à vous de jouer"
 )
 
 ``` 
-<BR>
 
 <BR>
 
-Nous pourrions aussi imaginer de créer d'autres types de projet, mais déjà votre mémoire se brouille, il vous faut vite consigner vos mémoires épiques. 
+<BR>
+
+
+Nous pourrions continuer avec les fichiers RMardown, mais déjà votre mémoire se brouille, il vous faut vite consigner vos mémoires épiques. 
 
 
 C'est parti !  Vous allez maintenant ouvrir une autre partie de ce chapitre 13, avec le service intitulé "Grimoire - Neverending" 
-dans votre panneau comportant tous les tutoriels du FuncampR. Vous pourrez alors créer un projet RStudio, et éditer votre grimoire. 
-À la page d'ouverture de Rstudio, il vous faudra indiquer :
+dans votre panneau comportant tous les tutoriels du FuncampR.  
+
+<BR>
+
+Ce service va ouvrir RStudio.
+
+À la page de lancement de Rstudio, il vous faudra indiquer :  
 
 - comme nom d'utilisateur (username) : icarius
 - comme mot de passe (password) : statia
 
-```{r  echo=FALSE}
-include_graphics("images/rstudio.png")
-```
+![](./images/rstudio.png){width=50%} 
 
-**Fin de la première partie du chapitre 13  >>  lancez la partie "Grimoire - Neverending" qui vous permettra de créer un projet RStudio et d'éditer 
-votre grimoire (partie 2 du chapitre 13)**
+<BR>
+
+Vous pourrez alors :  
+1. éditer votre grimoire,  
+2. créer un projet RStudio.  
+
+<BR>
+
+**Fin de la première partie du chapitre 13  >>  lancez la partie "Grimoire - Neverending" qui vous permettra d'éditer 
+votre grimoire et de créer un projet RStudio (partie 2 du chapitre 13)**
 
 *Version 0.9.3*
 

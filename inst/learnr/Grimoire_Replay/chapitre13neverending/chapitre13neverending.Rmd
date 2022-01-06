@@ -313,12 +313,14 @@ Notez bien ce code magique, pour que vous puissiez reprendre le jeu vidéo icaRi
 
 <BR>
 
+<BR>
+
 Juste avant de finaliser l'aventure, nous vous proposons de créer un "projet de package" comme vu dans la première partie du chapitre 13.
 
-- Enregistrez la succession d'étapes ci-dessous, par exemple sur un fichier personnel, car la création d'un projet de package
-risque de rendre ces lignes inaccessibles.  
-- Tentez la création d'un projet de package que vous appellerez "projet1" ou d'un autre nom si vous le souhaitez.  
-- puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.
+1. Enregistrez la succession d'étapes ci-dessous, par exemple sur un fichier personnel, car au cours de la création d'un projet de package
+vous risquez de quitter cette page et de ne plus avoir accès à son contenu.  
+2. Tentez la création d'un projet de package que vous appellerez "projet1" ou d'un autre nom si vous le souhaitez.  
+3. puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.
 
 <BR>
 
@@ -340,8 +342,8 @@ Une fenêtre pop-up "Create Project" s'affiche
 # Dans RStudio ouvrir une fenêtre de script, puis exécuter le code suivant :  
 library(devtools)  
 load_all()  
-hello() # exécution du sortilège "hello()"  
-?hello # affichage de la documentation du sortilège "hello()"  
+hello() # exécution
+?hello # affichage de la documentation
 !###############################################  
 
 <BR>

@@ -319,8 +319,8 @@ Juste avant de finaliser l'aventure, nous vous proposons de créer un "projet de
 
 1. Enregistrez la succession d'étapes ci-dessous, par exemple sur un fichier personnel, car au cours de la création d'un projet de package
 vous risquez de quitter cette page et de ne plus avoir accès à son contenu.  
-2. Tentez la création d'un projet de package que vous appellerez "projet1" ou d'un autre nom si vous le souhaitez.  
-3. puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.
+2. Tentez la création d'un projet de package.  
+3. puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.  
 
 <BR>
 

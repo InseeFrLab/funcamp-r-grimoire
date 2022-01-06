@@ -1,4 +1,24 @@
+---
+title: "Chapitre 13 neverending"
+output:
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
 
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+```
 
 Soyez les bienvenus : vous voici dans l'environnement de développement RStudio. Prenez le temps de trouver vos marques. L'environnement a été préparé pour vous : à gauche le panneau source, à droite le viewer. Sentez-vous libre de manipuler les fenêtres comme bon vous semble. 
 

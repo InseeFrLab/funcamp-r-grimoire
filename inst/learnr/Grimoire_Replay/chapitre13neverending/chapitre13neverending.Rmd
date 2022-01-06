@@ -342,8 +342,8 @@ Une fenêtre pop-up "Create Project" s'affiche
 # Dans RStudio ouvrir une fenêtre de script, puis exécuter le code suivant :  
 library(devtools)  
 load_all()  
-hello() # exécution
-?hello # affichage de la documentation
+hello() # exécution  
+?hello # affichage de la documentation  
 !###############################################  
 
 <BR>

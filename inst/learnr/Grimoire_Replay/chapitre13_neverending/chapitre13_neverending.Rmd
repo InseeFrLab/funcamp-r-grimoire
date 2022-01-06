@@ -132,6 +132,7 @@ Le temps presse, car il s'agit de vaincre Sassos avant que le chef des armées n
 > Quel royaume est le plus éloigné, tout en comptant le plus de guerriers et le plus grand nombre de jours de canicule ? 
 
 ```{r include=FALSE}
+library(dplyr)
 donnees_secretes <- import("donnees/data_soldiers.csv")
 donnees_secretes <- donnees_secretes %>%
   select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
@@ -295,36 +296,35 @@ include_graphics("donnees/rstudio_solution.png")
 
 Juste avant de finaliser l'aventure, nous vous proposons de créer un "projet de package" comme vu dans la première partie du chapitre 13.
 
-- Enregistrez la succession d'étapes ci-dessous pour créer un projet de package, par exemple sur un fichier personnel, car la création d'un projet de package
+- Enregistrez la succession d'étapes ci-dessous, par exemple sur un fichier personnel, car la création d'un projet de package
 risque de rendre ces lignes inaccessibles.  
 - Tentez la création d'un projet de package que vous appellerez "projet1" ou d'un autre nom si vous le souhaitez.  
 - puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.
 
-###############################################
-###############################################
+<BR>
+
+!###############################################  
 Création d'un projet de package, succession d'étapes :  
-###############################################
-Dans RStudio, tout en haut à droite, cliquez sur "chapitre 13".
-Une liste déroulante apparaît. Choisir "Close project"
-cliquer sur "Project: (None)".  
-Une liste déroulante apparaît.  
+!###############################################  
+Dans RStudio, en haut à droite, cliquez sur "chapitre 13".  
+Une liste déroulante apparaît. Choisir "Close project".  
+En haut à droite cliquer sur "Project: (None)".   
 Choisir "New Project..."  
 Une fenêtre pop-up "Create Project" s'affiche  
 &nbsp;&nbsp;&nbsp;&nbsp;Sélectionner "New Directory" .  
-&nbsp;&nbsp;&nbsp;&nbsp;Dans la page "Project Type" de la pop-up,  
-&nbsp;&nbsp;&nbsp;&nbsp;cliquer sur "R package", 
+&nbsp;&nbsp;&nbsp;&nbsp;Dans la page "Project Type" de la pop-up, cliquer sur "R package",  
 &nbsp;&nbsp;&nbsp;&nbsp;Dans la page suivante,  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Package Name:" renseigner le nom du projet, par exemple projet1 ,  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(par exemple C/user/R/mesProjets/ ),  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"
-# Le projet est créé. Il contient déjà un sortilège "hello()" ainsi qu'une documentation de ce sortilège "hello()"
-# Ouvrir une fenêtre de script, puis exécuter le code suivant :
-library(devtools)
-load_all()
-hello() # exécution du sortilège "hello()"
-?hello # affichage de la documentation du sortilège "hello()"
-###############################################
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"  
+# Le projet est créé. Il contient déjà un sortilège "hello()" ainsi qu'une documentation de ce sortilège.  
+# Dans RStudio ouvrir une fenêtre de script, puis exécuter le code suivant :  
+library(devtools)  
+load_all()  
+hello() # exécution du sortilège "hello()"  
+?hello # affichage de la documentation du sortilège "hello()"  
+!###############################################  
 
+<BR>
 
 (Fin de cette épreuve. Version 0.9.4)

@@ -317,8 +317,9 @@ Notez bien ce code magique, pour que vous puissiez reprendre le jeu vidéo icaRi
 
 Juste avant de finaliser l'aventure, nous vous proposons de créer un "projet de package" comme vu dans la première partie du chapitre 13.
 
-1. Enregistrez la succession d'étapes ci-dessous dans un fichier, 
-car dans la suite il va falloir quitter cette page et vous n'aurez plus accès à son contenu.  
+Pour cela :  
+1. Enregistrez la succession d'étapes ci-dessous dans un fichier,  
+&nbsp;&nbsp;&nbsp;&nbsp;(car dans la suite vous devrez quitter cette page et n'aurez plus accès à son contenu).   
 2. Tentez la création d'un projet de package,  
 3. puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.  
 

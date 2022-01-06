@@ -309,10 +309,9 @@ un fichier intitulé _pour_asa.txt_ : il contient la réponse à fournir à Asa 
 Pour ouvrir ce fichier _pour_asa.txt_, il vous suffira de cliquer dessus...
 Notez bien ce code magique, pour que vous puissiez reprendre le jeu vidéo icaRius et donner la réponse à Asa la gueRnouille.
 
-```{r  echo=FALSE}
-library(knitr)
-include_graphics("donnees/rstudio_solution.png")
-```
+![](./images/rstudio_solution.png){width=100%} 
+
+<BR>
 
 Juste avant de finaliser l'aventure, nous vous proposons de créer un "projet de package" comme vu dans la première partie du chapitre 13.
 

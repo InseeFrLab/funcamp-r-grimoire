@@ -305,7 +305,7 @@ hello <- function() {
 install.packages("devtools")
 
 # Dans un projet de package, je peux charger en mémoire 
-# tous les sortilèges du projet avec "load_all()" du package "devtools"
+# les sortilèges du projet avec "load_all()" du package "devtools"
 library(devtools)
 load_all()
 

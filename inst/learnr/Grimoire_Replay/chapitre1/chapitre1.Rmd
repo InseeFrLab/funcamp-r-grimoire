@@ -35,7 +35,7 @@ df_statis <- data.frame(
 
 Bienvenu(e) dans ce premier chapitre du grimoire IGoR. Au cours de ce chapitre, nous allons progressivement : 
 
-- entamer de premiers dialogues avec R via une fenêtre de saisie : la console
+- entamer de premiers dialogues avec R via une fenêtre de saisie, la console
 - nous familiariser avec une nouvelle série de tics de langages de R
 
 En cas de besoin, n'hésitez pas à solliciter un animateur circulant dans la salle.
@@ -134,6 +134,10 @@ Tables de pokeR
 
 <BR>
 
+Dans ce chapitre, on va s'appesantir sur les tables de données que l'on trouve dans le langage des Runes.
+
+<BR>
+
 Dans R, les tables de données standard courantes, que l'on manipule, s'appellent des "data.frame".  
 Ce sont des tableaux rectangulaires, dont les colonnes sont des variables et les lignes des observations.  
 
@@ -145,7 +149,7 @@ Ce sont des tableaux rectangulaires, dont les colonnes sont des variables et les
 
 Les data.frame peuvent être créés :
 
-- par importation d'un fichier de données dans R,
+- par importation dans R d'un fichier de données,
 
 - ou avec le sortilège `data.frame()` :
 
@@ -330,7 +334,7 @@ df_statis[3, ]
 
 Les colonnes peuvent être :  
 
-- de type caractère (elles ne contiennent que des chaines de caractère)  
+- de type caractère (elles ne contiennent que des chaînes de caractère)  
 - de type numérique (elles ne comprennent que des nombres)  
 
 <BR>
@@ -477,7 +481,7 @@ df_statis <- data.frame(
 # Je modifie la colonne "coeurs" du data.frame pour qu'elle contienne les vraies valeurs.
 df_statis <- mutate(
   df_statis,
-  # pour chaque ligne, je teste si nom = IcaRius
+  # pour chaque ligne du data.frame, je teste si nom = IcaRius
   # si oui, je modifie coeurs en coeurs + 1
   # si non, le laisse la valeur de coeurs
   coeurs = ifelse(nom == "IcaRius", coeurs + 1, coeurs)
@@ -485,8 +489,6 @@ df_statis <- mutate(
 
 # J'affiche le data.frame modifié :
 print(df_statis)
-
-# Fin de l'exercice
 ``` 
 
 <BR>
@@ -596,7 +598,6 @@ df_statis[1, "coeurs"]
 # Calculer l'âge d'IcaRius, égal à son nombre de coeurs multiplié par 8
 df_statis[1, "coeurs"] * 8
 
-# 
 # Fin de l'exercice
 ```
 

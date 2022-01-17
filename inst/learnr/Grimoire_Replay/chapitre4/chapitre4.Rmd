@@ -116,7 +116,7 @@ Nous allons employer ci-dessous un `data.frame` nommé "df_statis" (qui a déjà
 
 <BR>
 
-Il a été déjà chargé dans R.
+Il est chargé dans R.
 
 <BR>
 
@@ -156,7 +156,7 @@ df_statis %>% select(nom, coeurs)
 
 ```{r ok-chapitre4-etape1,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
 # Considérer le data.frame "df_statis", 
-# puis sélectionner les colonnes "nom" et "coeurs" evec le sortilège "select"
+# puis sélectionner les colonnes "nom" et "coeurs" de la table avec le sortilège "select"
 
 
 # fin de l'exercice
@@ -164,7 +164,7 @@ df_statis %>% select(nom, coeurs)
  
 ```{r ok-chapitre4-etape1-solution}
 # Considérer le data.frame "df_statis", 
-# puis sélectionner les colonnes "nom" et "coeurs" evec le sortilège "select"
+# puis sélectionner les colonnes "nom" et "coeurs" de la table avec le sortilège "select"
 df_statis %>% select(nom, coeurs)
 
 # fin de l'exercice
@@ -201,8 +201,8 @@ df_statis %>% filter(lieu == "Maison d’IcaRius" & nom == "Mage Zilap")
 <span style="color:#18AC3E;font-size:16px">**À vous de pratiquer**</span> 
 
 ```{r ok-chapitre4-etape2,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
-# Prendre le data.frame "df_statis".
-# Ensuite filtrer le data.frame "df_statis" avec le sortilège "filter", 
+# Commencer avec le data.frame "df_statis".
+# Ensuite filtrer "df_statis" avec le sortilège "filter", 
 # pour ne conserver que les observations
 # relatives à la "Maison d'Icarius" et au "Mage Zilap"
 
@@ -211,8 +211,8 @@ df_statis %>% filter(lieu == "Maison d’IcaRius" & nom == "Mage Zilap")
 ``` 
  
 ```{r ok-chapitre4-etape2-solution}
-# Prendre le data.frame "df_statis".
-# Ensuite filtrer le data.frame "df_statis" avec le sortilège "filter", 
+# Commencer avec le data.frame "df_statis".
+# Ensuite filtrer "df_statis" avec le sortilège "filter", 
 # pour ne conserver que les observations
 # relatives à la "Maison d'Icarius" et au "Mage Zilap"
 df_statis %>% filter(lieu == "Maison d’IcaRius" & nom == "Mage Zilap")
@@ -232,7 +232,7 @@ La fonction `arrange()` réordonne les lignes d’un `data.frame` selon une ou p
 
 ```{r, echo=TRUE, eval=TRUE}
 # Je considère le data.frame "df_statis", 
-# puis je le trie selon le "lieu" par ordre alphabétique
+# puis je le trie suivant le "lieu" par ordre alphabétique
 df_statis %>% arrange(lieu)
 ```
 
@@ -255,7 +255,7 @@ Illustration en triant le `data.frame` "df_statis" par lieu puis par nombre de c
 ```{r, echo=TRUE, eval=TRUE}
 # Je considère le data.frame "df_statis", 
 # puis je le trie suivant le "lieu"
-# et ensuite par nombre de coeurs décroissant
+# et ensuite selon le nombre de coeurs décroissant
 df_statis %>% arrange(lieu, desc(coeurs))
 ```
 
@@ -264,8 +264,8 @@ df_statis %>% arrange(lieu, desc(coeurs))
 <span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
 
 ```{r ok-chapitre4-etape3,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
-# Prendre le data.frame "df_statis".
-# Après le trier par lieu
+# Considérer le data.frame "df_statis".
+# Après, trier la table par lieu
 # puis par nombre de coeurs décroissant
 
 
@@ -273,8 +273,8 @@ df_statis %>% arrange(lieu, desc(coeurs))
 ``` 
  
 ```{r ok-chapitre4-etape3-solution}
-# Prendre le data.frame "df_statis".
-# Après le trier par lieu
+# Considérer le data.frame "df_statis".
+# Après, trier la table par lieu
 # puis par nombre de coeurs décroissant
 df_statis %>% arrange(lieu, desc(coeurs))
 
@@ -312,8 +312,8 @@ df_statis %>% mutate(age = coeurs * 8)
 <span style="color:#18AC3E;font-size:16px">**À vous de prendre la plume !**</span> 
 
 ```{r ok-chapitre4-etape4,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
-# Prendre le data.frame "df_statis".
-# Après créer une colonne "age" dans le data.frame "df_statis"
+# Commencer avec le data.frame "df_statis".
+# Après, créer une colonne "age" dans la table
 # à partir de la colonne coeurs,
 # l'âge d'un personnage étant égal au nombre de coeurs multiplié par 8.
 
@@ -322,8 +322,8 @@ df_statis %>% mutate(age = coeurs * 8)
 ``` 
  
 ```{r ok-chapitre4-etape4-solution}
-# Prendre le data.frame "df_statis".
-# Après créer une colonne "age" dans le data.frame "df_statis"
+# Commencer avec le data.frame "df_statis".
+# Après, créer une colonne "age" dans la table
 # à partir de la colonne coeurs,
 # l'âge d'un personnage étant égal au nombre de coeurs multiplié par 8.
 df_statis %>% mutate(age = coeurs * 8)
@@ -382,7 +382,7 @@ df_statis %>%
 
 ```{r ok-chapitre4-etape5,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
 # (i) Prendre le data.frame "df_statis".
-# (ii) Ensuite filtrer le data.frame pour ne retenir que les observations dont 
+# (ii) Ensuite filtrer la table pour ne retenir que les observations dont 
 #     la variable "lieu" est "Maison d’IcaRius".
 # (iii) Puis ajouter la variable "age" égale au nombre de coeurs multiplié par 8.
 # (iv) Après trier suivant le nombre de coeurs, par ordre décroissant.
@@ -397,7 +397,7 @@ df_statis %>%
 
 ```{r ok-chapitre4-etape5-solution}
 # (i) Prendre le data.frame "df_statis".
-# (ii) Ensuite filtrer le data.frame pour ne retenir que les observations dont 
+# (ii) Ensuite filtrer la table pour ne retenir que les observations dont 
 #     la variable "lieu" est "Maison d’IcaRius".
 # (iii) Puis ajouter la variable "age" égale au nombre de coeurs multiplié par 8.
 # (iv) Après trier suivant le nombre de coeurs, par ordre décroissant.
@@ -600,7 +600,7 @@ df_statis_5
 Dans cette sous-partie, on souhaite assembler deux tables en une seule, en utilisant une clé de jointure,
 la clé de jointure étant constituée d’une ou de plusieurs variables qui sont présentes dans les deux tables.
 
-La fonction `left_join` permet d'effectuer cette jointure; elle extrait tous les éléments de la première table, 
+La fonction `left_join` permet d'effectuer une telle jointure; elle extrait tous les éléments de la première table, 
 et leurs correspondants (éventuels) dans la deuxième table.
 
 <BR>
@@ -632,8 +632,8 @@ df_statis_6
 <BR>
 
 On souhaite :  
-- joindre les deux data.frame "df_statis_5" et "df_statis_6", en utilisant comme clé de jointure le "nom",  
-- et obtenir, dans la table résultat, tous les éléments de "df_statis_5", et leurs correspondants (éventuels) dans "df_statis_6".  
+- joindre les deux data.frame `df_statis_5` et `df_statis_6`, en utilisant comme clé de jointure le "nom",  
+- et obtenir, dans la table résultat, tous les éléments de `df_statis_5`, et leurs correspondants (éventuels) dans `df_statis_6`.  
 
 ```{r, echo=TRUE, eval=TRUE}
 # Je joins "df_statis_5" et "df_statis_6" avec le sortilège "left_join", en utilisant comme clé de jointure le "nom"
@@ -643,30 +643,33 @@ df_statis_7 <- left_join(df_statis_5, df_statis_6, by = "nom")
 df_statis_7
 ```
 
-Dans la table "df_statis_7" obtenue :
+Dans la table `df_statis_7` obtenue :
 
-- IcaRius apparaît deux fois, parce qu'on a trouvé deux occurences d'Icarius dans la table "df_statis_6".
+- IcaRius apparaît deux fois, parce qu'on a trouvé deux occurences d'Icarius dans la table `df_statis_6`.
 
-- dans le cas du mage Zilap, il n'y a pas d'occurence dans le `data.frame` "df_statis_6.
-Pour "Tellus", une occurence a été trouvée dans la table "df_statis_6".
+- dans le cas du mage Zilap :  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;il n'y a pas d'occurence dans le data.frame `df_statis_6`,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;en conséquence "possession" vaut NA dans `df_statis_7`.
 
-- le personnage "Soldat" du `data.frame` "df_statis_6" ne figure pas dans le "df_statis_5". Ce personnage 
-n'est donc pas présent dans la table "df_statis_7" résultat.
+- Pour "Tellus", une occurence a été trouvée dans la table `df_statis_6`.
+
+- le personnage "Soldat" du data.frame `df_statis_6` ne figure pas dans le `df_statis_5`. Ce personnage 
+n'est donc pas présent dans la table `df_statis_7` résultat.
 
 
 <BR>
 
 N.B. : d'autres sortilèges de **dplyr** (`right_join`, `inner_join`, `full_join`, etc.) permettent
-d'effectuer d'autres jointures avec une clé.
+d'effectuer d'autres types de jointures avec une clé.
 
 <BR>
 
 ## À vous de jouer !
 
 Et si vous écriviez vous-mêmes la solution pour :  
-- assembler les deux `data.frame` "df_statis" et "df_statis_2", en une table "df_statis_3",  
-- fusionner "df_statis_3" et "df_statis_4", en un `data.frame` "df_statis_5",  
-- et joindre "df_statis_5" et "df_statis_6" ?  
+- assembler les deux data.frame `df_statis` et `df_statis_2`, en une table `df_statis_3`,  
+- fusionner `df_statis_3` et `df_statis_4`, en un data.frame `df_statis_5`,  
+- et joindre `df_statis_5` et `df_statis_6` ?  
 
 Ecrivez ci-dessous la manipulation des `data.frame`, 
 exécutez votre code... Rappel : l'exécution des lignes se fait en appuyant sur le bouton :

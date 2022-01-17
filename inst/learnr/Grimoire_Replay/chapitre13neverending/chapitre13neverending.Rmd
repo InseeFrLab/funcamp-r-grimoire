@@ -96,21 +96,42 @@ Le modeste Galia est bien le meilleur producteur de Mandragore - tant pis pour c
 
 Mais ce n'est pas suffisant, le mage Xeilhac vous pose une autre colle : 
 
-> quel est donc le secret d'une telle performance ? 
+> en assemblant de telle façon des tables (en utilisant **dplyr**), on obtient un data.frame qui contient combien d'observations ?
 
-La productivité de la meilleure exploitation est explicable par l'efficacité à conjuguer et chaîner les opérations sur la culture avec l'opérateur %>%. L'itinéraire technique optimal de la culture de la Mandragore est la suivante : 
+```{r}
+df_statis <- data.frame(
+    nom = factor(c("IcaRius", "Mage Zilap", "Mage RegoR")),
+    coeurs = c(2, 12, 10),
+    lieu = factor(c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro"))
+)
 
-```{r, eval = FALSE}
-champ %>% 
-  labourer() %>% 
-  ajouter(coccinelles) %>%
-  semer() %>% 
-  arroser() %>% 
-  recolter()
+df_statis_2 <- data.frame(
+	nom = factor(c("Statia", "Mage Tourep", "Tellus")),
+	coeurs = c(3, 10, 6),
+	lieu = factor(c("Plaines de Statis", "Village de Kokoro", "Village de GrissGrass"))
+)
 
+df_statis_4 <- data.frame(
+    initiale = c("I", "Z", "R", "S", "To", "Te"),
+	age = c("24", "80", "64", "24", "80", "48"),
+	statut = c("héros", "mage", "mage", "héroïne", "mage", "fermier")
+)
+
+df_statis_6 <- data.frame(
+	nom = factor(c("IcaRius", "IcaRius", "Tellus", "Soldat")),
+	possession = c("Epée", "Bouclier", "Ferme de Tellus", "Armure")
+)
+
+df_statis_3 <- bind_rows(df_statis, df_statis_2)
+
+df_statis_5 <- bind_cols(df_statis_3, df_statis_4)
+
+df_statis_7 <- left_join(df_statis_5, df_statis_6, by = "nom")
+
+nrow(df_statis_7)
 ```
 
-En récompense à vos nouvelles compétences en vocabulaire, le fermier Galia et le chef du village de Griss Grass vous offrent un filtre de mandragore : vos pouvoirs sont augmentés. 
+En récompense à vos nouvelles compétences en assemblage, le fermier Galia et le chef du village de Griss Grass vous offrent un filtre de mandragore : vos pouvoirs sont augmentés. 
 
 En allant au-delà du cimetière de GrissGrass, nous voilà face au monstrueux et souterrain Tartaros qui emprisonne les esprits égoïstes qui ne partagent pas leur code. 
 

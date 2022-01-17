@@ -18,6 +18,7 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 library(knitr)
+library(dplyr)
 ```
 
 Soyez les bienvenus : vous voici dans l'environnement de développement RStudio. Prenez le temps de trouver vos marques. L'environnement a été préparé pour vous : à gauche le panneau source, à droite le viewer. Sentez-vous libre de manipuler les fenêtres comme bon vous semble. 
@@ -32,12 +33,21 @@ Pour quitter la maison d'Icarius, vous avez répondu à la question du mage Rego
 
 > Quel est l'âge d'Icarius ? 
 
-À cet effet, nous avons exécuté l'instruction suivante : 
+À cet effet, nous avons exécuté les instructions suivantes : 
 
 ```{r}
-nb_coeur <- 3
-max_nb_coeur <- 2*nb_coeur
-(nb_coeur * pi^2) - max_nb_coeur
+df_statis <- data.frame(
+    nom = c("IcaRius", "Mage Zilap", "Mage RegoR"),
+    coeurs = c(2, 12, 10),
+    lieu = c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro")
+)
+
+df_statis <- mutate(
+  df_statis,
+  coeurs = ifelse(nom == "IcaRius", coeurs + 1, coeurs)
+)
+
+df_statis[1, "coeurs"] * 8
 ```
 
 Une fois dehors, vous avez parcouru les plaines de Statis et rencontré Statia. Ou plutôt un spectre d'elle qui nous offre une épée. 
@@ -48,39 +58,17 @@ Une fois dehors, vous avez parcouru les plaines de Statis et rencontré Statia. 
 Parfaitement équipé, nous nous sommes rendu au village Kokoro en hachant menu les buissons.  
 Au village, le mage Tourep nous confie la lourde responsabilité d'aider la fermière avec le registre des pontes. 
 
-> En reconstituant le livre de comptes à partir des 4 fichiers aux formats différents quelle poule est la plus performante ? 
+> Quelle poule est la plus performante ? 
 
 ```{r message = FALSE}
 library(rio)
-livre_compte_1 <- import("donnees/pontes_semaine1.sas7bdat")
-livre_compte_2 <- import("donnees/pontes_semaine2.xls")
-livre_compte_3 <- import("donnees/pontes_semaine3.ods")
-livre_compte_4 <- import("donnees/pontes_semaine4.csv")
-
+load("donnees/livre_compte_3.RData")
 ```
 
-Dans le livre 1, la meilleure poule est : 
-
-```{r}
-livre_compte_1
-```
-
-Dans le livre 2, la meilleure poule est : 
-
-```{r}
-livre_compte_2
-```
-
-Dans le livre 3, la meilleure poule est : 
+La meilleure poule est : 
 
 ```{r}
 livre_compte_3
-```
-
-Dans le livre 4, la meilleure poule est : 
-
-```{r}
-livre_compte_4
 ```
 
 Le mage Tourep nous remercie d'un bouclier qui nous rend apte à traverser les dangers des plaines de Statis. 
@@ -320,7 +308,7 @@ Juste avant de finaliser l'aventure, nous vous proposons de créer un "projet de
 Pour cela :  
 1. Enregistrez la succession d'étapes ci-dessous dans un fichier,  
 &nbsp;&nbsp;&nbsp;&nbsp;(car dans la suite vous devrez quitter cette page et n'aurez plus accès à son contenu).   
-2. Tentez la création d'un projet de package,  
+2. Créez un projet de package,  
 3. puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.  
 
 <BR>

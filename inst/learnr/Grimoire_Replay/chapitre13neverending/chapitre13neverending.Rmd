@@ -82,12 +82,11 @@ Au delà des plaines de Statis, le mage Xeilhac qui siège dans le village Griss
 > Qui possède l'exploitation la plus productive ? 
 
 ```{r message=FALSE}
-fichier_tellus <- import("donnees/recensement_agricole_statia_Tellus.ods")
-fichier_galia <- import("donnees/recensement_agricole_statia_Galia.ods")
+df_livre <- import("donnees/recensement_agricole.csv")
 
-library(skimr)
-skim(fichier_galia)
-skim(fichier_tellus)
+df_livre %>%
+  group_by(Exploitation) %>%
+  summarise(moyenne_production = mean(Production))
 ```
 
 Le modeste Galia est bien le meilleur producteur de Mandragore - tant pis pour ce prétentieux Tellus !

@@ -90,21 +90,29 @@ df_statis <- data.frame(
 
 Vous venez de rencontrer la fermière du village Kokoro, désespérée d'avoir perdu le livre de compte où, chaque jour, elle note consciencieusement le nombre de pontes. 
 
-Aidons IcaRius à retrouver le livre de compte. Ce dernier n'est pas tout à fait perdu : il en reste une copie. Mais pour corser le tout, la copie a été ensorcelée et semble indéchiffrable... Elle est en effet dans un format ".RData".
+Aidons IcaRius à retrouver ce précieux document. Il n'est pas tout à fait perdu : il en reste une copie dans un fichier. 
+Mais pour corser le tout, le fichier semble indéchiffrable... Il est en effet dans un format ".RData".
 
 **Aie aie aie.**
 
 <BR>
 
-## Au Royaume de Statis, lecture de données enregistrées
+Comment lire le contenu d'un fichier dans R ?
 
 <BR>
 
-#### Rappel : charger un fichier dans R avec le sortilège `import`
+<BR>
+
+## Les fichiers usuels au Royaume de Statis
 
 <BR>
 
-Le sortilège `import()` permet d'importer dans R des fichiers qui ont une extension ".sas7bdat" (SAS), ".xls", ".xlsx", ".ods" (Libre office Calc), ".csv", 
+#### Le sortilège `import`
+
+<BR>
+
+Le sortilège `import()` permet d'importer dans R les fichiers qui sont sur disque dur (ou sur clé USB, etc.) 
+et qui ont une extension ".sas7bdat" (SAS), ".xls", ".xlsx", ".ods" (Libre office Calc), ".csv", 
 ou un format SPSS, Stata, Matlab, etc.
 
 L'écriture est la suivante :
@@ -118,15 +126,15 @@ D'autres fichiers, avec des extensions particulières, nécessitent des sortilè
 
 <BR>
 
-## Un fichier du langage des Runes
+## Un fichier du langage des Runes 
 
 <BR>
 
-#### Charger le contenu d'un fichier ".RData" dans R
+#### Charger un fichier ".RData" dans R
 
 <BR>
 
-Rappel : un fichier ".RData", est une sauvegarde sur disque (ou clé USB, etc.) d'un ou de plusieurs objets de R.  
+Rappel : un fichier ".RData" est une sauvegarde sur disque (ou clé USB, etc.) d'un ou de plusieurs objets de R.  
 
 <BR>
 
@@ -136,12 +144,12 @@ Pour importer le contenu d'un fichier ".RData" dans R, on peut utiliser le sorti
 
 Exemple.
 
-Un fichier "livre_compte_3.RData" a été préalablement créé.  
+Un fichier "livre_compte_3.RData" existe.  
 
 (Ce fichier est la sauvegarde d'un data.frame nommé "livre_compte_3".)  
 
 L'adresse de ce fichier est &nbsp;&nbsp;&nbsp;&nbsp; `r chemin_livre_compte_3`  
-(attention, dans R, il faut toujours dans les chemins de fichier utiliser des "slash" / et non des "back slash" \)  
+(attention, dans R, il faut toujours dans les chemins de fichier utiliser des "slash" / et non des "back slash" \\ )  
 
 <BR>
 
@@ -244,12 +252,11 @@ Exemple.
 ```{r, echo=TRUE, eval=FALSE}
 # Site Insee.
 # L'adresse "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205" permet 
-# d'accéder aux chiffres des naissances, région Provence-Alpes-Côte d'Azur
-# (BDM, Banque de Données Macro-économiques),
-# au format sdmx.
+# d'accéder aux chiffres des naissances, région Provence-Alpes-Côte d'Azur,
+# (BDM, Banque de Données Macro-économiques), au format sdmx.
 # Je souhaite charger ces chiffres dans R.
 
-# Je charge les données, avec le sortilège "readSDMX",
+# J'importe les données, avec le sortilège "readSDMX",
 # dans un objet R "naissances_93"
 naissances_93 <- readSDMX("https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205")
 
@@ -270,14 +277,14 @@ head(df_naissances_93, 5)
 
 <span style="color:#18AC3E;font-size:16px">**À vous de prendre la plume !**</span> 
 
-Nous vous proposons de re-charger les données "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205" dans R.
+Nous vous proposons de charger les données "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205" dans R.
 
 ```{r ok-chapitre2-etape2,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
 # Charger les données, avec le sortilège "readSDMX",
 # dans un objet R "naissances_93"
 
 
-# Pour faciliter l'utilisation, transformer l'objet R "naissances_93" en un "data.frame", 
+# Pour faciliter l'utilisation, transformer "naissances_93" en un "data.frame", 
 # avec le sortilège "as.data.frame"
 
 
@@ -292,7 +299,7 @@ Nous vous proposons de re-charger les données "https://bdm.insee.fr/series/sdmx
 # dans un objet R "naissances_93"
 naissances_93 <- readSDMX("https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205")
 
-# Pour faciliter l'utilisation, transformer l'objet R "naissances_93" en un "data.frame", 
+# Pour faciliter l'utilisation, transformer "naissances_93" en un "data.frame", 
 # avec le sortilège "as.data.frame"
 df_naissances_93 <- as.data.frame(naissances_93)
 
@@ -307,31 +314,36 @@ head(df_naissances_93, 5)
 <BR>
 
 ><details><summary><font size="3"><b>
->S'il y a une difficulté d'encodage dans les lignes ci-dessus (par ex. des lignes "Naissances domiciliÃ©es par rÃ©gion" apparaissant),
+>S'il y a une difficulté d'encodage dans les lignes ci-dessus (par ex. si des lignes "Naissances domiciliÃ©es par rÃ©gion" apparaissent),
 >ci-dessous pour les plus téméraires une partie optionnelle - cliquez ici
 </b></font></summary>
 ><p><font size="2">
 >
 ><BR>
 >
->Dans cette sous-partie, on demande à R de lire et d'afficher, avec l'encodage "UTF-8", la série téléchargée.  
+>Dans cette sous-partie, on demande à R de lire avec l'encodage "UTF-8" et d'afficher, la série téléchargée.  
 >Pour cela, on ajoute un paragraphe au code précédent.  
 >
 >```{r message=FALSE, warning=FALSE, echo=TRUE, eval=FALSE}
+# Téléchargement
 naissances_93 <- readSDMX("https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205")
 
+# Transformation en un data.frame "df_naissances_93"
 df_naissances_93 <- as.data.frame(naissances_93)
 
 ####
-# data.frame "df_naissances_93", je transforme les colonnes de type "facteur" en colonnes de type caractère
+## data.frame "df_naissances_93"
+# je modifie les colonnes de type "facteur" en colonnes de type caractère
 df_naissances_93 <- df_naissances_93 %>%
-    mutate_if(is.factor, as.character) # utilisation de nouveaux sortilèges "mutate_if" et "is.factor"
-# je déclare que l'encoding de chaque colonne du data.frame "df_naissances_93" est "UTF-8"
-for (name in colnames(df_naissances_93)){ # emploi de "for" pour énumérer, et du sortilège "colnames" pour obtenir les colonnes d'un data.frame
-    Encoding( df_naissances_93[,name] ) <- "UTF-8" # utilisation du sortilège "Encoding"
+    mutate_if(is.factor, as.character) # utilisation de nouveaux sortilèges "mutate_if()" et "is.factor()"
+	
+# je déclare que l'encoding de chaque colonne est "UTF-8"
+for (name in colnames(df_naissances_93)){ # emploi de "for" pour énumérer, et de "colnames()" pour obtenir les colonnes d'un data.frame
+    Encoding( df_naissances_93[,name] ) <- "UTF-8" # utilisation du sortilège "Encoding()"
 }
 ####
 
+# Lecture et affichage (la lecture de la table a alors lieu en UTF-8)
 head(df_naissances_93, 5)
 >```
 >
@@ -339,48 +351,51 @@ head(df_naissances_93, 5)
 ><span style="color:#18AC3E;font-size:16px">**À vous de jouer !**</span> 
 >
 >Nous vous proposons de re-charger les données "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205" dans R,
-> et de demander à R de les lire et afficher avec l'encodage UTF-8.
+> et de demander à R de les lire avec l'encodage UTF-8 et de les afficher .
 >
 >```{r ok-chapitre2-etape3,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
-# Charger les données dans un objet R "naissances_93"
+# Télécharger les données et les enregistrer dans un objet R "naissances_93"
 
 
-# Pour faciliter l'utilisation, transformer l'objet R "naissances_93" en un "data.frame"
-
-
-####
-# data.frame "df_naissances_93", transformer les colonnes de type "facteur" en colonnes de type caractère
-
-
-# déclarer que l'encoding de chaque colonne du data.frame "df_naissances_93" est "UTF-8"
+# Pour faciliter l'utilisation, transformer "naissances_93" en un data.frame "df_naissances_93"
 
 
 ####
+## data.frame "df_naissances_93"
+# modifier les colonnes de type "facteur" en colonnes de type caractère
 
-# Afficher les 5 premières lignes du data.frame
+
+# déclarer que l'encoding de chaque colonne est "UTF-8"
+
+
+####
+
+# Lire et afficher les 5 premières lignes du data.frame
 
 
 # Fin de l'exercice
 >```
 >
 >```{r ok-chapitre2-etape3-solution}
-# Charger les données dans un objet R "naissances_93"
+# Télécharger les données et les enregistrer dans un objet R "naissances_93"
 naissances_93 <- readSDMX("https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/000868205")
 
-# Pour faciliter l'utilisation, transformer l'objet R "naissances_93" en un "data.frame"
+# Pour faciliter l'utilisation, transformer "naissances_93" en un data.frame "df_naissances_93"
 df_naissances_93 <- as.data.frame(naissances_93)
 
 ####
-# data.frame "df_naissances_93", transformer les colonnes de type "facteur" en colonnes de type caractère
+## data.frame "df_naissances_93"
+# modifier les colonnes de type "facteur" en colonnes de type caractère
 df_naissances_93 <- df_naissances_93 %>%
-    mutate_if(is.factor, as.character) # utilisation de nouveaux sortilèges "mutate_if", "is.factor", "as.character"
-# déclarer que l'encoding de chaque colonne du data.frame "df_naissances_93" est "UTF-8"
+    mutate_if(is.factor, as.character) # utilisation de "mutate_if()", "is.factor()", "as.character()"
+	
+# déclarer que l'encoding de chaque colonne est "UTF-8"
 for (name in colnames(df_naissances_93)){
     Encoding(df_naissances_93[,name]) <- "UTF-8" # emploi du sortilège "Encoding()"
 }
 ####
 
-# Afficher les 5 premières lignes du data.frame
+# Lire et afficher les 5 premières lignes du data.frame
 head(df_naissances_93, 5)
 
 # Fin de l'exercice
@@ -393,15 +408,15 @@ head(df_naissances_93, 5)
 
 <BR>
 
-## L'internet des Runes
+## Les fichiers sur internet
 
 <BR>
 
-#### Demander à R de télécharger un fichier sur internet
+#### Demander à R de télécharger un fichier disponible sur internet
 
 <BR>
 
-Avec le sortilège `download.file`, on peut demander à R de télécharger un fichier disponible sur internet.
+Avec le sortilège `download.file()`, on peut demander à R de télécharger un fichier sur internet.
 
 <BR>
 
@@ -421,7 +436,7 @@ https://www.insee.fr/fr/statistiques/1405599?geo=COM-33292 )
 ```{r, echo=FALSE, eval=TRUE, comment=NA}
 str_3 <- 
   paste0(
-    "# Avec le sortilège \"download.file\",\n",
+    "# Avec le sortilège \"download.file()\",\n",
 	"# je télécharge le fichier ci-dessus,\n",
     "# et je l'enregistre.\n",
     "download.file(\n",
@@ -464,12 +479,12 @@ file.exists(chemin_comparateur_cc_33292)
 
 <span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
 
-Nous vous proposons de redemander à R :  
+Nous vous proposons de demander à R :  
 - de télécharger le fichier `https://www.insee.fr/fr/statistiques/tableaux/1405599/comparateur_cc_.xls?geo=COM-33292`,  
 - et d'enregistrer le fichier téléchargé sous &nbsp;&nbsp; `r chemin_comparateur_cc_33292` .  
 
 ```{r ok-chapitre2-etape4,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
-# Avec le sortilège "download.file", télécharger le fichier
+# Avec le sortilège "download.file()", télécharger le fichier
 
 
 # Vérifier que le fichier a bien été créé, avec le sortilège "file.exists(...)"
@@ -481,7 +496,7 @@ Nous vous proposons de redemander à R :
 ```{r, include=FALSE, comment=NA}
 str_6 <- 
   paste0(
-    "# Avec le sortilège \"download.file\", télécharger le fichier\n",
+    "# Avec le sortilège \"download.file()\", télécharger le fichier\n",
     "download.file(\n",
     "  url = \"https://www.insee.fr/fr/statistiques/tableaux/1405599/comparateur_cc_.xls?geo=COM-33292\",\n",
     "  destfile = \"",
@@ -515,16 +530,16 @@ cat(str_6)
 
 Soit un fichier compressé, qui est sur disque dur ou sur clé USB.
 
-On peut demander à R de dézipper le fichier, avec le sortilège "unzip".  
+On peut demander à R de dézipper le fichier, avec le sortilège `unzip()` .  
 
 <BR>
 
 ```{r, echo=TRUE, eval=FALSE}
 # Avec du code R, je souhaite dé-zipper un fichier compressé "monFichierZip", que j'ai sur disque dur ou clé USB.
-# Je souhaite que le résultat du dé-zippage soit dans un dossier "monRepertoire".
+# Je souhaite que le résultat du dé-zippage apparaisse dans un dossier "monRepertoire".
 # J'utilise le sortilège "unzip" :
 unzip(
-  zipfile = "monFichierZip", # indiquer le chemin complet du fichier, entre guillemets (utiliser des / et non des \)
+  zipfile = "monFichierZip", # indiquer le chemin complet du fichier, entre guillemets (utiliser des / et non des \ )
                              # exemple : "C:/user/fichier_1.zip"
   exdir = "monRepertoire" # précider le chemin complet du dossier, entre guillemets, par exemple "C:/user"
 )
@@ -535,13 +550,14 @@ unzip(
 ## Rappel : conjuguer les sortilèges
 
 <BR>
-Avant de passer à la suite, un petit rappel, si vous le souhaitez.
+
+A ce stade, un petit rappel, si vous le souhaitez.
 
 Le **pipe** `%>%` est une instruction du langage des Runes qui permet de conjuguer les sortilèges.  
 
 Le "pipe" va être très utilisé dans la suite du Grimoire.  
 
-Souhaitez vous réviser le "pipe" (comment le "pipe" s'emploie, comment il permet d'assembler les sortilèges) ?
+Souhaitez vous réviser le "pipe" (revoir comment le "pipe" s'emploie, comment il permet d'assembler les sortilèges) ?
 
 Si vous ne souhaitez pas revoir cette instruction du langage R, passez directement à la partie "Revenons à nos oeufs...", en vue de
 répondre à l'énigme du chapitre 2, et de continuer le jeu Icarius.
@@ -646,7 +662,7 @@ df_statis$coeurs %>% print()
 >Nous vous proposons de réafficher la table "df_statis", et de réobtenir son type, en utilisant le pipe.
 >
 >```{r ok-chapitre2-etape5,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
-# En utilisant le "pipe" %>% et le sortilège print(), 
+# Table "df_statis". En utilisant le "pipe" %>% et le sortilège print(), 
 # afficher le data.frame "df_statis"
 
 
@@ -658,7 +674,7 @@ df_statis$coeurs %>% print()
 >```
 >
 >```{r ok-chapitre2-etape5-solution}
-# En utilisant le "pipe" %>% et le sortilège print(), 
+# Table "df_statis". En utilisant le "pipe" %>% et le sortilège print(), 
 # afficher le data.frame "df_statis"
 df_statis %>% print()
 

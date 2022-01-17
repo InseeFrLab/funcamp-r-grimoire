@@ -94,7 +94,7 @@ Quel est le nombre de ces cuvées ?.
 
 <BR>
 
-Rappel : on peut compter le nombre de lignes du data.frame avec le sortilège "nrow".
+Rappel : on peut compter le nombre de lignes d'un data.frame avec le sortilège "nrow".
 ```{r}
 # J'affiche le nombre de lignes du data.frame "df_livre"
 nrow(df_livre)
@@ -164,14 +164,14 @@ On souhaite :
 
 Pour cela, on utilise :  
 - le sortilège `table()`,  
-- et ensuite le sortilège `addmargin(FUN = list(Total = sum))`.  
+- et ensuite le sortilège `addmargin()`.  
 
 ```{r, message=FALSE, warning=FALSE}
 # Je compte le nombre de lignes du data.frame "df_livre", 
 # suivant les valeurs de la variable qualitative "Exploitation",
 # en ajoutant les totaux
 table(df_livre$Exploitation, deparse.level = 2) %>%
-  addmargins(FUN = list(Total = sum))
+  addmargins(FUN = list(Total = sum)) # FUN = list(Total = sum) : un ingrédient un peu obscur
 ```
 
 On a utilisé ci-dessus le "pipe" `%>%` pour enchaîner les sortilèges.
@@ -190,7 +190,7 @@ table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
 
 <span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
 
-Nous vous proposons de recalculer ci-dessous des nombres de cuvées. Au fait, dans la console R, vous pouvez également afficher la solution pour avoir une aide avec le bouton :
+Nous vous proposons de recalculer ci-dessous des nombres de cuvées. Dans la console R, vous pouvez également afficher la solution pour avoir une aide avec le bouton :
 ```{r image_1, echo=FALSE, fig.cap="", out.width = '70px'}
 knitr::include_graphics("images/solution.png")
 ```
@@ -199,7 +199,7 @@ knitr::include_graphics("images/solution.png")
 # Compter le nombre d'observations du data.frame "df_livre",
 # suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
 # avec le sortilège "table()",
-# avec ajout du nom des variables qualitatives, au tableau de résultats
+# en ajoutant le nom des variables qualitatives, au tableau de résultats
 
 
 # Même calcul avec en plus l'ajout des totaux 
@@ -212,7 +212,7 @@ knitr::include_graphics("images/solution.png")
 # Compter le nombre d'observations du data.frame "df_livre",
 # suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
 # avec le sortilège "table()",
-# avec ajout du nom des variables qualitatives, au tableau de résultats
+# en ajoutant le nom des variables qualitatives, au tableau de résultats
 table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2)
 
 # Même calcul avec en plus l'ajout des totaux 
@@ -233,7 +233,7 @@ Pour obtenir des nombres d'observations en pourcentage, on applique :
 - et ensuite le sortilège `prop.table()`.  
 
 ```{r, message=FALSE, warning=FALSE}
-# Je compte le nombre d'observations du data.frame "df_livre", 
+# Je compte les nombre d'observations du data.frame "df_livre", 
 # suivant les valeurs de la variable qualitative "Exploitation",
 # en pourcentages
 table(df_livre$Exploitation, deparse.level = 2) %>%
@@ -250,7 +250,7 @@ table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
 
 Avec les totaux :
 
-Pour ajouter les totaux, on applique ensuite le sortilège `addmargin(FUN = list(Total = sum))`, comme ci-dessus.
+Pour ajouter les totaux, on applique ensuite le sortilège `addmargin()`, comme ci-dessus.
 
 Pourcentages, avec les totaux :
 ```{r, message=FALSE, warning=FALSE}
@@ -295,7 +295,7 @@ on applique ensuite le sortilège `addmargin()` avec l'ingrédient `margin = 2` 
 # en pourcentages en ligne, avec une colonne "Total"
 table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
   prop.table(margin = 1) %>%
-  addmargins(FUN = list(Total = sum), margin = 2)
+  addmargins(FUN = list(Total = sum), margin = 2) # margin = 2 : ajoute la colonne "Total"
 ```
 
 <BR>
@@ -329,7 +329,7 @@ on applique ensuite le sortilège `addmargin` avec l'ingrédient `margin = 1` .
 # en pourcentages en colonne, avec une ligne "Total"
 table(df_livre$Exploitation, df_livre$Temps, deparse.level = 2) %>%
   prop.table(margin = 2) %>%
-  addmargins(FUN = list(Total = sum), margin = 1)
+  addmargins(FUN = list(Total = sum), margin = 1) # margin = 1 : ajoute la ligne "Total"
   
 ```
 
@@ -437,8 +437,8 @@ N.B. : si on utilise trois variables qualitatives ou plus, le sortilège `xtabs`
 
 <BR>
 
-On peut passer à des sommes en pourcentage, en pourcentage en ligne ou en pourcentage en colonne, comme ci-dessus, avec 
-le sortilège `prop.table`.
+On peut passer à des sommes en pourcentage, en pourcentage en ligne ou en pourcentage en colonne, comme ci-dessus, 
+en adjoignant au calcul le sortilège `prop.table`.
 
 De même on peut ajouter les totaux avec le sortilège `addmargins`.
 
@@ -449,7 +449,7 @@ De même on peut ajouter les totaux avec le sortilège `addmargins`.
 Nous vous proposons de recalculer ci-dessous la somme d'une variable quantitative.
 
 ```{r ok-chapitre3-etape3,exercise=TRUE, exercise.setup = "prepare-data-df_livre"}
-# Calculer la somme de la variable "Production" du data.frame "df_livre",
+# Obtenir les sommes de la variable "Production" du data.frame "df_livre",
 # suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
 # avec le sortilège "xtabs()"
 
@@ -458,7 +458,7 @@ Nous vous proposons de recalculer ci-dessous la somme d'une variable quantitativ
 ``` 
 
 ```{r ok-chapitre3-etape3-solution}
-# Calculer la somme de la variable "Production" du data.frame "df_livre",
+# Obtenir les sommes de la variable "Production" du data.frame "df_livre",
 # suivant les valeurs des variables qualitatives "Exploitation" et "Temps",
 # avec le sortilège "xtabs()"
 xtabs(data = df_livre, Production ~ Exploitation + Temps)
@@ -539,7 +539,7 @@ Et voilà ! On sait maintenant quelle est l'exploitation la plus productive, et 
 
 <BR>
 
-### Moyennes d'une variable quantitative d'un `data.frame`, suivant les valeurs de plusieurs variables qualitatives, et présentation dans un tableau
+### Moyennes d'une variable quantitative d'un `data.frame`, suivant les valeurs de plusieurs variables qualitatives, et présentation des résultats dans un tableau avec une variable en ligne et une variable en colonne
 
 <BR>
 
@@ -548,11 +548,11 @@ Et voilà ! On sait maintenant quelle est l'exploitation la plus productive, et 
 >
 ><BR>
 >
->Dans cette sous-partie, on reprend le dernier morceau de code.
+>On reprend le dernier morceau de code.
 >
 ><BR>
 >
->Puis on utilise le sortilège "xtabs()" pour présenter les résultats dans un tableau avec une variable en ligne et une variable en colonne.
+>Puis on utilise le sortilège "xtabs()" pour obtenir la présentation souhaitée.
 >
 ><BR>
 >
@@ -593,11 +593,12 @@ xtabs(data = df_resultat, moyenne_production ~ Exploitation + Temps)
 # Calculer la moyenne de la production
 # suivant les valeurs des variables qualitatives "Exploitation" et "Temps".
 # Partir de la table "df_livre", et employer le sortilège "group_by" avec les variables qualitatives "Exploitation" et "Temps".
-# Puis utiliser les sortilèges "summarise()", "mean()", et nommer la moyenne "moyenne_production".
+# Puis utiliser les sortilèges "summarise()", ainsi que "mean()", et nommer la moyenne "moyenne_production".
 # Assigner le résultat à l'objet "df_resultat".
 
 
 # Appliquer le sortilège "xtabs" au data.frame "df_resultat", pour obtenir les résultats dans un tableau
+# avec une variable en ligne et une variable en colonne
 
 
 # Fin de l'exercice
@@ -607,13 +608,14 @@ xtabs(data = df_resultat, moyenne_production ~ Exploitation + Temps)
 # Calculer la moyenne de la production
 # suivant les valeurs des variables qualitatives "Exploitation" et "Temps".
 # Partir de la table "df_livre", et employer le sortilège "group_by" avec les variables qualitatives "Exploitation" et "Temps".
-# Puis utiliser les sortilèges "summarise()", "mean()", et nommer la moyenne "moyenne_production".
+# Puis utiliser les sortilèges "summarise()", ainsi que "mean()", et nommer la moyenne "moyenne_production".
 # Assigner le résultat à l'objet "df_resultat".
 df_resultat <- df_livre %>%
   group_by(Exploitation, Temps) %>%
   summarise(moyenne_production = mean(Production))
 
 # Appliquer le sortilège "xtabs" au data.frame "df_resultat", pour obtenir les résultats dans un tableau
+# avec une variable en ligne et une variable en colonne
 xtabs(data = df_resultat, moyenne_production ~ Exploitation + Temps)
 
 # Fin de l'exercice
@@ -644,8 +646,8 @@ exécutez votre code pour trouver la ferme la plus productive...
 
 ```{r ok-chapitre3-etape5,exercise=TRUE, exercise.setup = "prepare-data-df_livre"}
 # Commencer avec le data.frame "df_livre".
-# Indiquer que vous souhaitez effectuer les calculs par exploitation, avec le sortilège "group_by",
-# puis calculer la moyenne avec les sortilèges "summarise" et "mean".
+# Indiquer que vous souhaitez effectuer les calculs par exploitation, avec le sortilège "group_by()",
+# puis calculer la moyenne avec les sortilèges "summarise()" et "mean()".
 
  
 # Fin de l'exercice
@@ -653,8 +655,8 @@ exécutez votre code pour trouver la ferme la plus productive...
 
 ```{r ok-chapitre3-etape5-solution}
 # Commencer avec le data.frame "df_livre".
-# Indiquer que vous souhaitez effectuer les calculs par exploitation, avec le sortilège "group_by",
-# puis calculer la moyenne avec les sortilèges "summarise" et "mean".
+# Indiquer que vous souhaitez effectuer les calculs par exploitation, avec le sortilège "group_by()",
+# puis calculer la moyenne avec les sortilèges "summarise()" et "mean()".
 df_livre %>%
   group_by(Exploitation) %>%
   summarise(moyenne_production = mean(Production))
@@ -686,7 +688,7 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius**. Le tutoriel é
 >```{r ok-chapitre3-etape6,exercise=TRUE, message=FALSE, warning=FALSE, exercise.setup = "prepare-data-df_livre"}
 # Je calcule l'écart-type de la "Production",
 # suivant les valeurs de la variable qualitative "Exploitation".
-# Pour cela, je pars du data.frame "df_livre", puis j'utilise les sortilèges "group_by", "summarise", et "sd" (standard deviation)
+# Pour cela, je pars du data.frame "df_livre", puis j'utilise les sortilèges "group_by()", "summarise()", et "sd()" (écart-type)
 
 
 # Fin de l'exercice
@@ -695,7 +697,7 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius**. Le tutoriel é
 >```{r ok-chapitre3-etape6-solution, message=FALSE, warning=FALSE}
 # Je calcule l'écart-type de la "Production",
 # suivant les valeurs de la variable qualitative "Exploitation".
-# Pour cela, je pars du data.frame "df_livre", puis j'utilise les sortilèges "group_by", "summarise", et "sd" (standard deviation)
+# Pour cela, je pars du data.frame "df_livre", puis j'utilise les sortilèges "group_by()", "summarise()", et "sd()" (écart-type)
 df_livre %>%
   group_by(Exploitation) %>%
   summarise(ecart_type_production = sd(Production))

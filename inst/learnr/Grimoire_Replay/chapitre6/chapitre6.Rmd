@@ -86,7 +86,9 @@ Essespéus propose à icaRius de rapporter une fausse information auprès du pr�
 
 ## Reprenons notre apprentissage des sortilèges ggformula
 
-Lors du précédent chapitre, vous avez révisé et découvert plusieurs sortilèges de la famille `ggformula`. Parmi ces derniers, `gf_point` est un sortilège permettant de représenter des nuages de points. Souvenez-vous : il faut introduire des ingrédients dans la recette du sortilège : en l'occurrence, l'ordonnée y des points en fonction de leur abcisse x. Cela se traduit en langage des Runes par : `gf_point(y~x)`.
+Lors du précédent chapitre, vous avez révisé et découvert plusieurs sortilèges de la famille `ggformula`. Parmi ces derniers, `gf_point` est 
+un sortilège permettant de représenter des nuages de points. Souvenez-vous : il faut introduire des ingrédients dans la recette du sortilège : 
+en l'occurrence, l'ordonnée y des points en fonction de leur abcisse x. Cela se traduit en langage des Runes par&nbsp;: `gf_point(y~x)`.
 
 A partir de ces rappels, quel est le code pour faire un nuage de points à partir de la table `donnees_secretes` en représentant le nombre d'habitants du royaume (variable `nb_habitants`) en ordonnées et le nombre de guerriers (variable `nb_guerriers`) en abcisse ?
 
@@ -176,7 +178,7 @@ donnees_secretes %>%
 <BR>
 
 Pour obtenir des diagrammes (un pour chaque modalité d'une variable qualitative), on peut
-utiliser le signe `|` .
+utiliser le signe `|` (un trait vertical).
 
 <BR>
 
@@ -309,7 +311,7 @@ Pour contrer les velléités du vil Parlyus, Icarius doit identifier le secteur 
 le secteur dans lequel il y a le moins de royaumes constitués de prairies.
 
 Pour identifier ce secteur, icaRius va s'appuyer sur des histogrammes, un pour chaque 
-modalité de la variable "vegetation". 
+modalité de la variable "situation". 
 
 Les informations nécessaires se trouvent dans le fichier `donnees_secretes` fourni par Essespéus.
 

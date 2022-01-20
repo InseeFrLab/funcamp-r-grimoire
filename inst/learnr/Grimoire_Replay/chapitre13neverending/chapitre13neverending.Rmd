@@ -60,7 +60,7 @@ Au village, le mage Tourep nous confie la lourde responsabilité d'aider la ferm
 
 > Quelle poule est la plus performante ? 
 
-```{r message = FALSE}
+```{r, include=FALSE}
 library(rio)
 load("donnees/livre_compte_3.RData")
 ```
@@ -81,9 +81,11 @@ Au delà des plaines de Statis, le mage Xeilhac qui siège dans le village Griss
 
 > Qui possède l'exploitation la plus productive ? 
 
-```{r message=FALSE}
+```{r, include=FALSE}
 df_livre <- import("donnees/recensement_agricole.csv")
+```
 
+```{r message=FALSE}
 df_livre %>%
   group_by(Exploitation) %>%
   summarise(moyenne_production = mean(Production))
@@ -140,14 +142,48 @@ Gonflé au philtre de Mandragore, Icarius n'en fait qu'une bouchée et prend du 
 # Chapitre 5 
 
 Arrivé au château de Statis la situation est dramatique : des forces occultes sont à l'oeuvre. Le ministre des armées Parlyus occupe le château avec des soldats.  
-Il réclame la guerre ! Quelle drôle d'idée ! Pour obtenir la clé de la cachette d'Essespéus et se faire aider, il faut gagner la confiance de Batreb qui noie son chagrin dans l'ambroisi... Pour cela, vous devez résoudre l'énigme proposée en traçant le graphique qui permet de répondre à la question suivante : 
+Il réclame la guerre ! Quelle drôle d'idée ! Pour obtenir la clé de la cachette d'Essespéus et se faire aider, il faut gagner la confiance de Batreb qui noie son chagrin dans l'ambroisie... Pour cela, vous devez résoudre l'énigme proposée en traçant le graphique qui permet de répondre à la question suivante : 
 
-> A partir de quelle puissance d'ambroisie Batreb franchit le seuil des 100 hoquets par heure ?
+> Pour quelle puissance (arrondie), le nombre de liqueurs d'ambroisie de la saveur "Delicieux" est-il égal à 12 ?
 
-```{r, eval = FALSE}
+```{r, include=FALSE}
+library(dplyr)
+library(ggformula)
+library(readr)
 
-livre_ambroisie %>% 
-  gf_line(ivresse ~ puissance, title = "Attention à l'abus d'ambroisie...")
+file.copy(from = system.file(package = "funcampR","data","chapitre5_replay/livre_ambroisie.csv"),
+          to = paste0(tempdir(),"/livre_ambroisie.csv"))
+		  
+df_livre_ambroisie <- readr::read_delim(
+  paste0(
+    tempdir(),
+	"/livre_ambroisie.csv"
+  ),
+  delim = ";"
+)
+
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(saveur = 
+           factor(
+		     saveur, 
+			 ordered = TRUE,
+             levels = c("Sympathique", "Bon", "Tres_bon", "Delicieux", "Extatique")
+           )
+        )
+								
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(puissance_arrondie = factor(puissance_arrondie))
+  
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  as.data.frame
+```
+
+```{r}
+df_livre_ambroisie %>% 
+	gf_bar(
+		~ puissance_arrondie, 
+		fill = ~saveur,
+		position = "dodge")
 ```
 
 Vous obtenez la clé qui permet de libérer Essespéus de la cave (ou ce qu'il en reste, hips !). 
@@ -157,91 +193,96 @@ Vous obtenez la clé qui permet de libérer Essespéus de la cave (ou ce qu'il e
 Une fois libéré de son cachot, Essespéus vous propose de tromper Parlyus en lui communiquant une _fake news_. Il s'agit de le tromper et de diriger les forces obscures le plus loin possible auprès du peuple le plus armé. 
 Le temps presse, car il s'agit de vaincre Sassos avant que le chef des armées ne rejoigne ce territoire. Statis est un royaume pacifique et vous devez veiller à ce qu'il le reste. 
 
-> Quel royaume est le plus éloigné, tout en comptant le plus de guerriers et le plus grand nombre de jours de canicule ? 
+> Quel est le secteur (Est, Nord, Ouest, Sud) dans lequel il y a le moins de royaumes constitués de prairies ?
 
 ```{r include=FALSE}
-library(dplyr)
-donnees_secretes <- import("donnees/data_soldiers.csv")
-donnees_secretes <- donnees_secretes %>%
-  select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
+file.copy(from = system.file(package = "funcampR","data","chapitre6_replay/data_soldiers.csv"),
+          to = paste0(tempdir(), "data_soldiers.csv"))
+
+# Import and transform data within Rmd
+donnees_secretes <- import(paste0(tempdir(), "data_soldiers.csv"))
+
 donnees_secretes_df <- as.data.frame(donnees_secretes)
 ```
 
 ```{r message=FALSE}
-library(ggformula)
-
 donnees_secretes %>% 
-  gf_point(nb_canicule ~ dist_royaume,
-           size = ~ nb_guerriers,
-           shape = 5) %>% 
-  gf_text(label = ~ royaume,
-          size = 2.5,
-          check_overlap = TRUE) %>%
-  gf_refine(scale_x_continuous(limits = c(0, 50)))
+	gf_bar( ~ vegetation | situation)
 ```
 
-C'est le territoire des Hauts qu'il faut attaquer !
+C'est le secteur Nord qu'il faut attaquer !
 
-Et c'est là la rencontre avec Sassos ! Ou plutôt un ectoplasme de lui. Il n'empêche que sa terrible PROC FIREBALL vous a salement amoché et il a disparu d'un coup de PROC EXPAND ! Heureusement, vous avez pu vous défendre en réfléchissant ses tirs grâce à l'épée. 
+Et c'est là la rencontre avec Sassos ! Ou plutôt un ectoplasme de lui. Il n'empêche que sa terrible PROC FIREBALL vous a salement amoché 
+et il a disparu d'un coup de PROC EXPAND ! Heureusement, vous avez pu vous défendre en réfléchissant ses tirs grâce à l'épée. 
 
 
 # Chapitre 7 
 
-Le mage Delagarde à l'entrée du labyrinthe vous propose de manipuler quelques vecteurs pour vous guider dans le dédale. Bien que...il est possible de s'en sortir sans aide à dire vrai. 
+Le mage Delagarde à l'entrée du labyrinthe vous propose de manipuler quelques vecteurs pour vous guider dans le dédale. Bien que...il est possible 
+de s'en sortir sans aide à dire vrai. 
 
-Qu'à cela ne tienne ! Il énonce une étrange vérité : 
+Qu'à cela ne tienne !
 
-> quelle que soit la direction que tu regardes, la sortie se trouve au delà de Pi. 
+> Dans quelle direction faut-il aller pour sortir du labyrinthe ?
 
-```{r include=FALSE}
-vecteur_choix <- c("Droite","Gauche","Gauche","Droite","Droite",
-"Gauche","Droite","Gauche","Gauche","Droite",
-"Droite","Gauche","Droite","Gauche","Gauche",
-"Droite","Droite","Gauche","Gauche","Droite")
-vecteur_seuil <- rep(pi,20)
-vecteur_ajust <- rep(-1,20)
-vecteur_ajust[c(6,10,12,19)]<-1
-vecteur_seuil <- vecteur_seuil + runif(20)*vecteur_ajust
-```
+```{r, collapse=TRUE}
+data.frame_clef <- data.frame(
+  col_1 = c(1, NA, 1, 2, 3, 3, 1, 3, 1, 3, 2),
+  col_2 = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2)
+)
 
-```{r}
-# Chercher les éléments de  vecteur_seuil dont la valeur est supérieure à pi
-# et sauvegarder cet ensemble de position dans un vecteur appelé vecteur_position
-vecteur_position <- which(vecteur_seuil>pi)
-# Extraire de vecteur_choix les éléments qui sont dans les emplacements 
-# de vecteur_position et afficher cet ensemble de directions
-vecteur_choix[vecteur_position]
+vecteur_chemin_debut <- c("Gauche", "Droite")
+
+mean(data.frame_clef$col_1, na.rm = TRUE)
+
+vecteur_chemin_fin <- rep("Gauche", 2)
+
+vecteur_chemin <- c(vecteur_chemin_debut, vecteur_chemin_fin)
+
+vecteur_chemin
+
+# L'ordre des directions qui apparaissent correspond
+# à la succession des directions à prendre dans le labyrinthe !
 ```
 
 # Chapitre 8 
 
 Une fois extrait du labyrinthe, vous retrouvez le mage Zilap dans le désert. Ce vieux ronchon doit bien reconnaître que vous avez progressé dans le maniement du langage des Runes ! Il vous explique comment ajouter des pages au grimoire, chaque package étant un nouveau chapitre. 
 
-```{r eval=FALSE}
-# J'installe les packages du tidyverse en une ligne
-install.packages("tidyverse")
-# Je charge les packages en une ligne
-library(tidyverse)
+```{r, eval=FALSE}
+# J'installe le package "babynames"
+install.packages("babynames")
+
+# Je teste que l'extension est bien installée
+require(babynames) %>%
+  print()
+
+# J'afficher la liste des packages installés (je me limite aux 10 premiers)
+installed.packages() %>%
+  head(10)
 ```
 
 Vous voilà plus léger, ou plutôt les objets qui vous entourent le sont. Et vous rejoignez le village de Sandia. 
 
 # Chapitre 9 
 
-Le temps presse, vous débarquez dans le village de Sandia. Mam’Grouxi radote et vous conte les innombrables naissances qu’elle a vu au fil des ans (des siècles?). Elle vous demande d'identifier, dans le registre des naissances, le nom d’une jeune fille dont le Mana (la force vitale et magique) est le plus élevé.
+Le temps presse, vous débarquez dans le village de Sandia. Mam’Grouxi radote et vous conte les innombrables naissances qu’elle a vu au fil des ans (des siècles?). 
+Elle vous demande d'identifier, dans le registre des naissances, le village d'où viennent les filles dont la spiritualité est en moyenne 
+la plus grande à la naissance.
 
 ```{r eval=FALSE}
-naissances %>% 
-  filter(Genre == "F") %>%
-  mutate(Mana = Force + Spirit) %>%
-  arrange(desc(Mana))
+naissances_F %>% 
+  group_by(Village) %>%
+  summarise(mean(Spirit))
 ```
 
-C'est Statia ! et elle est née dans le village d'Hylia. Mam’Grouxi vous fait cadeau des bombes qui permettent de percer la montagne et entrer dans le temple de la Roche. Et c'est au coeur des souterrains, en déjouant monstres et boules de feu que le pouvoir de l'épée se trouve renforcé. Et heureusement, car c'est Monolith qu'il faut affronter en déjouant ces satanées boules de feu. 
+C'est Statia le village d'Hylia ! Mam’Grouxi vous fait cadeau des bombes qui permettent de percer la montagne et entrer dans le temple de la Roche. 
+Et c'est au coeur des souterrains, en déjouant monstres et boules de feu que le pouvoir de l'épée se trouve renforcé. Et heureusement, car c'est Monolith 
+qu'il faut affronter en déjouant ces satanées boules de feu. 
 
 Vous voilà en possession de la quatrième rune. 
 
-En quittant le temple de la roche, l'éboulement condamne tout retour en arrière : l'affrontement final de SassoS est inélectuable. 
+En quittant le temple de la roche, l'éboulement condamne tout retour en arrière : l'affrontement final de SassoS est inéluctable. 
 
 
 # Chapitre 10 

@@ -63,8 +63,8 @@ Pour le guider, il vous faudra au cours de ce chapitre continuer à apprendre à
 que sont les vecteurs. Le mage Delagarde a en effet caché les directions à suivre dans un vecteur !!! Avec deux indices sibyllins : 
 *“il faut commencer par 'Gauche', 'Droite'”*, et *“puis continuer en répétant un certain nombre de fois 'Gauche'”.*
 
-Au fait : outre le fait de vous guider dans le labyrinthe, savoir utiliser un vecteur vous sera d'une aide précieuse 
-pour des opérations portant sur les tables de données, comme la sélection d’observations et de variables.
+Outre le fait de vous guider dans le labyrinthe, savoir utiliser un vecteur vous sera d'une aide précieuse 
+pour des opérations portant sur les tables de données, comme la sélection d’observations et de colonnes.
 
 
 <BR>
@@ -473,10 +473,10 @@ Dans la condition utilisée, on peut employer `>=` .
 # J'affiche le vecteur "nombre_d_equipements"
 nombre_d_equipements
 
-# J'obtiens les éléments du vecteur "nombre_d_equipements" supérieurs ou égal à 2
+# J'obtiens les éléments du vecteur "nombre_d_equipements" supérieurs ou égaux à 2
 nombre_d_equipements[ nombre_d_equipements >= 2 ]
 ```
-Il y a trois éléments  du vecteur "nombre_d_equipements supérieurs ou égal à 2
+Il y a trois éléments du vecteur "nombre_d_equipements supérieurs ou égaux à 2
 
 <BR>
 
@@ -507,7 +507,7 @@ Dans la condition utilisée on peut employer ces opérateurs.
 
 <BR>
 
-On écrit "ou" avec le signe `|`
+On écrit "ou" avec le signe `|` (trait vertical)
 ```{r, messages=FALSE, warning=FALSE}
 nombre_d_equipements[ nombre_d_equipements == 1 | nombre_d_equipements == 6 ]
 ```
@@ -519,7 +519,7 @@ On écrit "et" avec le signe `&`
 ```{r, messages=FALSE, warning=FALSE}
 nombre_d_equipements[ nombre_d_equipements <= 4 & nombre_d_equipements >= 2 ]
 ```
-Deux éléments du vecteur sont inférieurs ou égal à 4 et supérieurs ou égal à 2.
+Deux éléments du vecteur sont inférieurs ou égaux à 4 et supérieurs ou égaux à 2.
 
 <BR>
 
@@ -872,7 +872,7 @@ R a donc donné comme résultat la valeur manquante `r mean(coeurs)` !
 
 <BR>
 
-#### On peut parfois indiquer à R d'enlever les valeurs manquantes dans les calculs
+#### On peut parfois indiquer à R d'enlever les valeurs manquantes dans les opérations
 
 <BR>
 
@@ -956,16 +956,16 @@ Allons-y... dans R !
 # On crée un vecteur "vecteur_chemin_debut" contenant les chaînes de caractère "Gauche", "Droite"
 vecteur_chemin_debut <- c("Gauche", "Droite")
 
-# Le data.frame "data.frame_clef" a déjà été chargé dans R.
+# Le data.frame "data.frame_clef" est déjà chargé dans R.
 # Accéder à la colonne "col_1" du data.frame "data.frame_clef" avec le signe $
 
 
-# Tenter de calculer la moyenne des valeurs du vecteur data.frame_1$col_1,
+# Tenter de calculer la moyenne des valeurs du vecteur data.frame_clef$col_1,
 # avec le sortilège "mean()",
 # sans utiliser d'ingrédient particulier
 
 
-# Ré-essayer d'obtenir la moyenne des valeurs du vecteur data.frame_1$col_1,
+# Ré-essayer d'obtenir la moyenne des valeurs du vecteur data.frame_clef$col_1,
 # avec le sortilège "mean()", 
 # en enlevant les valeurs manquantes dans les calculs avec d'ingrédient "na.rm = TRUE"
 
@@ -975,8 +975,7 @@ vecteur_chemin_debut <- c("Gauche", "Droite")
 # construire un nouveau vecteur.
 
 # Créer un vecteur "vecteur_chemin_fin",
-# par répétition de la chaîne de caractère "Gauche",
-# le nombre de fois étant de 2.
+# par répétition de 2 fois la chaîne de caractère "Gauche"
 
 
 # Afficher "vecteur_chemin_fin"
@@ -998,16 +997,16 @@ vecteur_chemin_debut <- c("Gauche", "Droite")
 # On crée un vecteur "vecteur_chemin_debut" contenant les chaînes de caractère "Gauche", "Droite"
 vecteur_chemin_debut <- c("Gauche", "Droite")
 
-# Le data.frame "data.frame_clef" a déjà été chargé dans R.
+# Le data.frame "data.frame_clef" est déjà chargé dans R.
 # Accéder à la colonne "col_1" du data.frame "data.frame_clef" avec le signe $
 data.frame_clef$col_1
 
-# Tenter de calculer la moyenne des valeurs du vecteur data.frame_1$col_1,
+# Tenter de calculer la moyenne des valeurs du vecteur data.frame_clef$col_1,
 # avec le sortilège "mean()",
 # sans utiliser d'ingrédient particulier
 mean(data.frame_clef$col_1)
 
-# Ré-essayer d'obtenir la moyenne des valeurs du vecteur data.frame_1$col_1,
+# Ré-essayer d'obtenir la moyenne des valeurs du vecteur data.frame_clef$col_1,
 # avec le sortilège "mean()", 
 # en enlevant les valeurs manquantes dans les calculs avec d'ingrédient "na.rm = TRUE"
 mean(data.frame_clef$col_1, na.rm = TRUE)

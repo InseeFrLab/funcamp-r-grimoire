@@ -146,7 +146,12 @@ Laissons de côté les prénoms américains : ce n'est pas l'objet de ce chapitr
 >
 >Les données du fichier des prénoms produits par l'Insee sont également diffusées dans un package R (une initiative de quelques esprits mutins...). Mais son installation nécessite de s'aventurer dans un autre environnement que le CRAN...
 >
->Certains packages en cours de développement sont en effet disponibles sur d'autres plateformes que le CRAN, comme par exemple la plateforme GitHub. Cette dernière est ce que l'on appelle une *forge logicielle* : une sorte de fabrique pour créer des applications. L'installation des packages proposés sur Github se fait en trois temps : (i) il faut d'abord installer une extension pensée pour les développeurs (pour le coup proposée depuis le CRAN) avec `install.packages("devtools")` (ii) il faut identifier sur Github quel est le répertoire correspondant au package que vous souhaitez installer. Justement, pour le fichier des prénoms, c'est `"ThinkR-open/prenoms"` (iii) enfin, l'installation se fait avec la fonction `install_github()` suivie du nom du répertoire.
+>Certains packages en cours de développement sont en effet disponibles sur d'autres plateformes que le CRAN, comme par exemple la plateforme GitHub. 
+>Cette dernière est ce que l'on appelle une *forge logicielle* : une sorte de fabrique pour créer des applications. L'installation des packages proposés 
+>sur Github se fait en trois temps : (i) il faut d'abord installer une extension pensée pour les développeurs (pour le coup proposée depuis le CRAN) 
+>avec 'install.packages("devtools")' (ii) il faut identifier sur Github quel est le répertoire correspondant au package que vous souhaitez installer. 
+>Justement, pour le fichier des prénoms, c'est "ThinkR-open/prenoms" (iii) enfin, l'installation se fait avec la fonction "install_github()" suivie 
+>du nom du répertoire.
 >
 >```{r, collapse = TRUE, eval=FALSE}
 ># J'installe d'abord la boite à outil devtools
@@ -290,7 +295,7 @@ library(babynames)
 (.packages())
 
 # Supprimer l'extension "babynames" de la mémoire,
-# et ré-afficher la liste des packages
+# et ré-afficher la liste
 unloadNamespace("babynames")
 (.packages())
 

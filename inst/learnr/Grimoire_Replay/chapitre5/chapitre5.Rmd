@@ -132,7 +132,9 @@ Il ne faut pas oublier d'ingrédients.
 
 <BR>
 
-<span style="color:#18AC3E;font-size:16px">**Table d'étude**</span>
+### Table d'étude
+
+<BR>
 
 Ci-dessous, nous allons dessiner des graphiques, à partir d'un data.frame `df_livre_ambroisie`.
 Ce data.frame contient
@@ -157,17 +159,17 @@ head(df_livre_ambroisie,5)
 
 Le data.frame `df_livre_ambroisie` comprend pour chaque observation (chaque liqueur consommée) les informations suivantes : 
 
-- le `prix` de la bouteille d'ambroisie bue par Batreb - prix exprimé dans la monnaie locale de statis, qui s'appelle des rupees si vous voulez le savoir...
+- le `prix` de la bouteille d'ambroisie bue par Batreb - prix exprimé dans la monnaie locale de statis, qui s'appelle le rupee,
 
-- la `puissance` de la liqueur, comparable au nombre de degré d'une boisson alcoolisée 
+- la `puissance` de la liqueur, comparable au nombre de degrés d'une boisson alcoolisée, 
 
 - la `puissance_arrondie` de la liqueur (l'arrondi est au plus proche entier),
 
 - l' `age` de la liqueur, c'est-à-dire depuis combien de temps elle murit. Etonnant : certaines bouteilles d'ambroisie ont plusieurs siècles !
 
-- la `saveur`, qui correspond à l'appréciation portée par Batreb sur la liqueur consommée. 
+- la `saveur`, qui correspond à l'appréciation portée par Batreb sur la liqueur consommée, 
 
-- l' `ivresse`, mesurée dans une échelle bien particulière : le nombre de hoquets de Batreb dans l'heure qui suit la consommation.
+- l' `ivresse`, mesurée dans une échelle bien particulière : le nombre de hoquets de Batreb dans l'heure qui suit la consommation,
 
 - la `production`, en nombre de bouteilles de la liqueur.
 
@@ -279,7 +281,7 @@ L'ingrédient `title` permet par exemple d'ajouter un titre.
 Pour changer la couleur, il faudra ajouter l'ingrédient `color`.
   
 ```{r t5, collapse = TRUE, echo=TRUE}
-# Je reconstruis le graphique en courbe ci-dessus,
+# Je reconstruis la courbe ci-dessus,
 # j'ajoute un titre,
 # et je colorie la courbe en rouge
 df_livre_ambroisie %>%  
@@ -292,18 +294,18 @@ df_livre_ambroisie %>%
 <span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
   
 ```{r ok-chapitre5-etape2,exercise=TRUE, echo=TRUE}
-# Représenter le graphique en courbe 
+# Représenter la courbe 
 # reliant la puissance et l'âge de la liqueur.  
-# Ajouter le titre et la couleur rouge pour la courbe.
+# Ajouter le titre, et la couleur rouge pour la courbe.
 
 
 # Fin de l'exercice
 ``` 
 
 ```{r ok-chapitre5-etape2-solution}
-# Représenter le graphique en courbe 
+# Représenter la courbe 
 # reliant la puissance et l'âge de la liqueur.  
-# Ajouter le titre et la couleur rouge pour la courbe.
+# Ajouter le titre, et la couleur rouge pour la courbe.
 df_livre_ambroisie %>% 
   gf_line(puissance ~ age, title = "Boire un petit coup c'est agréable...", color = "tomato")
 
@@ -373,8 +375,8 @@ N.B. : si on le souhaite, on peut aussi utiliser une variable qui commande la co
 ``` 
 
 ```{r ok-chapitre5-etape3-solution}
-# Redessiner le nuage de points prix-ivresse
-# la taille des points étant fonction de la puissance
+# Redessiner le nuage de points "prix" en fonction de "l'ivresse",
+# avec une taille des points fonction de la "puissance"
 df_livre_ambroisie %>% 
     gf_point(
         prix ~ ivresse, 

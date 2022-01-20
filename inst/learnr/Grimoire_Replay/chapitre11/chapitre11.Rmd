@@ -170,7 +170,7 @@ f_1 <- function(...) {
 	variable3 <- ...
 }
 
-# Par défaut, la fonction donne comme résultat la valeur de "variable3"
+# A l'exécution, la fonction va donner comme résultat la valeur de "variable3"
 ```
 
 <BR>
@@ -186,8 +186,10 @@ Et si on souhaite que la fonction renvoie autre chose que la dernière expressio
 Exemple.
 ```{r, collapse=TRUE, messages=FALSE, warning=FALSE}
 # Je crée une fonction f_2
-f_2 <- function(x) {
+f_2 <- function() {
 
+	x <- 0
+	
 	y <- x + 2
 
 	z <- x + 3
@@ -195,18 +197,19 @@ f_2 <- function(x) {
 }
 
 # J'emploie la fonction "f_2"
+print(f_2())
 
-print(f_2(0))
-
-## f_2 a bien renvoyé la valeur de z, dernière expression évaluée.
+## f_2 a renvoyé 3, soit la valeur de z, dernière expression évaluée.
 
 
 ## Je souhaite maintenant que la fonction "f_2" renvoie la valeur de y au lieu de celle de z.
 
 # Je réécris la fonction f_2,
 # en ajoutant à la fin "return(y)"
-f_2 <- function(x) {
+f_2 <- function() {
 
+	x <- 0
+	
 	y <- x + 2
 
 	z <- x + 3
@@ -215,10 +218,9 @@ f_2 <- function(x) {
 }
 
 # J'emploie la nouvelle fonction "f_2"
+print(f_2())
 
-print(f_2(0))
-
-# "f_2" a bien renvoyé la valeur de y.
+# "f_2" a renvoyé 2, soit la valeur de y.
 ```
 
 <BR>
@@ -233,12 +235,17 @@ Nous vous proposons de faire évoluer une fonction existante pour modifier ce qu
 
 ```{r ok-chapitre11-etape2,exercise=TRUE, exercise.setup = "prepare-data_2", echo=TRUE, message=FALSE, warning=FALSE} 
 # La fonction suivante a été construite
-f_2 <- function(x) {
+f_2 <- function() {
+
+	x <- 0
+	
 	y <- x + 2
+
 	z <- x + 3
+
 }
 
-# Calculer f_2(0)
+# Calculer f_2()
 
 
 # Recréer la fonction f_2 pour qu'elle renvoie la valeur de "y",
@@ -246,7 +253,7 @@ f_2 <- function(x) {
 # Ajouter dans la fonction l'expression "return(...)"
 
 
-# Calculer la nouvelle valeur de f_2(0)
+# Calculer la nouvelle valeur de f_2()
 
 
 # Fin de l'exercice
@@ -254,25 +261,35 @@ f_2 <- function(x) {
 
 ```{r ok-chapitre11-etape2-solution, message=FALSE, warning=FALSE}
 # La fonction suivante a été construite
-f_2 <- function(x) {
+f_2 <- function() {
+
+	x <- 0
+	
 	y <- x + 2
+
 	z <- x + 3
+
 }
 
-# Calculer f_2(0)
-print(f_2(0))
+# Calculer f_2()
+print(f_2())
 
 # Recréer la fonction f_2 pour qu'elle renvoie la valeur de "y",
 # et non la valeur de z.
 # Ajouter dans la fonction l'expression "return(...)"
 f_2 <- function(x) {
+
+	x <- 0
+	
 	y <- x + 2
+
 	z <- x + 3
+	
 	return(y)
 }
 
-# Calculer la nouvelle valeur de f_2(0)
-print(f_2(0))
+# Calculer la nouvelle valeur de f_2()
+print(f_2())
 
 # Fin de l'exercice
 ``` 
@@ -292,8 +309,10 @@ Le code qui se trouverait après le `return()` n'est pas exécuté.
 Exemple.
 ```{r, collapse=TRUE, messages=FALSE, warning=FALSE}
 # Je crée une fonction f_2
-f_2 <- function(x) {
+f_2 <- function() {
 
+    x <- 0
+	
 	y <- x + 2
 
 	return(y)
@@ -303,25 +322,39 @@ f_2 <- function(x) {
 }
 
 # J'emploie la fonction "f_2"
-print(f_2(0))
+print(f_2())
 
 ## A l'exécution :
-## - f_2(0) renvoie bien la valeur de y.
+## - f_2() renvoie bien la valeur de y.
 ## - après avoir rencontré "return(...)", le système quitte la fonction,
-##   et le code  z = 3 + x  n'est pas exécuté
+##   et le code  "z <- x + 3"  n'est pas exécuté
 ```
 
 <BR>
 
-## A l'utilisation d'une fonction
+## Les ingrédients
 
 <BR>
 
-A l'emploi d'une fonction, quelles sont les diverses façons de préciser les ingrédients ?
+Dans cette sous-partie, on considère une fonction qui a des ingrédients.
 
 <BR>
 
-#### Il est possible de nommer ou non les paramètres
+Exemple :
+```{r, messages=FALSE, warning=FALSE}
+# Je crée une fonction f_2 qui a pour ingrédient x
+h <- function(x) {
+	
+	y <- x + 2
+}
+
+# J'emploie la fonction "h", avec l'ingrédient 1
+print(h(1))
+```
+
+<BR>
+
+#### A l'emploi d'une fonction, il est possible de nommer ou non les paramètres
 
 <BR>
 
@@ -350,7 +383,11 @@ h(2, y = 3)
 
 <BR>
 
-Soit la fonction suivante.
+
+<span style="color:#18AC3E;font-size:16px">Soit la fonction suivante.</span>
+
+<BR>
+
 ```{r, messages=FALSE, warning=FALSE}
 # Je reprend la fonction h qui a deux arguments x et y
 h <- function(x, y) { x / y }
@@ -368,7 +405,9 @@ h(3, 2)
 
 <BR>
 
-Par contre, si les ingrédients sont nommés l'ordre des paramètres peut être changé.
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">Par contre, si les ingrédients sont nommés l'ordre des paramètres peut être changé.</span>
 
 <BR>
 
@@ -577,9 +616,6 @@ f_2 <- function(x, sep) {
 # Déterminer f_2(1000000) (sans préciser la valeur de l'ingrédient "sep")
 
 
-## Le résuktat n'est plus en erreur, 
-## la valeur par défaut de sep, " " a bien été prise en compte.
-
 # Fin de l'exercice
 >```
 >
@@ -617,9 +653,6 @@ f_2(1000000, ".")
 
 # Déterminer f_2(1000000) (sans préciser la valeur de l'ingrédient "sep")
 f_2(1000000)
-
-## Le résultat n'est plus en erreur. 
-## La valeur par défaut de sep, " " est prise en compte.
 
 # Fin de l'exercice
 >```

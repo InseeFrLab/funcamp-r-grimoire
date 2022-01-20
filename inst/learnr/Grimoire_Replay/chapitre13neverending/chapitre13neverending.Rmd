@@ -23,7 +23,7 @@ library(dplyr)
 
 Soyez les bienvenus : vous voici dans l'environnement de développement RStudio. Prenez le temps de trouver vos marques. L'environnement a été préparé pour vous : à gauche le panneau source, à droite le viewer. Sentez-vous libre de manipuler les fenêtres comme bon vous semble. 
 
-Pour faciliter la mise en forme des mémoires d'Icarius au Royaume de Statis, nous allons utiliser le dièse pour faire en sorte que le texte apparaisse comme un titre dans le rapport des aventures. Voyez plutôt : en positionnant un dièse sur la ligne 6, on observe une mise en page sous forme de grand titre du rendu sur votre droite. Et en encadrant _des mots_ avec des _ de part et d'autre, on constate leur mise en forme italique. Nous utiliserons ces balises tout au long du texte. Notez comment RStudio les colore en bleu pour nous assister. 
+Pour faciliter la mise en forme des mémoires d'Icarius au Royaume de Statis, nous allons utiliser le dièse pour faire en sorte que le texte apparaisse comme un titre dans le rapport des aventures. Voyez plutôt : en positionnant un dièse sur la ligne 6, on observe une mise en page sous forme de grand titre du rendu sur votre droite. Et en encadrant _des mots_ avec des _ de part et d'autre, on constate leur mise en forme italique. Nous utiliserons ces balises tout au long du texte. RStudio les colore en bleu pour nous assister. 
 
 # Chapitre 1 
 
@@ -257,7 +257,7 @@ install.packages("babynames")
 require(babynames) %>%
   print()
 
-# J'afficher la liste des packages installés (je me limite aux 10 premiers)
+# J'affiche la liste des packages installés (je me limite aux 10 premiers)
 installed.packages() %>%
   head(10)
 ```
@@ -266,17 +266,36 @@ Vous voilà plus léger, ou plutôt les objets qui vous entourent le sont. Et vo
 
 # Chapitre 9 
 
-Le temps presse, vous débarquez dans le village de Sandia. Mam’Grouxi radote et vous conte les innombrables naissances qu’elle a vu au fil des ans (des siècles?). 
+Le temps presse, vous débarquez dans le village de Sandia. Mam’Grouxi radote et vous conte les innombrables naissances qu’elle a vues au fil des ans (des siècles?). 
 Elle vous demande d'identifier, dans le registre des naissances, le village d'où viennent les filles dont la spiritualité est en moyenne 
 la plus grande à la naissance.
 
-```{r eval=FALSE}
+
+```{r, include=FALSE}
+file.copy(from = system.file(package = "funcampR","data","chapitre9_replay/naissances_replay.csv"),
+          to = paste0(tempdir(),"/naissances.csv"))
+		  
+# naissances
+naissances<-import(
+  paste0(
+    tempdir(),
+	"/naissances.csv"
+  )
+)
+  
+# naissances_F
+naissances_F <- naissances %>% 
+  filter(Genre=="F")
+```
+
+
+```{r}
 naissances_F %>% 
   group_by(Village) %>%
   summarise(mean(Spirit))
 ```
 
-C'est Statia le village d'Hylia ! Mam’Grouxi vous fait cadeau des bombes qui permettent de percer la montagne et entrer dans le temple de la Roche. 
+C'est le village d'Hylia ! Mam’Grouxi vous fait cadeau des bombes qui permettent de percer la montagne et entrer dans le temple de la Roche. 
 Et c'est au coeur des souterrains, en déjouant monstres et boules de feu que le pouvoir de l'épée se trouve renforcé. Et heureusement, car c'est Monolith 
 qu'il faut affronter en déjouant ces satanées boules de feu. 
 
@@ -299,45 +318,79 @@ En retenant la suite d'instructions directionnelles qui s'avère être la célè
 
 # Chapitre 11
 
-Au sortir de la salle de l'impossible, Icarius ne peut poursuivre son chemin face aux tourbillons de l'éternel recommencement : il se retrouve systématiquement éjecté. C'est le robot TeoC, envoyé par le mage Essespéus, qui nous vient en aide en vous intronisant aux voies du reproductible. Ses manières ne sont pas des plus délicates : il catapulte Icarius au tout début de l'histoire ! 
+Au sortir de la salle de l'impossible, Icarius ne peut poursuivre son chemin face aux tourbillons de l'éternel recommencement : il se retrouve 
+systématiquement éjecté. C'est le robot TeoC, envoyé par le mage Essespéus, qui nous vient en aide en vous intronisant aux voies du reproductible. 
+Ses manières ne sont pas des plus délicates : il catapulte Icarius au tout début de l'histoire ! 
 
-Vous voilà à écrire votre première fonction, celle qui calcule l'âge d'Icarius. 
+Vous voilà à réécrire un sortilège qui calcule l'âge d'Icarius, et à l'utiliser.
 
 ```{r}
-calcul_age_arrondi <- function(nb_coeur) { 
-  round(nb_coeur * pi^2 - 2 * nb_coeur)
+calcul_de_l_age <- function(nb_coeurs, spirit) {
+    age <- nb_coeurs * 6
+    spirit <- spirit + 2
+    return(age)
 }
+
+calcul_de_l_age(nb_coeurs = 3, spirit = 6)
 ```
 
-C'est ainsi vous obtenez le boomerang magique qui permet de désamorcer les tourbillons de l'éternel recommencement : Icarius peut ainsi pénétrer dans le temple de l'ombre. 
+C'est ainsi vous obtenez le boomerang magique qui permet de désamorcer les tourbillons de l'éternel recommencement : Icarius peut ainsi pénétrer dans 
+le temple de l'ombre. 
 
-Muni de la petite clef et de la carte du donjon, les longues errances dans le labyrinthe de l'ombre conduisent à Zigûr, l'infâme oeil de Sassos. Grâce au boomerang pour agir à distance car le sol est pavé de trous béants et à votre épée, vous prenez possession de la cinquième rune. 
+Muni de la petite clef et de la carte du donjon, les longues errances dans le labyrinthe de l'ombre conduisent à Zigûr, l'infâme oeil de Sassos. 
+Grâce au boomerang pour agir à distance car le sol est pavé de trous béants et à votre épée, vous prenez possession de la cinquième rune. 
 
 # Chapitre 12 
 
-Sorti enfin à l'air libre, vous longez le datalake jusqu'à rencontrer le drôle d'oiseau Febeler. S'il veut bien vous donnez les moyens de traverser à la nage le lac avec le sortilège palmes(), il vous faut toutefois documenter son fonctionnement et donc en lire la documentation car pour le paraphraser : 
+Sorti enfin à l'air libre, vous longez le datalake jusqu'à rencontrer le drôle d'oiseau Febeler. S'il veut bien vous donnez les moyens de traverser à la nage 
+le lac avec le sortilège palmes(), il vous faut toutefois documenter son fonctionnement et donc en lire la documentation car pour le paraphraser : 
 
 > Sans sortilège, point de magie ! Et sans documentation, point de sortilège ! 
 
-Vous voilà donc à soigneusement documenter votre précieuse fonction calcul_age_arrondi() grâce aux balises _roxygen2_ et c'est là la réponse à l'énigme posée par l'oiseau. 
+Vous voilà donc à soigneusement documenter votre précieuse fonction fmt() grâce aux balises _roxygen2_ et c'est là la réponse à l'énigme posée 
+par l'oiseau. 
 
 ```{r}
-#' @title calcul_age_arrondi
-#' @description calculer l'âge arrondi d'un statisien selon son nombre de coeurs
-#' @param nb_coeur Un nombre
-#' @import tidyverse
+#' @title fmt
+#' @author Mage RegoR, \email{mage.regor@@email.fr}
+#' @description Formate une quantité
+#' @details La fonction formate avec
+#' un nombre de décimales specifié, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
+#' @section Emploie :
+#' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+#' @section Warning :
+#' N'utilise pas de notation scientifique
+#' @param x la quantité à formater
+#' @param n le nombre de décimales
+#' @return La quantité formatée.
+#' @import dplyr
 #' @examples
-#' calcul_age_arrondi(3)
-#' calcul_age_arrondi(4)
-calcul_age_arrondi <- function(nb_coeur){
-  calcul_age(nb_coeur)%>%
-    round()}
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
+#' @family fonctions pour formater
+#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} 
+#' pour afficher dans la console
+#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} 
+#' la fonction format
+fmt <- function(x, n) {
 
+  x %>% 
+    format(                                    
+         decimal.mark = ",",  
+         digits=0, nsmall=n,  
+         big.mark = " ",      
+         scientific = FALSE   
+    )      
+}
 ```
 
 Febeler s'acquitte de sa promesse et vous fournit les palmes nécessaires à une traversée qui n'est pas sans encombres.
 
-Arrivé au temple de la glace, les longs couloirs parsemés d'objets qui vous rapprochent de votre quête sont légion : une carte, une boussole, une petite clé, la clé du boss... La fin de ce chapitre approche ! Vous rencontrez Confusius, maître en ces lieux. Et remportez la sixième rune ! Une fois dehors, vous ne pouvez plus faire marche arrière. Qu'à cela ne tienne, la quête reprend.
+Arrivé au temple de la glace, les longs couloirs parsemés d'objets qui vous rapprochent de votre quête sont légion : une carte, une boussole, une petite clé, 
+la clé du boss... La fin de ce chapitre approche ! Vous rencontrez Confusius, maître en ces lieux. Et remportez la sixième rune ! Une fois dehors, vous ne 
+pouvez plus faire marche arrière. Qu'à cela ne tienne, la quête reprend.
 
 Febeler, lui encore, vous aiguille vers l'Est dans une forêt brumeuse peuplée de squelettes. La progression à travers les grumes creuses est difficile... 
 
@@ -345,9 +398,12 @@ Febeler, lui encore, vous aiguille vers l'Est dans une forêt brumeuse peuplée 
 
 Vous rencontrez enfin Asa la gueRnouille qui vous propose d'écrire votre destin et vos mémoires, simultanément.
 
-Votre quête de la maîtrise du langage des runes s'achève ici. Prenez quelques instants pour observer le chemin accompli : vous avez importé des fichiers, manipulé des données, synthétisé leur contenu en des tableaux résumés, exporté ces mêmes données pour les sauvegarder, créé et documenté des fonctions pour les réutiliser et les transmettre. Toutes les traces de votre connaissance (et bravoure !) sont présentées dans le présent (et précieux) document. 
+Votre quête de la maîtrise du langage des runes s'achève ici. Prenez quelques instants pour observer le chemin accompli : vous avez importé des fichiers, 
+manipulé des données, synthétisé leur contenu en des tableaux résumés, exporté ces mêmes données pour les sauvegarder, créé et documenté des fonctions 
+pour les réutiliser et les transmettre. Toutes les traces de votre connaissance (et bravoure !) sont présentées dans le présent (et précieux) document. 
 
-Vous pouvez, si vous le souhaitez, en guise d'aide-mémoire pour vos prochaines aventures avec R, enregistrer le fichier html qui résulte de ce RMarkdown en vous rendant dans l'onglet Files, qui se trouve sur votre droite, dans un cadran de la partie inférieure de l'écran.
+Vous pouvez, si vous le souhaitez, en guise d'aide-mémoire pour vos prochaines aventures avec R, enregistrer le fichier html qui résulte de ce RMarkdown en 
+vous rendant dans l'onglet Files, qui se trouve sur votre droite, dans un cadran de la partie inférieure de l'écran.
 
 Cliquez sur la case qui jouxte le nom de fichier et l'engrenage dans le menu de l'onglet vous laissera l'opportunité d'exporter votre prose.
 

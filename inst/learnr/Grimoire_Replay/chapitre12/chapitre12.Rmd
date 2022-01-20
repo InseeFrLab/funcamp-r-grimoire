@@ -209,6 +209,8 @@ fmt1Decimale <- function(x) {
 *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et utilisent les mots clés `@title`, `@description`, `@param`, etc.*  
 *Chaque sortilège est précédé par un bloc de commentaires "roxygen2".*  
 
+<BR>
+
 *(N.B. Les commentaires "roxygen2" peuvent s'employer en plus des commentaires traditionnels commençant par `#`)*
 
 ```{r, include=FALSE, eval=FALSE}
@@ -388,7 +390,10 @@ library(roxygen2)
 
 roxygenize()
 ```
-*(N.B. Pour générer la documentation, il y a besoin aussi d'une étape d'installation*  
+
+<BR>
+
+*(N.B. Pour générer complètement la documentation, il y a besoin aussi d'une étape d'installation*  
 *du projet de package)*  
 
 <BR>
@@ -491,7 +496,7 @@ fmt1Decimale <- function(x) {
 &nbsp;&nbsp;*`\email{...}` ajoutera un lien vers des outils de messagerie,*  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(il faut écrire `@@` dans l'adresse email),*  
 &nbsp;&nbsp;*`\url{...)` insèrera un lien internet,*  
-&nbsp;&nbsp;*`\code{\link{...}}` faira apparaître un lien vers une autre fonction (du même projet RStudio)*  
+&nbsp;&nbsp;*`\code{\link{...}}` faira apparaître un lien vers une autre fonction (du même projet)*  
 *- Le mot clé `@family` permet de grouper certaines fonctions dans une "famille".*  
 &nbsp;&nbsp;*Ici on a créé une famille "fonctions pour formater" qui contient "fmt()" et "fmt1Decimale()".*  
 &nbsp;&nbsp;*Lors de la génération de la documentation, des hyperliens vont être créés entre les fonctions de la famille.*  
@@ -605,7 +610,7 @@ ui = fluidPage(
 )
 ```
 
-Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce qui figure ci-dessous. 
+Vous avez terminé ? Votre script commenté devrait ressembler à ce qui figure ci-dessous. 
 
 ><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
 ><p><font size="2">

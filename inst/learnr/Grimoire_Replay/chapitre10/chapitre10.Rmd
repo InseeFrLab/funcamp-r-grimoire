@@ -41,10 +41,10 @@ library(tidyverse)
 library(fst)
 knitr::opts_chunk$set(echo = TRUE)
 
-#création des répertoires temporaires
+# création du répertoire sauvegarde
 dir.create(paste0(tempdir(),"/sauvegarde"))
-
-#creation du graphe contenant la séquence secrète:
+  
+# creation du graphe contenant la séquence secrète:
 coord=data.frame(x1=c(1,2,3,4,6,7),x2=c(1,2,3,4,5,8),y1=c(0,0,1,1,0.5,0.5),y2=c(1,1,0,0,0.5,0.5))
 directions_fleches=ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
   geom_segment(
@@ -53,54 +53,53 @@ directions_fleches=ggplot(coord, aes(x = x1, y = y1, xend = x2, yend = y2)) +
       plot.background = element_rect(fill = "darkgrey"), 
       axis.title=element_blank(),axis.text=element_blank(),axis.ticks = element_blank())
 
-# Import des tables des chapitres 6 et 9 pour l'exercice d'export
-file.copy(from = system.file(package = "funcampR","data","chapitre10_replay/naissances.csv"),
-          to = paste0(tempdir(),"/naissances.csv"))
+	  
+## fichier "chapitre10_replay/naissances_replay.csv" : même fichier que le fichier "naissances_replay.csv" du chapitre9_replay
+## fichier "chapitre10_replay/data_soldiers.csv" :     même fichier que le fichier "data_soldiers.csv"     du chapitre6_replay
+
+# Import des tables pour l'exercice d'export
+file.copy(from = system.file(package = "funcampR","data","chapitre10_replay/naissances_replay.csv"),
+          to = paste0(tempdir(),"/naissances_replay.csv"))
 file.copy(from = system.file(package = "funcampR","data","chapitre10_replay/data_soldiers.csv"),
           to = paste0(tempdir(),"/data_soldiers.csv"))
-		
-# loading data for in-tutorial calculations
-naissances<-import(paste0(tempdir(),"/naissances.csv"))
-naissances_1213 <-  filter(naissances, An == 1213)
-naissances_mana <- naissances %>% 
-                    filter(Genre=="F") %>%
-                    mutate(Mana = Force + Spirit) %>%
-                    arrange(desc(Mana))
+
+		  
+## naissances
+
+naissances<-import(paste0(tempdir(),"/naissances_replay.csv"))
+# naissances_F
+naissances_F <- naissances %>% 
+  filter(Genre=="F")
+
+# chemin_naissances
+chemin_naissances <- paste0(
+  tempdir(),
+  "/naissances.rds"
+)
+chemin_naissances <- str_replace_all(chemin_naissances, "\\\\", "/")
+repertoire_naissances <- tempdir()
+repertoire_naissances <- str_replace_all(repertoire_naissances, "\\\\", "/")
+
+
+## nb_pontes
 
 # Création d'un fichier nb_pontes pour la sauvegarde externe (log)
 nb_pontes <- data.frame(poulette=c("Cocotte1","Cocotte2","Cocotte3","Cocotte4"),nb_oeufs=c(10,9,20,18))
 
+
+## graphique_chapitre6
+
 # Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique graphique_chapitre6)
 donnees_secretes <- import(paste0(tempdir(),"/data_soldiers.csv"))
 donnees_secretes <- donnees_secretes %>%
-  select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
+  select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation', 'vegetation')
 donnees_secretes_df <- as.data.frame(donnees_secretes)
-graphique_chapitre6 <- donnees_secretes %>% 
-                gf_point(nb_canicule ~ dist_royaume,
-                         size = ~ nb_guerriers,
-                         shape = 5) %>% 
-                gf_text(label = ~ royaume,
-                        size = 2.5,
-                        check_overlap = TRUE) %>%
-                gf_refine(scale_x_continuous(limits = c(0, 50)))
+donnees_secretes %>% 
+	gf_line(nb_chevaux ~ nb_habitants | vegetation, 
+	        color = "red")
 
-# chemin_naissances_1213
-chemin_naissances_1213 <- paste0(
-  tempdir(),
-  "/naissances_1213.rds"
-)
-chemin_naissances_1213 <- str_replace_all(chemin_naissances_1213, "\\\\", "/")
-repertoire_naissances_1213 <- tempdir()
-repertoire_naissances_1213 <- str_replace_all(repertoire_naissances_1213, "\\\\", "/")
-
-# chemin_naissances_mana
-chemin_naissances_mana <- paste0(
-  tempdir(),
-  "/naissances_mana.rds"
-)
-chemin_naissances_mana <- str_replace_all(chemin_naissances_mana, "\\\\", "/")
-repertoire_naissances_mana <- tempdir()
-repertoire_naissances_mana <- str_replace_all(repertoire_naissances_mana, "\\\\", "/")
+			
+## livre_ambroisie
 
 # chemin_livre_ambroisie
 chemin_livre_ambroisie <- paste0(
@@ -113,7 +112,7 @@ chemin_livre_ambroisie  <- str_replace_all(chemin_livre_ambroisie, "\\\\", "/")
 repertoire_livre_ambroisie <- tempdir()
 repertoire_livre_ambroisie <- str_replace_all(repertoire_livre_ambroisie, "\\\\", "/")
 
-## chargement du data.frame df_livre_ambroisie
+# Création du data.frame df_livre_ambroisie
 file.copy(
   from = system.file(
     package = "funcampR",
@@ -128,6 +127,7 @@ file.copy(
 		  
 df_livre_ambroisie <- read_fst(chemin_livre_ambroisie)
 
+# suppression du fichier "tempdir()/livre_ambroisie.fst"
 tryCatch(
   {
     if (file.exists(chemin_livre_ambroisie)) {
@@ -138,24 +138,20 @@ tryCatch(
     return("")
   }
 )
-
-
 ```
 
 ```{r prepare-data}
-# relative path to data from "local random repo" of learnr exercise
-naissances<-import(paste0(tempdir(),"/naissances.csv"))
+# naissances
+naissances <- import(paste0(tempdir(),"/naissances_replay.csv"))
 
-naissances_1213 <- naissances %>% filter(An == 1213)
-naissances_mana <- naissances %>% 
-                    filter(Genre=="F") %>%
-                    mutate(Mana = Force + Spirit) %>%
-                    arrange(desc(Mana))
-
-# Création d'un fichier nb_pontes pour la sauvegarde externe
+# naissances_F
+naissances_F <- naissances %>% 
+  filter(Genre=="F")
+  
+# nb_pontes
 nb_pontes <- data.frame(poulette=c("Cocotte1","Cocotte2","Cocotte3","Cocotte4"),nb_oeufs=c(10,9,20,18))
 
-# Création d'un fichier donnees_secretes pour la sauvegarde externe (graphique graphique_chapitre6)
+# donnees_secretes, graphique "graphique_chapitre6"
 donnees_secretes <- import(paste0(tempdir(),"/data_soldiers.csv"))
 donnees_secretes <- donnees_secretes %>%
   select('royaume','nb_guerriers','nb_habitants','nb_chevaux','nb_canicule','dist_royaume','situation')
@@ -171,10 +167,11 @@ graphique_chapitre6 <- donnees_secretes %>%
 ```
 
 ```{r prepare-data_2}
+# suppression "tempdir()/naissances.rds"
 tryCatch(
   {
-    if (file.exists(paste0(tempdir(),"/naissances_mana.rds"))) {
-      unlink(paste0(tempdir(),"/naissances_mana.rds"))
+    if (file.exists(paste0(tempdir(),"/naissances.rds"))) {
+      unlink(paste0(tempdir(),"/naissances.rds"))
     }
   },
   error=function(cond) {
@@ -182,10 +179,12 @@ tryCatch(
   }
 )
 
+# init
 df_2 <- NA
 ```
 
 ```{r prepare-data_3}
+# suppression "tempdir()/livre_ambroisie.fst"
 tryCatch(
   {
     if (file.exists(paste0(tempdir(),"/livre_ambroisie.fst"))) {
@@ -197,15 +196,17 @@ tryCatch(
   }
 )
 
+# init
 filename <- NA
 ```
 
 ```{r prepare-data_4}
-filename <- paste0(
+filename_livre_ambroisie <- paste0(
   tempdir(),
   "/livre_ambroisie.fst"
 )
 
+# création "tempdir()/livre_ambroisie.fst"
 tryCatch(
   {
     if ( !file.exists(paste0(tempdir(), "/livre_ambroisie.fst")) ) {
@@ -222,11 +223,20 @@ tryCatch(
   }
 )
 
+# init
 ref_livre_ambroisie <- NA
 df_4 <- NA
 ```
 
+<BR>
+
+<BR>
+
 ## Les sortilèges de mémoire éternelle à notre rescousse 
+
+<BR>
+
+<BR>
 
 Jamais à court d’idées pour empêcher Icarius de poursuivre sa quête, le terrible Sassos a encore frappé en lui jetant un sort totalement déboussolant… Pris au piège dans la lugubre salle de l'impossible, Icarius a totalement perdu le nord et ne sait absolument plus quel chemin emprunter pour en sortir. C’est simple, dès qu’Icarius prend une sortie, il arrive dans une nouvelle pièce … exactement identique à la précédente… Ahhhh, de quoi le rendre totalement fou !
 
@@ -234,7 +244,13 @@ Mais comment s’échapper de ce piège?  Icarius a beau avoir une bonne mémoir
 
 Plus que jamais, il a besoin de votre aide pour retrouver ses repères et sauvegarder ce qu’il a déjà trouvé ! Mais avant cela, prenons le temps de nous familiariser avec les différents sortilèges de sauvegarde.
 
-## Des formats de fichier du langage des Runes
+<BR>
+
+<BR>
+
+## Enregistrer dans des formats de fichiers du langage des Runes
+
+<BR>
 
 <BR>
 
@@ -252,9 +268,9 @@ Dans le monde des Runes, le sortilège `save` va permettre la sauvegarde d'objet
 
 <BR>
 
-Les objets sont stockés dans notre environnement de travail. Dans sa version la plus large, le sortilège save peut être utilisé comme suit pour sauvegarder tous les objets présents dans l'environnement de travail :
+Les objets sont stockés dans notre environnement de travail. Dans sa version la plus large, le sortilège `save` peut être utilisé comme suit pour sauvegarder tous les objets présents dans l'environnement de travail :
 ```{r, collapse = TRUE, eval=FALSE}
-save.image("nom complet du chemin répertoire et du fichier")
+save.image("chemin complet du fichier .Rdata")
 ```
 
 <BR>
@@ -263,11 +279,11 @@ save.image("nom complet du chemin répertoire et du fichier")
 
 <BR>
 
-Si on veut se limiter à la sauvegarde d'un objet, c'est possible. Le sortilège save le plus basique nécessite alors au minimum 2 ingrédients :
-- le nom de l'objet que l'on souhaite sauvegarder
-- l'emplacement et le nom du fichier RData dans lequel va être stocké l'objet.
+Si on veut se limiter à la sauvegarde d'un objet, c'est possible. Le sortilège `save` le plus basique nécessite alors au minimum 2 ingrédients :  
+- le nom de l'objet que l'on souhaite sauvegarder,  
+- le chemin du fichier RData dans lequel va être stocké l'objet.  
 ```{r, collapse = TRUE, eval=FALSE}
-save(nom_objet_à_sauvegarder,file="chemin_du_fichier/nom_du_fichier.RData")
+save(nom_objet_à_sauvegarder,file="chemin complet du fichier .RData")
 ```
 
 <BR>
@@ -280,25 +296,26 @@ save(nom_objet_à_sauvegarder,file="chemin_du_fichier/nom_du_fichier.RData")
 Il est possible de stocker dans un même fichier "RData", plusieurs objets R pouvant être de type différent. Pour cela, rien de plus simple, il suffit dans la liste des ingrédients de séparer nos différents objets à sauvegarder par des virgules.
 Si par exemple, nous souhaitons sauvegarder dans un même fichier « RData », 3 objets dont 2 tables de données et 1 vecteur, cela s’écrira alors :
 ```{r, collapse = TRUE, eval=FALSE}
-save(table1_à_sauvegarder,vecteur_à_sauvegarder,table2_à_sauvegarder,file="chemin_du_fichier/nom_du_fichier.RData")
+save(table1_à_sauvegarder,vecteur_à_sauvegarder,table2_à_sauvegarder,file="chemin complet du fichier .RData")
 ```
 
-**Prêt pour l'échauffement ?** Pour parfaire votre apprentissage du sortilège `save`, exercez-vous en sauvegardant dans un même "RData" nommé "chapitre9_tables", les 2 tables suivantes: "naissances_1213" et "naissances_mana", correspondant aux calculs que vous avez pu conduire dans le chapitre 9 "Do you dplyr?" pour sélectionner les naissances de l'année 1213 d'une part, et trier selon le mana d'autre part.
+**Prêt pour l'échauffement ?** Pour parfaire votre apprentissage du sortilège `save`, exercez-vous en sauvegardant dans un même "RData" nommé "tables_chapitre9", 
+les 2 tables suivantes: "naissances" et "naissances_F", du registre des naissances rencontré au chapitre 9 "Do you dplyr?".
 
 **Vous travaillez sur une version locale des tutoriels, sur votre poste de travail ?** A vous de choisir le chemin où vous sauvegarderez ce fichier sur votre poste (ou sur une clef USB si vous en utilisez une). *Il faudra penser à renseigner la lettre du lecteur sur votre poste (si besoin, demander à l'animateur du Funcamp de vous aider)*
 
 **Vous travaillez sur une version Internet des tutoriels avec le SSPCloud ?** Dans ce cas, il vous faut sauvegarder dans un endroit que nous avons créé exprès dans les nuages, en l'occurrence, à l'adresse "../sauvegarde"*
 
 ```{r ok-chapitre10-etape1,exercise=TRUE, exercise.setup = "prepare-data_2"}
-# Sauvegarder les tables "naissances_1213" et "naissances_mana"
+# Sauvegarder les tables "naissances" et "naissances_F"
 
 # Fin de l'exercice
 ``` 
 
 <!-- eval=FALSE -->
 ```{r ok-chapitre10-etape1-solution, eval=FALSE}
-#  Sauvegarder les tables "naissances_1213" et "naissances_mana"
-save(naissances_1213,naissances_mana,file="../sauvegarde/tables_chapitre9.RData")
+# Sauvegarder les tables "naissances" et "naissances_F"
+save(naissances,naissances_F,file="../sauvegarde/tables_chapitre9.RData")
 # Fin de l'exercice
 ``` 
 
@@ -308,9 +325,11 @@ save(naissances_1213,naissances_mana,file="../sauvegarde/tables_chapitre9.RData"
 
 <BR>
 
-Un fichier RData pourra ensuite être ouvert et lu à tout moment grâce au sortilège `load(chemin_du_fichier)`, vu dans le chapitre 2.
+Un fichier RData pourra ensuite être ouvert et lu à tout moment grâce au sortilège `load("chemin du fichier")`, vu dans le chapitre 2.
 
-A la suite de `load(chemin_du_fichier)`, tous les objets sauvegardés dans le fichier seront chargés dans R.
+A la suite de `load("chemin du fichier")`, tous les objets sauvegardés dans le fichier seront chargés dans R.
+
+<BR>
 
 <BR>
 
@@ -334,15 +353,15 @@ Exemple.
 ```{r, echo=FALSE, eval=TRUE, comment=NA}
 str_1 <- 
   paste0(
-    "# Je sauvegarde le data.frame \"naissances_1213\" dans un fichier \".rds\",\n",
+    "# Je sauvegarde le data.frame \"naissances\" dans un fichier \".rds\",\n",
 	"# dans le répertoire \"",
-	repertoire_naissances_1213,
+	repertoire_naissances,
 	"\"\n",
 	"# (j'ai vérifié que le répertoire existe)\n",
     "saveRDS(\n",
-	"  naissances_1213,\n",
+	"  naissances,\n",
 	"  file = \"",
-    chemin_naissances_1213,
+    chemin_naissances,
     "\"\n",
 	")"
   )
@@ -359,10 +378,10 @@ str_2 <-
     "# Je charge en mémoire le package \"dplyr\"\n",
     "library(dplyr)\n",
 	"\n",
-    "# J'importe dans R le fichier \"naissances_1213.rds\".\n",
+    "# J'importe dans R le fichier \"naissances.rds\".\n",
 	"# J'assigne son contenu à l'objet \"df_1\".\n",
     "df_1 <- readRDS(\"",
-	chemin_naissances_1213,
+	chemin_naissances,
     "\"\n",
 	"\n",
 	"# J'affiche \"df_1\"\n",
@@ -372,7 +391,7 @@ str_2 <-
 cat(str_2) 
 ```
 ```{r, echo=FALSE, eval=TRUE}
-naissances_1213 %>% 
+naissances %>% 
   head(5)
 ```
 
@@ -382,7 +401,7 @@ naissances_1213 %>%
 
 <BR>
 
-Nous vous proposons d'enregistrer la table "naissances_mana" dans un fichier "naissances_mana.rds", dans le répertoire &nbsp;&nbsp; `r repertoire_naissances_mana` .  
+Nous vous proposons d'enregistrer la table "naissances" dans un fichier "naissances.rds", dans le répertoire &nbsp;&nbsp; `r repertoire_naissances` .  
 (le système a vérifié que le répertoire existe).  
 
 <BR>
@@ -392,11 +411,11 @@ Au fait, une astuce : dans la console R ci-dessous, vous pouvez également affic
 knitr::include_graphics("images/hint.png")
 ```
 ```{r ok-chapitre10-etape2,exercise=TRUE, exercise.setup = "prepare-data_2", message=FALSE, warning=FALSE}
-# Avec le sortilège "saveRDS", enregistrer la table "naissances_mana" 
-# dans le fichier "naissances_mana.rds"
+# Avec le sortilège "saveRDS", enregistrer la table "naissances" 
+# dans le fichier "naissances.rds"
 
 
-# Importer le fichier "naissances_mana.rds" dans R, avec le sortilège "readRDS".
+# Importer le fichier "naissances.rds" dans R, avec le sortilège "readRDS".
 # Assigner le contenu du fichier à "df_2".
 
 
@@ -409,20 +428,20 @@ knitr::include_graphics("images/hint.png")
 ```{r, include=FALSE, comment=NA}
 str_2 <- 
   paste0(
-    "# Avec le sortilège \"saveRDS\", enregistrer la table \"naissances_mana\" \n",
-	"# dans le fichier \"naissances_mana.rds\" \n",
+    "# Avec le sortilège \"saveRDS\", enregistrer la table \"naissances\" \n",
+	"# dans le fichier \"naissances.rds\" \n",
 	"saveRDS(\n",
-	"  naissances_mana,\n",
+	"  naissances,\n",
 	"  file = \"",
-    chemin_naissances_mana,
+    chemin_naissances,
     "\"\n",
 	")", 
 	"\n",
 	"\n",
-	"# Importer le fichier \"naissances_mana.rds\" dans R, avec le sortilège \"readRDS\".\n",
+	"# Importer le fichier \"naissances.rds\" dans R, avec le sortilège \"readRDS\".\n",
     "# Assigner le contenu du fichier à \"df_2\".\n",
 	"df_2 <- readRDS(\"",
-	chemin_naissances_mana,
+	chemin_naissances,
     "\")\n",
 	"\n",
 	"# Afficher les 5 premières lignes de \"df_2\"\n",
@@ -442,13 +461,13 @@ cat(str_2)
 
 <BR>
 
-#### Le format ".fst" pour sauvegarder un très gros data.frame
+#### Le format ".fst" pour enregistrer un très gros data.frame
 
 <BR>
 
-Le format ".fst" permet d'enregistrer un data.frame dans un fichier.
+Le format ".fst" permet de sauvegarder un data.frame dans un fichier.
 
-Ce format est intéressant pour la sauvegarde d'un très gros data.frame (de typiquement 1 Go, ou plus).
+Ce format est intéressant pour l'enregistrement d'un très gros data.frame (de typiquement 1 Go, ou plus).
 
 <BR>
 
@@ -476,11 +495,11 @@ df_livre_ambroisie %>%
 ```
 Le data.frame `df_livre_ambroisie` comprend pour chaque observation (chaque liqueur consommée) les informations suivantes :  
 - le prix de la bouteille d’ambroisie,  
-- la puissance de la liqueur, comparable au nombre de degré d’une boisson alcoolisée,  
+- la puissance de la liqueur, comparable au nombre de degrés d’une boisson alcoolisée,  
 - la puissance_arrondie de la liqueur (l'arrondi est au plus proche entier),  
-- l’ age de la liqueur,  
+- l’âge de la liqueur,  
 - la saveur,  
-- l’ ivresse,  
+- l’ivresse,  
 - la production, en nombre de bouteilles de la liqueur.  
 
 (Ces données ont déjà été utilisées au chapitre 5).   
@@ -536,8 +555,8 @@ rm(df_livre_ambroisie)
 
 &#35;&#35;&#35;&#35; Je souhaite ensuite :  
 &#35;&#35;&#35;&#35; - importer dans un data.frame une partie du fichier "livre_ambroisie.fst" :  
-&#35;&#35;&#35;&#35; &nbsp;&nbsp; exclusivement les liqueurs dont la saveur est "Delicieux",  
-&#35;&#35;&#35;&#35; &nbsp;&nbsp; et uniquement les colonnes "prix", "puissance_arrondie", "saveur",  
+&#35;&#35;&#35;&#35; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exclusivement les liqueurs dont la saveur est "Delicieux",  
+&#35;&#35;&#35;&#35; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; et uniquement les colonnes "prix", "puissance_arrondie", "saveur",  
 &#35;&#35;&#35;&#35; - puis travailler avec le data.frame obtenu  
 &nbsp;  
 &#35; J'affiche les meta-données du fichier, si je le souhaite  
@@ -593,7 +612,7 @@ etc.
 <BR>
 
 Nous vous proposons de demander à R d'enregistrer le data.frame "df_livre_ambroisie" dans un
-fichier "livre_ambroisie.rds", dans le repertoire `r repertoire_livre_ambroisie` .  
+fichier "livre_ambroisie.fst", dans le repertoire `r repertoire_livre_ambroisie` .  
 (le système a vérifié que le répertoire existe).
 
 ```{r ok-chapitre10-etape3,exercise=TRUE, exercise.setup = "prepare-data_3", message=FALSE, warning=FALSE}
@@ -666,7 +685,7 @@ et uniquement les colonnes "prix", "puissance_arrondie", "saveur".
 str_6 <-
   paste0(
     "# Créer une référence au fichier avec le sortilège \"fst()\" \n",
-    "ref_livre_ambroisie <- fst(filename)\n",
+    "ref_livre_ambroisie <- fst(filename_livre_ambroisie)\n",
     "\n",
     "# A partir de cette référence, importer une partie du \n",
 	"# fichier (les liqueurs dont la saveur est \"Delicieux\", et \n",
@@ -689,7 +708,7 @@ cat(str_6)
 
 <BR>
 
-## Oui mais si je veux sauvegarder des informations en dehors de l'environnement R ?
+## Et si je veux sauvegarder des données dans des formats usuels (txt, jpg, csv, etc.) ?
 
 Il est parfois nécessaire de sauvegarder des informations statistiques "en dehors de R" dans des formats qui sont compatibles avec d'autres logiciels, que ce soit le contenu de la console, des tableaux de résultats ou des graphiques. On parle alors d'exporter des objets. Par exemple, sauvegarder le contenu de la console dans un fichier txt, sauvegarder un graphique en format jpeg ou en format pdf, sauvegarder une table de données dans un fichier csv. Pour chaque objet, il existe des sortilèges d'export différents.
 
@@ -715,22 +734,26 @@ ggsave(graphique_chapitre6,path ="../sauvegarde/",filename="graphique_chapitre6.
 Pour exporter un **tableau de données**, utilisez le sortilège `export`  :
 ```{r, collapse = TRUE, eval=FALSE}
 # la table nb_pontes est déjà chargée. Exportons-la.
-export(nb_pontes, "nb_pontes.csv")
+export(nb_pontes, "../sauvegarde/nb_pontes.csv")
 ```
+
+<BR>
+
 ## Entrainez-vous !
 
-À vous de jouer : vous devez désormais exporter la table naissance_1213 au format csv dans un fichier nommé naissances_1213.csv. **Vous travaillez avec une version locale des tutoriels ?** Enregistrez le fichier dans le répertoire de votre choix (sur votre poste de travail ou sur votre clef USB le cas échéant). **Vous travaillez avec une version en ligne sur le SSPCloud ?** Enregistrez le fichier dans le répertoire "../sauvegarde/", directement dans les nuages :-)
+À vous de jouer : vous devez désormais exporter la table naissances au format csv dans un fichier nommé naissances.csv. 
+**Vous travaillez avec une version locale des tutoriels ?** Enregistrez le fichier dans le répertoire de votre choix (sur votre poste de travail ou sur votre clef USB le cas échéant). **Vous travaillez avec une version en ligne sur le SSPCloud ?** Enregistrez le fichier dans le répertoire "../sauvegarde/", directement dans les nuages :-)
 
-```{r ok-chapitre10-etape5,exercise=TRUE, exercise.setup = "prepare-data"}
-# Sauvegarder la table "naissances_1213" au format csv
+```{r ok-chapitre10-etape5,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
+# Sauvegarder la table "naissances" au format csv
 
 # Fin de l'exercice
 ``` 
 
 <!-- eval=FALSE -->
 ```{r ok-chapitre10-etape5-solution, eval=FALSE}
-# Sauvegarder la table "naissances_1213" au format csv
-export(naissances_1213,"../sauvegarde/naissances_1213.csv")
+# Sauvegarder la table "naissances" au format csv
+export(naissances,"../sauvegarde/naissances.csv")
 # Fin de l'exercice
 ``` 
 
@@ -742,10 +765,10 @@ L'horrible Sassos a téléporté Icarius dans la salle de l'impossible. Prisonni
 
 Mais comment ? Il se trouve que la séquence de directions qu'il doit suivre pour s'échapper est cachée dans un objet R, que vous allez devoir sauvegarder. 
 
-Indication: l'objet R est un *graphique* dénommé "directions_fleches" que vous stockerez au format jpg dans un fichier denommé enigme_chapitre10.jpg**
+Indication: l'objet R est un *graphique* dénommé "directions_fleches" que vous stockerez au format jpg dans un fichier denommé enigme_chapitre10.jpg .
 
-```{r ok-chapitre10-etape6,exercise=TRUE, exercise.setup = "prepare-data"}
-#Sauvegarder l'objet directions_fleches comme une image,
+```{r ok-chapitre10-etape6,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
+# Sauvegarder l'objet directions_fleches comme une image,
 # avec pour nom enigme_chapitre10.jpg
 
 # Fin de l'exercice
@@ -753,7 +776,7 @@ Indication: l'objet R est un *graphique* dénommé "directions_fleches" que vous
 
 <!-- eval=FALSE -->
 ```{r ok-chapitre10-etape6-solution, eval=FALSE}
-#Sauvegarder l'objet directions_fleches comme une image,
+# Sauvegarder l'objet directions_fleches comme une image,
 # avec pour nom enigme_chapitre10.jpg
 ggsave(directions_fleches, filename="../sauvegarde/enigme_chapitre10.jpg",device = "jpeg")
 # Fin de l'exercice

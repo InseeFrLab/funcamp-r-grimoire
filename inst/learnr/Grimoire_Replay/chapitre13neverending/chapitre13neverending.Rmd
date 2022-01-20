@@ -288,13 +288,11 @@ En quittant le temple de la roche, l'éboulement condamne tout retour en arrièr
 # Chapitre 10 
 
 
-En poursuivant vos pérégrinations et après avoir abattu quelques drôles de sphinx, icaRius se trouve pris au piège dans la salle de l'impossible. Quelle que soit la direction prise, Icarius atterrit toujours au même endroit. Il doit apprendre à garder les choses en mémoire et les sauvegarder. 
+En poursuivant vos pérégrinations et après avoir abattu quelques drôles de sphinx, icaRius se trouve pris au piège dans la salle de l'impossible. Quelle 
+que soit la direction prise, Icarius atterrit toujours au même endroit. Il doit apprendre à garder les choses en mémoire et les sauvegarder. 
 
 ```{r eval=FALSE}
-save(naissances_1213,naissances_mana,file="../sauvegarde/tables_chapitre9.RData")
-sink()
-ggsave()
-export()
+ggsave(directions_fleches, filename="../sauvegarde/enigme_chapitre10.jpg",device = "jpeg")
 ```
 
 En retenant la suite d'instructions directionnelles qui s'avère être la célèbre suite de Konami, Icarius prend possession du bouclier éponyme. 

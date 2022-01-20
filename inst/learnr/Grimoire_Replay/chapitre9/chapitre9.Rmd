@@ -1014,9 +1014,6 @@ Un data.frame "naissances_F" est chargé en mémoire. Il est égal au data.frame
 # (ii) vous obtiendrez la réponse !
 
 
-
-
-
 # fin de l'exercice
 ``` 
  

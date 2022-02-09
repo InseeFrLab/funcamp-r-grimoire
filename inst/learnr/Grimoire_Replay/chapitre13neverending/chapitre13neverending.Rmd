@@ -394,7 +394,7 @@ pouvez plus faire marche arrière. Qu'à cela ne tienne, la quête reprend.
 
 Febeler, lui encore, vous aiguille vers l'Est dans une forêt brumeuse peuplée de squelettes. La progression à travers les grumes creuses est difficile... 
 
-## Dernier chapitre
+# Dernier chapitre
 
 Vous rencontrez enfin Asa la gueRnouille qui vous propose d'écrire votre destin et vos mémoires, simultanément.
 

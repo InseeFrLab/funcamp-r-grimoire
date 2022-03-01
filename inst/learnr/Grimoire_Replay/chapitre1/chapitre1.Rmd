@@ -134,7 +134,7 @@ Tables de pokeR
 
 <BR>
 
-Dans ce chapitre, on va s'appesantir sur les tables de données que l'on trouve dans le langage des Runes.
+Dans cette partie, nous allons nous appesantir sur les tables de données que l'on trouve dans le langage des Runes.
 
 <BR>
 
@@ -259,7 +259,7 @@ df_statis$coeurs
 <BR>
 
 ```{r, messages=FALSE, warning=FALSE}
-# data.frame "df_statis", l'élément situé 1ère ligne, 2ème colonne
+# data.frame "df_statis", j'accède à l'élément situé 1ère ligne, 2ème colonne
 df_statis[1, 2]
 
 # la 3ème ligne
@@ -306,7 +306,7 @@ Pour la table "df_statis", nous vous proposons d'afficher :
 # Accéder à l'élément situé 1ère ligne, 2ème colonne
 
 
-# Accéder à la 3ème ligne
+# Afficher la 3ème ligne
 
 
 # Fin de l'exercice
@@ -316,7 +316,7 @@ Pour la table "df_statis", nous vous proposons d'afficher :
 # Accéder à l'élément situé 1ère ligne, 2ème colonne
 df_statis[1, 2]
 
-# Accéder à la 3ème ligne
+# Afficher la 3ème ligne
 df_statis[3, ]
 
 # Fin de l'exercice
@@ -424,7 +424,7 @@ correct="Félicitations, c'est la bonne réponse pour ce quiz."
 
 <span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
 
-Pour le data.frame "df_statis", nous vous proposons de re-modifier le type de la colonne "nom" en "character"
+Dans le data.frame "df_statis" (qui entretemps a été réinitialisé), nous vous proposons de re-modifier le type de la colonne "nom" en "character"
 
 ```{r ok-chapitre1-etape5,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
 # Afficher le type de la colonne "nom"
@@ -433,7 +433,7 @@ Pour le data.frame "df_statis", nous vous proposons de re-modifier le type de la
 # Modifier le type de la colonne "nom" en "character"
 
 
-# Afficher le nouveau type de la colonne "nom"
+# Obtenir le nouveau type de la colonne "nom"
 
 
 # Fin de l'exercice
@@ -446,7 +446,7 @@ class( df_statis[, "nom"] )
 # Modifier le type de la colonne "nom" en "character"
 df_statis <- mutate(df_statis, nom = as.character(nom)) 
 
-# Afficher le nouveau type de la colonne "nom"
+# Obtenir le nouveau type de la colonne "nom"
 class( df_statis[, "nom"] )
 
 # Fin de l'exercice
@@ -563,15 +563,16 @@ knitr::include_graphics("images/run_code.png")
 ```
 
 ```{r ok-chapitre1-etape6,exercise=TRUE, exercise.setup = "prepare-data-df_statis"}
-# Dans le data.frame "df_statis", 
+# Dans le data.frame "df_statis" (qui a entretemps été réinitialisé),
 # le nombre de coeurs d'IcaRius a été sous-estimé d'une unité. 
-# Modifier la colonne "coeurs" du data.frame pour qu'elle contienne les vraies valeurs, avec le sortilège "ifelse"
+# Modifier la colonne "coeurs" du data.frame pour qu'elle contienne les vraies valeurs, 
+# avec les sortilèges "mutate" et "ifelse"
 
 
 # afficher le data.frame modifié
 
 
-# Afficher le nombre de coeurs d'IcaRius, en sélectionnant avec les crochets le bon élément du data.frame "df_statis"
+# Obtenir le nombre de coeurs d'IcaRius, en sélectionnant avec les crochets le bon élément du data.frame "df_statis"
 
 
 # Calculer l'âge d'IcaRius, égal à son nombre de coeurs multiplié par 8
@@ -581,9 +582,10 @@ knitr::include_graphics("images/run_code.png")
 ``` 
 
 ```{r ok-chapitre1-etape6-solution}
-# Dans le data.frame "df_statis", 
+# Dans le data.frame "df_statis" (qui a entretemps été réinitialisé),
 # le nombre de coeurs d'IcaRius a été sous-estimé d'une unité. 
-# Modifier la colonne "coeurs" du data.frame pour qu'elle contienne les vraies valeurs, avec le sortilège "ifelse"
+# Modifier la colonne "coeurs" du data.frame pour qu'elle contienne les vraies valeurs, 
+# avec les sortilèges "mutate" et "ifelse"
 df_statis <- mutate(
   df_statis,
   coeurs = ifelse(nom == "IcaRius", coeurs + 1, coeurs)
@@ -592,7 +594,7 @@ df_statis <- mutate(
 # afficher le data.frame modifié
 print(df_statis)
 
-# Afficher le nombre de coeurs d'IcaRius, en sélectionnant avec les crochets le bon élément du data.frame "df_statis"
+# Obtenir le nombre de coeurs d'IcaRius, en sélectionnant avec les crochets le bon élément du data.frame "df_statis"
 df_statis[1, "coeurs"]
 
 # Calculer l'âge d'IcaRius, égal à son nombre de coeurs multiplié par 8

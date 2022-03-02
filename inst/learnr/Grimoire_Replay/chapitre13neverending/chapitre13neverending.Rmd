@@ -418,37 +418,42 @@ Notez bien ce code magique, pour que vous puissiez reprendre le jeu vidéo icaRi
 
 <BR>
 
-Juste avant de finaliser l'aventure, nous vous proposons de créer un "projet de package" comme vu dans la première partie du chapitre 13.
-
-Pour cela :  
-1. Enregistrez la succession d'étapes ci-dessous dans un fichier,  
+Juste avant de finaliser l'aventure, nous vous proposons un encadré optionnel,
+ pour créer un "projet de package" comme vu dans la première partie du chapitre 13.
+ 
+Si vous souhaitez créer un "projet de package :   
+1. Enregistrez l'encadré ci-dessous dans un fichier,  
 &nbsp;&nbsp;&nbsp;&nbsp;(car dans la suite vous devrez quitter cette page et n'aurez plus accès à son contenu).   
 2. Créez un projet de package,  
 3. puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.  
 
 <BR>
 
-!###############################################  
+```{r, eval=FALSE, echo=TRUE}
+Encadré optionnel
+-----------------
+
 Création d'un projet de package, succession d'étapes :  
-!###############################################  
+ 
 Dans RStudio, en haut à droite, cliquez sur "chapitre 13".  
 Une liste déroulante apparaît. Choisir "Close project".  
 En haut à droite cliquer sur "Project: (None)".   
 Choisir "New Project..."  
 Une fenêtre pop-up "Create Project" s'affiche  
-&nbsp;&nbsp;&nbsp;&nbsp;Sélectionner "New Directory" .  
-&nbsp;&nbsp;&nbsp;&nbsp;Dans la page "Project Type" de la pop-up, cliquer sur "R package",  
-&nbsp;&nbsp;&nbsp;&nbsp;Dans la page suivante,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Package Name:" renseigner le nom du projet, par exemple projet1 ,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"  
-# Le projet est créé. Il contient déjà un sortilège "hello()" ainsi qu'une documentation de ce sortilège.  
+      Sélectionner "New Directory" .  
+      Dans la page "Project Type" de la pop-up, cliquer sur "R package",  
+      Dans la page suivante,  
+            champs "Package Name:" renseigner le nom du projet, par exemple projet1 ,  
+            champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
+            puis cliquer sur "Create Project"  
+# Le projet est créé. Il contient déjà un sortilège "hello()" ainsi qu'une documentation 
+# de ce sortilège.  
 # Dans RStudio ouvrir une fenêtre de script, puis exécuter le code suivant :  
 library(devtools)  
-load_all()  
-hello() # exécution  
+load_all() # chagement en mémoire des sortilèges du projet (ici hello() )
+hello() # exécution
 ?hello # affichage de la documentation  
-!###############################################  
+```
 
 <BR>
 

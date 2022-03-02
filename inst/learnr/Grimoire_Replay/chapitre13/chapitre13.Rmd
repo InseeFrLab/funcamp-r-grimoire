@@ -280,10 +280,6 @@ Après création du projet de package "projet2", un répertoire "projet2" appara
 
 <BR>
 
-##### Aperçu
-
-<BR>
-
 Le répertoire "projet2" a alors le contenu suivant :  
 
 ![](./images/projet2.png){width=30%} 
@@ -292,7 +288,7 @@ Le répertoire "projet2" a alors le contenu suivant :
 
 <BR>
 
-##### Les sous-répertoires du projet
+#### Les sous-répertoires du projet
 
 <BR>
 
@@ -337,7 +333,7 @@ Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dan
 
 <BR>
 
-##### Utilisation du projet
+#### Utilisation du projet
 
 <BR>
 

@@ -439,7 +439,7 @@ Dans RStudio, en haut à droite, cliquez sur "chapitre 13".
 Une liste déroulante apparaît. Choisir "Close project".  
 En haut à droite cliquer sur "Project: (None)".   
 Choisir "New Project..."  
-Si une fenêtre pop up "Save workspace image to ~/.RData?" apparaît, cliquer sur "Don't save".
+Si une fenêtre pop-up "Save workspace image to ~/.RData?" apparaît, cliquer sur "Don't Save".
 Une fenêtre pop-up "Create Project" s'affiche  
       Sélectionner "New Directory" .  
       Dans la page "Project Type" de la pop-up, cliquer sur "R package",  

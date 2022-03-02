@@ -284,15 +284,9 @@ Ci-dessous le contenu du répertoire "projet2" :
 
 ![](./images/projet2.png){width=30%} 
 
-<BR>
-
 Le dossier "projet2" inclut des sous-répertoire "R" et "man".
 
 <BR>
-
-<BR>
-
-#### Les sous-répertoires du projet
 
 <BR>
  
@@ -326,7 +320,7 @@ hello <- function() {
 
 <BR>
 
-Le sous-répertoire "man" :
+Ci-dessous le sous-répertoire "man" :
 
 ![](./images/projet2_man.png){width=100%} 
  

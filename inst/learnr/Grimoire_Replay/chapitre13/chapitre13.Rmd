@@ -183,8 +183,8 @@ Une fenêtre pop-up "Create Project" s'affiche
 &nbsp;&nbsp;&nbsp;&nbsp;cliquer sur "New Project".  
 
 &nbsp;&nbsp;&nbsp;&nbsp;Dans la page suivante,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Directory Name:" renseigner le nom du projet, par exemple projet1 ,  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champ "Directory Name:" renseigner le nom du projet, par exemple projet1 ,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champ "Create project as subdirectory of:" choisir le répertoire parent du projet,  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(par exemple C/user/R/mesProjets/ ),  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"  
 
@@ -268,7 +268,7 @@ dans RStudio, en haut à droite, cliquer sur "Project: (None)" etc.
 
 Deux différences avec la création d'un simple projet :  
 dans la page "Project Type" , cliquer sur "R package",  
-dans la page suivante renseigner le nom du projet, par exemple projet2, dans le champs "Package Name:" .
+dans la page suivante renseigner le nom du projet, par exemple projet2, dans le champ "Package Name:" .
 
 <BR>
 
@@ -280,9 +280,13 @@ Après création du projet de package "projet2", un répertoire "projet2" appara
 
 <BR>
 
-Le répertoire "projet2" a alors le contenu suivant :  
+Ci-dessous le contenu du répertoire "projet2" :  
 
 ![](./images/projet2.png){width=30%} 
+
+<BR>
+
+Le dossier "projet2" inclut des sous-répertoire "R" et "man".
 
 <BR>
 
@@ -291,12 +295,10 @@ Le répertoire "projet2" a alors le contenu suivant :
 #### Les sous-répertoires du projet
 
 <BR>
-
-Le dossier "projet2" inclut un sous-répertoire "R" :  
+ 
+Le sous-répertoire "R" contient un script R exemple "hello.R".
 
 ![](./images/projet2_R.png){width=100%}  
-
-Ce sous-répertoire "R" contient un script R exemple "hello.R".  
 
 <BR>
 
@@ -324,11 +326,11 @@ hello <- function() {
 
 <BR>
 
-Le dossier "projet2" inclut aussi un sous-répertoire "man" :  
+Le sous-répertoire "man" :
 
 ![](./images/projet2_man.png){width=100%} 
-
-Ce répertoire "man" contient des fichiers ".Rd" (de documentation).  
+ 
+Ce dossier "man" sert à contenir des fichiers ".Rd" (de documentation).  
 Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dans le chapitre précédent).  
 
 <BR>

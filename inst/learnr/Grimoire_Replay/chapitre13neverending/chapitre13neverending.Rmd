@@ -21,7 +21,7 @@ library(knitr)
 library(dplyr)
 ```
 
-Soyez les bienvenus : vous voici dans l'environnement de développement RStudio. Prenez le temps de trouver vos marques. L'environnement a été préparé pour vous : à gauche le panneau source, à droite le viewer. Sentez-vous libre de manipuler les fenêtres comme bon vous semble. 
+Soyez les bienvenus : vous voici dans l'environnement de développement RStudio. Prenez le temps de trouver vos marques. L'environnement est prêt : à gauche le panneau source, à droite le viewer. Sentez-vous libre de manipuler les fenêtres comme bon vous semble. 
 
 Pour faciliter la mise en forme des mémoires d'Icarius au Royaume de Statis, nous allons utiliser le dièse pour faire en sorte que le texte apparaisse comme un titre dans le rapport des aventures. Voyez plutôt : en positionnant un dièse sur la ligne 6, on observe une mise en page sous forme de grand titre du rendu sur votre droite. Et en encadrant _des mots_ avec des _ de part et d'autre, on constate leur mise en forme italique. Nous utiliserons ces balises tout au long du texte. RStudio les colore en bleu pour nous assister. 
 
@@ -450,7 +450,7 @@ Une fenêtre pop-up "Create Project" s'affiche
 # de ce sortilège.  
 # Dans RStudio ouvrir une fenêtre de script, puis exécuter le code suivant :  
 library(devtools)  
-load_all() # chagement en mémoire des sortilèges du projet (ici hello() )
+load_all() # chargement en mémoire des sortilèges du projet (ici hello() )
 hello() # exécution
 ?hello # affichage de la documentation  
 ```

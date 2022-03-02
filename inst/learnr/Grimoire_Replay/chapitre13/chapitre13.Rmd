@@ -72,11 +72,61 @@ A la suite de cela, vous décidez d'utiliser un "projet RStudio" pour organiser 
 
 <BR>
 
-## Rappel : RStudio
+## Rappel : le logiciel RStudio qui facilite l'écriture de code R
 
 <BR>
 
-RStudio est un logiciel qui facilite l'écriture de code R.
+Depuis vos mésaventures avec Teoc vous savez maintenant écrire votre propre sortilège et le documenter consciencieusement, et votre mémoire est 
+encore fraîche. Vous décidez de vous équiper non plus d'un livre mais d'une tablette magique "RStudio", moderne et surtout, à toute épreuve pour 
+consigner vos savoirs-faire.
+
+Au déverrouillage de RStudio, vous vous rappelez que l'outil est plus complexe à utiliser que votre bon vieux grimoire ! Et pour cause, 
+voici RStudio une fois lancé : 
+
+```{r echo=FALSE}
+include_graphics("images/rstudio_4_panes.png")
+```
+
+Vous vous rappelez la première impression que vous aviez eue avec l'outil. "Quelle est donc cette magie noire ?! Encore un coup de Sassos ? Vous qui vous 
+étiez attendiu à simplement scripter vos sortilèges avec votre plume du 
+tidyverse vous étiez bien dépourvu(e)..."
+
+Par chance le mode d'emploi est fourni et ce dernier vous rappelle qu'il s'agit là du logiciel de traitement de texte des mages, celui-là même qui 
+leur sert à produire les écrits des grimoires tels qu'IgoR.
+
+En poursuivant la lecture, vous vous rappelez que plus qu'un traitement de texte vous avez sous les yeux un EDI : **Environnement de Développement Intégré**. 
+C'est à dire un *"ensemble d'outils et de procédés destinés à assister et formaliser le travail de création de logiciels"* selon Statispedia. 
+RStudio comme R, est un logiciel open source. 
+Vu l'âge avancé des mages, vous n'êtes pas étonné(e) qu'ils doivent être assistés pour la rédaction de leurs sortilèges... Mais rappelons plutôt comment. 
+
+#### Le tour du propriétaire
+
+Tout d'abord la console de RStudio. Cet espace est familier, il ressemble aux lieux privilégiés pour la pratique du langage des Runes dans le grimoire : 
+c'est à cet endroit 
+que nous pouvons mesurer les effets des sortilèges lancés
+
+
+```{r  echo=FALSE}
+include_graphics("images/console.JPG")
+```
+
+À la droite de cet encart, se trouve un panneau qui contient un explorateur de fichier et d'autres onglets utiles tels que l'affichage des graphiques,
+la liste des packages installés, la fenêtre d'aide et même un navigateur web (Viewer). 
+
+```{r  echo=FALSE}
+include_graphics("images/files.JPG")
+```
+
+Dans la partie supérieure on trouve un onglet environnement (ici vide) qui expose et détaille en temps réel les objets créés et assignés grâce à l'opérateur `<-`
+
+```{r  echo=FALSE}
+include_graphics("images/environnement.JPG")
+```
+
+Et enfin, un dernier quart de page est dédié à l'écriture à proprement parler des sortilèges : 
+```{r  echo=FALSE}
+include_graphics("images/source.JPG")
+```
 
 <BR>
 
@@ -109,84 +159,77 @@ contribuer en même temps sur les scripts du projet sans risque d'écraser par m
 
 <BR>
 
-><details><summary><font size="3"><b>Je crée un projet RStudio - cliquez ici</b></font></summary>
-><p><font size="2">
->
-><BR>
->
->Ci-dessous, l'une des façons de créer un projet RStudio.
->
-><BR>
->
->On ouvre RStudio.
->
-><BR>
->
->Dans RStudio, tout en haut à droite, cliquer sur "Project: (None)".  
->Une liste déroulante apparaît.  
->
->Choisir "New Project..."  
->Une fenêtre pop-up "Create Project" s'affiche  
->
->&nbsp;&nbsp;&nbsp;&nbsp;Sélectionner "New Directory" .  
->
->&nbsp;&nbsp;&nbsp;&nbsp;Dans la page "Project Type" de la pop-up,  
->&nbsp;&nbsp;&nbsp;&nbsp;cliquer sur "New Project".  
->
->&nbsp;&nbsp;&nbsp;&nbsp;Dans la page suivante,  
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Directory Name:" renseigner le nom du projet, par exemple projet1 ,  
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(par exemple C/user/R/mesProjets/ ),  
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"  
->
-><BR>
->
->Le projet est maintenant utilisable.
->
->Dans le répertoire parent du projet un dossier "projet1" a été créé.
->
-><BR>
->
-><span style="color:blue;font-size:20px">Visualisation du projet dans l'explorateur de fichier</span>
->
-><BR>
->
->Avec l'explorateur de fichier je consulte le contenu du répertoire "projet1" :
->
->![](./images/projet1_Rproj.png){width=40%} 
->
->*Le dossier "projet1" contient un seul fichier "projet1.Rproj" .*
->
-><BR>
->
-><span style="color:blue;font-size:20px">Le répertoire "R" du projet</span>
->
-><BR>
->
->Je crée un sous-dossier "R" dans le répertoire "projet1" avec l'explorateur de fichier.
->
-><BR>
->
->Le contenu du dossier "projet1" devient :
->
->![](./images/projet1.png){width=40%} 
->
-><BR>
->
->Ce sous-dossier "R" sert à stocker les scripts R.
->
-><BR>
->
->Le projet "projet1" est maintenant prêt.  
->Il reste à le compléter avec des scripts écrits dans le langage des Runes.  
->
-><BR>
->
-><BR>
->
-><BR>
->
-></font></p></details>
+#### Je crée un projet RStudio
+
+<BR>
+
+Ci-dessous, l'une des façons de créer un projet RStudio.
+
+<BR>
+
+On ouvre RStudio.
+
+<BR>
+
+Dans RStudio, tout en haut à droite, cliquer sur "Project: (None)".  
+Une liste déroulante apparaît.  
+
+Choisir "New Project..."  
+Une fenêtre pop-up "Create Project" s'affiche  
+
+&nbsp;&nbsp;&nbsp;&nbsp;Sélectionner "New Directory" .  
+
+&nbsp;&nbsp;&nbsp;&nbsp;Dans la page "Project Type" de la pop-up,  
+&nbsp;&nbsp;&nbsp;&nbsp;cliquer sur "New Project".  
+
+&nbsp;&nbsp;&nbsp;&nbsp;Dans la page suivante,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Directory Name:" renseigner le nom du projet, par exemple projet1 ,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(par exemple C/user/R/mesProjets/ ),  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;puis cliquer sur "Create Project"  
+
+<BR>
+
+Le projet est maintenant utilisable.
+
+Dans le répertoire parent du projet un dossier "projet1" a été créé.
+
+<BR>
+
+#### Visualisation du projet dans l'explorateur de fichier
+
+<BR>
+
+Avec l'explorateur de fichier je consulte le contenu du répertoire "projet1" :
+
+![](./images/projet1_Rproj.png){width=40%} 
+
+*Le dossier "projet1" contient un seul fichier "projet1.Rproj" .*
+
+<BR>
+
+#### Le répertoire "R" du projet
+
+<BR>
+
+Je crée un sous-dossier "R" dans le répertoire "projet1" avec l'explorateur de fichier.
+
+<BR>
+
+Le contenu du dossier "projet1" devient :
+
+![](./images/projet1.png){width=40%} 
+
+<BR>
+
+Ce sous-dossier "R" sert à stocker les scripts R.
+
+<BR>
+
+Le projet "projet1" est maintenant prêt.  
+Il reste à le compléter avec des scripts écrits dans le langage des Runes.  
+
+<BR>
 
 <BR>
 
@@ -210,60 +253,59 @@ Un projet de package permet notamment :
 
 <BR>
 
-><details><summary><font size="3"><b>Je crée un projet de package - cliquez ici</b></font></summary>
-><p><font size="2">
->
-><BR>
->
->Ci-dessous, l'une des façons d'obtenir un projet de package.
->
-><BR>
->
-><BR>
->
->On peut créer un projet de package de la même façon qu'on a construit un simple projet ci-dessus :  
->dans RStudio, en haut à droite, cliquer sur "Project: (None)" etc.
->
->Deux différences avec la création d'un simple projet :  
->dans la page "Project Type" , cliquer sur "R package",  
->dans la page suivante renseigner le nom du projet, par exemple projet2, dans le champs "Package Name:" .
->
-><BR>
->
->Après création du projet de package "projet2", un répertoire "projet2" apparaît.
->
-><BR>
->
-><span style="color:blue;font-size:20px">Visualisation du projet dans l'explorateur de fichier</span>
->
-><BR>
->
-><span style="color:blue;font-size:16px">Aperçu</span>
->
-><BR>
->
->Le répertoire "projet2" a alors le contenu suivant :  
->
->![](./images/projet2.png){width=30%} 
->
-><BR>
->
-><BR>
->
-><span style="color:blue;font-size:16px">Les sous-répertoires du projet</span>
->
-><BR>
->
->Le dossier "projet2" inclut un sous-répertoire "R" :  
->
->![](./images/projet2_R.png){width=100%}  
->
->Ce sous-répertoire "R" contient un script R exemple "hello.R".  
->
-><BR>
->
->"hello.R" comprend le code suivant :
->```{r, message=FALSE, warning=FALSE}
+#### Je crée un projet de package
+
+<BR>
+
+Ci-dessous, l'une des façons d'obtenir un projet de package.
+
+<BR>
+
+<BR>
+
+On peut créer un projet de package de la même façon qu'on a construit un simple projet ci-dessus :  
+dans RStudio, en haut à droite, cliquer sur "Project: (None)" etc.
+
+Deux différences avec la création d'un simple projet :  
+dans la page "Project Type" , cliquer sur "R package",  
+dans la page suivante renseigner le nom du projet, par exemple projet2, dans le champs "Package Name:" .
+
+<BR>
+
+Après création du projet de package "projet2", un répertoire "projet2" apparaît.
+
+<BR>
+
+#### Visualisation du projet dans l'explorateur de fichier
+
+<BR>
+
+##### Aperçu
+
+<BR>
+
+Le répertoire "projet2" a alors le contenu suivant :  
+
+![](./images/projet2.png){width=30%} 
+
+<BR>
+
+<BR>
+
+##### Les sous-répertoires du projet
+
+<BR>
+
+Le dossier "projet2" inclut un sous-répertoire "R" :  
+
+![](./images/projet2_R.png){width=100%}  
+
+Ce sous-répertoire "R" contient un script R exemple "hello.R".  
+
+<BR>
+
+"hello.R" comprend le code suivant :
+```{r, message=FALSE, warning=FALSE}
 # Hello, world!
 #
 # This is an example function named 'hello' 
@@ -282,25 +324,25 @@ Un projet de package permet notamment :
 hello <- function() {
   print("Hello, world!")
 }
->```
->
-><BR>
->
->Le dossier "projet2" inclut aussi un sous-répertoire "man" :  
->
->![](./images/projet2_man.png){width=100%} 
->
->Ce répertoire "man" contient des fichiers ".Rd" (de documentation).  
->Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dans le chapitre précédent).  
->
-><BR>
->
-><span style="color:blue;font-size:20px">Utilisation du projet</span>
->
-><BR>
->
->J'emploie le sortilège "hello()" :
->```{r, message=FALSE, warning=FALSE, eval=FALSE}
+```
+
+<BR>
+
+Le dossier "projet2" inclut aussi un sous-répertoire "man" :  
+
+![](./images/projet2_man.png){width=100%} 
+
+Ce répertoire "man" contient des fichiers ".Rd" (de documentation).  
+Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dans le chapitre précédent).  
+
+<BR>
+
+##### Utilisation du projet
+
+<BR>
+
+J'emploie le sortilège "hello()" :
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
 # J'installe le package "devtools" si je ne l'ai pas déjà installé dans une session antérieure
 install.packages("devtools")
 
@@ -311,44 +353,38 @@ load_all()
 
 # J'exécute le sortilege "hello()"
 hello()
->```
->
->```{r, message=FALSE, warning=FALSE, echo=TRUE, eval=FALSE, class.source="background-white"}
+```
+
+```{r, message=FALSE, warning=FALSE, echo=TRUE, eval=FALSE, class.source="background-white"}
 [1] "Hello, world!"
->```
->
-><BR>
->
->```{r, message=FALSE, warning=FALSE, eval=FALSE}
+```
+
+<BR>
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
 ## J'affiche la documentation du sortilège "hello()"
 # Je peux utiliser le point d'interrogation suivi de "hello"
 # (ce qui est synonyme de "help(hello)" )
 ?hello
->```
->
->_______________________________________________
->
->
->```{r message = FALSE, warning = FALSE, echo=FALSE}
+```
+
+_______________________________________________
+
+
+```{r message = FALSE, warning = FALSE, echo=FALSE}
 htmltools::includeHTML( paste0(REPERTOIRE_du_fichier_chapitre13_Rmd, "/hello.html") )
->```
->
->_______________________________________________
->
-><BR>
->
-><BR>
->
->Le projet "projet2" est prêt.  
->Il reste à le compléter avec des scripts dans le langage des Runes.  
->
-><BR>
->
-><BR>
->
-><BR>
->
-></font></p></details>
+```
+
+_______________________________________________
+
+<BR>
+
+<BR>
+
+Le projet "projet2" est prêt.  
+Il reste à le compléter avec des scripts dans le langage des Runes.  
+
+<BR>
 
 <BR>
 

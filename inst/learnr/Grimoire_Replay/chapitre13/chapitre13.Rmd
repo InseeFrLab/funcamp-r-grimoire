@@ -192,7 +192,7 @@ Une fenêtre pop-up "Create Project" s'affiche
 
 Le projet est maintenant utilisable.
 
-Dans le répertoire parent du projet un dossier "projet1" a été créé.
+Dans le répertoire parent du projet un dossier `projet1` a été créé.
 
 <BR>
 
@@ -200,11 +200,11 @@ Dans le répertoire parent du projet un dossier "projet1" a été créé.
 
 <BR>
 
-Avec l'explorateur de fichier je consulte le contenu du répertoire "projet1" :
+Avec l'explorateur de fichier je consulte le contenu du répertoire `projet1` :
 
 ![](./images/projet1_Rproj.png){width=40%} 
 
-*Le dossier "projet1" contient un seul fichier "projet1.Rproj" .*
+*Le dossier `projet1` contient un seul fichier `projet1.Rproj` .*
 
 <BR>
 
@@ -212,21 +212,21 @@ Avec l'explorateur de fichier je consulte le contenu du répertoire "projet1" :
 
 <BR>
 
-Je crée un sous-dossier "R" dans le répertoire "projet1" avec l'explorateur de fichier.
+Je crée un sous-dossier `R` dans le répertoire `projet1` avec l'explorateur de fichier.
 
 <BR>
 
-Le contenu du dossier "projet1" devient :
+Le contenu du dossier `projet1` devient :
 
 ![](./images/projet1.png){width=40%} 
 
 <BR>
 
-Ce sous-dossier "R" sert à stocker les scripts R.
+Ce sous-dossier `R` sert à stocker les scripts R.
 
 <BR>
 
-Le projet "projet1" est maintenant prêt.  
+Le projet `projet1` est maintenant prêt.  
 Il reste à le compléter avec des scripts écrits dans le langage des Runes.  
 
 <BR>
@@ -272,7 +272,7 @@ dans la page suivante renseigner le nom du projet, par exemple projet2, dans le 
 
 <BR>
 
-Après création du projet de package "projet2", un répertoire "projet2" apparaît.
+Après création du projet de package `projet2`, un répertoire `projet2` apparaît.
 
 <BR>
 
@@ -280,23 +280,23 @@ Après création du projet de package "projet2", un répertoire "projet2" appara
 
 <BR>
 
-Ci-dessous le contenu du répertoire "projet2" :  
+Ci-dessous le contenu du répertoire `projet2` :  
 
 ![](./images/projet2.png){width=30%} 
 
-Le dossier "projet2" inclut des sous-répertoire "R" et "man".
+Le dossier `projet2` inclut des sous-répertoire `R` et `man`.
 
 <BR>
 
 <BR>
  
-Le sous-répertoire "R" contient un script R exemple "hello.R".
+Le sous-répertoire `R` contient un script R exemple `hello.R`.
 
 ![](./images/projet2_R.png){width=100%}  
 
 <BR>
 
-"hello.R" comprend le code suivant :
+`hello.R` comprend le code suivant :
 ```{r, message=FALSE, warning=FALSE}
 # Hello, world!
 #
@@ -320,11 +320,11 @@ hello <- function() {
 
 <BR>
 
-Ci-dessous le sous-répertoire "man" :
+Ci-dessous le sous-répertoire `man` :
 
 ![](./images/projet2_man.png){width=100%} 
  
-Ce dossier "man" sert à contenir des fichiers ".Rd" (de documentation).  
+Ce dossier `man` sert à contenir des fichiers ".Rd" (de documentation).  
 Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dans le chapitre précédent).  
 
 <BR>
@@ -333,7 +333,7 @@ Ces fichiers ".Rd" sont typiquement créés avec le package **roxygen2** (vu dan
 
 <BR>
 
-J'emploie le sortilège "hello()" :
+J'emploie le sortilège `hello()` :
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
 # J'installe le package "devtools" si je ne l'ai pas déjà installé dans une session antérieure
 install.packages("devtools")
@@ -353,8 +353,8 @@ hello()
 
 <BR>
 
+J'affiche la documentation du sortilège `hello()`
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
-## J'affiche la documentation du sortilège "hello()"
 # Je peux utiliser le point d'interrogation suivi de "hello"
 # (ce qui est synonyme de "help(hello)" )
 ?hello
@@ -373,7 +373,7 @@ _______________________________________________
 
 <BR>
 
-Le projet "projet2" est prêt.  
+Le projet `projet2` est prêt.  
 Il reste à le compléter avec des scripts dans le langage des Runes.  
 
 <BR>

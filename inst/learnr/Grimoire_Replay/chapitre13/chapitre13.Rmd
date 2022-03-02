@@ -167,7 +167,7 @@ Ci-dessous, l'une des façons de créer un projet RStudio.
 
 <BR>
 
-On ouvre RStudio.
+Lancer RStudio.
 
 <BR>
 

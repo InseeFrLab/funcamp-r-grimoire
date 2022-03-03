@@ -44,12 +44,6 @@ if (!require(babynames)) {
 unloadNamespace("babynames")
 ```
 
-```{r prepare-data_2}
-if (!require(babynames)) {
-  install.packages("babynames")
-}
-```
-
 <BR>
 
 ## Rappels : les packages
@@ -98,8 +92,10 @@ L’installation d’une extension se fait par la fonction `install.packages()`,
 ```{r, echo=TRUE, eval=FALSE}
 install.packages("babynames")
 ```
-```{r, echo=FALSE, eval=TRUE}
-install.packages("babynames")
+```{r, include=FALSE}
+if (!require(babynames)) {
+  install.packages("babynames")
+}
 ```
 
 
@@ -408,7 +404,7 @@ Nous vous proposons ci-dessous de manier les packages installés.
 
 <BR>
 
-```{r ok-chapitre8-etape2,exercise=TRUE, exercise.setup = "prepare-data_2", exercise.timelimit=100, echo=TRUE, message=FALSE, warning=FALSE}
+```{r ok-chapitre8-etape2,exercise=TRUE, exercise.timelimit=100, echo=TRUE, message=FALSE, warning=FALSE}
 # Tester si l'extension "babynames" est installée, avec le sortilège "require()"
 
 

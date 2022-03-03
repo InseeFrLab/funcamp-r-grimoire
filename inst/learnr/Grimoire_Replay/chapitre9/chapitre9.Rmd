@@ -157,8 +157,8 @@ naissances_4 <- NA
 ## Le registre des naissances
 
 Pour répondre à l'énigme posée par Mam'Grouxi, nous allons explorer le registre des naissances, que vous venez de découvrir dans le village de Sandia. 
-Ce registre est déjà chargé, sous le nom de `naissances`. Nous savons découvrir le contenu 
-d'un fichier avec les instructions `names()` pour avoir le noms des variables, `head()` pour consulter les premiers enregistrements, et `nrow()`
+Ce registre est déjà chargé, dans un data.frame `naissances`. Nous savons découvrir le contenu 
+d'une table avec les instructions `names()` pour avoir le noms des variables, `head()` pour consulter les premiers enregistrements, et `nrow()`
 pour en connaître le nombre de lignes. Allons-y :
 
 ```{r, collapse = TRUE}
@@ -500,7 +500,7 @@ naissances %>%
 
 <BR>
 
-><details><summary><font size="3"><b>Pour les plus téméraires 3 : partie optionnelle sur la moyenne pondérée et la  médiane ponsérée - cliquez ici</b></font></summary>
+><details><summary><font size="3"><b>Pour les plus téméraires 3 : partie optionnelle sur la moyenne pondérée et la médiane pondérée - cliquez ici</b></font></summary>
 ><p><font size="2">
 >
 ><BR>
@@ -738,8 +738,8 @@ naissances %>%
 
 <BR>
 
-De même que ci-dessus, on ajoute `group_by()` aux sortilèges :  
-- `summarise()`,  
+De même que ci-dessus, on ajoute `group_by()` :  
+- au sortilège `summarise()`,  
 - et à l'une des fonctions `median()`, `sum()`, `quantile()`, etc. 
 
 <BR>
@@ -1008,7 +1008,7 @@ Un data.frame "naissances_F" est chargé en mémoire. Il est égal au data.frame
 
 ```{r ok-chapitre9-etape9,exercise=TRUE, exercise.setup = "prepare-data", message=FALSE, warning=FALSE}
 # A partir du data.frame "naissances_F",
-# (i) Calculer la moyenne de la variable Spirit,
+# (i) Calculer la moyenne de la variable "Spirit",
 # pour chaque modalité de la variable "Village"
 # avec les sortilèges "group_by", "summarise", "mean",
 # (ii) vous obtiendrez la réponse !
@@ -1019,7 +1019,7 @@ Un data.frame "naissances_F" est chargé en mémoire. Il est égal au data.frame
  
 ```{r ok-chapitre9-etape9-solution, message=FALSE, warning=FALSE}
 # A partir du data.frame "naissances_F",
-# (i) Calculer la moyenne de la variable Spirit,
+# (i) Calculer la moyenne de la variable "Spirit",
 # pour chaque modalité de la variable "Village"
 # avec les sortilèges "group_by", "summarise", "mean",
 # (ii) vous obtiendrez la réponse !

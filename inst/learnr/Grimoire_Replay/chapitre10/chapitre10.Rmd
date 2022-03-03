@@ -461,11 +461,11 @@ cat(str_2)
 
 <BR>
 
-#### Le format ".fst" pour enregistrer un très gros data.frame
+#### Le format ".fst"
 
 <BR>
 
-Le format ".fst" permet de sauvegarder un data.frame dans un fichier.
+Le format ".fst" permet de sauvegarder une table dans un fichier.
 
 Ce format est intéressant pour l'enregistrement d'un très gros data.frame (de typiquement 1 Go, ou plus).
 
@@ -717,6 +717,7 @@ Pour sauvegarder **le contenu de la console**, le sortilège `sink` est très ef
 # J'amorce le "journal de bord" qui gardera trace des calculs
 sink(file="../sauvegarde/mon_journal.txt")
 # la table nb_pontes est déjà chargée. Calculons quelques statistiques descriptives
+library(skimr)
 skim(nb_pontes)
 # Enregistrons les résultats dans le journal de bord et refermons-le.
 sink()
@@ -726,6 +727,7 @@ Pour les **graphiques**, on peut utiliser le sortilège `ggsave`en précisant le
 ```{r, collapse = TRUE, eval=FALSE}
 # L'objet graphique "graphique_chapitre6" est déjà chargé.
 # Pour le sauvegarder en format pdf :
+library(ggplot2)
 ggsave(graphique_chapitre6,path ="../sauvegarde/",filename="graphique_chapitre6.pdf",device = "pdf" )
 #exemple pour le format jpeg :
 ggsave(graphique_chapitre6,path ="../sauvegarde/",filename="graphique_chapitre6.jpg",device = "jpeg" )

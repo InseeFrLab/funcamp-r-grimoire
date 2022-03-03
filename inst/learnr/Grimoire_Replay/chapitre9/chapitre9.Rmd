@@ -157,9 +157,9 @@ naissances_4 <- NA
 ## Le registre des naissances
 
 Pour répondre à l'énigme posée par Mam'Grouxi, nous allons explorer le registre des naissances, que vous venez de découvrir dans le village de Sandia. 
-Ce registre est déjà chargé, dans un data.frame `naissances`. Nous savons découvrir le contenu 
-d'une table avec les instructions `names()` pour avoir le noms des variables, `head()` pour consulter les premiers enregistrements, et `nrow()`
-pour en connaître le nombre de lignes. Allons-y :
+Ce registre est déjà chargé, dans le data.frame `naissances`. Nous savons employer 
+les instructions `names()` pour avoir le noms des variables, `head()` pour consulter les premiers enregistrements, et `nrow()`
+pour connaître le nombre de lignes. Allons-y :
 
 ```{r, collapse = TRUE}
 names(naissances)

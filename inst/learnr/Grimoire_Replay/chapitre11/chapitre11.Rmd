@@ -1,0 +1,1062 @@
+---
+title: "Chapitre 1(1) - Confectionner un sortilège"
+tutorial:
+  version: 0.0.1
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+library(parsons)
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r prepare-data_1} 
+fmt2Decimales <- NA
+```
+
+```{r prepare-data_2} 
+f_2 <- NA
+```
+
+<BR>
+
+## Conversations runiques - bis repetita
+Vous voilà revenu(e) au tout début de l’aventure ! Comme d’ouvrir le grimoire IGoR au premier chapitre. Tout ce chemin accompli pour rien : 
+quelle frustration… L’automate TeoC vous a en effet projeté(e) en arrière, faute de maîtriser parfaitement la fabrication des sortilèges…
+
+<BR>
+
+## Écrivez votre propre sortilège
+
+<BR>
+
+### Rappel : créer un sortilège
+
+<BR>
+
+```{r, messages=FALSE, warning=FALSE}
+## Je construis un sortilège.
+## Le sortilège va formater un nombre :
+##      * avec une virgule (au lieu du point) pour différencier unités et décimales,
+##      * avec un séparateur de milliers,
+##      * en affichant deux chiffres après la virgule,
+##      * sans notation scientifique du type "1.5+12".
+
+fmt2Decimales <- function(x) {
+
+  format(x,                   # J'utilise la fonction "format()" du R de base, qui permet de formater.
+							  # J'indique :
+	     decimal.mark = ",",  # - la virgule
+         digits=0, nsmall=2,  # - l'écriture "digits=0, nsmall=i" qui permet d'obtenir un résultat avec i décimales
+	     big.mark = " ",      # - un espace " " pour le séparateur de milliers
+	     scientific = FALSE   # La notation scientifique n'est pas utilisée.
+  )		 
+  
+}
+```
+*La syntaxe pour créer un sortilège utilise le mot-clé `function` suivi des parenthèses `()`, et des accolades `{ }`.*  
+*Il faut choisir un nom pour le sortilège, ici "fmt2Decimales".*  
+*La fonction "fmt2Decimales" a un ingrédient, ou paramètre argument dans le langage des Runes*   
+*(un sortilège peut avoir 0, 1 ou plusieurs ingrédients).*  
+*Je nomme le paramètre comme je le souhaite. Ici je l'appelle x.*  
+*Il faut déclarer l'ingrédient juste après le mot "function", entre les parenthèses.*  
+*Entre les accolades figure le code R (ici "format(...)") stocké dans le sortilège*  
+
+<BR>
+
+```{r, messages=FALSE, warning=FALSE}
+# J'emploie plusieurs fois la fonction "fmt2Decimales"
+
+fmt2Decimales(100)
+fmt2Decimales(1234.56789)
+fmt2Decimales(12000000000.345678)
+```
+
+<BR>
+
+Je dispose d'un sortilège "fmt2Decimales()" prêt à l'emploi.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+<BR>
+
+Nous vous proposons de recréer une fonction.
+
+<BR>
+
+```{r ok-chapitre11-etape1,exercise=TRUE, exercise.setup = "prepare-data_1", echo=TRUE, message=FALSE, warning=FALSE} 
+## Créer une fonction "fmt2Decimales" qui formate une quantité.
+## La fonction doit écrire un nombre :
+## - en utilisant la virgule au lieu du point pour les valeurs décimales,
+## - avec deux chiffres après la virgule,
+## - avec un séparateur de milliers,
+## - sans notation scientifique du type "1.5+12"
+## Utiliser la fonction "format()".
+
+
+# Formater le nombre 100 avec la fonction "fmt2Decimales" obtenue
+
+
+# Formater le nombre 1234.56789
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre11-etape1-solution, message=FALSE, warning=FALSE}
+## Créer une fonction "fmt2Decimales" qui formate une quantité.
+## La fonction doit écrire un nombre :
+## - en utilisant la virgule au lieu du point pour les valeurs décimales,
+## - avec deux chiffres après la virgule,
+## - avec un séparateur de milliers,
+## - sans notation scientifique du type "1.5+12"
+## Utiliser la fonction "format()".
+fmt2Decimales <- function(x) { 
+  format(x,                   
+	     decimal.mark = ",",  
+         digits=0, nsmall=2,  
+	     big.mark = " ",      
+	     scientific = FALSE
+  )		 
+}
+
+# Formater le nombre 100 avec la fonction "fmt2Decimales" obtenue
+fmt2Decimales(100)
+
+# Formater le nombre 1234.56789
+fmt2Decimales(1234.56789)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## Le résultat
+
+<BR>
+
+#### Par défaut, un sortilège renvoie la dernière expression qu'il évalue
+
+<BR>
+
+Exemple.
+```{r, messages=FALSE, warning=FALSE}
+# Je crée une fonction f_1
+f_1 <- function(...) {
+
+	variable1 <- ...
+	
+	variable2 <- ...
+	
+	variable3 <- ...
+}
+
+# A l'exécution, la fonction va donner comme résultat la valeur de "variable3"
+```
+
+<BR>
+
+Et si on souhaite que la fonction renvoie autre chose que la dernière expression qu'elle détermine ?
+
+<BR>
+
+#### Pour choisir le résultat que donne un sortilège, on utilise `return()`
+
+<BR>
+
+Exemple.
+```{r, collapse=TRUE, messages=FALSE, warning=FALSE}
+# Je crée une fonction f_2
+f_2 <- function() {
+
+	x <- 0
+	
+	y <- x + 2
+
+	z <- x + 3
+
+}
+
+# J'emploie la fonction "f_2"
+print(f_2())
+
+## f_2 a renvoyé 3, soit la valeur de z, dernière expression évaluée.
+
+
+## Je souhaite maintenant que la fonction "f_2" renvoie la valeur de y au lieu de celle de z.
+
+# Je réécris la fonction f_2,
+# en ajoutant à la fin "return(y)"
+f_2 <- function() {
+
+	x <- 0
+	
+	y <- x + 2
+
+	z <- x + 3
+	
+	return(y)
+}
+
+# J'emploie la nouvelle fonction "f_2"
+print(f_2())
+
+# "f_2" a renvoyé 2, soit la valeur de y.
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+
+<BR>
+
+Nous vous proposons de faire évoluer une fonction existante pour modifier ce qu'elle renvoie comme résultat.
+
+<BR>
+
+```{r ok-chapitre11-etape2,exercise=TRUE, exercise.setup = "prepare-data_2", echo=TRUE, message=FALSE, warning=FALSE} 
+# La fonction suivante a été construite
+f_2 <- function() {
+
+	x <- 0
+	
+	y <- x + 2
+
+	z <- x + 3
+
+}
+
+# Calculer f_2()
+
+
+# Recréer la fonction f_2 pour qu'elle renvoie la valeur de "y",
+# et non la valeur de z.
+# Ajouter dans la fonction l'expression "return(...)"
+
+
+# Calculer la nouvelle valeur de f_2()
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre11-etape2-solution, message=FALSE, warning=FALSE}
+# La fonction suivante a été construite
+f_2 <- function() {
+
+	x <- 0
+	
+	y <- x + 2
+
+	z <- x + 3
+
+}
+
+# Calculer f_2()
+print(f_2())
+
+# Recréer la fonction f_2 pour qu'elle renvoie la valeur de "y",
+# et non la valeur de z.
+# Ajouter dans la fonction l'expression "return(...)"
+f_2 <- function(x) {
+
+	x <- 0
+	
+	y <- x + 2
+
+	z <- x + 3
+	
+	return(y)
+}
+
+# Calculer la nouvelle valeur de f_2()
+print(f_2())
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+#### Le code après un `return()`
+
+<BR>
+
+A l'exécution d'une fonction, si le système rencontre un `return()` il quitte tout de suite la fonction.  
+
+Le code qui se trouverait après le `return()` n'est pas exécuté.  
+
+<BR>
+
+Exemple.
+```{r, collapse=TRUE, messages=FALSE, warning=FALSE}
+# Je crée une fonction f_2
+f_2 <- function() {
+
+    x <- 0
+	
+	y <- x + 2
+
+	return(y)
+	
+	z <- x + 3
+
+}
+
+# J'emploie la fonction "f_2"
+print(f_2())
+
+## A l'exécution :
+## - f_2() renvoie bien la valeur de y.
+## - après avoir rencontré "return(...)", le système quitte la fonction,
+##   et le code  "z <- x + 3"  n'est pas exécuté
+```
+
+<BR>
+
+## Les ingrédients
+
+<BR>
+
+Dans cette sous-partie, on considère une fonction qui a des ingrédients.
+
+<BR>
+
+Exemple :
+```{r, messages=FALSE, warning=FALSE}
+# Je crée une fonction f_2 qui a pour ingrédient x
+h <- function(x) {
+	
+	y <- x + 2
+}
+
+# J'emploie la fonction "h", avec l'ingrédient 1
+print(h(1))
+```
+
+<BR>
+
+#### A l'emploi d'une fonction, il est possible de nommer ou non les paramètres
+
+<BR>
+
+Exemple
+```{r, messages=FALSE, warning=FALSE}
+# Je crée une fonction "h" qui a deux arguments x et y
+h <- function(x, y) {
+	x / y  
+}
+
+# J'emploie la fonction "h()" sans nommer les ingrédients
+h(2, 3)
+
+# J'emploie la fonction "h()" en nommant les ingrédients
+h(x = 2, y = 3)
+
+# J'emploie la fonction "h()" en nommant l'un des deux ingrédients
+h(x = 2, 3)
+
+h(2, y = 3)
+```
+
+<BR>
+
+#### L'ordre entre deux ingrédients non nommés ne peut être modifié
+
+<BR>
+
+
+<span style="color:#18AC3E;font-size:16px">Soit la fonction suivante.</span>
+
+<BR>
+
+```{r, messages=FALSE, warning=FALSE}
+# Je reprend la fonction h qui a deux arguments x et y
+h <- function(x, y) { x / y }
+
+# Je calcule h(2, 3)
+h(2, 3)
+```
+
+<BR>
+
+Pour calculer `h(2, 3)` , je ne peux écrire `h(3, 2)`.
+```{r, messages=FALSE, warning=FALSE}
+h(3, 2)
+``` 
+
+<BR>
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">Par contre, si les ingrédients sont nommés l'ordre des paramètres peut être changé.</span>
+
+<BR>
+
+Pour déterminer `h(2, 3)`, en plus des expressions suivantes `h(x = 2, 3)` , `h(2, y = 3)` , `h(x = 2, y = 3)` ,  
+je peut écrire aussi :  
+
+`h(3, x = 2)`  
+
+`h(y = 3, 2)`  
+
+`h(y = 3, x = 2)`  
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+<BR>
+
+Nous vous proposons d'utiliser une fonction en écrivant ses paramètres dans des ordres différents.
+
+<BR>
+
+```{r ok-chapitre11-etape3,exercise=TRUE, exercise.setup = "prepare-data_2", echo=TRUE, message=FALSE, warning=FALSE} 
+# La fonction suivante a été construite
+g <- function(x, y) {
+	x / y
+}
+
+# Calculer g(5, 2)
+
+
+# Déterminer g(2, 5)
+
+
+# Evaluer g(x=5, y=2)
+
+
+# Calculer g(y=2, x=5)
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre11-etape3-solution, message=FALSE, warning=FALSE}
+# La fonction suivante a été construite
+g <- function(x, y) {
+	x / y
+}
+
+# Calculer g(5, 2)
+g(5, 2)
+
+# Déterminer g(2, 5)
+g(2, 5)
+
+# Evaluer g(x=5, y=2)
+g(x=5, y=2)
+
+# Calculer g(y=2, x=5)
+g(y=2, x=5)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+Quiz.  
+
+J'ai créé un sortilège `f_1(x, y)` dans le langage des Runes.  
+La fonction `f_1(x, y)` renvoie comme résultat `x - y`.  
+Je souhaite effectuer l'opération `10 - 2`  en utilisant le sortilègen `f_1()`.  
+
+Quelle expression ne va pas me donner le bon résultat ?  
+```{r ok-question1,echo=FALSE}
+question("",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("f_1(10, 2)"),
+answer("f_1(2, 10)",correct=TRUE),
+answer("f_1(x = 10, y = 2)"),
+answer("f_1(y = 2, x = 10)"),
+correct="Félicitations !"
+)
+```
+
+<BR>
+
+#### Les valeurs par défaut des ingrédients
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+><span style="color:blue;font-size:20px">A l'utilisation d'une fonction, que se passe-t-il si je ne précise pas l'un des arguments ?</span>
+>
+><BR>
+>
+>Exemple, soit la fonction suivante.
+>
+>```{r, messages=FALSE, warning=FALSE}
+## Je crée une fonction "f_1" qui formate un nombre.
+## La fonction "f_1" admet 2 arguments :
+##   x     le nombre à formater
+##   sep   le séparateur (espace, point, etc.) à utiliser pour séparer les milliers
+
+f_1 <- function(x, sep) { 
+											  
+  format(x,                     
+	     decimal.mark = ",",    
+	     digits=0, nsmall=2,    
+	     big.mark = sep, # j'utilise le parametre "sep"
+	     scientific = FALSE     
+  )		 
+}
+
+# J'emploie la fonction "f_1"
+
+f_1(1000000, " ")
+f_1(1000000, ".")
+>```
+>
+><BR>
+>
+>
+> A l'utilisation, si je ne spécifie pas un argument, une erreur se produit.
+>```{r, messages=FALSE, warning=FALSE, eval=FALSE}
+f_1(1000000) # emploi sans préciser la valeur de l'ingrédient "sep"
+>```
+>
+>```{r, messages=FALSE, warning=FALSE, echo=FALSE, eval=TRUE}
+"Error"
+>```
+>
+><BR>
+>
+><span style="color:blue;font-size:20px">Il est possible de donner des valeurs par défaut aux ingrédients d'une fonction.</span>
+>
+><BR>
+>
+>Exemple.
+>```{r, messages=FALSE, warning=FALSE}
+# Je crée une fonction "f_2" qui formate un nombre
+# La fonction "f_2" a 2 arguments "x", et "sep".
+
+f_2 <- function(x, sep = " ") { # J'indique que le paramètre "sep" a une valeur par défaut " " (espace) 
+											  
+  format(x,                     
+	     decimal.mark = ",",    
+	     digits=0, nsmall=2,    
+	     big.mark = sep,
+	     scientific = FALSE     
+  )		 
+}
+
+# Je manie la fonction "f_2"
+
+f_2(1000000, " ")
+f_2(1000000, ".")
+
+# J'emploie "f_2", sans préciser le paramètre "sep" :
+
+f_2(1000000)
+
+## La valeur de "sep" par défaut a bien été utilisée.
+>```
+>
+>
+><BR>
+>
+><span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+>
+><BR>
+>
+>Nous vous proposons de modifier une fonction, en donnant une valeur par défaut à un ingrédient.
+>
+><BR>
+>
+>```{r ok-chapitre11-etape4,exercise=TRUE, exercise.setup = "prepare-data_2", echo=TRUE, message=FALSE, warning=FALSE} 
+# Soit la fonction suivante
+f_2 <- function(x, sep) { 
+											  
+  format(x,                     
+	     decimal.mark = ",",    
+	     digits=0, nsmall=2,    
+	     big.mark = sep,
+	     scientific = FALSE     
+  )		 
+}
+
+# Evaluer f_2(1000000, ".")
+
+
+# A ce stade, si je calcule f_2(1000000), sans le deuxième argument,
+# le système renvoie une erreur.
+
+# Modifier la fonction, pour donner la valeur par défaut " " à l'ingrédient "sep"
+
+
+# Réévaluer f_2(1000000, ".")
+
+
+# Déterminer f_2(1000000) (sans préciser la valeur de l'ingrédient "sep")
+
+
+# Fin de l'exercice
+>```
+>
+>```{r ok-chapitre11-etape4-solution, message=FALSE, warning=FALSE}
+# Soit la fonction suivante
+f_2 <- function(x, sep) { 
+											  
+  format(x,                     
+	     decimal.mark = ",",    
+	     digits=0, nsmall=2,    
+	     big.mark = sep,
+	     scientific = FALSE     
+  )		 
+}
+
+# Evaluer f_2(1000000, ".")
+f_2(1000000, ".")
+
+# A ce stade, si je calcule f_2(1000000), sans le deuxième argument,
+# le système renvoie une erreur.
+
+# Modifier la fonction, pour donner la valeur par défaut " " à l'ingrédient "sep"
+f_2 <- function(x, sep = " ") { 
+											  
+  format(x,                     
+	     decimal.mark = ",",    
+	     digits=0, nsmall=2,    
+	     big.mark = sep,
+	     scientific = FALSE     
+  )		 
+}
+
+# Réévaluer f_2(1000000, ".")
+f_2(1000000, ".")
+
+# Déterminer f_2(1000000) (sans préciser la valeur de l'ingrédient "sep")
+f_2(1000000)
+
+# Fin de l'exercice
+>```
+>
+><BR>
+>
+></font></p></details>
+
+<BR>
+
+## Ajouter des contrôles
+
+<BR>
+
+#### L'emploi de `if`, `else if`, et `else` dans le langage des Runes
+
+<BR>
+
+Le langage des Runes contient les instructions `if`, `else if`, et `else` qui permettent
+de tester une expression.
+
+<BR>
+
+Exemple 1.
+```{r, messages=FALSE, warning=FALSE}
+# J'assigne la valeur 8 à l'objet x
+x <- 8
+
+# Je teste si x est plus grand que 10
+if (x >= 10) {
+    # si oui, j'affiche "x plus grand que 10"
+    print("x plus grand que 10")
+}
+```
+*La syntaxe de `if ...` est la suivante : *  
+*L'expression que je souhaite tester, ici  x >= 10  est entre parenthèses juste après "if".*  
+*Le code à exécuter, si la condition est vérifiée, est entre accolades.*  
+
+<BR>
+
+Exemple 2.
+```{r, messages=FALSE, warning=FALSE}
+x <- 8
+
+
+if (x >= 10) {
+    # si oui
+    print("x plus grand que 10")
+  
+# Si non, j'affiche "x est strictement inférieur à 10"
+} else {
+    print("x est strictement inférieur à 10")
+}
+```
+
+<BR>
+
+Exemple 3.
+```{r, messages=FALSE, warning=FALSE}
+x <- 8
+
+
+if (x >= 10) {
+    print("x >= 10")
+  
+# Si non, je teste si x est plus grand que 9
+} else if (x >= 9) {
+    # Si oui
+    print("9 <= x <10")
+	
+# Si encore non, je teste si x est plus grand que 8
+} else if (x >= 8) {
+    # Si oui
+    print("8 <= x < 9")
+	
+# Si encore non, j'affiche "x < 8"
+} else {
+    print("x < 8")
+}
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+<BR>
+
+Nous vous proposons d'écrire un morceau de code qui teste des expressions.
+
+<BR>
+
+```{r ok-chapitre11-etape5,exercise=TRUE, exercise.setup = "prepare-data_2", echo=TRUE, message=FALSE, warning=FALSE} 
+# Assigner le nombre 8 à l'objet x
+
+
+# Tester si x est supérieur ou égal à 10.
+# Si oui, afficher "x plus grand que 10"
+# Si non, afficher "x est strictement inférieur à 10"
+# Utiliser "if" et "else".
+
+
+# Fin de l'exercice
+``` 
+
+
+```{r ok-chapitre11-etape5-solution, message=FALSE, warning=FALSE}
+# Assigner le nombre 8 à l'objet x
+x <- 8
+
+# Tester si x est supérieur ou égal à 10.
+# Si oui, afficher "x est plus grand que 10"
+# Si non, afficher "x est strictement inférieur à 10"
+# Utiliser "if" et "else".
+
+if (x >= 10) {
+
+    print("x est plus grand que 10")
+  
+} else {
+
+    print("x est strictement inférieur à 10")
+	
+}
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+Autre exercice.
+```{r ok-chapitre11-etape6,exercise=TRUE, exercise.setup = "prepare-data_2", echo=TRUE, message=FALSE, warning=FALSE} 
+# Assigner le nombre 8 à l'objet x
+
+
+# Tester si x est supérieur ou égal à 10.
+# Si oui, afficher "x >= 10"
+# Sinon : 
+#   tester si x est supérieur ou égal à 9.
+#   Si oui, afficher "9 <= x < 10"
+#   Si encore non, afficher "x <= 9"
+# Utiliser "if", "if else", et "else"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre11-etape6-solution, message=FALSE, warning=FALSE}
+# Assigner le nombre 8 à l'objet x
+x <- 8
+
+# Tester si x est supérieur ou égal à 10.
+# Si oui, afficher "x >= 10" .
+# Sinon : 
+#   tester si x est supérieur ou égal à 9.
+#   Si oui, afficher "9 <= x < 10"
+#   Si encore non, afficher "x <= 9"
+# Utiliser "if", "if else", et "else"
+
+if (x >= 10) {
+
+    print("x >= 10")
+  
+} else if (x >= 9) {
+
+    print("9 <= x <10")
+
+} else {
+
+    print("x < 9")
+	
+}
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+#### Dans un sortilège, adjoindre des tests sur les paramètres en entrée
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires : partie optionnelle - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+><BR>
+>
+>Nous allons créer une fonction. Dans le sortilège, les premières lignes de code seront des contrôles sur les ingrédients en entrée.
+>
+><BR>
+>
+>
+>```{r, collapse=TRUE, messages=FALSE, warning=FALSE}
+## Je crée une fonction qui formate un nombre.
+## La fonction commence par des contrôles.
+
+f <- function(x) { 
+
+  ## Contrôles
+  
+  # Je teste si x est une valeur manquante
+  if (is.na(x)) {
+  
+      # si oui
+      print("La valeur en entrée est égale à NA .")
+      return(NA)
+	  
+  # si non, je teste si x est numérique
+  } else if ( !is.numeric(x) ) {
+  
+      # si pas numérique
+      print("La valeur n'est pas numérique.")
+      return(NA)
+	  
+  # si numérique
+  } else {
+  
+  ## Formatage
+	  
+      format(
+	      x,                   
+	      decimal.mark = ",",  
+	      digits=0, nsmall=2,  
+	      big.mark = " ",      
+	      scientific = FALSE   
+      )
+  }		 
+}
+
+## J'utilise plusieurs fois la fonction "fmt2Decimales"
+
+f(NA)
+f("abc")
+f(1234.56789)
+>```
+>*Remarque : la fonction peut contenir d'autres contrôles si on le souhaite.*
+>
+><BR>
+>
+><span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+>
+><BR>
+>
+>Nous vous proposons de créer une fonction avec des contrôles.
+>
+><BR>
+>
+>```{r ok-chapitre11-etape7,exercise=TRUE, exercise.setup = "prepare-data_2", echo=TRUE, message=FALSE, warning=FALSE} 
+## Créer une fonction "f", qui formate un nombre.
+## Dans la fonction, commencer par des contrôles :
+## tester si le paramètre en entrée est une valeur manquante.
+##   Si oui :
+##     * afficher "La valeur en entrée est égale à NA ."
+##     * la fonction doit renvoyer la valeur NA
+##   Si non :
+##     contrôler si le paramètre en entrée est numérique.
+##       Si pas numérique
+##         * afficher "La valeur n'est pas numérique."
+##         * la fonction doit renvoyer la valeur NA
+##       Si numérique,
+##         la fonction doit écrire la quantité :
+##         * en utilisant la virgule au lieu du point pour les valeurs décimales,
+##         * avec deux chiffres après la virgule,
+##         * avec un séparateur de milliers,
+##         * sans notation scientifique du type "1.5+12".
+
+
+## Déterminer f(NA), f("abc"), f(1234.56789)
+
+
+# Fin de l'exercice
+>``` 
+>
+>```{r ok-chapitre11-etape7-solution, message=FALSE, warning=FALSE}
+## Créer une fonction "f", qui formate un nombre.
+## Dans la fonction, commencer par des contrôles :
+## tester si le paramètre en entrée est une valeur manquante.
+##   Si oui :
+##     * afficher "La valeur en entrée est égale à NA ."
+##     * la fonction doit renvoyer la valeur NA
+##   Si non :
+##     contrôler si le paramètre en entrée est numérique.
+##       Si pas numérique
+##         * afficher "La valeur n'est pas numérique."
+##         * la fonction doit renvoyer la valeur NA
+##       Si numérique,
+##         la fonction doit écrire la quantité :
+##         * en utilisant la virgule au lieu du point pour les valeurs décimales,
+##         * avec deux chiffres après la virgule,
+##         * avec un séparateur de milliers,
+##         * sans notation scientifique du type "1.5+12".
+
+f <- function(x) { 
+
+  if (is.na(x)) {
+  
+	  print("La valeur en entrée est égale à NA .")
+	  return(NA)
+	  
+  } else if (!is.numeric(x)) {
+  
+	  print("La valeur n'est pas numérique.")
+	  return(NA)
+	  
+  } else {
+
+      format(
+	      x,                   
+	      decimal.mark = ",",  
+          digits=0, nsmall=2,  
+	      big.mark = " ",      
+	      scientific = FALSE   
+      )
+  }		 
+}
+
+
+## Déterminer f(NA), f("abc"), f(1234.56789)
+
+f(NA)
+f("abc")
+f(1234.56789)
+
+# Fin de l'exercice
+>```
+>
+><BR>
+>
+></font></p></details>
+
+<BR>
+
+## L'âge d'Icarius
+
+<BR>
+
+Dans le Grimoire d'Icarius, il y a un sortilège pour calculer l'âge des statisiens, mais la page correspondante a été abîmée par le temps.  
+Icarius croit déchiffrer la fonction suivante :
+
+```{r, collapse=TRUE, messages=FALSE, warning=FALSE, eval=FALSE}
+calcul_de_l_age <- function(nb_coeurs, spirit) {
+	age <- nb_coeurs * 6
+	spirit <- spirit + 2
+}
+``` 
+
+<BR>
+
+Icarius souhaite utiliser ce sortilège.  
+Quel est le résultat de  `calcul_de_l_age(3, 5)` ?
+```{r ok-question2,echo=FALSE}
+question("",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("18&nbsp;&nbsp;&nbsp;&nbsp;(3 * 6)"),
+answer("7&nbsp;&nbsp;&nbsp;&nbsp;(5 + 2)",correct=TRUE),
+answer("5"),
+correct="Félicitations !"
+)
+```
+
+<BR>
+
+Icarius désire reconstituer le sortilège dans sa version originale.  
+Comment modifier la fonction `calcul_de_l_age()` pour qu'elle renvoie la valeur de la variable "age" ?
+```{r ok-question3,echo=FALSE}
+question("",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("Ajouter dans la fonction l'expression `return(age)`",correct=TRUE),
+answer("Prévoir dans le sortilège l'expression `return(spirit)`"),
+answer("La bonne réponse n'est pas dans les propositions"),
+correct="Félicitations !"
+)
+```
+
+<BR>
+
+Le mage "Zilap" a finalement fait évoluer le sortilège en :
+```{r, collapse=TRUE, messages=FALSE, warning=FALSE, eval=FALSE}
+calcul_de_l_age <- function(nb_coeurs, spirit) {
+	age <- nb_coeurs * 6
+	spirit <- spirit + 2
+	return(age)
+}
+```
+
+<BR>
+
+Avec la version modifiée par le mage "Zilap", quelle expression ne va pas donner l'âge d'Icarius ?  
+(sachant qu'Icarius a 3 coeurs initialement et une spiritualité, variable `spirit`, de 5)
+```{r ok-question4,echo=FALSE}
+question("",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("`calcul_de_l_age(spirit = 5, 3)`"),
+answer("`calcul_de_l_age(5, nb_coeurs = 3)`"),
+answer("`calcul_de_l_age(5, 3)`",correct=TRUE),
+correct="Félicitations ! Parmi les trois expressions, `calcul_de_l_age(5, 3)` est celle qui ne va pas donner l'âge d'Icarius. Renseignez 18 dans le jeu pour continuer l'aventure !"
+)
+``` 
+
+**Fin du chapitre 11  >>  reprenez la partie d'Icarius**
+
+*Version 0.9.3*

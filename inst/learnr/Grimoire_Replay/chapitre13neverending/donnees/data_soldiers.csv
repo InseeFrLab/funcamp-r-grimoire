@@ -1,0 +1,18 @@
+royaume;ile;nb_guerriers;nb_habitants;nb_chevaux;nb_canicule;dist_royaume;situation
+L'ile de la vieille dame;oui;1336;3766;205;10;10;Sud
+La terre de la Montagne pelée;oui;1328;4103;205;30;15;Sud
+La terre d'Or;oui;805;2099;100;100;13;Sud
+L'ile du Piton;oui;2873;7994;350;20;6;Sud
+L'ile des francs;non;34112;108367;800;60;30;Nord
+Le royaume du Centre;non;9655;13769;1000;35;40;Nord
+La Burgondie;non;9667;11693;1000;80;40;Sud
+La Normandie;non;12359;34590;1200;90;35;Nord
+Le Territoire des Hauts;non;51853;60594;2000;150;38;Nord
+Les peuplades de l’Est;non;21098;65440;1000;80;25;Nord
+Le Royaume de Liger;non;13817;39052;1200;40;20;Nord
+La Bretagne;non;12414;31501;1200;30;16;Nord
+Le Pays d’Alienor;non;22571;64806;1000;16;32;Sud
+L'Occitanie;non;22012;69701;1000;12;24;Sud
+Les Coteaux rotis;non;29533;80247;1500;90;12;Sud
+Le pays du soleil éternel;non;18778;45391;1000;100;6;Sud
+La terre des Maures;oui;1292;3666;150;110;2;Sud

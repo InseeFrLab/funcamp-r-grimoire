@@ -23,7 +23,7 @@ Description: Ressources pédagogiques funcamp.
 License: GPL-3
 Imports: 
     magrittr (>= 1.5),
-    tidyverse (>= 1.2.1),
+    tidyverse (>= 1.3.1),
     purrr (>= 0.3.3),
     rmarkdown (>= 1.16),
     stringr (>= 1.4.0),
@@ -38,8 +38,15 @@ Imports:
     readODS (>= 1.6.7),
     babynames (>= 1.0.0),
     skimr (>= 1.0.7),
-    shinyAce (>= 0.4.0)
+    shinyAce (>= 0.4.0), 
+	rsdmx (>= 0.6), 
+	ggmosaic (>= 0.3.3), 
+	GGally (>= 2.1.2),
+    plotly (>= 4.9.2.2),
+    Hmisc (>= 4.4.2),
+    DescTools (>= 0.99.40),
+    devtools (>= 2.4.3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Remotes: rstudio/parsons

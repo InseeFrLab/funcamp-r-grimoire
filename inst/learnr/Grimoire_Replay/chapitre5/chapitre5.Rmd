@@ -1,0 +1,714 @@
+---
+title: "Chapitre 5 - De l'ambroisie et des graphiques"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+    self_contained: true
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(rio)
+library(learnr)
+library(knitr)
+library(parsons)
+library(dplyr)
+knitr::opts_chunk$set(echo = TRUE, cache=FALSE)
+library(ggformula)
+library(ggmosaic)
+library(readr)
+
+file.copy(from = system.file(package = "funcampR","data","chapitre5_replay/livre_ambroisie.csv"),
+          to = paste0(tempdir(),"/livre_ambroisie.csv"))
+		  
+df_livre_ambroisie <- readr::read_delim(
+  paste0(
+    tempdir(),
+	"/livre_ambroisie.csv"
+  ),
+  delim = ";"
+)
+
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(saveur = 
+           factor(
+		     saveur, 
+			 ordered = TRUE,
+             levels = c("Sympathique", "Bon", "Tres_bon", "Delicieux", "Extatique")
+           )
+        )
+								
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(puissance_arrondie = factor(puissance_arrondie))
+  
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  as.data.frame
+```
+
+```{r, echo=FALSE, eval=FALSE}
+# Création de la table "livre_ambroisie",
+# comme dans la première collection.
+# Différence principale par rapport à la première collection :
+# Le fichier est créé une seule fois,
+# et enregistré dans "df_livre_ambroisie.csv".
+livre_ambroisie <- diamonds %>% 
+  filter(color == "D" | color == "J") %>%
+  mutate(taste = cut) %>%
+  mutate(puissance = round((carat)^2+4,digits=2)) %>%
+  mutate(prix = round(price/100,digits=0))  %>%
+  filter(puissance < 12, puissance > 6) %>%
+  mutate(age = round((puissance)^(5)/1000),digits=0) %>%
+  mutate(ivresse = round((puissance)^(3)/10,digits = 0)) %>%
+  filter(prix<3*age,prix>0.5*age) %>%
+  sample_n(100) %>%
+  select(prix='prix',puissance='puissance',age='age',saveur='taste',ivresse="ivresse") %>%
+  mutate(saveur=recode(saveur,"Fair"="Sympathique", "Good"="Bon", "Very Good"="Tres_bon", "Premium"="Delicieux", "Ideal"="Extatique"))
+
+df_livre_ambroisie <- as.data.frame(livre_ambroisie)
+
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(puissance_arrondie = round(puissance))
+  
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(puissance_arrondie = factor(puissance_arrondie)) %>% 
+  mutate(saveur = factor(saveur))
+
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  select(prix, puissance, puissance_arrondie, age, saveur, ivresse)
+
+write_delim(df_livre_ambroisie, "data/chapitre5_replay/df_livre_ambroisie.csv", delim=";")
+``` 
+  
+## Veuillez confirmer votre identité
+
+Afin de s'assurer de votre identité, le cuistot Batreb vous lance un défi: percer les mystères de l'ivresse 
+liée à l'ambroisie, une liqueur produite depuis des temps ancestraux dans le royaume de Statis. Pour ce faire, 
+vous allez apprendre des sortilèges, de la famille magique **ggformula**. 
+
+<BR>
+
+## Rappel, des formules magiques pour faire des diagrammes
+
+<BR>
+
+### Le package **ggformula**
+
+<BR>
+
+La famille de sortilèges **ggformula** permet de construire des graphiques de manière simple.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Types de graphiques**</span>
+
+Pour chaque type de graphique, il y a un sortilège correspondant dans **ggformula**.  
+
+Par exemple :  
+
+- pour faire un graphique de points, le sortilège est `gf_point()`;   
+- pour faire une courbe il y a `gf_line()`;
+- pour faire un diagramme en barres ce sera `gf_bar()`.  
+
+(tous ces sortilèges pour dessiner des graphiques commencent par le nom de code `gf_`).
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**Les ingrédients**</span>
+
+Il ne faut pas oublier d'ingrédients.
+
+- Le premier est essentiel, il sert à dire ce que l'on veut représenter   
+- Les autres ingrédients servent à agrémenter la recette (changer la couleur, ajouter un titre, etc).  
+
+<BR>
+
+### Table d'étude
+
+<BR>
+
+Ci-dessous, nous allons dessiner des graphiques, à partir d'un data.frame `df_livre_ambroisie`.
+Ce data.frame contient
+des informations sur les différentes liqueurs produites dans le royaume de Statis. 
+
+<BR>
+
+Le bon Batreb, après dégustation des flacons, a renseigné 100 liqueurs d'ambroisie dans le data.frame.
+```{r, collapse = TRUE, echo=TRUE, eval=T}
+nrow(df_livre_ambroisie)
+```
+
+<BR>
+
+Voici les 5 premières lignes :
+
+```{r, collapse = TRUE, echo=TRUE, eval=TRUE}
+head(df_livre_ambroisie,5)
+```
+
+<BR>
+
+Le data.frame `df_livre_ambroisie` comprend pour chaque observation (chaque liqueur consommée) les informations suivantes : 
+
+- le `prix` de la bouteille d'ambroisie bue par Batreb - prix exprimé dans la monnaie locale de statis, qui s'appelle le rupee,
+
+- la `puissance` de la liqueur, comparable au nombre de degrés d'une boisson alcoolisée, 
+
+- la `puissance_arrondie` de la liqueur (l'arrondi est au plus proche entier),
+
+- l' `age` de la liqueur, c'est-à-dire depuis combien de temps elle murit. Etonnant : certaines bouteilles d'ambroisie ont plusieurs siècles !
+
+- la `saveur`, qui correspond à l'appréciation portée par Batreb sur la liqueur consommée, 
+
+- l' `ivresse`, mesurée dans une échelle bien particulière : le nombre de hoquets de Batreb dans l'heure qui suit la consommation,
+
+- la `production`, en nombre de bouteilles de la liqueur.
+
+<BR>
+
+### Une courbe
+
+<BR>
+
+On peut construire une courbe, avec le sortilège `gf_line()`.
+
+```{r, collapse = TRUE, echo=TRUE}
+# Je trace la courbe représentant la puissance de la liqueur en fonction de son âge
+df_livre_ambroisie %>% gf_line(puissance ~ age)
+
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**L'opérateur ~ **</span>
+  
+L'opérateur `~` (tilde de son petit nom), utilisé dans le code ci-dessus, se lit `en fonction de`. 
+
+<BR>
+
+### Un dessin en barres figurant des nombres d'observations
+
+<BR>
+
+Pour dessiner un diagramme en barres, on peut utiliser le sortilège `gf_bar`.
+
+```{r, collapse = TRUE, echo=TRUE}
+# Je représente sous forme de barres le nombre d'observations (de liqueurs)
+# suivant leur saveur
+df_livre_ambroisie %>% gf_bar( ~ saveur)
+
+```
+
+<BR>
+
+Changeons l'orientation du graphique, pour avoir des barres horizontales, avec le sortilège `gf_barh()`. 
+
+```{r t3b, collapse = TRUE, echo=TRUE}
+# Je représente sous forme de barres horizontales
+# le nombre d'observations (de liqueurs) selon leur saveur
+df_livre_ambroisie %>% gf_barh( ~ saveur)
+
+```
+
+<BR>
+
+### Un diagramme en barres, avec en ordonnée une variable quantitative
+
+<BR>
+
+On souhaite dessiner un diagramme en barres, 
+avec en ordonnée une variable quantitative du data.frame.
+
+On utilise l'ingrédient `weight = ...` du sortilège `gf_bar` . 
+
+<BR>
+
+```{r, collapse = TRUE, echo=TRUE}
+# data.frame "df_livre_ambroisie", je représente une diagramme en barres (une barre pour chaque "saveur").
+# En ordonnée je souhaite figurer la "production" totale en nombre de bouteilles.
+df_livre_ambroisie %>% 
+  gf_bar( ~ saveur,
+          weight = ~ production,
+  )
+
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de prendre la plume**</span>
+
+```{r ok-chapitre5-etape5,exercise=TRUE, echo=TRUE}
+# Dessiner un diagramme en barres (une barre pour chaque saveur),
+# avec le sortilège "gf_bar".
+# En ordonnée représenter la production totale en nombre de bouteilles,
+# avec l'ingrédient "weight = ~ production"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape5-solution}
+# Dessiner un diagramme en barres (une barre pour chaque saveur),
+# avec le sortilège "gf_bar".
+# En ordonnée représenter la production totale en nombre de bouteilles,
+# avec l'ingrédient "weight = ~ production"
+df_livre_ambroisie %>% 
+  gf_bar( ~ saveur,
+          weight = ~ production,
+  )
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+### Les ingrédients exhausteurs de goût
+
+<BR>
+
+Les graphiques **ggformula** peuvent être enrichis par des ingrédients supplémentaires. 
+
+L'ingrédient `title` permet par exemple d'ajouter un titre.  
+Pour changer la couleur, il faudra ajouter l'ingrédient `color`.
+  
+```{r t5, collapse = TRUE, echo=TRUE}
+# Je reconstruis la courbe ci-dessus,
+# j'ajoute un titre,
+# et je colorie la courbe en rouge
+df_livre_ambroisie %>%  
+ gf_line(puissance ~ age, 
+         title = "Puissance de la liqueur selon son âge (hips !)",
+         color = "red")
+
+```
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+  
+```{r ok-chapitre5-etape2,exercise=TRUE, echo=TRUE}
+# Représenter la courbe 
+# reliant la puissance et l'âge de la liqueur.  
+# Ajouter le titre, et la couleur rouge pour la courbe.
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape2-solution}
+# Représenter la courbe 
+# reliant la puissance et l'âge de la liqueur.  
+# Ajouter le titre, et la couleur rouge pour la courbe.
+df_livre_ambroisie %>% 
+  gf_line(puissance ~ age, title = "Boire un petit coup c'est agréable...", color = "tomato")
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+### Un nuage de points
+
+<BR>
+
+```{r t1b, collapse = TRUE, echo=TRUE}
+# Je dessine le nuage de points prix des liqueurs d'ambroisie en fonction de l'ivresse.
+# Je prends la table "df_livre_ambroisie" puis je lui applique le sortilège "gf_point"
+df_livre_ambroisie %>% gf_point(prix ~ ivresse)
+```
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer, en croisant prix et ivresse, des liqueurs d'ambroisie**</span>
+
+```{r ok-chapitre5-etape1, exercise=TRUE, echo=TRUE}
+# Recréez le nuage de points croisant le prix et l'ivresse,
+# à partir du data.frame "df_livre_ambroisie"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape1-solution}
+# Recréez le nuage de points croisant le prix et l'ivresse,
+# à partir du data.frame "df_livre_ambroisie"
+df_livre_ambroisie %>% 
+    gf_point(
+        prix ~ ivresse)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+### Un nuage de points, avec une variable supplémentaire qui commande la taille des points
+
+<BR>
+
+```{r, echo=TRUE}
+# Je dessine un nuage de points "prix" en fonction de "l'ivresse",
+# la taille des points étant fonction de la "puissance".
+# J'utilise l'ingrédient "size = ~ ..."
+df_livre_ambroisie %>% 
+    gf_point(
+        prix ~ ivresse, 
+        size = ~puissance)
+```
+
+N.B. : si on le souhaite, on peut aussi utiliser une variable qui commande la couleur ou la forme des points.
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+```{r ok-chapitre5-etape3,exercise=TRUE, echo=TRUE}
+# Redessiner le nuage de points "prix" en fonction de "l'ivresse",
+# avec une taille des points fonction de la "puissance"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape3-solution}
+# Redessiner le nuage de points "prix" en fonction de "l'ivresse",
+# avec une taille des points fonction de la "puissance"
+df_livre_ambroisie %>% 
+    gf_point(
+        prix ~ ivresse, 
+        size = ~puissance)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## 1001 graphiques supplémentaires
+
+<BR>
+
+Il y a bien d'autres sortilèges, qui permettent de dessiner des graphiques, dans la famille magique **ggformula**.
+
+<BR>
+
+### Un histogramme
+
+<BR>
+
+Dessinons un histogramme avec le sortilège `gf_histogram`.
+
+```{r, collapse = TRUE, echo=TRUE}
+# Je construit un histogramme, nombre de liqueurs d'ambroisie suivant l'âge des flacons,
+# avec le sortilège "gf_histogram"
+df_livre_ambroisie %>% gf_histogram( ~ age)
+```
+
+<BR>
+
+### Un diagramme "boîte à moustaches"
+
+<BR>
+
+On peut construire un graphique "boîte à moustaches", avec le sortilège `gf_boxplot`.
+```{r, collapse = TRUE, echo=TRUE}
+# Je trace le diagramme "boîte à moustaches" de la variable "prix"
+df_livre_ambroisie %>% 
+  gf_boxplot( ~ prix)
+```
+
+<BR>
+
+### Un graphique "en violon"
+
+<BR>
+
+On peut utiliser le sortilège `gf_violin` pour dessiner un diagramme "en violon".
+```{r, collapse = TRUE, echo=TRUE}
+# Je trace le graphique "en violon" de la variable "prix"
+df_livre_ambroisie %>% 
+  gf_violin(1 ~ prix)
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+```{r ok-chapitre5-etape4,exercise=TRUE, echo=TRUE}
+# Réaliser un histogramme, qui représente
+# le nombre de liqueurs selon l'âge des flacons
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape4-solution}
+# Réaliser un histogramme, qui représente
+# le nombre de liqueurs selon l'âge des flacons
+df_livre_ambroisie %>% gf_histogram( ~ age)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+### Un dessin en secteurs
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires : un diagramme en secteurs - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+>
+>```{r, collapse = TRUE, echo=TRUE}
+# Je représente le nombre de liqueurs pour chaque saveur,
+# dans un graphique en secteurs.
+df_livre_ambroisie %>%
+  gf_bar (~ 1, fill = ~ saveur) +   # J'utilise le même sortilège que pour un diagramme en barres (avec des ingrédients différents),
+									 # j'emploie le séparateur "+",
+  coord_polar(theta = "y")          # et j'ajoute le sortilège "coord_polar()" (du package "ggplot2").
+>```
+>
+>
+>
+><span style="color:#18AC3E;font-size:16px">**À vous de prendre la plume !**</span> 
+>
+>```{r ok-chapitre5-etape6,exercise=TRUE, echo=TRUE}
+# Redessiner le graphique en secteurs 
+# nombre de liqueurs pour chaque saveur
+
+
+# fin de l'exercice
+>```
+>
+>
+>```{r ok-chapitre5-etape6-solution}
+# Redessiner le graphique en secteurs 
+# nombre de liqueurs pour chaque saveur
+df_livre_ambroisie %>%
+  gf_bar (~ 1, fill = ~ saveur) +							 
+  coord_polar(theta = "y")          
+
+# fin de l'exercice
+>```
+>
+>
+>
+></font></p></details>
+
+<BR>
+
+### Un graphique "mosaïque"
+
+<BR>
+
+><details><summary><font size="3"><b>Pour les plus téméraires 2 : un diagramme "mosaïque", pour deux variables qualitatives - cliquez ici</b></font></summary>
+><p><font size="2">
+>
+>
+>
+><BR>
+>
+>On obtient un diagramme "mosaïque", qui représente les nombres d'observations d'un
+>data.frame suivant les modalités de deux variables qualitatives,
+>avec le sortilège "geom_mosaic()".  
+>(La fonction "geom_mosaic()" appartient au package **ggmosaic**)
+>
+><BR>
+>
+>Exemple.
+>```{r, collapse = TRUE}
+## Je souhaite obtenir un diagramme mosaïque,
+## qui figure le nombre de liqueurs,
+## suivant les modalités des variables qualitatives "saveur" et "puissance_arrondie"
+
+# Je pars du data.frame "df_livre_ambroisie"
+df_livre_ambroisie %>%
+  ggplot() +
+  geom_mosaic(
+    aes(
+      x = product(saveur, puissance_arrondie), # variables qualitatives "saveur" et "puissance_arrondie"
+      fill = saveur					        # couleur suivant la "saveur"
+    )
+  )
+# (On a utilisé les sortilèges "geom_mosaic()", "product() du package "ggmosaic",
+# ainsi que "ggplot()", et "aes()" du package "ggplot2")
+>```
+>
+>
+></font></p></details>
+
+<BR>
+
+## Des dessins juxtaposés
+
+<BR>
+
+### Un diagramme avec des "boîtes à moustaches" juxtaposées
+
+<BR>
+
+Dans un même graphique, on souhaite dessiner des boîtes à moustaches du "prix" des liqueurs  
+(une boîte à moustache pour chaque modalité de la colonne "saveur").
+
+<BR>
+
+```{r, echo=TRUE}
+# Je dessine, pour chaque modalité de la variable "saveur",
+# une "boîte à moustaches" du "prix"
+df_livre_ambroisie %>% 
+	gf_boxplot(
+		prix ~ saveur)
+```
+
+<BR>
+
+<BR>
+
+### Des graphiques "en violon" juxtaposés
+
+<BR>
+
+On souhaite obtenir des dessins "en violon" du "prix" des liqueurs  
+(un diagramme en violon pour chaque modalité de la colonne "saveur").
+
+<BR>
+
+```{r, echo=TRUE}
+# Je dessine, pour chaque modalité de la variable "saveur",
+# un "graphique "en violon" du "prix"
+df_livre_ambroisie %>% 
+	gf_violin(
+		prix ~ saveur)
+```
+
+<BR>
+
+### Un diagramme en barres superposées
+
+<BR>
+
+```{r, echo=TRUE}
+## Je souhaite construire le dessin en barres nombre d'observations 
+## suivant la "puissance_arrondie",
+## en coloriant les barres suivant les modalités de la variable "saveur",
+## les barres étant empilées.
+
+# Je pars du data.frame "df_livre_ambroisie"
+df_livre_ambroisie %>% 
+    # j'utilise le sortilège "gf_bar"
+	gf_bar(
+		~ puissance_arrondie, 
+		# j'ajoute l'ingrédient "fill = ~saveur"
+		fill = ~saveur)
+```
+
+<BR>
+
+### Un diagramme en barres adjacentes
+
+```{r, echo=TRUE}
+# Je dessine le graphique en barres nombre d'observations 
+# en fonction de la "puissance_arrondie",
+# en coloriant suivant les modalités de la variable "saveur",
+# les barres étant adjacentes
+df_livre_ambroisie %>% 
+	gf_bar(
+		~ puissance_arrondie, 
+		fill = ~saveur,
+		position = "dodge") # j'ajoute l'ingrédient  "position = dodge"  pour obtenir des barres adjacentes
+```
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer**</span>
+
+```{r ok-chapitre5-etape7,exercise=TRUE, echo=TRUE}
+# Redessiner le diagramme en barres nombre d'observations 
+# suivant la variable "puissance_arrondie",
+# en coloriant les barres suivant les modalités de la colonne "saveur",
+# avec des barres superposées
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre5-etape7-solution}
+# Redessiner le diagramme en barres nombre d'observations 
+# suivant la variable "puissance_arrondie",
+# en coloriant les barres suivant les modalités de la colonne "saveur",
+# avec des barres superposées
+df_livre_ambroisie %>% 
+	gf_bar(
+		~ puissance_arrondie, 
+		fill = ~saveur)
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+## À consommer avec modération
+
+<BR>
+
+Il est temps désormais de considérer l'énigme posée par Batreb.
+
+Pour trouver la solution, il vous faudra :  
+- élaborer un graphique en barres, nombre d'observations suivant la variable "puissance_arrondie",  
+- colorier les barres suivant les valeurs de la variable "saveur",  
+- obtenir des barres adjacentes,  
+- et lire sur le diagramme :  
+pour quelle "puissance_arrondie" le nombre de liqueurs de la saveur "Delicieux" est-il égal à 12 ?  
+
+```{r ok-chapitre5-etape8,exercise=TRUE, echo=TRUE}
+# Redessiner le diagramme en barres nombre d'observations 
+# suivant la variable "puissance_arrondie",
+# en coloriant suivant les mmodalités de la variable "saveur",
+# les barres étant adjacentes.
+# Lire sur le graphique pour quelle "puissance_arrondie" le nombre de liqueurs de la saveur 'Delicieux' est-il égal à 12.
+
+
+# Fin de l'exercice
+``` 
+
+
+```{r ok-chapitre5-etape8-solution}
+# Redessiner le diagramme en barres nombre d'observations 
+# suivant la variable "puissance_arrondie",
+# en coloriant suivant les mmodalités de la variable "saveur",
+# les barres étant adjacentes.
+# Lire sur le graphique pour quelle "puissance_arrondie" le nombre de liqueurs de la saveur 'Delicieux' est-il égal à 12.
+df_livre_ambroisie %>% 
+	gf_bar(
+		~ puissance_arrondie, 
+		fill = ~saveur,
+		position = "dodge")
+
+# Fin de l'exercice
+``` 
+
+Vous avez trouvé ? Vérifiez votre résultat dans le quiz. 
+ 
+```{r ok-chapitre5-quiz1, echo=FALSE}
+question("Pour quelle \"puissance_arrondie\", le nombre de liqueurs d'ambroisie de la saveur \"Delicieux\" est-il égal à 12 ?",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("8"),
+answer("9"),
+answer("10",correct=TRUE),
+answer("11"),
+answer("12"),
+answer("jamais"),
+correct="Félicitations, c'est la bonne réponse (hips!)"
+)
+
+``` 
+ 
+Vous pouvez désormais reporter la bonne réponse dans le jeu **icaRius** et reprendre votre partie !
+
+**Version 0.0.1**

@@ -1,0 +1,461 @@
+---
+title: "Chapitre 13 neverending"
+output:
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(knitr)
+library(dplyr)
+```
+
+Soyez les bienvenus : vous voici dans l'environnement de développement RStudio. Prenez le temps de trouver vos marques. L'environnement est prêt : à gauche le panneau source, à droite le viewer. Sentez-vous libre de manipuler les fenêtres comme bon vous semble. 
+
+Pour faciliter la mise en forme des mémoires d'Icarius au Royaume de Statis, nous allons utiliser le dièse pour faire en sorte que le texte apparaisse comme un titre dans le rapport des aventures. Voyez plutôt : en positionnant un dièse sur la ligne 6, on observe une mise en page sous forme de grand titre du rendu sur votre droite. Et en encadrant _des mots_ avec des _ de part et d'autre, on constate leur mise en forme italique. Nous utiliserons ces balises tout au long du texte. RStudio les colore en bleu pour nous assister. 
+
+# Chapitre 1 
+
+Icarius se réveille, Statia lui murmure dans un demi-sommeil que son royaume est en danger : elle a besoin de lui. Sitôt levé, vous avez rencontré le mage Zilap, qui vous a invité à prendre possession du grimoire IgoR.
+
+Pour quitter la maison d'Icarius, vous avez répondu à la question du mage RegoR : 
+
+> Quel est l'âge d'Icarius ? 
+
+À cet effet, nous avons exécuté les instructions suivantes : 
+
+```{r}
+df_statis <- data.frame(
+    nom = c("IcaRius", "Mage Zilap", "Mage RegoR"),
+    coeurs = c(2, 12, 10),
+    lieu = c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro")
+)
+
+df_statis <- mutate(
+  df_statis,
+  coeurs = ifelse(nom == "IcaRius", coeurs + 1, coeurs)
+)
+
+df_statis[1, "coeurs"] * 8
+```
+
+Une fois dehors, vous avez parcouru les plaines de Statis et rencontré Statia. Ou plutôt un spectre d'elle qui nous offre une épée. 
+
+
+# Chapitre 2
+
+Parfaitement équipé, nous nous sommes rendu au village Kokoro en hachant menu les buissons.  
+Au village, le mage Tourep nous confie la lourde responsabilité d'aider la fermière avec le registre des pontes. 
+
+> Quelle poule est la plus performante ? 
+
+```{r, include=FALSE}
+library(rio)
+load("donnees/livre_compte_3.RData")
+```
+
+La meilleure poule est : 
+
+```{r}
+livre_compte_3
+```
+
+Le mage Tourep nous remercie d'un bouclier qui nous rend apte à traverser les dangers des plaines de Statis. 
+Ainsi équipé, nous accédons à la première rune en abattant un monstrueux papillon.
+
+
+# Chapitre 3
+
+Au delà des plaines de Statis, le mage Xeilhac qui siège dans le village GrissGrass nous bassine avec sa soupe et... la mandragore. Il nous charge de mener l'enquête. 
+
+> Qui possède l'exploitation la plus productive ? 
+
+```{r, include=FALSE}
+df_livre <- import("donnees/recensement_agricole.csv")
+```
+
+```{r message=FALSE}
+df_livre %>%
+  group_by(Exploitation) %>%
+  summarise(moyenne_production = mean(Production))
+```
+
+Le modeste Galia est bien le meilleur producteur de Mandragore - tant pis pour ce prétentieux Tellus !
+
+
+# Chapitre 4 
+
+Mais ce n'est pas suffisant, le mage Xeilhac vous pose une autre colle : 
+
+> en assemblant de telle façon des tables (en utilisant **dplyr**), on obtient un data.frame qui contient combien d'observations ?
+
+```{r}
+df_statis <- data.frame(
+    nom = factor(c("IcaRius", "Mage Zilap", "Mage RegoR")),
+    coeurs = c(2, 12, 10),
+    lieu = factor(c("Maison d’IcaRius", "Maison d’IcaRius", "Village de Kokoro"))
+)
+
+df_statis_2 <- data.frame(
+	nom = factor(c("Statia", "Mage Tourep", "Tellus")),
+	coeurs = c(3, 10, 6),
+	lieu = factor(c("Plaines de Statis", "Village de Kokoro", "Village de GrissGrass"))
+)
+
+df_statis_4 <- data.frame(
+    initiale = c("I", "Z", "R", "S", "To", "Te"),
+	age = c("24", "80", "64", "24", "80", "48"),
+	statut = c("héros", "mage", "mage", "héroïne", "mage", "fermier")
+)
+
+df_statis_6 <- data.frame(
+	nom = factor(c("IcaRius", "IcaRius", "Tellus", "Soldat")),
+	possession = c("Epée", "Bouclier", "Ferme de Tellus", "Armure")
+)
+
+df_statis_3 <- bind_rows(df_statis, df_statis_2)
+
+df_statis_5 <- bind_cols(df_statis_3, df_statis_4)
+
+df_statis_7 <- left_join(df_statis_5, df_statis_6, by = "nom")
+
+nrow(df_statis_7)
+```
+
+En récompense à vos nouvelles compétences en assemblage, le fermier Galia et le chef du village de Griss Grass vous offrent un filtre de mandragore : vos pouvoirs sont augmentés. 
+
+En allant au-delà du cimetière de GrissGrass, nous voilà face au monstrueux et souterrain Tartaros qui emprisonne les esprits égoïstes qui ne partagent pas leur code. 
+
+Gonflé au philtre de Mandragore, Icarius n'en fait qu'une bouchée et prend du galon : il acquiert sa seconde rune. 
+
+# Chapitre 5 
+
+Arrivé au château de Statis la situation est dramatique : des forces occultes sont à l'oeuvre. Le ministre des armées Parlyus occupe le château avec des soldats.  
+Il réclame la guerre ! Quelle drôle d'idée ! Pour obtenir la clé de la cachette d'Essespéus et se faire aider, il faut gagner la confiance de Batreb qui noie son chagrin dans l'ambroisie... Pour cela, vous devez résoudre l'énigme proposée en traçant le graphique qui permet de répondre à la question suivante : 
+
+> Pour quelle puissance (arrondie), le nombre de liqueurs d'ambroisie de la saveur "Delicieux" est-il égal à 12 ?
+
+```{r, include=FALSE}
+library(dplyr)
+library(ggformula)
+library(readr)
+
+file.copy(from = system.file(package = "funcampR","data","chapitre5_replay/livre_ambroisie.csv"),
+          to = paste0(tempdir(),"/livre_ambroisie.csv"))
+		  
+df_livre_ambroisie <- readr::read_delim(
+  paste0(
+    tempdir(),
+	"/livre_ambroisie.csv"
+  ),
+  delim = ";"
+)
+
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(saveur = 
+           factor(
+		     saveur, 
+			 ordered = TRUE,
+             levels = c("Sympathique", "Bon", "Tres_bon", "Delicieux", "Extatique")
+           )
+        )
+								
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  mutate(puissance_arrondie = factor(puissance_arrondie))
+  
+df_livre_ambroisie <- df_livre_ambroisie %>% 
+  as.data.frame
+```
+
+```{r}
+df_livre_ambroisie %>% 
+	gf_bar(
+		~ puissance_arrondie, 
+		fill = ~saveur,
+		position = "dodge")
+```
+
+Vous obtenez la clé qui permet de libérer Essespéus de la cave (ou ce qu'il en reste, hips !). 
+
+# Chapitre 6
+
+Une fois libéré de son cachot, Essespéus vous propose de tromper Parlyus en lui communiquant une _fake news_. Il s'agit de le tromper et de diriger les forces obscures le plus loin possible auprès du peuple le plus armé. 
+Le temps presse, car il s'agit de vaincre Sassos avant que le chef des armées ne rejoigne ce territoire. Statis est un royaume pacifique et vous devez veiller à ce qu'il le reste. 
+
+> Quel est le secteur (Est, Nord, Ouest, Sud) dans lequel il y a le moins de royaumes constitués de prairies ?
+
+```{r include=FALSE}
+file.copy(from = system.file(package = "funcampR","data","chapitre6_replay/data_soldiers.csv"),
+          to = paste0(tempdir(), "data_soldiers.csv"))
+
+# Import and transform data within Rmd
+donnees_secretes <- import(paste0(tempdir(), "data_soldiers.csv"))
+
+donnees_secretes_df <- as.data.frame(donnees_secretes)
+```
+
+```{r message=FALSE}
+donnees_secretes %>% 
+	gf_bar( ~ vegetation | situation)
+```
+
+C'est le secteur Nord qu'il faut attaquer !
+
+Et c'est là la rencontre avec Sassos ! Ou plutôt un ectoplasme de lui. Il n'empêche que sa terrible PROC FIREBALL vous a salement amoché 
+et il a disparu d'un coup de PROC EXPAND ! Heureusement, vous avez pu vous défendre en réfléchissant ses tirs grâce à l'épée. 
+
+
+# Chapitre 7 
+
+Le mage Delagarde à l'entrée du labyrinthe vous propose de manipuler quelques vecteurs pour vous guider dans le dédale. Bien que...il est possible 
+de s'en sortir sans aide à dire vrai. 
+
+Qu'à cela ne tienne !
+
+> Dans quelle direction faut-il aller pour sortir du labyrinthe ?
+
+```{r, collapse=TRUE}
+data.frame_clef <- data.frame(
+  col_1 = c(1, NA, 1, 2, 3, 3, 1, 3, 1, 3, 2),
+  col_2 = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2)
+)
+
+vecteur_chemin_debut <- c("Gauche", "Droite")
+
+mean(data.frame_clef$col_1, na.rm = TRUE)
+
+vecteur_chemin_fin <- rep("Gauche", 2)
+
+vecteur_chemin <- c(vecteur_chemin_debut, vecteur_chemin_fin)
+
+vecteur_chemin
+
+# L'ordre des directions qui apparaissent correspond
+# à la succession des directions à prendre dans le labyrinthe !
+```
+
+# Chapitre 8 
+
+Une fois extrait du labyrinthe, vous retrouvez le mage Zilap dans le désert. Ce vieux ronchon doit bien reconnaître que vous avez progressé dans le maniement du langage des Runes ! Il vous explique comment ajouter des pages au grimoire, chaque package étant un nouveau chapitre. 
+
+```{r, eval=FALSE}
+# J'installe le package "babynames"
+install.packages("babynames")
+
+# Je teste que l'extension est bien installée
+require(babynames) %>%
+  print()
+
+# J'affiche la liste des packages installés (je me limite aux 10 premiers)
+installed.packages() %>%
+  head(10)
+```
+
+Vous voilà plus léger, ou plutôt les objets qui vous entourent le sont. Et vous rejoignez le village de Sandia. 
+
+# Chapitre 9 
+
+Le temps presse, vous débarquez dans le village de Sandia. Mam’Grouxi radote et vous conte les innombrables naissances qu’elle a vues au fil des ans (des siècles?). 
+Elle vous demande d'identifier, dans le registre des naissances, le village d'où viennent les filles dont la spiritualité est en moyenne 
+la plus grande à la naissance.
+
+
+```{r, include=FALSE}
+file.copy(from = system.file(package = "funcampR","data","chapitre9_replay/naissances_replay.csv"),
+          to = paste0(tempdir(),"/naissances.csv"))
+		  
+# naissances
+naissances<-import(
+  paste0(
+    tempdir(),
+	"/naissances.csv"
+  )
+)
+  
+# naissances_F
+naissances_F <- naissances %>% 
+  filter(Genre=="F")
+```
+
+
+```{r}
+naissances_F %>% 
+  group_by(Village) %>%
+  summarise(mean(Spirit))
+```
+
+C'est le village d'Hylia ! Mam’Grouxi vous fait cadeau des bombes qui permettent de percer la montagne et entrer dans le temple de la Roche. 
+Et c'est au coeur des souterrains, en déjouant monstres et boules de feu que le pouvoir de l'épée se trouve renforcé. Et heureusement, car c'est Monolith 
+qu'il faut affronter en déjouant ces satanées boules de feu. 
+
+Vous voilà en possession de la quatrième rune. 
+
+En quittant le temple de la roche, l'éboulement condamne tout retour en arrière : l'affrontement final de SassoS est inéluctable. 
+
+
+# Chapitre 10 
+
+
+En poursuivant vos pérégrinations et après avoir abattu quelques drôles de sphinx, icaRius se trouve pris au piège dans la salle de l'impossible. Quelle 
+que soit la direction prise, Icarius atterrit toujours au même endroit. Il doit apprendre à garder les choses en mémoire et les sauvegarder. 
+
+```{r eval=FALSE}
+ggsave(directions_fleches, filename="../sauvegarde/enigme_chapitre10.jpg",device = "jpeg")
+```
+
+En retenant la suite d'instructions directionnelles qui s'avère être la célèbre suite de Konami, Icarius prend possession du bouclier éponyme. 
+
+# Chapitre 11
+
+Au sortir de la salle de l'impossible, Icarius ne peut poursuivre son chemin face aux tourbillons de l'éternel recommencement : il se retrouve 
+systématiquement éjecté. C'est le robot TeoC, envoyé par le mage Essespéus, qui nous vient en aide en vous intronisant aux voies du reproductible. 
+Ses manières ne sont pas des plus délicates : il catapulte Icarius au tout début de l'histoire ! 
+
+Vous voilà à réécrire un sortilège qui calcule l'âge d'Icarius, et à l'utiliser.
+
+```{r}
+calcul_de_l_age <- function(nb_coeurs, spirit) {
+    age <- nb_coeurs * 6
+    spirit <- spirit + 2
+    return(age)
+}
+
+calcul_de_l_age(nb_coeurs = 3, spirit = 6)
+```
+
+C'est ainsi vous obtenez le boomerang magique qui permet de désamorcer les tourbillons de l'éternel recommencement : Icarius peut ainsi pénétrer dans 
+le temple de l'ombre. 
+
+Muni de la petite clef et de la carte du donjon, les longues errances dans le labyrinthe de l'ombre conduisent à Zigûr, l'infâme oeil de Sassos. 
+Grâce au boomerang pour agir à distance car le sol est pavé de trous béants et à votre épée, vous prenez possession de la cinquième rune. 
+
+# Chapitre 12 
+
+Sorti enfin à l'air libre, vous longez le datalake jusqu'à rencontrer le drôle d'oiseau Febeler. S'il veut bien vous donnez les moyens de traverser à la nage 
+le lac avec le sortilège palmes(), il vous faut toutefois documenter son fonctionnement et donc en lire la documentation car pour le paraphraser : 
+
+> Sans sortilège, point de magie ! Et sans documentation, point de sortilège ! 
+
+Vous voilà donc à soigneusement documenter votre précieuse fonction fmt() grâce aux balises _roxygen2_ et c'est là la réponse à l'énigme posée 
+par l'oiseau. 
+
+```{r}
+#' @title fmt
+#' @author Mage RegoR, \email{mage.regor@@email.fr}
+#' @description Formate une quantité
+#' @details La fonction formate avec
+#' un nombre de décimales specifié, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
+#' @section Emploie :
+#' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+#' @section Warning :
+#' N'utilise pas de notation scientifique
+#' @param x la quantité à formater
+#' @param n le nombre de décimales
+#' @return La quantité formatée.
+#' @import dplyr
+#' @examples
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
+#' @family fonctions pour formater
+#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} 
+#' pour afficher dans la console
+#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} 
+#' la fonction format
+fmt <- function(x, n) {
+
+  x %>% 
+    format(                                    
+         decimal.mark = ",",  
+         digits=0, nsmall=n,  
+         big.mark = " ",      
+         scientific = FALSE   
+    )      
+}
+```
+
+Febeler s'acquitte de sa promesse et vous fournit les palmes nécessaires à une traversée qui n'est pas sans encombres.
+
+Arrivé au temple de la glace, les longs couloirs parsemés d'objets qui vous rapprochent de votre quête sont légion : une carte, une boussole, une petite clé, 
+la clé du boss... La fin de ce chapitre approche ! Vous rencontrez Confusius, maître en ces lieux. Et remportez la sixième rune ! Une fois dehors, vous ne 
+pouvez plus faire marche arrière. Qu'à cela ne tienne, la quête reprend.
+
+Febeler, lui encore, vous aiguille vers l'Est dans une forêt brumeuse peuplée de squelettes. La progression à travers les grumes creuses est difficile... 
+
+# Dernier chapitre
+
+Vous rencontrez enfin Asa la gueRnouille qui vous propose d'écrire votre destin et vos mémoires, simultanément.
+
+Votre quête de la maîtrise du langage des runes s'achève ici. Prenez quelques instants pour observer le chemin accompli : vous avez importé des fichiers, 
+manipulé des données, synthétisé leur contenu en des tableaux résumés, exporté ces mêmes données pour les sauvegarder, créé et documenté des fonctions 
+pour les réutiliser et les transmettre. Toutes les traces de votre connaissance (et bravoure !) sont présentées dans le présent (et précieux) document. 
+
+Vous pouvez, si vous le souhaitez, en guise d'aide-mémoire pour vos prochaines aventures avec R, enregistrer le fichier html qui résulte de ce RMarkdown en 
+vous rendant dans l'onglet Files, qui se trouve sur votre droite, dans un cadran de la partie inférieure de l'écran.
+
+Cliquez sur la case qui jouxte le nom de fichier et l'engrenage dans le menu de l'onglet vous laissera l'opportunité d'exporter votre prose.
+
+Toujours dans cet onglet Files, vous trouverez juste à côté de votre RMarkdown (.Rmd) et html (fichier lisible dans un navigateur web) 
+un fichier intitulé _pour_asa.txt_ : il contient la réponse à fournir à Asa pour finaliser votre aventure au royaume de Statis. 
+Pour ouvrir ce fichier _pour_asa.txt_, il vous suffira de cliquer dessus...
+Notez bien ce code magique, pour que vous puissiez reprendre le jeu vidéo icaRius et donner la réponse à Asa la gueRnouille.
+
+![](./images/rstudio_solution.png){width=100%} 
+
+<BR>
+
+<BR>
+
+Juste avant de finaliser l'aventure, nous vous proposons un encadré optionnel,
+ pour créer un "projet de package" comme vu dans la première partie du chapitre 13.
+ 
+Si vous souhaitez créer un "projet de package :   
+1. Enregistrez l'encadré ci-dessous dans un fichier,  
+&nbsp;&nbsp;&nbsp;&nbsp;(car dans la suite vous devrez quitter cette page et n'aurez plus accès à son contenu).   
+2. Créez un projet de package,  
+3. puis vous pourrez reprendre le jeu vidéo icaRius et donner la réponse (le code magique ci-dessus) à Asa la gueRnouille.  
+
+<BR>
+
+```{r, eval=FALSE, echo=TRUE}
+Encadré optionnel
+-----------------
+
+Création d'un projet de package, succession d'étapes :  
+ 
+Dans RStudio, en haut à droite, cliquez sur "chapitre 13".  
+Une liste déroulante apparaît. Choisir "Close project".  
+En haut à droite cliquer sur "Project: (None)".   
+Choisir "New Project..."  
+Si une fenêtre pop-up "Save workspace image to ~/.RData?" apparaît, cliquer sur "Don't Save".
+Une fenêtre pop-up "Create Project" s'affiche  
+      Sélectionner "New Directory" .  
+      Dans la page "Project Type" de la pop-up, cliquer sur "R package",  
+      Dans la page suivante,  
+            champs "Package Name:" renseigner le nom du projet, par exemple projet1 ,  
+            champs "Create project as subdirectory of:" choisir le répertoire parent du projet,  
+            puis cliquer sur "Create Project"  
+# Le projet est créé. Il contient déjà un sortilège "hello()" ainsi qu'une documentation 
+# de ce sortilège.  
+# Dans RStudio ouvrir une fenêtre de script, puis exécuter le code suivant :  
+library(devtools)  
+load_all() # chargement en mémoire des sortilèges du projet (ici hello() )
+hello() # exécution
+?hello # affichage de la documentation  
+```
+
+<BR>
+
+(Fin de cette épreuve. Version 0.9.4)

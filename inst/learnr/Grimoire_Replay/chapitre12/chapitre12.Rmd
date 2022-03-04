@@ -1,0 +1,752 @@
+---
+title: "Chapitre 12 : de l'oxygène documentaire !"
+tutorial:
+  version: 0.0.1
+output:
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+runtime: shiny
+---
+
+
+```{r setup, include=FALSE}
+# répertoire du fichier chapitre12.Rmd en cours d'exécution
+REPERTOIRE_du_fichier_chapitre12_Rmd <- getwd()
+
+# répertoire du package funcampR, sous répertoire data/chapitre12/replay_projet1
+REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1 <- system.file(
+    package = "funcampR",
+	"data/chapitre12_replay/projet1"
+)
+
+# répertoire du package funcampR, sous répertoire data/chapitre12/replay_projet1_2
+REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_2<- system.file(
+    package = "funcampR",
+	"data/chapitre12_replay/projet1_2"
+)
+
+# répertoire du package funcampR, sous répertoire data/chapitre12/replay_projet1_3
+REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_3<- system.file(
+    package = "funcampR",
+	"data/chapitre12_replay/projet1_3"
+)
+
+# copie de "projet1"
+file.copy(
+  from = REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1, 
+  to = REPERTOIRE_du_fichier_chapitre12_Rmd, 
+  recursive=TRUE
+)
+
+# copie de "projet1_2"
+file.copy(
+  from = REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_2, 
+  to = REPERTOIRE_du_fichier_chapitre12_Rmd, 
+  recursive=TRUE
+)
+
+# copie de "projet1_3"
+file.copy(
+  from = REPERTOIRE_package_funcampR_data_chapitre12_replay_projet1_3, 
+  to = REPERTOIRE_du_fichier_chapitre12_Rmd, 
+  recursive=TRUE
+)
+```
+
+
+
+
+## Pour ne pas se noyer dans un océan magique
+
+
+En accompagnant icaRius dans son épopée, vous avez accompli d'incroyables progrès sur les terres runiques : vous voici désormais capable d'utiliser les sortilèges du grimoire IgoR, et même, de créer vos propres sortilèges ! Mais attention à ne pas vous noyer dans l'immensité de cette magie ! 
+
+Quant à icaRius, le voilà bien embêté : il lui faut traverser un lac pour rejoindre une île. Mais il  ne sait pas encore nager : impossible pour lui de traverser l'étendue d'eau qui bloque son chemin. Le Mage FebeleR est là pour aider icaRius et lui apprendre, en accéléré, à traverser le lac. Pour cela, il doit s'approprier un nouveau sortilège, le sortilège `palme()`. Mais il n'a pas le mode d'emploi ! 
+
+Catastrophe ! Pourtant, c'est bien connu de tous les statisiens : pour qu'un sortilège puisse être utilisé dans les règles de l'art, il faut écrire son mode d'emploi.  Autrement dit, expliquer ce que fait le sortilège, renseigner les ingrédients nécessaires et préciser ce que l'on obtient pour que chacun puisse utiliser ce sortilège (sans jouer au savant fou). Les paragraphes suivants vous présentent les arcanes de cet art ô combien vénéré des statisiens : l'art de documenter son sortilège.
+
+C'est ce qui vous permettra de répondre à la question du Mage FebeleR : *"quel est le mot magique qui permet de documenter les sortilèges, et d'apprendre à s'en servir ?"*. 
+
+<BR>
+
+<BR>
+
+## Rappels
+
+<BR>
+
+<BR>
+
+Dans cette sous-partie :  
+
+- on considère un fichier qui contient du code R,  
+
+- on ajoute des commentaires à ce fichier,  
+
+- on crée une fiche signalétique,  
+
+- et on génére une documentation du code, automatiquement.  
+
+<BR>
+
+<BR>
+
+#### Un fichier de script exemple
+
+<BR>
+
+Dans toute la suite, on dispose d'un fichier `fmt.R` (une page du grimoire d'Icarius).
+
+<BR>
+
+(Et ce fichier est inclus dans un "projet R de package" : mais on verra cela dans le prochain chapitre).
+
+<BR>
+  
+Ci-dessous le contenu de `fmt.R`.   
+```{r, messages=FALSE, warning=FALSE}
+## fichier "fmt.R"
+
+# fonction "fmt"
+# formate un nombre avec n décimales
+fmt <- function(x, n) { # "fmt" prend en entrée deux paramètres : la quantité à formater, et le nombre de décimales
+
+  x %>% 
+    format(              # "fmt" utilise "format()" du R de base, qui permet de formater
+         decimal.mark = ",",  		 # la virgule est employée pour les nombres décimaux
+         digits=0, nsmall=n, 		 # n décimales
+         big.mark = " ",      		 # le séparateur de milliers est l'espace " "
+         scientific = FALSE   		 # La notation scientifique n'est pas utilisée.
+    )      
+}
+
+# fonction "fmt1Decimale"
+# formate un nombre avec 1 décimale
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1) # appel de "fmt" ci-dessus
+}
+```
+*Le fichier contient deux sortilèges "fmt()" et "fmt1Decimale()".*  
+
+<BR>
+
+J'utilise "fmt()" et "fmt1Decimale()"
+```{r, messages=FALSE, warning=FALSE, echo=TRUE, eval=FALSE}
+library(dplyr)
+```
+```{r, messages=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+```
+&nbsp;
+```{r, messages=FALSE, warning=FALSE}
+fmt(100, 2)
+
+fmt1Decimale(1234.56789)
+```
+
+<BR>
+
+<BR>
+
+#### Ajout de commentaires suivant le modèle proposé par le package **roxygen2**
+
+<BR>
+
+Le package **roxygen2** offre une norme pour ajouter des commentaires.
+
+<BR>
+
+Avec cette norme, on peut documenter le script de la façon suivante :
+```{r, messages=FALSE, warning=FALSE}
+#' @title fmt
+#' @description La fonction formate une quantité,
+#' avec un nombre de décimales specifié, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
+#' @param x la quantité à formater
+#' @param n le nombre de décimales
+#' @import dplyr
+#' @examples
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
+fmt <- function(x, n) {
+
+  x %>% 
+    format(                  # la fonction format() est utilisée
+         decimal.mark = ",",  
+         digits=0, nsmall=n,
+         big.mark = " ",      
+         scientific = FALSE   
+    )      
+}
+
+
+#' @title fmt1Decimale
+#' @description La fonction formate un nombre avec
+#' une décimale, 
+#' la virgule pour distinguer unités et décimales, 
+#' et l'espace comme séparateur de milliers.  
+#' @param x la quantité à formater
+#' @examples
+#' fmt1Decimale(100)
+#' fmt1Decimale(1234.56789)
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1) # appel de fmt()
+}
+```
+*On a écrit ci-dessus des commentaires "roxygen2".*  
+*Les lignes de commentaires "roxygen2" :*  
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;commencent par les signes `#'` ,*  
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et utilisent les mots clés `@title`, `@description`, `@param`, etc.*  
+*Chaque sortilège est précédé par un bloc de commentaires "roxygen2".*  
+
+<BR>
+
+*(N.B. Les commentaires "roxygen2" peuvent s'employer en plus des commentaires traditionnels commençant par `#`)*
+
+```{r, include=FALSE, eval=FALSE}
+1. Dans "Grimoire_Replay\chapitre12", il y a "projet1\html\..."
+
+2. Dans "Grimoire_Replay\chapitre12\projet1\html\00Index.html", 3 lignes mises en commentaire :
+<!--<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />-->
+
+<!--<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>-->
+<!--<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>-->
+```
+
+<BR>
+
+<BR>
+
+À vous de documenter ces sortilèges avec des commentaires "roxygen2". Dans la fenêtre ci-dessous, vous pouvez écrire librement, sans crainte aucune de commettre une erreur (rien ne sera exécuté par R).
+
+```{r, echo=FALSE}
+library(shiny)
+library(shinyAce)
+
+init <- "# Compléter ci-dessous la documentation
+#' @title ???
+#' @description ???
+#' @param ???
+#' @import ???
+#' @examples
+#' ???
+#' ???
+fmt <- function(x, n) {
+
+  x %>% 
+    format(
+         decimal.mark = \",\",  
+         digits=0, nsmall=n,
+         big.mark = \" \",      
+         scientific = FALSE   
+    )      
+}
+
+#' @title ???
+#' @description ???
+#' @param ???
+#' @examples
+#' ???
+#' ???
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1) 
+}
+"
+
+shinyApp(
+
+ui = fluidPage(
+    fluidRow(
+      column(
+        12,
+        aceEditor("code", mode = "r", height = "200px", value = init)
+      )
+    )
+  ),
+
+  server = function(input, output, session) {
+
+    },
+
+  options = list(height = 250)
+)
+```
+
+Vous avez terminé ? Votre script commenté devrait ressembler peu ou prou à ce qui figure ci-dessous. 
+
+><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
+><p><font size="2">
+>
+>
+>```{r}
+>#' @title fmt
+>#' @description La fonction formate une quantité,
+>#' avec un nombre de décimales specifié, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' l'espace comme séparateur de milliers. 
+>#' @param x la quantité à formater
+>#' @param n le nombre de décimales
+>#' @import dplyr
+>#' @examples
+>#' fmt(100, 2)
+>#' fmt(1234.56789, 2)
+>fmt <- function(x, n) {
+>
+>  x %>% 
+>    format(                   
+>         decimal.mark = ",",  
+>         digits=0, nsmall=n,
+>         big.mark = " ",      
+>         scientific = FALSE   
+>    )      
+>}
+>
+>
+>#' @title fmt1Decimale
+>#' @description La fonction formate un nombre avec
+>#' une décimale, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' et l'espace comme séparateur de milliers.  
+>#' @param x la quantité à formater
+>#' @examples
+>#' fmt1Decimale(100)
+>#' fmt1Decimale(1234.56789)
+>fmt1Decimale <- function(x) {
+>
+>  fmt(x, 1) 
+>}
+>```
+>
+></font></p></details>
+
+<BR>
+
+<BR>
+
+
+#### La fiche signalétique "DESCRIPTION"
+
+
+<BR>
+
+<BR>
+
+(La fiche signalétique est requise pour les "projets de package".  
+Elle contient des informations sur le projet.)  
+
+<BR>
+
+La fiche signalétique est un fichier nommé `DESCRIPTION`, sans extension du type ".txt".  
+
+<BR>
+
+Exemple de fichier `DESCRIPTION` :
+```{txt}
+Package: projet1
+Type: Package
+Title: un package pour formater des nombres
+Version: 0.1.0
+Author: Mage RegoR
+Maintainer: automate TeoC <teoc@statis.st>
+Description: Le package fournit deux fonctions :
+    fmt et fmt1Decimale
+```
+*Le fichier `DESCRIPTION` a un contenu qui suit une forme particulière :*  
+*Les informations doivent s'insérer dans des rubriques spécifiques : "Package:", "Type:", "Title:", etc.*  
+*Si le bloc "Description: ..." vers la fin du fichier fait plus d'une ligne, chaque ligne du bloc (à partir de la seconde) doit commencer*  
+*par quatre espaces.*  
+
+<BR>
+
+<BR>
+
+#### Génération de la documentation
+
+<BR>
+
+Les commentaires "roxygen2" ci-dessus, et le fichier `DESCRIPTION` permettent :  
+
+- de décrire le code du fichier, et le projet,  
+
+- mais aussi de fabriquer automatiquement des pages de documentation.
+
+<BR>
+
+Je génère automatiquement des pages de documentation :
+```{r, echo=TRUE, eval=FALSE}
+# chargement du package "roxygen2"
+library(roxygen2)
+
+roxygenize()
+```
+
+<BR>
+
+*(N.B. Pour générer complètement la documentation, il y a besoin aussi d'une étape d'installation*  
+*du projet de package)*  
+
+<BR>
+
+J'obtiens les pages suivantes :
+```{r, echo=FALSE}
+library(shiny)
+library(htmltools)
+
+library(shiny)
+ui <- fluidPage(
+	shiny::a("fmt.html",target="_blank", href="www/projet1/html/fmt.html")
+)
+server <- function(input, output) {
+  # www = getwd()
+  shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
+}
+  
+shinyApp(ui, server,
+  options = list(height = 100) # espace réservé dans le document html produit
+)
+```
+
+<BR>
+
+## Encore plus
+
+<BR>
+
+<BR>
+
+Dans cette partie, on adjoint d'autres commentaires au script `fmt.R` ci-dessus.
+
+<BR>
+
+On utilise des mots-clés suppplémentaires proposés par le package **roxygen2** :
+```{r, messages=FALSE, warning=FALSE}
+#' @title fmt
+#' @author Mage RegoR, \email{mage.regor@@email.fr}
+#' @description Formate une quantité
+#' @details La fonction formate avec
+#' un nombre de décimales specifié, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
+#' @section Emploie :
+#' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+#' @section Warning :
+#' N'utilise pas de notation scientifique
+#' @param x la quantité à formater
+#' @param n le nombre de décimales
+#' @return La quantité formatée.
+#' @import dplyr
+#' @examples
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
+#' @family fonctions pour formater
+#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} 
+#' pour afficher dans la console
+#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} 
+#' la fonction format
+fmt <- function(x, n) {
+
+  x %>% 
+    format(                                    
+         decimal.mark = ",",  
+         digits=0, nsmall=n,  
+         big.mark = " ",      
+         scientific = FALSE   
+    )      
+}
+
+
+#' @title fmt1Decimale
+#' @author Mage RegoR, \email{mage.regor@@email.fr}
+#' @description Formate un nombre
+#' @details La fonction formate avec
+#' une décimale, 
+#' la virgule pour distinguer unités et décimales, 
+#' l'espace comme séparateur de milliers. 
+#' @section Emploie :
+#' Les fonctions \code{\link{fmt}} et \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+#' @section Warning :
+#' N'utilise pas de notation scientifique
+#' @param x la quantité à formater
+#' @return Le nombre formaté
+#' @examples
+#' fmt1Decimale(100)
+#' fmt1Decimale(1234.56789)
+#' @family fonctions pour formater
+#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
+#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1)
+}
+```
+*Dans les commentaires ci-dessus :*  
+*- les mots-clés `@details` et `@section` autorisent l'ajout de commentaires supplémentaires.*  
+*- si l'on souhaite ajouter des hyperliens dans la documentation qui sera générée, la syntaxe est particulière :*  
+&nbsp;&nbsp;*`\email{...}` ajoutera un lien vers des outils de messagerie,*  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*(il faut écrire `@@` dans l'adresse email),*  
+&nbsp;&nbsp;*`\url{...)` insèrera un lien internet,*  
+&nbsp;&nbsp;*`\code{\link{...}}` faira apparaître un lien vers une autre fonction (du même projet)*  
+*- Le mot clé `@family` permet de grouper certaines fonctions dans une "famille".*  
+&nbsp;&nbsp;*Ici on a créé une famille "fonctions pour formater" qui contient "fmt()" et "fmt1Decimale()".*  
+&nbsp;&nbsp;*Lors de la génération de la documentation, des hyperliens vont être créés entre les fonctions de la famille.*  
+
+<BR>
+
+<BR>
+
+#### Génération de la documentation
+
+<BR>
+
+On obtient alors la documentation suivante :
+```{r, echo=FALSE}
+library(shiny)
+library(htmltools)
+
+library(shiny)
+ui <- fluidPage(
+    shiny::a("fmt.html",target="_blank", href="www/projet1_2/html/fmt.html")
+)
+server <- function(input, output) {
+  # www = getwd()
+  shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
+}
+  
+shinyApp(ui, server,
+  options = list(height = 100)
+)
+```
+
+<BR>
+
+<BR>
+
+À vous de documenter les sortilèges. Dans la fenêtre ci-dessous, vous pouvez écrire librement.
+
+```{r, echo=FALSE}
+library(shiny)
+library(shinyAce)
+
+init <- "# Compléter ci-dessous la documentation
+#' @title fmt
+#' @author ??? \\email{???}
+#' @description Formate un nombre
+#' @details ???
+#' @section ??? :
+#' ???
+#' @section ??? :
+#' ???
+#' @param x la quantité à formater
+#' @param n le nombre de décimales
+#' @return ???
+#' @import dplyr
+#' @examples
+#' fmt(100, 2)
+#' fmt(1234.56789, 2)
+#' @family ???
+#' @seealso \\url{???} ???
+#' @references \\url{???} ???
+fmt <- function(x, n) {
+
+  x %>% 
+    format(                   
+         decimal.mark = \",\",  
+         digits=0, nsmall=n,  
+         big.mark = \" \",      
+         scientific = FALSE   
+    )      
+}
+
+
+#' @title fmt1Decimale
+#' @author ??? \\email{???}
+#' @description Formate un nombre
+#' @details ???
+#' @section ??? :
+#' ???
+#' @section ??? :
+#' ???
+#' @param x la quantité à formater
+#' @return ???
+#' @examples
+#' fmt1Decimale(100)
+#' fmt1Decimale(1234.56789)
+#' @family ???
+#' @seealso \\url{???} ???
+#' @references \\url{???} ???
+fmt1Decimale <- function(x) {
+
+  fmt(x, 1)
+}
+"
+
+shinyApp(
+
+ui = fluidPage(
+    fluidRow(
+      column(
+        12,
+        aceEditor("code", mode = "r", height = "200px", value = init)
+      )
+    )
+  ),
+
+  server = function(input, output, session) {
+
+    },
+
+  options = list(height = 250)
+)
+```
+
+Vous avez terminé ? Votre script commenté devrait ressembler à ce qui figure ci-dessous. 
+
+><details><summary><font size="3">Pour afficher la solution, cliquez ici</font></summary>
+><p><font size="2">
+>
+>
+>```{r}
+>#' @title fmt
+>#' @author Mage RegoR, \email{mage.regor@@email.fr}
+>#' @description Formate une quantité
+>#' @details La fonction formate avec
+>#' un nombre de décimales specifié, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' l'espace comme séparateur de milliers. 
+>#' @section Emploie :
+>#' La fonction \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+>#' @section Warning :
+>#' N'utilise pas de notation scientifique
+>#' @param x la quantité à formater
+>#' @param n le nombre de décimales
+>#' @return la quantité formatée.
+>#' @import dplyr
+>#' @examples
+>#' fmt(100, 2)
+>#' fmt(1234.56789, 2)
+>#' @family fonctions pour formater
+>#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
+>#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
+>fmt <- function(x, n) {
+>
+>  x %>% 
+>    format(                  
+>         decimal.mark = ",",  
+>         digits=0, nsmall=n,  
+>         big.mark = " ",      
+>         scientific = FALSE   
+>    )      
+>}
+>
+>
+>#' @title fmt1Decimale
+>#' @author Mage RegoR, \email{mage.regor@@email.fr}
+>#' @description Formate un nombre
+>#' @details La fonction formate avec
+>#' une décimale, 
+>#' la virgule pour distinguer unités et décimales, 
+>#' l'espace comme séparateur de milliers. 
+>#' @section Emploie :
+>#' Les fonctions \code{\link{fmt}} et \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format}
+>#' @section Warning :
+>#' N'utilise pas de notation scientifique
+>#' @param x la quantité à formater
+>#' @return Le nombre formaté
+>#' @examples
+>#' fmt1Decimale(100)
+>#' fmt1Decimale(1234.56789)
+>#' @family fonctions pour formater
+>#' @seealso \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/print} pour afficher dans la console
+>#' @references \url{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/format} la fonction format
+>fmt1Decimale <- function(x) {
+>
+>  fmt(x, 1)
+>}
+>```
+>
+></font></p></details>
+
+<BR>
+
+<BR>
+
+## Page d'accueil
+
+<BR>
+
+Dans cette sous-partie, on souhaite créer une page de documentation supplémentaire, qui décrit l'ensemble du projet R sur lequel on travaille.
+
+<BR>
+
+Pour cela :
+
+1. On crée un script `package-projet1.R`  (si le projet s'appelle `projet1`)  
+2. On remplit `package-projet1.R` de la façon suivante :  
+
+```{r, messages=FALSE, warning=FALSE, eval=FALSE}
+#' @title projet1 : un package pour formater des nombres
+#'
+#' @description Le package "projet1" fournit deux fonctions :
+#' \code{\link{fmt}} et \code{\link{fmt1Decimale}}.
+#' 
+#' @section Les fonctions du package "projet1" :
+#' utilisent la virgule au lieu du point pour les nombres decimaux, et l'espace " " pour séparer les milliers.
+#'
+#' @docType package
+#' @name projet1-package 
+NULL
+```
+*Le code R du script ci-dessus se réduit à un mot : NULL*  
+*Dans les commentaires, on peut utiliser les mêmes mots-clés que ceux vus plus haut.*  
+*Deux mots-clés sont à ajouter : @docType et @name .*
+
+<BR>
+
+<BR>
+
+#### Génération de la documentation
+
+<BR>
+
+On obtient alors la documentation suivante :
+```{r, echo=FALSE}
+library(shiny)
+library(htmltools)
+
+library(shiny)
+ui <- fluidPage(
+    shiny::a("projet1-package.html",target="_blank", href="www/projet1_3/html/projet1-package.html")
+)
+server <- function(input, output) {
+  # www = getwd()
+  shiny::addResourcePath('www', REPERTOIRE_du_fichier_chapitre12_Rmd)
+}
+  
+shinyApp(ui, server,
+  options = list(height = 100)
+)
+```
+
+## La solution de l'énigme ?
+
+Bravo, vous êtes parvenu(e) à l'issue de ce chapitre documentaire ! Vous êtes maintenant capable de nager dans l'océan documentaire des sortilèges runiques. 
+Mais qu'en est-il du jeune icaRius, qui doit traverser le lac ? Il vous reste à répondre à la question posée par le Mage FebeleR : *quel est le nom du package 
+qui permet de gérer facilement la documentation de ses sortilèges ?* Une histoire d'oxygène, semble-t-il... Vous avez trouvé ? Renseignez la réponse (en minuscule) 
+dans le jeu icaRius pour continuer la partie.
+
+
+
+**Fin du module 12  >>  reprenez la partie d'Icarius**
+
+*Version 0.9.3*

@@ -1,0 +1,369 @@
+---
+title: "Chapitre 6 - L'ivresse des beaux graphiques"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: haddock
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    number_sections: false
+    self_contained: true
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+# supprimer "self_contained: true"
+```
+
+
+```{r setup, include=FALSE}
+library(learnr)
+library(parsons)
+library(dplyr)
+library(ggformula)
+library(rio)
+library(GGally) 
+library(plotly)
+knitr::opts_chunk$set(echo = TRUE, cache=FALSE)
+
+file.copy(from = system.file(package = "funcampR","data","chapitre6_replay/data_soldiers.csv"),
+          to = paste0(tempdir(), "data_soldiers.csv"))
+
+# Import and transform data within Rmd
+donnees_secretes <- import(paste0(tempdir(), "data_soldiers.csv"))
+
+donnees_secretes_df <- as.data.frame(donnees_secretes)
+
+donnees_secretes_sud <- donnees_secretes_df %>%
+  filter(situation == "Sud") %>%
+  arrange(nb_habitants)
+```
+
+
+## Les forces armées des royaumes voisins
+
+Le mage Essespéus a en sa possession le répertoire des forces armées des royaumes voisins. Ce répertoire, contenu dans le fichier `donnees_secretes`, comprend les informations suivantes :
+
+- le nom du royaume (variable `royaume`)
+- le nombre de guerriers qu'il comprend (`nb_guerriers`)
+- le nombre d'habitants du royaume (`nb_habitants`)
+- le nombre de chevaux du royaume (`nb_chevaux`)
+- les conditions climatiques, mesurées par le nombre de jours de canicule (`nb_canicule`)
+- la distance entre ce royaume et Statis, en jours de marche (`dist_royaume`)
+- sa position géographique, au nord, sud, est, ou ouest (`situation`)
+- la végétation ou agriculture principale, forêts, prairies, Mandragore, blé (`végétation`)
+
+En voici un aperçu :
+
+```{r, collapse = TRUE, echo=FALSE, eval=FALSE}
+head(donnees_secretes,5)
+```
+
+```{r, collapse = TRUE, echo=FALSE, eval=T}
+#head(donnees_secretes_df,5)
+donnees_secretes_df %>% select(royaume,nb_guerriers,nb_habitants,nb_chevaux) %>% head(5)
+donnees_secretes_df %>% select(royaume,nb_canicule,dist_royaume,situation,vegetation) %>% head(5)
+```
+
+<BR>
+
+Le data.frame "donnees_secretes_sud" (extrait de "donnees_secretes") contient les royaumes 
+dont la variable "situation" est sud.
+```{r, collapse = TRUE, echo=TRUE, eval=T}
+donnees_secretes_sud 
+```
+  
+<BR>
+  
+Essespéus propose à icaRius de rapporter une fausse information auprès du prétendu chef des armées de Statis, pour le tromper et diriger les forces obscures le plus loin possible - afin de gagner un peu de temps. Pour établir cette fausse information, vous allez construire une représentation graphique s'appuyant sur les données secrètes.
+
+## Reprenons notre apprentissage des sortilèges ggformula
+
+Lors du précédent chapitre, vous avez révisé et découvert plusieurs sortilèges de la famille `ggformula`. Parmi ces derniers, `gf_point` est 
+un sortilège permettant de représenter des nuages de points. Souvenez-vous : il faut introduire des ingrédients dans la recette du sortilège : 
+en l'occurrence, l'ordonnée y des points en fonction de leur abcisse x. Cela se traduit en langage des Runes par&nbsp;: `gf_point(y~x)`.
+
+A partir de ces rappels, quel est le code pour faire un nuage de points à partir de la table `donnees_secretes` en représentant le nombre d'habitants du royaume (variable `nb_habitants`) en ordonnées et le nombre de guerriers (variable `nb_guerriers`) en abcisse ?
+
+```{r ok-chapitre6-etape1,exercise=TRUE}
+# Créez le graphique
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre6-etape1-solution}
+# Créez le graphique
+donnees_secretes %>%
+  gf_point(nb_habitants ~ nb_guerriers)
+  
+# Fin de l'exercice
+``` 
+
+Bravo, vous maîtrisez parfaitement les fondamentaux pour tracer un nuage de points !
+  
+<BR>
+
+Ci-dessous vous allez :  
+- dessiner de multiples graphiques, avec une seule instruction,  
+- et construire un diagramme interactif.  
+
+<BR>
+
+## De multiples dessins
+
+<BR>
+
+#### Un nuage de points, pour chaque couple de variables quantitatives d'un data.frame
+
+<BR>
+
+Le sortilège `ggpairs` (du package **GGally**) permet de dessiner des nuages de points
+(un pour chaque couple de variables quantitatives d'un data.frame).
+
+<BR>
+
+```{r, collapse = TRUE, message=FALSE, warning=FALSE}
+# Je pars du data.frame "donnees_secretes"
+donnees_secretes %>%
+  # Je sélectionne les variables quantitatives du data.frame
+  select("nb_guerriers", "nb_habitants", "nb_chevaux", "nb_canicule", "dist_royaume") %>%
+  # J'applique le sortilège "ggpairs"
+  ggpairs()
+
+```
+
+*Dans le tableau de graphiques obtenu, figurent :*  
+*- sur la diagonale du haut à gauche jusqu'en bas à droite, les courbes de densité de chaque variable,*  
+*- sous la diagonale, les nuages de points des variables prises 2 à 2,*  
+*- au dessus de la diagonale, les coefficients de corrélation.*  
+
+<BR>
+
+<span style="color:#18AC3E;font-size:16px">**A vous de pratiquer, en dessinant un nuage de points, pour chaque couple de variables quantitatives du data.frame "donnees_secretes"**</span>
+
+```{r ok-chapitre6-etape2, exercise=TRUE}
+# Partir du data.frame "donnees_secretes".
+# Puis sélectionner les variables quantitatives du data.frame,
+# et ensuite appliquer le sortilège "ggpairs()"
+
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre6-etape2-solution}
+# Partir du data.frame "donnees_secretes".
+# Puis sélectionner les variables quantitatives du data.frame,
+# et ensuite appliquer le sortilège "ggpairs()"
+donnees_secretes %>%
+  select("nb_guerriers", "nb_habitants", "nb_chevaux", "nb_canicule", "dist_royaume") %>%
+  ggpairs()
+
+# Fin de l'exercice
+``` 
+
+<BR>
+
+<BR>
+
+#### Un graphique, pour chaque modalité d'une variable qualitative
+
+<BR>
+
+Pour obtenir des diagrammes (un pour chaque modalité d'une variable qualitative), on peut
+utiliser le signe `|` (un trait vertical).
+
+<BR>
+
+Exemple.
+```{r, collapse = TRUE, echo=TRUE}
+# data.frame "donnees_secretes", je dessine des diagrammes en barres de la variable "vegetation"
+# (un diagramme en barres pour chaque modalité de la colonne "situation").
+donnees_secretes %>% 
+	gf_bar( ~ vegetation | situation)
+```
+
+<BR>
+
+Autre exemple.
+```{r, collapse = TRUE, echo=TRUE}
+# data.frame "donnees_secretes", je construit des courbes "nb_chevaux" en fonction de "nb_habitants"
+# (une courbe pour chaque modalité de la colonne "vegetation")
+donnees_secretes %>% 
+	gf_line(nb_chevaux ~ nb_habitants | vegetation, 
+	        color = "red")
+```
+
+<BR>
+
+## Interactivité
+
+<BR>
+
+#### Un diagramme dynamique
+
+<BR>
+
+Dans cette sous partie, nous allons construire un graphique interactif.  
+
+Pour cela nous allons d'abord élaborer un dessin statique avec **ggformula**.  
+
+Puis nous allons transformer le diagramme obtenu en graphique dynamique, 
+avec le sortilège `ggplotly` (du package **plotly**).
+
+<BR>
+
+Exemple.
+
+```{r, collapse = TRUE}
+# data.frame "donnees_secretes_sud",
+# je crée d'abord un diagramme en barres statique nombre d'habitants en fonction du "royaume"
+# avec le sortilège "gf_bar".
+# J'assigne le dessin obtenu à "graphique_1"
+graphique_1 <- donnees_secretes_sud %>%
+  gf_bar( 
+   ~ royaume,
+   weight = ~ nb_habitants,
+   fill = "blue"  # je colorie en bleu
+)
+
+# J'affiche le graphique
+graphique_1
+
+# J'applique le sortilège "ggplotly" à "graphique_1"
+# pour obtenir un graphique dynamique
+ggplotly(graphique_1) %>%
+  # Puis je définis le texte à afficher au survol avec la souris
+  # avec le sortilège "style" et l'ingrédient "hovertext"
+  style( hovertext = donnees_secretes_sud$nb_habitants )
+``` 
+*Au survol du graphique une barre d'outils apparaît en haut à droite, pour zoomer, etc.*  
+*Au survol d'une des barres, le nombre d'habitants apparaît.*  
+
+<BR>
+
+
+<span style="color:#18AC3E;font-size:16px">**À vous de prendre la plume !**</span> 
+
+<BR>
+
+Nous vous proposons de recréer un graphique interactif.
+
+<BR>
+
+```{r ok-chapitre6-etape3,exercise=TRUE}
+# data.frame "donnees_secretes_sud",
+# recréer un diagramme en barres statique 
+# nombre d'habitants en fonction du "royaume",
+# avec le sortilège "gf_bar".
+# Assigner le diagramme à la variable "graphique_1"
+
+
+# Afficher "graphique_1"
+
+
+# Appliquer le sortilège "ggplotly" à "graphique_1"
+# pour obtenir un graphique dynamique
+
+
+# Fin de l'exercice
+``` 
+
+
+```{r ok-chapitre6-etape3-solution}
+# data.frame "donnees_secretes_sud",
+# recréer un diagramme en barres statique 
+# nombre d'habitants en fonction du "royaume",
+# avec le sortilège "gf_bar".
+# Assigner le diagramme à la variable "graphique_1"
+graphique_1 <- donnees_secretes_sud %>%
+  gf_bar( 
+   ~ royaume,
+   weight = ~ nb_habitants,
+   fill = "blue"
+)
+
+# Afficher "graphique_1"
+graphique_1
+
+# Appliquer le sortilège "ggplotly" à "graphique_1"
+# pour obtenir un graphique dynamique
+ggplotly(graphique_1) %>%
+  style( hovertext = donnees_secretes_sud$nb_habitants )
+
+# Fin de l'exercice
+``` 
+
+
+
+## À vous de jouer
+
+<BR>
+
+Pour contrer les velléités du vil Parlyus, Icarius doit identifier le secteur (Est, Nord, Ouest, Sud) le plus difficile à conquérir :
+le secteur dans lequel il y a le moins de royaumes constitués de prairies.
+
+Pour identifier ce secteur, icaRius va s'appuyer sur des histogrammes, un pour chaque 
+modalité de la variable "situation". 
+
+Les informations nécessaires se trouvent dans le fichier `donnees_secretes` fourni par Essespéus.
+
+À partir de ce fichier et des exemples présentés précédemment, aidez Icarius à identifier le secteur le plus difficile à conquérir, 
+secteur qu'il présentera à Parlyus sous forme de "fake news" comme étant, au contraire, le plus simple à envahir !
+
+Quelques indices :
+
+- pour représenter un histogramme, le sortilège à utiliser est `gf_histogram()`
+- n'oubliez pas d'ajouter le signe `|` pour obtenir un histogramme pour chaque modalité de  "vegetation"
+
+<BR>
+
+```{r ok-chapitre6-etape4,exercise=TRUE}
+# Dessiner des diagrammes en barres de la variable "vegetation"
+# (un dessin en barres pour chaque modalité de la colonne "situation"),
+# en utilisant "gf_histogram()" et le signe "|"
+
+
+# Déterminer au vu des graphiques quel est le secteur
+# dans lequel il y a le moins de royaumes constitués de prairies
+
+# Fin de l'exercice
+``` 
+
+```{r ok-chapitre6-etape4-solution}
+# Dessiner des diagrammes en barres de la variable "vegetation"
+# (un dessin en barres pour chaque modalité de la colonne "situation"),
+# en utilisant "gf_histogram()" et le signe "|"
+donnees_secretes %>% 
+	gf_bar( ~ vegetation | situation)
+
+# Déterminer au vu des graphiques quel est le secteur
+# dans lequel il y a le moins de royaumes constitués de prairies
+
+# Fin de l'exercice
+``` 
+
+
+```{r ok-chapitre6-quiz1,echo=FALSE}
+question("Alors, quel secteur faut-il dire à Parlyus d'attaquer? Il ne reste plus qu'à cocher la bonne réponse...pour poursuivre l'aventure!",
+type="single",
+allow_retry = TRUE,
+incorrect="Retente ta chance",
+answer("Ouest"),
+answer("Nord",correct=TRUE),
+answer("Est"),
+answer("Sud"),
+correct="Félicitations, vous avez trouvé le bon royaume. Rentrez le code 59 dans le jeu icaRius pour continuer l'aventure!"
+)
+```   
+
+**Fin du chapitre 6  >>  reprenez la partie d'Icarius**
+
+**Version 0.9.3**

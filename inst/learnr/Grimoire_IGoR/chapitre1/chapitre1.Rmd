@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Premières conversations runiques
 
 
-Bienvenu(e) dans ce premier chapitre du grimoire IGoR. Au cours de ce chapitre, nous allons progressivement : 
+Bienvenue dans ce premier chapitre du grimoire IGoR. Au cours de ce chapitre, nous allons progressivement : 
 
 - comprendre ce qu'est le fameux langage runique R
 - entamer les premiers dialogues avec R via une fenêtre de saisie : la console

@@ -8,4 +8,4 @@ RUN apt-get update && apt-get install -y  git-core libcurl4-openssl-dev libssl-d
 COPY --from=build /app/funcamp*.tar.gz /app.tar.gz
 RUN R -e 'remotes::install_local("/app.tar.gz")'
 EXPOSE 3838
-CMD  ["R", "-e", "funcampR::launch_learn(chapitre1,port=3838,host='0.0.0.0')"]
+CMD  ["R", "-e", "funcampR::launch_learn(file=chapitre1,port=3838,host='0.0.0.0')"]

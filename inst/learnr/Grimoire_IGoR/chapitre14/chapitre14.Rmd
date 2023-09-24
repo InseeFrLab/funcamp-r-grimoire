@@ -375,6 +375,7 @@ ancien_parchemin %>% arrange(id) %>%
  ancien_parchemin %>% 
  filter(garde=="Oui") %>%  
   arrange(id) %>% 
+  select(num_range("col", 1:83))  %>%
   write_delim("/tmp/feuillet.txt",delim = "",na = " ",col_names = FALSE)
 # fin de l'exercice
 ```   
@@ -398,10 +399,10 @@ question("Le mot magique est :",
 type="single",
 allow_retry = TRUE,
 incorrect="Retente ta chance",
-answer("Sapin"),
-answer("Phocea",correct=TRUE),
-answer("Toto"),
-correct="Félicitations, la réponse à donner à ?  est donc : Phocea (avec P majuscule)"
+answer("sapin"),
+answer("phocea",correct=TRUE),
+answer("toto"),
+correct="Félicitations, la réponse à donner à ?  est donc : phocea)"
 )
 
 ```  

@@ -44,7 +44,7 @@ ancien_parchemin <- import(paste0(tempdir(),"/data/chapitre_secret/gcoc_crypt.tx
 ```
 # Le mot magique
 
-Pour trouver le mot magique qui permettra de faire apparaître le nouveau village, nous allons devoir user de magie pour remettre à leur place les éléments de l'ancien parchemin. 
+Pour trouver le mot magique qui permettra de faire apparaître le chemin vers le nouveau village, nous allons devoir user de magie pour remettre à leur place les éléments de l'ancien parchemin. 
 Ce parchemin est déjà chargé, sous le nom de `ancien_parchemin`. 
 
 ## Découvrir le parchemin
@@ -108,9 +108,9 @@ Ah nous voyons tout de même une certaine logique, certaines commencent par 'col
 
 ## Manipuler les colonnes
 
-Grâce à la plume `tidyverse`, nous pourrons utiliser les sorts puissants de la magie `Dplyr`
+Grâce à la plume `tidyverse`, nous pourrons utiliser les sorts puissants de la magie `dplyr`
 
-Pour utiliser cette plume, devons l'invoquer en écrivant 'library(tidyverse)' au début du programme R.
+Pour utiliser cette plume, nous devons l'invoquer en écrivant 'library(tidyverse)' au début du programme R.
 ```{r, collapse = TRUE, eval=TRUE, echo=TRUE}
 library(tidyverse)
 ```
@@ -126,10 +126,11 @@ Afin de ne conserver que les colonnes `id` et `garde`, voici comment utiliser le
 ```{r, collapse = TRUE, eval=TRUE, echo=TRUE}
 select(ancien_parchemin, id, garde)
 ```
-N'oublions pas qu'il est possible d'utiliser le pipe %>% pour d’enchaîner les sortilèges.
+N'oublions pas qu'il est possible d'utiliser le pipe %>% pour d'enchaîner les sortilèges.
 ```{r, collapse = TRUE, eval=FALSE, echo=TRUE}
-# utilisation du select avec l'opérateur permettant d’enchaîner les sortilèges
-ancien_parchemin %>% select(id, garde)
+# utilisation du select() avec l'opérateur permettant d’enchaîner les sortilèges
+ancien_parchemin %>% 
+  select(id, garde)
 ```
 A vous de jouer : sélectionner les colonnes `id` et `sup1` du parchemin
 ```{r ok-chapitrephocea-etape3,exercise=TRUE, exercise.setup = "prepare-data"}
@@ -142,7 +143,8 @@ A vous de jouer : sélectionner les colonnes `id` et `sup1` du parchemin
 ```{r ok-chapitrephocea-etape3-solution}
 # sélectionner les colonnes id et sup1 de ancien_parchemin
 
-ancien_parchemin %>% select(id, sup1)
+ancien_parchemin %>% 
+  select(id, sup1)
 
 # fin de l'exercice
 ```
@@ -152,7 +154,9 @@ Par exemple, pour retirer la colonne `id` du parchemin, nous lancerons le sortil
 ```{r, collapse = TRUE, eval=TRUE, echo=TRUE}
 # select permettant de retirer la colonne id
 # NB : le sortilège head a été ajouté pour alléger (un peu) l'affichage (on n'affiche que les 6 premières lignes)
-ancien_parchemin %>% select(-id) %>% head()
+ancien_parchemin %>% 
+  select(-id) %>% 
+  head()
 ```
 
 La magie de dplyr est extrêmement puissante ! Et encore plus si l'on utilise les charmes pour augmenter la puissance des sortilèges !
@@ -166,53 +170,59 @@ Les charmes envoûtent les ingrédients et permettent d'augmenter la puissance d
 Par exemple, le charme `starts_with` permet au sortilège `select` de sélectionner non pas juste une colonne mais toutes les colonnes commençant par...
 
 ```{r, collapse = TRUE, eval=FALSE, echo=TRUE}
-# selection des colonnes dont le nom commencent par "sup"
-ancien_parchemin %>% select(starts_with("sup"))
+# sélection des colonnes dont le nom commencent par "sup"
+ancien_parchemin %>% 
+  select(starts_with("sup"))
 ```
-Voici les charmes les plus connus à utiliser avec le sortilège `select` :
+Voici les charmes (aussi appelé en langage runique *helpers*) les plus connus à utiliser avec le sortilège `select` :
 
  - `starts_with("xxx")` : commençant par "xxx"
  - `ends_with("xxx")` : finissant par "xxx"
  - `contains("xxx")` : contenant "xxx"
- - `matches("^col.*1$")` : vérifiant l'expression régulière : "commençant par "col" et finissant par 1". (Les expressions régulières sont de la magie noire réservée aux sorciers les plus téméraires)
+ - `matches("^col.*1$")` : vérifiant l'expression régulière : commençant par "col" (^col), suivi de plusieurs caractères quelconques (.*) et finissant par 1 (1$). Les expressions régulières sont de la magie noire réservée aux sorciers les plus téméraires.
  - `num_range("xxx",2:5)` : colonnes dont le nom est  "xxx1", "xxx2", "xxx3", "xxx4","xxx5"
  
 Exemple :  pour sélectionner les colonnes sup10, sup11, sup12, sup13 ... sup19, nous pouvons lancer le sortilège :
 ```{r, collapse = TRUE, eval=TRUE, echo=TRUE}
 # sélection des colonnes dont le nom commencent par "sup1"
 # le sortilège head a été ajouté pour alleger (un peu) l'affichage
-ancien_parchemin %>% select(starts_with("sup1")) %>% head
+ancien_parchemin %>% 
+  select(starts_with("sup1")) %>% 
+  head()
 ```
 On remarquera que les colonnes gardent leur ordre d'origine.
 Pour réordonner les colonnes, il faut les appeler dans le bon ordre !
 ```{r, collapse = TRUE, eval=TRUE, echo=TRUE}
 # sélection des colonnes sup10,sup11, sup12,sup13,sup14,sup15
 # le sortilège head a été ajouté pour alléger (un peu) l'affichage
-ancien_parchemin %>% select(sup10,sup11, sup12,sup13,sup14,sup15) %>% head
+ancien_parchemin %>% 
+  select(sup10,sup11, sup12,sup13,sup14,sup15) %>% 
+  head()
 ```
 Ce que le charme `num_rang` permet de faire rapidement : il construit une liste de noms de colonnes de type "prefixe" + numéro
 
 ```{r, collapse = TRUE, eval=TRUE, echo=TRUE}
 # sélection des colonnes dont le nom sup10,sup11, sup12,...,sup19
 # le sortilège head a été ajouté pour alléger (un peu) l'affichage
-ancien_parchemin %>% select(num_range("sup",10:19)) %>% head
+ancien_parchemin %>% 
+  select(num_range("sup",10:19)) %>% 
+  head()
 
 ```
-À vous de jouer :  Selectionner les colonnes col01, col02, col03, col04, col05 ! 
+À vous de jouer :  Selectionner les colonnes col1, col2, col3, col4, col5 ! 
 ```{r ok-chapitrephocea-etape4,exercise=TRUE, exercise.setup = "prepare-data"}
-# Sélectionner les colonnes  col02, col03, col04, col05
+# Sélectionner les colonnes   col1, col2, col3, col4, col5
 
-
-# attention le fichier gcoc_crypt.txt  col1 et non col01, puis col02. PREVOIR UN FICHIER COHERENT !
 
 
 # fin de l'exercice
 ```
 
 ```{r ok-chapitrephocea-etape4-solution}
-# Selectionner les colonnes  col02, col03, col04, col05
+# Selectionner les colonnes  col1, col2, col3, col4, col5
 
-ancien_parchemin %>% select(num_range("col0",2:5))
+ancien_parchemin %>% 
+  select(num_range("col", 1:5))
 
 # fin de l'exercice
 ```
@@ -221,14 +231,13 @@ ancien_parchemin %>% select(num_range("col0",2:5))
 
 Retournons à notre parchemin et regardons maintenant les lignes qui le composent
 
-
 Affichons d'abord les 10 premières lignes à l'aide du sortilège `head()`
 
 A vous de jouer : afficher les 10 premières lignes de l'ancien parchemin !
 
 
 ```{r ok-chapitrephocea-etape5,exercise=TRUE, exercise.setup = "prepare-data"}
-# afficher les 10 premieres lignes de ancien_parchemin avec le sortilège head
+# afficher les 10 premières lignes de ancien_parchemin avec le sortilège head()
 
 
 
@@ -236,9 +245,10 @@ A vous de jouer : afficher les 10 premières lignes de l'ancien parchemin !
 ```
 
 ```{r ok-chapitrephocea-etape5-solution}
-# afficher les 10 premieres lignes de ancien_parchemin avec le sortilège head
+# afficher les 10 premières lignes de ancien_parchemin avec le sortilège head()
 
-ancien_parchemin %>% head(10)
+ancien_parchemin %>% 
+  head(10)
 
 # fin de l'exercice
 ```
@@ -249,7 +259,7 @@ ancien_parchemin %>% head(10)
 
 Trions les lignes du parchemin par valeur croissante de la colonne `id`.
 
-A vous de jouer : trier le parchemin selon l'id croissant (sortilège `arrange()`) : (exo)
+A vous de jouer : trier le parchemin selon l'id croissant (sortilège `arrange()`) :
 
 ```{r ok-chapitrephocea-etape6,exercise=TRUE, exercise.setup = "prepare-data"}
 # Trier les lignes de ancien_parchemin selon id croissant à l'aide du sortilège arrange
@@ -261,58 +271,59 @@ A vous de jouer : trier le parchemin selon l'id croissant (sortilège `arrange()
 ```{r ok-chapitrephocea-etape6-solution}
 # Trier les lignes de ancien_parchemin selon id croissant à l'aide du sortilège arrange
 
- ancien_parchemin %>% arrange(id)
+ ancien_parchemin %>% 
+  arrange(id)
 
 # fin de l'exercice
 ```
 ### Filtre
 
-Certaines lignes semblent etre protégées par des gardes. Ce sont sûrement les plus précieuses. Concentrons-nous  sur elles ! 
+Certaines lignes semblent être protégées par des gardes. Ce sont sûrement les plus précieuses. Concentrons-nous  sur elles ! 
 
-Avec le sortilège `filter()`, filtrons les lignes afin de ne conserver que les lignes avec garde à "oui" (opérateur ==)
+Avec le sortilège `filter()`, filtrons les lignes afin de ne conserver que les lignes avec garde à "Oui" (opérateur ==)
 ```{r ok-chapitrephocea-etape7,exercise=TRUE, exercise.setup = "prepare-data"}
-# Conserver les lignes  avec garde=="Oui" de ancien_parchemin à l'aide de filter
+# Conserver les lignes  avec garde=="Oui" de ancien_parchemin à l'aide de filter()
 
  
 
 # fin de l'exercice
 ```
 ```{r ok-chapitrephocea-etape7-solution}
-# Conserver les lignes  avec garde=="Oui" de ancien_parchemin à l'aide de filter
+# Conserver les lignes  avec garde=="Oui" de ancien_parchemin à l'aide de filter()
 
- ancien_parchemin %>% filter(garde=="Oui")
+ ancien_parchemin %>% 
+  filter(garde=="Oui")
 
 # fin de l'exercice
 ```
-Maintenant que nous nous sommes entraînés, décryptons le parchemin grâce aux indices trouvés en chemin.
-###  __(si adaptation scénario)__ 
+Maintenant que nous nous sommes entraînés, décryptons le parchemin grâce aux indices donnés par les généraux de Lériva.
 
 - __*"ce qui est important est gardé"*__
 - __*"seuls les "col" importent"*__
 - __*"tout doit être correctement ordonné"*__
 
-À vous de prendre la plume ! (exo)
+À vous de prendre la plume ! 
 
 ```{r ok-chapitrephocea-etape8,exercise=TRUE, exercise.setup = "prepare-data"}
-# sur ancien_parchemin, 
-# (i) Conserver les lignes avec garde=="Oui"
-# (ii) Trier les lignes sur id ascendant
-# (iii) Selectionner les colonnes col1 à col83
+# A partir des données de l'ancien_parchemin, 
+# (i) Conserver les lignes utiles
+# (ii) Réordonner les lignes (par id croissant)
+# (iii) Sélectionner uniquement les colonnes avec le préfixe col dans le bon ordre
  
-# ATTENTION AUX NOMS DE COL DU FICHIER !!!
+
 
 # fin de l'exercice
 ```
 
 
 ```{r ok-chapitrephocea-etape8-solution}
-# sur ancien_parchemin, 
-# (i) Conserver les lignes avec garde=="Oui"
-# (ii) Trier les lignes sur id ascendant
-# (iii) Selectionner les colonnes col1 à col83
+# A partir des données de l'ancien_parchemin, 
+# (i) Conserver les lignes utiles
+# (ii) Réordonner les lignes (par id croissant)
+# (iii) Sélectionner uniquement les colonnes avec le préfixe col dans le bon ordre
 
  ancien_parchemin %>% 
- filter(garde=="Oui") %>%  
+  filter(garde=="Oui") %>%  
   arrange(id) %>% 
   select(num_range("col", 1:83)) 
 
@@ -328,15 +339,15 @@ Afin de pouvoir lire paisiblement le résultat, nous allons l'inscrire sur un fe
 Pour cela il nous faut 
 
 - une nouvelle plume 'readr' 
-- le sortilège write_delim qui occultera les trous (NA) et autres informations inutiles.
+- le sortilège `write_delim()` qui occultera les valeurs manquantes (NA) et autres informations inutiles.
 
-Le sortilège write_delim utilise :
+Le sortilège write_delim() utilise :
 
 - un ingrédient de base : les informations à inscrire
-- un ingrédient essentiel : le nom et l'emplacement du feuillet *OBLIGATOIREMENT* "/tmp/feuillet.txt"  dans notre cas
-- des ingrédients optionnels pour agrémenter la recette :
+- un ingrédient essentiel : le nom et l'emplacement du feuillet *OBLIGATOIREMENT* "/tmp/feuillet.txt" dans notre cas
+- des ingrédients optionnels pour agrémenter la recette comme:
 
-    - delim = " " : pour séparer les données
+    - delim = "," : pour séparer les données par une virgule
     - na = "." : pour remplacer les valeurs manquantes (NA) par un symbole "."
     - col_names = FALSE : pour ne pas avoir les noms de colonnes
   
@@ -348,9 +359,12 @@ library(readr)
 # écriture du parchemin sur le feuillet, 
 #  - en collant les données (séparateur "")
 #  - en remplaçant les Valeurs manquantes par des  espaces na=" ")
-#  - en ne mettant pas el nom des colonnes
-ancien_parchemin %>% arrange(id) %>% 
-  write_delim("/tmp/feuillet.txt",delim = "",na = " ",col_names = FALSE)
+#  - en ne mettant pas les noms des colonnes
+ancien_parchemin %>% 
+  filter(garde=="Oui") %>%  
+  arrange(id) %>% 
+  select(num_range("col", 1:83)) %>% 
+  write_delim("/tmp/feuillet.txt", delim = "", na = " ", col_names = FALSE)
 ```     
 
     
@@ -359,28 +373,30 @@ ancien_parchemin %>% arrange(id) %>%
 ```{r ok-chapitrephocea-etape9,exercise=TRUE, exercise.setup = "prepare-data"}
 # (i) Conserver les lignes avec garde=="Oui"
 # (ii) Trier les lignes sur id ascendant
-# (iii) Selectionner les colonnes col1 à col83
+# (iii) Sélectionner les colonnes col1 à col83
 # (iv) Ecrire le parchemin décrypté dans un feuillet avec les ingrédients delim = "",na = " ",col_names = FALSE
 
 
 
 # fin de l'exercice
-```   
+```
 ```{r ok-chapitrephocea-etape9-solution}
 # (i) Conserver les lignes avec garde=="Oui"
 # (ii) Trier les lignes sur id ascendant
-# (iii) Selectionner les colonnes col1 à col83
+# (iii) Sélectionner les colonnes col1 à col83
 # (iv) Ecrire le parchemin décrypté dans un feuillet avec les ingrédients delim = "",na = " ",col_names = FALSE
- library(readr)
- ancien_parchemin %>% 
- filter(garde=="Oui") %>%  
+
+library(readr)
+ancien_parchemin %>% 
+  filter(garde=="Oui") %>%  
   arrange(id) %>% 
   select(num_range("col", 1:83))  %>%
   write_delim("/tmp/feuillet.txt",delim = "",na = " ",col_names = FALSE)
+
 # fin de l'exercice
 ```   
 ```{r, echo=FALSE}
-downloadLink("downloadFic", "Téléchargez l'image pour avoir la solution de l'énigme")
+downloadLink("downloadFic", "Téléchargez le fichier feuillet.txt")
 ```
 
 ```{r, context="server"}
@@ -392,17 +408,18 @@ downloadLink("downloadFic", "Téléchargez l'image pour avoir la solution de l'�
   }) 
 ```
 
-Ouvrez feuillet.txt et découvrez le mot magique !
+Ouvrez le fichier feuillet.txt et découvrez le mot magique !
 
 ```{r ok-chapitre9-quiz1,echo=FALSE}
 question("Le mot magique est :",
 type="single",
 allow_retry = TRUE,
 incorrect="Retente ta chance",
-answer("sapin"),
-answer("phocea",correct=TRUE),
-answer("toto"),
-correct="Félicitations, la réponse à donner à ?  est donc : phocea)"
+answer("Phocea"),
+answer("PorteEst",correct=TRUE),
+answer("Menpenti"),
+answer("SuperDR"),
+correct="Félicitations, la réponse à donner à Lériva est donc : PorteEst (sans espace et avec P et E majuscules)"
 )
 
 ```  
@@ -411,4 +428,4 @@ Vous avez trouvé ? **Reportez la réponse dans le jeu Icarius** pour reprendre 
 
 **Fin du chapitre >> reprenez la partie d'Icarius !!!** 
 
-*Version 0.1*
+*Version testcore 0.6*

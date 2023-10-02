@@ -47,7 +47,7 @@ head(naissances)
 nrow(naissances)
 ```
 
-Le registre des naissances comporte 8 variables : le `Nom` de l'enfant, son `Genre`, l'`An` de sa naissance, la `Taille`de l'enfant et son `Poids`à la naissance, son niveau de `Force`et sa spiritualité `Spirit`. Nous devrions donc avoir toutes les informations appropriées pour résoudre l'énigme qui vous est posée : *"Les enfants du royaume de Statis naissent avec une force et une spiritualité dont la somme égale ce que l'on appelle le Mana. Dans quel village est née la fille dont le Mana a la naissance était le plus grand ?"*
+Le registre des naissances comporte 8 variables : le `Nom` de l'enfant, son `Village`, son `Genre`, l'`An` de sa naissance, la `Taille`de l'enfant et son `Poids`à la naissance, son niveau de `Force`et sa spiritualité `Spirit`. Nous devrions donc avoir toutes les informations appropriées pour résoudre l'énigme qui vous est posée : *"Les enfants du royaume de Statis naissent avec une force et une spiritualité dont la somme égale ce que l'on appelle le Mana. Dans quel village est née la fille dont le Mana a la naissance était le plus grand ?"*
 
 
 ## Manipuler les données en toute facilité
@@ -72,9 +72,11 @@ La fonction `filter()` sélectionne des lignes d’une table selon la condition 
 filter(naissances, Village == "Kokoro")
 ```
 
-Plusieurs conditions peuvent être combinées, en utilisant le caractère `&` entre chaque condition. Par exemple, pour n'afficher que les données relatives au village de Kokoro et à l'année 1212 :
+Plusieurs conditions peuvent être combinées, en utilisant le caractère `&` ou `,` entre chaque condition. Par exemple, pour n'afficher que les données relatives au village de Kokoro et à l'année 1212 :
 
 ```{r, collapse = TRUE}
+filter(naissances, Village == "Kokoro" & An == "1212")
+# ou
 filter(naissances, Village == "Kokoro", An == "1212")
 ```
 

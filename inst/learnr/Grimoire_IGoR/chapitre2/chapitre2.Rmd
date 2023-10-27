@@ -58,7 +58,7 @@ Pour lors, nous allons découvrir un premier sortilège, dénommé `import()`, q
 import("chemin_du_fichier")
 ```
 
-Pour s'y retrouver, autant tout de suite ranger ce que l'on est en train d'importer dans R. Pour cela, on assigne à un nouvel objet le contenu du fichier importé, en choisissant astucieusementle nom de cet objet. Par exemple, appelons `livre_compte_1` ce qui sera importé dans R en lisant le fichier SAS. 
+Pour s'y retrouver, autant tout de suite ranger ce que l'on est en train d'importer dans R. Pour cela, on assigne à un nouvel objet le contenu du fichier importé, en choisissant astucieusement le nom de cet objet. Par exemple, appelons `livre_compte_1` ce qui sera importé dans R en lisant le fichier SAS. 
 
 ```{r, collapse = TRUE, eval=FALSE}
 # J'importe le fichier et je l'assigne à l'objet livre_compte_1
